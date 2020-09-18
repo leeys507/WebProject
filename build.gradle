@@ -8,7 +8,7 @@ buildscript{
     }
     dependencies{
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }//플러그인 의존성 관리를 위한 설정
+    }
 }
 apply plugin: 'java'
 apply plugin: 'eclipse'
