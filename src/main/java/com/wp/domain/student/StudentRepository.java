@@ -15,7 +15,7 @@ public interface StudentRepository extends JpaRepository<Student, StudentGetDTO>
 	   
 	   @Transactional
 	   @Modifying
-	   @Query(value = "UPDATE student SET nickname = :nickname, updatetime = NOW() WHERE sid = :sid", nativeQuery = true)
+	   @Query(value = "UPDATE student SET nickname = :nickname, update_time = NOW() WHERE sid = :sid", nativeQuery = true)
 	   int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname);
 	   
 	   @Transactional
