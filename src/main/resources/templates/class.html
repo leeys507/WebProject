@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" , initial-scale="1">
+  <title>수정중</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+      <a class="navbar-brand" href="index.html">나만 따라 YU</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id ="navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="#">
+            매칭
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown">
+            <a class="dropdown-item" href="#">청소</a>
+            <a class="dropdown-item" href="#">배달</a>
+            <a class="dropdown-item" href="#">역할대행</a>
+            <a class="dropdown-item" href="#">심부름</a>
+          </div>
+          </li>
+          <li class="nav-item"><a class="nav-link" href = "#">시간표</a></li>
+          <li class="nav-item"><a class="nav-link" href = "#">강의평가</a></li>
+          <li class="nav-item"><a class="nav-link" href="board.html">게시판</a></li>
+          <li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
+          <li>
+            <form class="input-group">
+            <input class="form-control mr-sm-3" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn glass" type="submit"><img src="../../../../../../Desktop/졸작미완성/images/돋보기.png" width="100%"></button>
+          </form>
+          </li>
+          <li>
+            <form class="form-signin" style="margin:auto;">
+              <img src="../../../../../../Desktop/졸작미완성/images/증명사진.jpg" style="width:25%;">
+              <div style="color: white">이성욱 님, 환영합니다!!!</div>
+              <button class="btn btn-sm btn-block btn-outline-light" type="button">내정보</button>
+              <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  <div class="row flex">
+    <div class="col-2 item">
+      <a href="index.html"><img src="../../../../../../Desktop/졸작미완성/images/영대마크.png" href="#page-top"></a>
+    </div>
+    <div class="col-7 item">
+      <form class="input-group">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn glass" type="submit"><img src="../../../../../../Desktop/졸작미완성/images/돋보기.png" width="100%"></button>
+      </form>
+    </div>
+    <div class="col-3 item">
+      <form class="form-signin" style="margin:auto;">
+        <img src="../../../../../../Desktop/졸작미완성/images/증명사진.jpg" style="width:25%;">
+        이성욱 님, 환영합니다!!!
+        <button class="btn btn-sm btn-block btn-outline-dark" type="button">내정보</button>
+        <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
+      </form>
+    </div>
+  </div>
+
+  <br>
+  <div id="grid">
+    <div id="menubar">
+      <ul class="nav flex-column">
+        <li class="dropdown dropright">
+          <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            매칭
+          </a>
+          <div class="dropdown-menu text-center">
+            <a class="dropdown-item" href="#">청소</a>
+            <a class="dropdown-item" href="#">배달</a>
+            <a class="dropdown-item" href="#">역할대행</a>
+            <a class="dropdown-item" href="#">심부름</a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">시간표</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="class.html">강의평가</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="board.html" tabindex="-1" aria-disabled="true">게시판</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">통계 그래프</a>
+        </li>
+      </ul>
+    </div>
+    <br>
+    <div id="article">
+      <div class="container-fluid">
+
+        <div class="card bg-light mt-3">
+          <div class="card-header bg-light">
+            <h2>수강중인 과목</h2>
+            <br>
+            <div class="row">
+              <div class="col-8 text-left">데이터베이스 /&nbsp;<small>조행래</small></div>
+            </div>
+          </div>
+          <div class="card-header bg-light">
+            <div class="row">
+              <div class="col-8 text-left">데이터베이스 /&nbsp;<small>조행래</small></div>
+            </div>
+          </div>
+
+        </div>
+        <br>
+        <div class="input-group">
+          <input type="search" class="form-control mr-sm-3 text-center" placeholder="과목명 또는 교수님의 성함을 입력하세요." aria-label="Search">
+          <button class="btn glass" type="submit"><img src="../../../../../../Desktop/졸작미완성/images/돋보기.png" width="100%"></button>
+        </div>
+
+        <div class="card bg-light mt-3">
+          <div class="card-header bg-light">
+            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+                <h2>과목</h2>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown">
+                <a class="dropdown-item" href="#major">학과과목</a>
+                <a class="dropdown-item" href="#">전체과목</a>
+              </div>
+            </li>
+          </div>
+          <li id="major">
+            <div class="card-header bg-light">
+              <div class="row">
+                <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>데이터베이스 /&nbsp;<small>조행래</small></div>
+              </div>
+            </div>
+            <div class="card-header bg-light">
+              <div class="row">
+                <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>데이터베이스 /&nbsp;<small>조행래</small></div>
+              </div>
+            </div>
+          </li>
+          <li id="all">
+            <div class="card-header bg-light">
+              <div class="row">
+                <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>데이터베이스 /&nbsp;<small>조행래</small></div>
+              </div>
+            </div>
+            <div class="card-header bg-light">
+              <div class="row">
+                <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>데이터베이스 /&nbsp;<small>조행래</small></div>
+              </div>
+            </div>
+          </li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <br><br><br><br>
+  <footer class="bg-dark mt-3 p-3 text-center fixed-bottom" style="color: #FFFFFF;">
+    <div class="row">
+      <div class="col-2"><a href="#"></a>이용약관</div>
+      <div class="col-2"><a href="#"></a>개인정보처리방침</div>
+      <div class="col-2"><a href="#"></a>커뮤니티이용규칙</div>
+      <div class="col-2"><a href="#"></a>공지사항</div>
+      <div class="col-2"><a href="#"></a>문의하기</div>
+      <div class="col-2">(주)나만따라YU</div>
+    </div>
+  </footer>
+</body>
+
+</html>
