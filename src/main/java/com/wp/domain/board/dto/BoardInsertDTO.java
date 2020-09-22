@@ -4,35 +4,36 @@ import com.wp.domain.board.Board;
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Setter
+import java.time.LocalDateTime;
+
 @Getter
+@Setter
 @NoArgsConstructor
 public class BoardInsertDTO {
-	private String sid;
-	private String nickname;
+    private String sid;
+    private String nickname;
     private String boardtype;
     private String title;
     private String content;
-    private int readcount;
-    private String imagepath;
-    private int likecount;
-    
+    private String image_path;
+
     public Board toEntity() {
-    	Board bData = new Board();
-    	Student sData = new Student();
-    	sData.setSid(sid);
-    	sData.setNickname(nickname);
-    	
-    	bData.setForeignkey(sData);
-    	bData.setBoardtype(boardtype);
-    	bData.setTitle(title);
-    	bData.setContent(content);
-    	bData.setReadcount(readcount);
-    	bData.setImagepath(imagepath);
-    	bData.setLikecount(likecount);
-    	return bData;
+        Board bData = new Board();
+        Student sData = new Student();
+        sData.setSid(sid);
+        
+        bData.setForeignkey(sData);
+        bData.setNickname(nickname);
+        bData.setBoard_type(boardtype);
+        bData.setTitle(title);
+        bData.setContent(content);
+        bData.setRead_count(0);
+        bData.setRegister_date(LocalDateTime.now());
+        bData.setImage_path(image_path);
+        bData.setLike_count(0);
+        return bData;
     }
 }

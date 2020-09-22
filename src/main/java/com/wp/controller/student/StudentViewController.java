@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class StudentViewController {
 	private final StudentInfoService studentInfoService;
 	
-	@GetMapping(value = "/studentInfo/studentInfoTest")	// view
+	@GetMapping(value = "/studentInfo/studentInfoTest")
 	public String openStudentInfoView(Model model) {
 		model.addAttribute("count", studentInfoService.getStudentCount());
 		return "studentInfo/studentInfoTest";

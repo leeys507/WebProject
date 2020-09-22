@@ -23,31 +23,20 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	
 	public StudentGetDTO getStudent(String sid) {
 		Student entity = studentRepository.findBySid(sid);
-		if(entity != null)
-			System.out.println(entity.getEmail());
 		return (entity == null) ? null : new StudentGetDTO(entity);
 	}
 	
-
-	public boolean updateStudentNickName(String sid, String nickname) {return true;}
-//		int result = 0;
-//		StudentInsertDTO data = getStudent(sid);
-//		
-//		//data.Nickname(nickname);
-//		
-//		result = studentMapper.updateStudentNickName(data);
-//		return (result == 1) ? true : false;
-//	}
-//	
-
-	public boolean updateStudentEmail(String sid, String email) {return true;}
-//		int result = 0;
-//		StudentInsertDTO data = getStudent(sid);
-//		
-//		data.setEmail(email);
-//		result = studentMapper.updateStudentEmail(data);
-//		return (result == 1) ? true : false;
-//	}
+	public boolean updateStudentNickName(String sid, String nickname) {
+//		Student entity = studentRepository.findBySid(sid);
+//		if(entity == null) return false;
+//		entity.setNickname(nickname);
+//		return studentRepository.save(entity) != null;
+		return studentRepository.updateNickname(sid, nickname) > 0 ? true : false;
+	}
+	
+	public boolean updateStudentEmail(String sid, String email) {
+		return studentRepository.updateEmail(sid, email) > 0 ? true : false;
+	}
 	
 	public int getStudentCount() {
 		return (int) studentRepository.count();

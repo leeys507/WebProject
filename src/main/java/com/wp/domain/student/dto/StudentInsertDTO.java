@@ -1,5 +1,7 @@
 package com.wp.domain.student.dto;
 
+import java.time.LocalDateTime;
+
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -27,6 +29,8 @@ public class StudentInsertDTO {
     	data.setDepartment(department);
     	data.setPoint(0);
     	data.setExp(0);
+    	data.setFirst_login(LocalDateTime.now());
+    	data.setUpdate_time(LocalDateTime.now());
     	return data;
     }
 }

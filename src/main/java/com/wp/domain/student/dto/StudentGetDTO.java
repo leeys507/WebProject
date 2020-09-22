@@ -18,8 +18,9 @@ public class StudentGetDTO {
 	private String department;
 	private int point;
 	private int exp;
-	private LocalDateTime flogin;
+	private LocalDateTime first_login;
 	private int fboard;
+	private LocalDateTime update_time;
 	
 	public StudentGetDTO(Student entity) {
 		this.sid = entity.getSid();
@@ -30,6 +31,8 @@ public class StudentGetDTO {
 		this.department = entity.getDepartment();
 		this.point = entity.getPoint();
 		this.exp = entity.getExp();
-		this.flogin = entity.getFlogin();
+		this.first_login = entity.getFirst_login();
+		//this.fboard = entity.getFboard();
+		this.update_time = entity.getUpdate_time();
 	}
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/basic">
+
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+
+        function dataSend() {
+            var gender = $(":input:radio[name=gen]:checked").val();
+            let queryString = $('#infoForm').serialize() ;
+
+            /*var messageDTO={
+                result:data
+           };*/
+
+            /*var data ={
+                sid : $("#sid").val(),
+                department : $("#department").val(),
+                syear : $("#syear").val(),
+                nickname : $("#nickname").val(),
+                email : $("#email").val(),
+                gen : gender
+            };*/
+            $.ajax({
+                type: "POST",
+                url : "/studentRegistration",
+                data : queryString,
+                // data : queryString,
+                // contentType:'application/json; charset=utf-8',
+                // datatype : 'json',
+                success : function(data){
+                    if(data == $('#sid').val()) {
+                        alert("등록 성공");
+                        location.href='/studentInfo/studentRegistrationTest';
+                    }
+                    else
+                        alert("등록 실패");
+                },error : function(){
+                    alert(queryString);
+                    return false;
+                }
+            });
+            return false;
+        }
+    </script>
+</th:block>
+
+<th:block layout:fragment="title">
+    <title>Board Insert</title>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div><h2 th:text="${board.getTitle()}"></h2></div>
+    <br><br>
+    <div class="card-content">
+        <form id="infoForm" name="infoForm">
+            <br>
+            <div>
+                <div class="col-sm-10">
+                    <span th:text="${board.getRegdate()}"></span>
+                    조회 <span th:text="${board.readcount}"></span>
+                    좋아요 <span th:text="${board.likecount}"></span>
+                    작성자 <span th:text="${board.getForeignkey().getNickname()}"></span>
+                </div>
+            </div>
+
+            <div>
+                <div class="col-sm-10">
+                    <span th:text="${board.content}"></span>
+                </div>
+            </div>
+        </form>
+        <div>
+            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="dataSend()">수정</button>
+            <button type="button" onClick="location.href='/board/boardListTest'" class="btn btn-primary waves-effect waves-light">이전</button>
+        </div>
+
+    </div>
+    <!-- /.card-content -->
+</th:block>
+</html>

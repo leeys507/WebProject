@@ -1,15 +1,13 @@
 package com.wp.controller.student;
 
+import java.time.LocalDate;
+import java.time.Period;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wp.domain.student.dto.StudentGetDTO;
@@ -20,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-public class StudentInfoController {
+public class StudentDataController {
 	private final StudentInfoService studentInfoService;
 
 //	@RequestMapping(value = "/studentInfo/studentInfoTest", method = RequestMethod.POST)
@@ -44,9 +42,7 @@ public class StudentInfoController {
 	
 	@PostMapping("/getStudentInfo")
 	public StudentGetDTO getStudentInfo(@RequestBody String sid) throws Exception {
-		StudentGetDTO data;
-		System.out.println(sid);
-		data = studentInfoService.getStudent(sid);
+		StudentGetDTO data = studentInfoService.getStudent(sid);
 		if (data == null) {
 			// TODO => 검색 실패 메시지 전달
 			return null;
@@ -61,21 +57,26 @@ public class StudentInfoController {
 		return studentInfoService.registerStudent(data);
 	}
 	
+	@PutMapping("/updateStudentNickname")
+	public String updateStudentNickname(String sid, String nickname) throws Exception {
+//		StudentGetDTO data = studentInfoService.getStudent(sid);
+//		System.out.println(nickname);
+//		LocalDate lastUpdateTime = data.getUpdateTime().toLocalDate();
+//		LocalDate currentDate = LocalDate.now();
+
+//		Period period = Period.between(lastUpdateTime, currentDate);
+//		if(period.getMonths() < 1) return "닉네임을 재변경하려면 1개월 이상 지나야 합니다.";
+		return studentInfoService.updateStudentNickName(sid, nickname) == true ? "닉네임 변경 완료" : "닉네임 변경 실패";
+	}
+	
+	@PutMapping("/updateStudentEmail")
+	public boolean updateStudentEmail(String sid, String email) throws Exception {
+		System.out.println("email = " + email);
+		return studentInfoService.updateStudentEmail(sid, email);
+	}
+	
 	@PostMapping("/getStudentCount")
 	public int getStudentCount() throws Exception {
 		return studentInfoService.getStudentCount();
 	}
-	
-//	@RequestMapping(value = "/studentInfo/studentInfoTest2", method = RequestMethod.POST)
-//	public String getStudentInfo(@RequestParam(value = "sid") String sid, Model model) {
-//		StudentDTO data;
-//		data = studentInfoService.getStudent(sid);
-//		if (data == null) {
-//			// TODO => 검색 실패 메시지 전달
-//			return "redirect:studentInfo/studentInfoTest";
-//		}
-//		model.addAttribute("studentDTO", data);
-//
-//		return "studentInfo/studentInfoTest2";
-//	}
 }

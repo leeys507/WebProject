@@ -1,37 +1,46 @@
 package com.wp.domain.student;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface StudentRepository extends JpaRepository<Student, StudentKey>, StudentCustomRepository<Student> {
+import com.wp.domain.student.dto.StudentGetDTO;
+
+public interface StudentRepository extends JpaRepository<Student, StudentGetDTO> {
+	   @Query(value = "SELECT * FROM student s WHERE s.sid = :sid", nativeQuery = true)
+	   Student findBySid(@Param("sid") String sid);
+	   
+	   @Transactional
+	   @Modifying
+	   @Query(value = "UPDATE student SET nickname = :nickname, updatetime = NOW() WHERE sid = :sid", nativeQuery = true)
+	   int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname);
+	   
+	   @Transactional
+	   @Modifying
+	   @Query(value = "UPDATE student s SET s.email = :email WHERE s.sid = :sid", nativeQuery = true)
+	   int updateEmail(@Param("sid") String sid, @Param("email") String email);
 }
 
-interface StudentCustomRepository<T> {
-    Student findBySid(String sid);
-}
-
-@Repository
-@Transactional
-class StudentCustomRepositoryImpl implements StudentCustomRepository<Student> {
-    @Autowired
-    EntityManager entityManager;
-
-    @Override
-    public Student findBySid(String sid) {
-        String sql = "SELECT s FROM student s WHERE sid = ?1";
-        TypedQuery<Student> query = entityManager.createQuery(sql, Student.class);
-        query.setParameter(1, sid);
-        
-        try {
-        	return query.getSingleResult();
-        }
-        catch(Exception e) {
-        	return null;
-        }
-    }
-}
+//@Repository
+//@Transactional
+//class StudentCustomRepositoryImpl implements StudentCustomRepository<Student> {
+//    @Autowired
+//    EntityManager entityManager;
+//
+//    @Override
+//    public Student findBySid(String sid) {
+//        String sql = "SELECT s FROM student s WHERE sid = ?1";
+//        TypedQuery<Student> query = entityManager.createQuery(sql, Student.class);
+//        query.setParameter(1, sid);
+//        
+//        try {
+//        	return query.getSingleResult();
+//        }
+//        catch(Exception e) {
+//        	return null;
+//        }
+//    }
+//}
