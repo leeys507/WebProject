@@ -1,12 +1,15 @@
 package com.wp.domain.student;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 import com.wp.domain.board.Board;
+import com.wp.domain.boardcomment.BoardComment;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,4 +53,16 @@ public class Student {
    @OneToMany(mappedBy = "foreignkey", targetEntity= Board.class)
    private List<Board> boardList = new ArrayList<Board>();
 
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity= BoardComment.class)
+   private List<BoardComment> boardCommentList = new ArrayList<BoardComment>();
+   
+   public String getFirst_login() {
+   		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+   		return formatter.format(this.first_login);
+   }
+   
+   public String getUpdate_time() {
+	   	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+	   	return formatter.format(this.update_time);
+   }
 }

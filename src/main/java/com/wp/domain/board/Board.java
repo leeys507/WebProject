@@ -1,6 +1,9 @@
 package com.wp.domain.board;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -23,9 +28,9 @@ import lombok.Setter;
 @Entity(name = "board")
 public class Board {
     @Id
-    @Column(name = "bno")
+    @Column(name = "bno", columnDefinition = "int")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bno;
+    private long bno;
 
     @ManyToOne
     @JoinColumn(name = "sid", nullable = false)
@@ -34,8 +39,8 @@ public class Board {
     @Column(name = "nickname", nullable = false, length = 12)
     private String nickname;
     
-    @Column(name = "board_type", nullable = false, length = 12)
-    private String board_type;
+    @Column(name = "boardtype", nullable = false, length = 12)
+    private String boardtype;
 
     @Column(name = "title", nullable = false, length = 150)
     private String title;
@@ -44,7 +49,7 @@ public class Board {
     @Column(name = "content", nullable = false)      //text
     private String content;
 
-    @Column(name = "register_date", nullable = false, length = 20)
+    @Column(name = "register_date", nullable = false)
     private LocalDateTime register_date;
 
     @Column(name = "read_count", nullable = false)
@@ -58,11 +63,19 @@ public class Board {
     
     @Column(name = "update_time")
     private LocalDateTime update_time;
+    
+    @OneToMany(mappedBy = "boardForeignkey", targetEntity= BoardComment.class)
+    private List<BoardComment> boardList = new ArrayList<BoardComment>();
 
+    public String getRegister_date() {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+    	return formatter.format(this.register_date);
+    }
+    
     public void update(String title, String content,String boardtype) {
         this.title=title;
         this.content=content;
-        this.board_type=boardtype;
+        this.boardtype=boardtype;
         this.register_date=LocalDateTime.now();
     }
 }

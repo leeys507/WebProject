@@ -48,6 +48,7 @@ public class StudentDataController {
 			return null;
 		}
 		System.out.println(data.getEmail());
+		System.out.println(data.getFirst_login());
 		return data;
 	}
 	
@@ -59,13 +60,14 @@ public class StudentDataController {
 	
 	@PutMapping("/updateStudentNickname")
 	public String updateStudentNickname(String sid, String nickname) throws Exception {
-//		StudentGetDTO data = studentInfoService.getStudent(sid);
+		StudentGetDTO data = studentInfoService.getStudent(sid);
 //		System.out.println(nickname);
-//		LocalDate lastUpdateTime = data.getUpdateTime().toLocalDate();
+//		LocalDate lastUpdateTime = data.getUpdate_time().toLocalDate();
 //		LocalDate currentDate = LocalDate.now();
 
 //		Period period = Period.between(lastUpdateTime, currentDate);
 //		if(period.getMonths() < 1) return "닉네임을 재변경하려면 1개월 이상 지나야 합니다.";
+		if(data.getNickname().equals(nickname)) return "닉네임이 이전과 같습니다";
 		return studentInfoService.updateStudentNickName(sid, nickname) == true ? "닉네임 변경 완료" : "닉네임 변경 실패";
 	}
 	

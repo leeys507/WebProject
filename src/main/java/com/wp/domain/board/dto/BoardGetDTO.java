@@ -1,7 +1,5 @@
 package com.wp.domain.board.dto;
 
-import java.time.LocalDateTime;
-
 import com.wp.domain.board.Board;
 
 import lombok.Getter;
@@ -10,25 +8,25 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class BoardGetDTO {
-	private int bno;
+	private long bno;
 	private String sid;
 	private String nickname;
 	private String boardtype;
 	private String title;
 	private String content;
-	private LocalDateTime regdate;
+	private String register_date;
 	private int readcount;
 	private String imagepath;
-	private Integer likecount;
+	private int likecount;
 	
-	public BoardGetDTO(Board entity) {
+	public BoardGetDTO(Board entity) {	
 		this.bno = entity.getBno();
         this.sid = entity.getForeignkey().getSid();
         this.nickname = entity.getNickname();
-        this.boardtype = entity.getBoard_type();
+        this.boardtype = entity.getBoardtype();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.regdate = entity.getRegister_date();
+        this.register_date = entity.getRegister_date();
         this.readcount = entity.getRead_count();
         this.imagepath = entity.getImage_path();
         this.likecount = entity.getLike_count();

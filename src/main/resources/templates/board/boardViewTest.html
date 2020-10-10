@@ -1,8 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/basic">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
 
 <th:block layout:fragment="script">
     <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        var pages = getParameterByName("page");
+        if(pages == ""){
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
 
         function dataSend() {
             var gender = $(":input:radio[name=gen]:checked").val();
@@ -53,19 +64,17 @@
     <br><br>
     <div class="card-content">
         <form id="infoForm" name="infoForm">
-            <br>
+        <br>
             <div>
                 <div class="col-sm-10">
-                    <span th:text="${board.getRegdate()}"></span>
-                    조회 <span th:text="${board.readcount}"></span>
-                    좋아요 <span th:text="${board.likecount}"></span>
-                    작성자 <span th:text="${board.getForeignkey().getNickname()}"></span>
+                	<b>&lt;작성일&gt;</b> <span th:text="${board.register_date}"></span><br>
+                	<b>&lt;조회&gt;</b> <span th:text="${board.readcount}"></span><br>
+                	<b>&lt;좋아요&gt;</b> <span th:text="${board.likecount}"></span><br>
+                	<b>&lt;작성자&gt;</b> <span th:text="${board.nickname}"></span>
                 </div>
-            </div>
-
-            <div>
-                <div class="col-sm-10">
-                    <span th:text="${board.content}"></span>
+                <br>
+                <div>
+                	<textarea id = "contentArea" th:inline="text" class="form-control" readonly>[[${board.content}]]</textarea>
                 </div>
             </div>
         </form>
@@ -73,8 +82,41 @@
             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="dataSend()">수정</button>
             <button type="button" onClick="location.href='/board/boardListTest'" class="btn btn-primary waves-effect waves-light">이전</button>
         </div>
-
     </div>
+    
+    <br><br>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+        <th>댓글</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr th:each="boardComment :${boardCommentList}">
+            <td th:text="${boardComment.getCno()}" width="50"></td>
+            <td th:text="${boardComment.getNickname()}" width="200"></td>
+            <td th:text="${boardComment.getRegister_date()}" width="200"></td>
+            <td th:text="${boardComment.getContent()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul class="pagination">
+        <li id="pagefirst">
+            <a href="?page=0">
+                <span>«</span>
+            </a>
+        </li>
+        <li  th:if="${boardCommentList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,boardCommentList.getTotalPages()-1)}">
+            <a th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+        </li>
+        <li>
+            <a th:href="'?'+page+'='+${boardCommentList.getTotalPages()}">
+                <span>»</span>
+            </a>
+        </li>
+    </ul>
+
     <!-- /.card-content -->
 </th:block>
 </html>

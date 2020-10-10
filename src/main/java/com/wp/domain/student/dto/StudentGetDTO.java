@@ -1,7 +1,5 @@
 package com.wp.domain.student.dto;
 
-import java.time.LocalDateTime;
-
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -18,11 +16,11 @@ public class StudentGetDTO {
 	private String department;
 	private int point;
 	private int exp;
-	private LocalDateTime first_login;
-	private int fboard;
-	private LocalDateTime update_time;
+	private String first_login;
+	private String update_time;
 	
 	public StudentGetDTO(Student entity) {
+		
 		this.sid = entity.getSid();
 		this.nickname = entity.getNickname();
 		this.gen = entity.getGen();

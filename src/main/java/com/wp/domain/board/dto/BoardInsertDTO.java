@@ -27,7 +27,7 @@ public class BoardInsertDTO {
         
         bData.setForeignkey(sData);
         bData.setNickname(nickname);
-        bData.setBoard_type(boardtype);
+        bData.setBoardtype(boardtype);
         bData.setTitle(title);
         bData.setContent(content);
         bData.setRead_count(0);
