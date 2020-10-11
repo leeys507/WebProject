@@ -13,5 +13,9 @@ public interface BoardCommentRepository extends JpaRepository<BoardComment, Long
 	@Query(value = "SELECT * FROM boardcomment bc WHERE bc.cno = :cno", nativeQuery = true)
 	BoardComment findByCno(@Param("cno") long cno);
     
-    Page<BoardComment> findAllByBoardForeignkey(Board bno, Pageable pageable);
+	@Query(value = "SELECT * FROM boardcomment bc WHERE bc.bno = :bno order by group_id, register_date", nativeQuery = true)
+    Page<BoardComment> findAllByBoardForeignkey(@Param("bno")Board bno, Pageable pageable);
+	
+	@Query(value = "SELECT MAX(group_id) FROM boardcomment", nativeQuery = true)
+	int findMaxGroupID();
 }

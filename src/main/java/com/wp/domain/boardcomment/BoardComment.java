@@ -34,6 +34,9 @@ public class BoardComment {
     
     @Column(name = "ccno", columnDefinition = "int")
     private long ccno;
+    
+    @Column(name = "group_id", nullable = false, columnDefinition = "int")
+    private long group_id;
 
     @ManyToOne
     @JoinColumn(name = "sid", nullable = false)
@@ -62,7 +65,7 @@ public class BoardComment {
     	return formatter.format(this.register_date);
     }
     
-    public String getUpdate_time() {
+    public String getUpdate_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return formatter.format(this.update_date);
     }

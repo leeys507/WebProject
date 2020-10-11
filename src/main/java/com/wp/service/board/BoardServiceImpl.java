@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +51,7 @@ public class BoardServiceImpl implements BoardService {
         if(boardtype==null){
             boardtype="게시판1";
         }
-        return boardRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10));
+        return boardRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
+        		new Sort(Sort.Direction.DESC, "bno")));
     }
-
 }

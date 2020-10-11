@@ -47,7 +47,7 @@ public class Student {
    @Column(name = "first_login", nullable = false)
    private LocalDateTime first_login;
 
-   @Column(name = "update_date", nullable = false)
+   @Column(name = "update_date")
    private LocalDateTime update_date;
 
    @OneToMany(mappedBy = "foreignkey", targetEntity= Board.class)

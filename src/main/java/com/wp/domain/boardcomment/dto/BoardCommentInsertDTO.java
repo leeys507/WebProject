@@ -16,6 +16,7 @@ import lombok.Setter;
 public class BoardCommentInsertDTO {
 	private long bno;
 	private long ccno;
+	private long group_id;
     private String sid;
     private String nickname;
     private String content;
@@ -30,10 +31,12 @@ public class BoardCommentInsertDTO {
         
         bcData.setBoardForeignkey(bData);
         bcData.setCcno(ccno);
+        bcData.setGroup_id(group_id);
         bcData.setStudentForeignkey(sData);
         bcData.setNickname(nickname);
         bcData.setContent(content);
         bcData.setRegister_date(LocalDateTime.now());
+        bcData.setCheck_delete("N");
         return bcData;
     }
 }

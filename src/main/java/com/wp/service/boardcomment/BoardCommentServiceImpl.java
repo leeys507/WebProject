@@ -3,11 +3,12 @@ package com.wp.service.boardcomment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wp.domain.boardcomment.BoardCommentRepository;
 import com.wp.domain.boardcomment.dto.BoardCommentGetDTO;
+import com.wp.domain.boardcomment.dto.BoardCommentInsertDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +29,16 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     
     public Page<BoardComment> findAllBoardCommentByBno(Pageable pageable, long bno){
     	Board data = boardRepository.findById(bno).get();
-        return boardCommentRepository.findAllByBoardForeignkey(data, PageRequest.of(pageable.getPageNumber(), 10, 
-        		new Sort(Sort.Direction.DESC, "cno")));
+        return boardCommentRepository.findAllByBoardForeignkey(data, PageRequest.of(pageable.getPageNumber(), 10));
+    }
+    
+    @Transactional
+    public boolean registerBoardComment(BoardCommentInsertDTO data) {
+    	System.out.println(data.getNickname());
+    	return boardCommentRepository.save(data.toEntity()) != null;
+    }
+    
+    public int nextGroupID() {
+    	return boardCommentRepository.findMaxGroupID() + 1;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,15 +22,15 @@ public class BoardViewController {
     private final BoardCommentService boardCommentService;
 
     @GetMapping("/board/boardListTest")    // view
-    public String openBoardListView(Model model, Pageable pageable) {
-        Page<Board> page = boardService.findBoards(pageable,"자유게시판");
+    public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
+        Page<Board> page = boardService.findBoards(pageable, boardtype);
+        model.addAttribute("boardType",boardtype);
         model.addAttribute("board", page);
         return "board/boardListTest";
     }
     
     @GetMapping("/board/boardInsertTest")
     public String openBoardInsertView(Model model) {
-
         return "board/boardInsertTest";
     }
     
@@ -45,7 +46,7 @@ public class BoardViewController {
     }
     
     @GetMapping("/board/boardUpdate/{bno}")
-    public String openBoardUpdate(@PathVariable long bno,Model model) {
+    public String openBoardUpdate(@PathVariable long bno, Model model) {
         BoardGetDTO dto = boardService.findById(bno);
         model.addAttribute("board", dto);
         return "board/boardUpdateTest";

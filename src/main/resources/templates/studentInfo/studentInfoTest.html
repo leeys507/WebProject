@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="script">
 <script type="text/javascript">
@@ -192,7 +192,7 @@
 				<button type="button" onClick="dataSend()" class="btn btn-primary waves-effect waves-light">검색</button>
 				<button type="button" onClick="location.href='/studentInfo/studentRegistrationTest'" class="btn btn-primary waves-effect waves-light">등록</button>
 				<button type="button" onClick="getStudentCount()" class="btn btn-primary waves-effect waves-light">학생 수</button>
-				<button type="button" onClick="location.href='/board/boardListTest'" class="btn btn-primary waves-effect waves-light">게시판</button>
+				<button type="button" onClick="location.href='/board/boardListTest?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">게시판</button>
 			</div>
 		</div>
 		<!-- /.card-content -->

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -9,14 +9,19 @@
                 results = regex.exec(location.search);
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-        
+
         var pages = getParameterByName("page");
-        if(pages == ""){
-            pages=0;
+        if(pages == "") {
+            pages = 0;
         }
-        
         $("#page"+pages).attr("class","active");
+        var boardtype=getParameterByName("boardtype");
+        
+        function InsertBoard() {
+            location.href = "/board/boardInsertTest?boardtype=" +boardtype;
+        }
     </script>
+
 </th:block>
 <th:block layout:fragment="title">
     <title>Board List</title>
@@ -39,9 +44,9 @@
                         게시판
                     </a>
                     <div class="dropdown-menu text-center">
-                        <a class="dropdown-item" href="/board/boardListTest?boardtype=게시판1">게시판1</a>
-                        <a class="dropdown-item" href="/board/boardListTest?boardtype=게시판2">게시판2</a>
-                        <a class="dropdown-item" href="/board/boardListTest?boardtype=게시판3">게시판3</a>
+                        <a class="dropdown-item" href="/board/boardListTest?boardtype=자유게시판">자유게시판</a>
+                        <a class="dropdown-item" href="/board/boardListTest?boardtype=잡담게시판">잡담게시판</a>
+                        <a class="dropdown-item" href="/board/boardListTest?boardtype=게임게시판">게임게시판</a>
                     </div>
                 </li>
 
@@ -52,7 +57,7 @@
     </div>
     <div><h2 style="color:Blue">Board list</h2></div>
     <br><br>
-    
+
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr>
@@ -78,24 +83,27 @@
 
     <ul class="pagination">
         <li id="pagefirst">
-            <a href="?page=0">
+            <a th:href="'?'+page+'='+0+'&'+boardtype+'='+${boardType}">
                 <span>«</span>
             </a>
         </li>
-        <li  th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
-            <a th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+        <li th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
+            <a th:href="'?'+page+'='+${num}+'&'+boardtype+'='+${boardType}" th:text="${num+1}"></a>
         </li>
         <li>
-            <a th:href="'?'+page+'='+${board.getTotalPages()}">
+            <a th:if="${board.getTotalPages()}>0" th:href="'?'+page+'='+${board.getTotalPages()-1}+'&'+boardtype+'='+${boardType}">
+                <span>»</span>
+            </a>
+            <a th:if="${board.getTotalPages()}==0" th:href="'?'+page+'='+${board.getTotalPages()}+'&'+boardtype+'='+${boardType}">
                 <span>»</span>
             </a>
         </li>
     </ul>
 
     <div style="float: right">
-    	<button type="button" onClick="location.href='/studentInfo/studentInfoTest'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
-     	<button type="button" onClick="location.href='/board/boardInsertTest'" class="btn btn-primary waves-effect waves-light">등록</button>
-     </div>
+        <button type="button" onClick="location.href='/studentInfo/studentInfoTest'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
+        <button type="button" onClick="InsertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
+    </div>
     <!-- /.card-content -->
 </th:block>
 </html>
