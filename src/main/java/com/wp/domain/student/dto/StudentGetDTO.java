@@ -17,7 +17,7 @@ public class StudentGetDTO {
 	private int point;
 	private int exp;
 	private String first_login;
-	private String update_time;
+	private String update_date;
 	
 	public StudentGetDTO(Student entity) {
 		
@@ -31,6 +31,6 @@ public class StudentGetDTO {
 		this.exp = entity.getExp();
 		this.first_login = entity.getFirst_login();
 		//this.fboard = entity.getFboard();
-		this.update_time = entity.getUpdate_time();
+		this.update_date = entity.getUpdate_date();
 	}
 }

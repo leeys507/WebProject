@@ -47,8 +47,8 @@ public class Student {
    @Column(name = "first_login", nullable = false)
    private LocalDateTime first_login;
 
-   @Column(name = "update_time", nullable = false)
-   private LocalDateTime update_time;
+   @Column(name = "update_date", nullable = false)
+   private LocalDateTime update_date;
 
    @OneToMany(mappedBy = "foreignkey", targetEntity= Board.class)
    private List<Board> boardList = new ArrayList<Board>();
@@ -61,8 +61,8 @@ public class Student {
    		return formatter.format(this.first_login);
    }
    
-   public String getUpdate_time() {
+   public String getUpdate_date() {
 	   	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-	   	return formatter.format(this.update_time);
+	   	return formatter.format(this.update_date);
    }
 }

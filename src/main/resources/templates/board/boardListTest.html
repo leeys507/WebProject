@@ -9,10 +9,12 @@
                 results = regex.exec(location.search);
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
+        
         var pages = getParameterByName("page");
         if(pages == ""){
             pages=0;
         }
+        
         $("#page"+pages).attr("class","active");
     </script>
 </th:block>

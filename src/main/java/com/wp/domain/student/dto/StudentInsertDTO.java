@@ -30,7 +30,7 @@ public class StudentInsertDTO {
     	data.setPoint(0);
     	data.setExp(0);
     	data.setFirst_login(LocalDateTime.now());
-    	data.setUpdate_time(LocalDateTime.now());
+    	data.setUpdate_date(LocalDateTime.now());
     	return data;
     }
 }

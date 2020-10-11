@@ -48,8 +48,14 @@ public class BoardComment {
     @Column(name = "register_date", nullable = false)
     private LocalDateTime register_date;
     
-    @Column(name = "update_time")
-    private LocalDateTime update_time;
+    @Column(name = "update_date")
+    private LocalDateTime update_date;
+    
+    @Column(name = "delete_date")
+    private LocalDateTime delete_date;
+    
+    @Column(name = "check_delete", nullable = false, length = 2)
+    private String check_delete;
     
     public String getRegister_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
@@ -58,6 +64,11 @@ public class BoardComment {
     
     public String getUpdate_time() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-    	return formatter.format(this.update_time);
+    	return formatter.format(this.update_date);
+    }
+    
+    public String getDelete_date() {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+    	return formatter.format(this.delete_date);
     }
 }

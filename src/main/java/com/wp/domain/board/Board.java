@@ -61,8 +61,8 @@ public class Board {
     @Column(name = "like_count", nullable = false)
     private Integer like_count;
     
-    @Column(name = "update_time")
-    private LocalDateTime update_time;
+    @Column(name = "update_date")
+    private LocalDateTime update_date;
     
     @OneToMany(mappedBy = "boardForeignkey", targetEntity= BoardComment.class)
     private List<BoardComment> boardList = new ArrayList<BoardComment>();
@@ -70,6 +70,11 @@ public class Board {
     public String getRegister_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return formatter.format(this.register_date);
+    }
+    
+    public String getUpdate_date() {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+    	return formatter.format(this.update_date);
     }
     
     public void update(String title, String content,String boardtype) {
