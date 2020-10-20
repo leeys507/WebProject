@@ -76,13 +76,13 @@
                 <div>
                     <label th:for="writer" class="col-sm-2 control-label">학번</label>
                     <div class="col-sm-10" >
-                        <input type="text" name = "sid" id = "sid" class="form-control" placeholder="학번을 입력해 주세요." required="required"/>
+                        <input type="text" name = "sid" id = "sid" class="form-control" th:value="${userSid}" required="required" readonly/>
                     </div>
                 </div>
                 <div>
                     <label th:for="writer" class="col-sm-2 control-label">닉네임</label>
                     <div class="col-sm-10" >
-                        <input type="text" name = "nickname" id = "nickname" class="form-control" placeholder="학번을 입력해 주세요." required="required"/>
+                        <input type="text" name = "nickname" id = "nickname" class="form-control" th:value="${userNickname}" required="required" readonly/>
                     </div>
                 </div>
             </div>

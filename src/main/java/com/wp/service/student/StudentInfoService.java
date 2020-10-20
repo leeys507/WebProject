@@ -8,7 +8,8 @@ public interface StudentInfoService {
 	public boolean registerStudent(StudentInsertDTO data);
 	
 	public StudentGetDTO getStudent(String sid);
-	
+	public String getNickname(String sid);
+
 	public boolean updateStudentNickName(String sid, String nickname);
 	
 	public boolean updateStudentEmail(String sid, String email);

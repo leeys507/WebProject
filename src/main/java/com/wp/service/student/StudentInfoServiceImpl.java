@@ -33,7 +33,10 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 //		return studentRepository.save(entity) != null;
 		return studentRepository.updateNickname(sid, nickname) > 0 ? true : false;
 	}
-	
+
+	public String getNickname(String sid) {
+		return studentRepository.getBoardByNickname(sid);
+	}
 	public boolean updateStudentEmail(String sid, String email) {
 		return studentRepository.updateEmail(sid, email) > 0 ? true : false;
 	}

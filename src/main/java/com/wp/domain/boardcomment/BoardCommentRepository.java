@@ -18,4 +18,7 @@ public interface BoardCommentRepository extends JpaRepository<BoardComment, Long
 	
 	@Query(value = "SELECT MAX(group_id) FROM boardcomment", nativeQuery = true)
 	int findMaxGroupID();
+	
+	@Query(value = "SELECT count(*) FROM boardcomment", nativeQuery = true)
+	int getBoardCommentCount();
 }

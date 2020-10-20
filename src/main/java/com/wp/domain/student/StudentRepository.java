@@ -12,8 +12,11 @@ import com.wp.domain.student.dto.StudentGetDTO;
 public interface StudentRepository extends JpaRepository<Student, StudentGetDTO> {
 	   @Query(value = "SELECT * FROM student s WHERE s.sid = :sid", nativeQuery = true)
 	   Student findBySid(@Param("sid") String sid);
-	   
-	   @Transactional
+
+		boolean existsBySid(String sid);
+	@Query(value = "SELECT s.nickname FROM student s WHERE s.sid = :sid", nativeQuery = true)
+	String getBoardByNickname(@Param("sid") String sid);
+		@Transactional
 	   @Modifying
 	   @Query(value = "UPDATE student SET nickname = :nickname, update_time = NOW() WHERE sid = :sid", nativeQuery = true)
 	   int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname);

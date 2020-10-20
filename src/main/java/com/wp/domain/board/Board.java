@@ -74,7 +74,7 @@ public class Board {
     
     public String getUpdate_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-    	return formatter.format(this.update_date);
+    	return (update_date == null) ? null : formatter.format(this.update_date);
     }
     
     public void update(String title, String content,String boardtype) {

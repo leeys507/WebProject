@@ -30,8 +30,8 @@
     	    //datatype : 'json',
     	    success : function(data){
     	    	if(data == true) {
-    	        	alert("등록 성공");
-    	        	location.href='/studentInfo/studentRegistrationTest';
+    	        	alert("등록 성공, 재로그인 해주세요.");
+    	        	location.href='/studentInfo/studentInfoTest';
     	    	}
     	    	else
     	    		alert("등록 실패");
@@ -57,7 +57,7 @@
 				<div>
 					<label class="col-sm-2 control-label">학번</label>
 					<div class="col-sm-10">
-						<input type="text" id="sid" name="sid" class="form-control" placeholder="학번 입력" required="required"/>
+						<input type="text" id="sid" name="sid" class="form-control" th:value="${userSid}" required="required" readonly/>
 					</div>
 				</div>
 

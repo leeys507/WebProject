@@ -102,7 +102,7 @@
 
     <div style="float: right">
         <button type="button" onClick="location.href='/studentInfo/studentInfoTest'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
-        <button type="button" onClick="InsertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
+        <button th:if="${userSid} != null" type="button" onClick="InsertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
     </div>
     <!-- /.card-content -->
 </th:block>

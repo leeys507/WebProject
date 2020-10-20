@@ -57,6 +57,7 @@
         	    	if(data == true) {
         	        	alert("댓글 등록 성공");
         	        	commentCancel(part);
+        	        	location.href="/board/boardViewTest/"+boardNumber;
         	    	}
         	    	else
         	    		alert("댓글 등록 실패");
@@ -95,9 +96,9 @@
             </div>
         </form>
         <div>
-            <a type="button" class="btn btn-primary waves-effect waves-light" th:href="'/board/boardUpdate/'+${board.getBno()}">수정</a>
+            <a th:if="${userSid} != null" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/board/boardUpdate/'+${board.getBno()}">수정</a>
             <button type="button" onClick="location.href='/board/boardListTest?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">이전</button>
-            <button type="button" onClick="document.getElementById('commentForm').style.display='block';" class="btn btn-primary waves-effect waves-light">댓글작성</button>
+            <button th:if="${userSid} != null" type="button" onClick="document.getElementById('commentForm').style.display='block';" class="btn btn-primary waves-effect waves-light">댓글작성</button>
         </div>
     </div>
     
@@ -107,8 +108,8 @@
     	<div style="font-size:10pt; text-align:left; margin-left:5%; margin-top:10px">
     		<b>&lt;댓글 작성&gt;</b>
     		<div style="float:right; font-size:10pt; text-align:left; margin-right:5%;">
-				학번 <br><br><input type="text" id = "csid" name = "sid"/> <br><br>
-				닉네임<br><br><input type="text" id = "cnickname" name = "nickname"/>
+				학번 <br><br><input type="text" th:value="${userSid}" id = "csid" name = "sid" readonly/> <br><br>
+				닉네임<br><br><input type="text" th:value="${userNickname}" id = "cnickname" name = "nickname" readonly/>
 			</div>
     		<br>
     		<textarea id = "cTextArea" rows = "5" cols = "50" placeholder = "이곳에 댓글 입력" 
@@ -135,7 +136,7 @@
             <td th:text="${boardComment.getNickname()}" width="200"></td>
             <td th:text="${boardComment.getRegister_date()}" width="200"></td>
             <td th:text="${boardComment.getContent()}"></td>
-            <td width="50"><a onClick="document.getElementById('ccommentForm').style.display='block';" style="color:#DB8383; font-size:10px; cursor:pointer;">댓글쓰기</a></td>
+            <td th:if="${userSid} != null"  width="50"><a onClick="document.getElementById('ccommentForm').style.display='block';" style="color:#DB8383; font-size:10px; cursor:pointer;">댓글쓰기</a></td>
         </tr>
         </tbody>
     </table>
@@ -164,8 +165,8 @@
     	<div style="font-size:10pt; text-align:left; margin-left:5%; margin-top:10px">
     		<b>&lt;대댓글 작성&gt;</b>
     		<div style="float:right; font-size:10pt; text-align:left; margin-right:5%;">
-				학번 <br><br><input type="text" id = "ccsid"/> <br><br>
-				닉네임<br><br><input type="text" id = "ccnickname"/>
+				학번 <br><br><input type="text" th:value="${userSid}" id = "ccsid" readonly/> <br><br>
+				닉네임<br><br><input type="text" th:value="${userNickname}" id = "ccnickname" readonly/>
 			</div>
     		<br>
     		<textarea id = "ccTextArea" rows = "5" cols = "50" placeholder = "이곳에 댓글 입력" 

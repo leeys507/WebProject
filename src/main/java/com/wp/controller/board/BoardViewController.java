@@ -6,6 +6,7 @@ import com.wp.domain.boardcomment.BoardComment;
 import com.wp.service.board.BoardService;
 import com.wp.service.boardcomment.BoardCommentService;
 
+import com.wp.service.student.StudentInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,22 +16,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Controller
 public class BoardViewController {
     private final BoardService boardService;
+    private final StudentInfoService studentInfoService;
     private final BoardCommentService boardCommentService;
-
+    private final HttpSession httpSession;
     @GetMapping("/board/boardListTest")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Board> page = boardService.findBoards(pageable, boardtype);
         model.addAttribute("boardType",boardtype);
         model.addAttribute("board", page);
+        model.addAttribute("userSid",httpSession.getAttribute("sid"));
         return "board/boardListTest";
     }
     
     @GetMapping("/board/boardInsertTest")
     public String openBoardInsertView(Model model) {
+        String sid= (String) httpSession.getAttribute("sid");
+        model.addAttribute("userSid",sid);
+        model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         return "board/boardInsertTest";
     }
     
@@ -38,8 +46,10 @@ public class BoardViewController {
     public String openBoardView(@PathVariable long bno, Model model, Pageable pageable) {
         boardService.updateViewCnt(bno);
         BoardGetDTO dto = boardService.findById(bno);
+        String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("board", dto);
-        
+        model.addAttribute("userSid",sid);
+        model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);
         model.addAttribute("boardCommentList", page);
         return "board/boardViewTest";

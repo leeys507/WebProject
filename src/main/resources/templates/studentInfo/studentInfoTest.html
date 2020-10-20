@@ -190,8 +190,9 @@
 
 			<div>
 				<button type="button" onClick="dataSend()" class="btn btn-primary waves-effect waves-light">검색</button>
-				<button type="button" onClick="location.href='/studentInfo/studentRegistrationTest'" class="btn btn-primary waves-effect waves-light">등록</button>
 				<button type="button" onClick="getStudentCount()" class="btn btn-primary waves-effect waves-light">학생 수</button>
+				<button th:if="${userSid} != null" type="button" onClick="location.href='/logout'" class="btn btn-primary waves-effect waves-light">로그아웃</button>
+				<button th:unless="${userSid} != null" type="button" onClick="location.href='/login'" class="btn btn-primary waves-effect waves-light">로그인</button>
 				<button type="button" onClick="location.href='/board/boardListTest?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">게시판</button>
 			</div>
 		</div>
