@@ -4,10 +4,12 @@
 <th:block layout:fragment="script">
     <script type="text/javascript"> 
     	var pages = getParameterByName("page");
+    	var clickCommentCno;
+    	
     	if(pages == ""){
-        	pages=0;
+        	pages = 0;
     	}
-   		 $("#page"+pages).attr("class","active");
+   		 $("#page" + pages).attr("class","active");
   
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -16,18 +18,17 @@
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
         
-        function commentCancel(part) {
+        function cancelComment(part) {
         	document.getElementById(part + "commentForm").style.display = "none";
         	document.getElementById(part + "cTextArea").value = "";
-        	document.getElementById(part + "csid").value = "";
-        	document.getElementById(part + "cnickname").value = "";
         }
         
-        function commentRegister(part) {
+        function registerComment(part) {
         	var boardNumber = document.getElementsByName("boardNumber")[0].id;
         	var sid = $("#" + part + "csid");
         	var nickname = $("#" + part + "cnickname");
         	var content = $("#" + part + "cTextArea");
+        	var ccno;
         	
         	if(sid.val() == "") {
         		alert("학번 입력");
@@ -45,11 +46,14 @@
         		return false;
         	}
         	
+        	ccno = (part == "") ? 0 : clickCommentCno;
+        	
         	$.ajax({
         	    type: "POST",
         	    url : "/boardComment/boardCommentInsert",
         	    data : {
         	    	bno : boardNumber,
+        	    	ccno : ccno,
         	    	sid : sid.val(),
         	    	nickname : nickname.val(),
         	        content : content.val(),
@@ -57,8 +61,8 @@
         	    success : function(data){
         	    	if(data == true) {
         	        	alert("댓글 등록 성공");
-        	        	commentCancel(part);
-        	        	location.href="/board/boardView/"+boardNumber;
+        	        	cancelComment(part);
+        	        	location.href = "/board/boardView/" + boardNumber;
         	    	}
         	    	else
         	    		alert("댓글 등록 실패");
@@ -70,7 +74,8 @@
         }
         
         function showCommentByCommentForm(cno) {
-        	
+        	clickCommentCno = cno;
+        	document.getElementById("ccommentForm").style.display = "block";
         }
     </script>
 </th:block>
@@ -123,8 +128,8 @@
 		</div>
 		<br>
 		<div>
-			<button type="button" onClick="return commentRegister('');" class="btn btn-primary waves-effect waves-light">등록</button>
-			<button type="button" onClick="commentCancel('');" class="btn btn-primary waves-effect waves-light">취소</button>
+			<button type="button" onClick="return registerComment('');" class="btn btn-primary waves-effect waves-light">등록</button>
+			<button type="button" onClick="cancelComment('');" class="btn btn-primary waves-effect waves-light">취소</button>
 		</div>
     </div><br><br>
 
@@ -141,7 +146,7 @@
             <td th:text="${boardComment.getNickname()}" width="200"></td>
             <td th:text="${boardComment.getRegister_date()}" width="200"></td>
             <td th:text="${boardComment.getContent()}"></td>
-            <td th:if="${userSid} != null"  width="50"><a onClick="document.getElementById('ccommentForm').style.display='block';" style="color:#DB8383; font-size:10px; cursor:pointer;">댓글쓰기</a></td>
+            <td th:if="${userSid} != null"  width="50"><a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" style="color:#DB8383; font-size:10px; cursor:pointer;">댓글쓰기</a></td>
         </tr>
         </tbody>
     </table>
@@ -180,8 +185,8 @@
 		</div>
 		<br>
 		<div>
-			<button type="button" class="btn btn-primary waves-effect waves-light">등록</button>
-			<button type="button" onClick="commentCancel('c');" class="btn btn-primary waves-effect waves-light">취소</button>
+			<button type="button" onClick="return registerComment('c');" class="btn btn-primary waves-effect waves-light">등록</button>
+			<button type="button" onClick="cancelComment('c');" class="btn btn-primary waves-effect waves-light">취소</button>
 		</div>
     </div>
 
