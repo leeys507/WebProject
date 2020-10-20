@@ -50,7 +50,7 @@
         	
         	$.ajax({
         	    type: "POST",
-        	    url : "/boardComment/boardCommentInsert",
+        	    url : "/boardComment/insertBoardComment",
         	    data : {
         	    	bno : boardNumber,
         	    	ccno : ccno,
@@ -71,6 +71,32 @@
         	        return false;
         	    }
         	});
+        }
+        
+        function deleteComment(cno) {
+        	if(confirm("선택된 댓글을 삭제하시겠습니까?")) {
+        		var boardNumber = document.getElementsByName("boardNumber")[0].id;
+        		
+            	$.ajax({
+            	    type: "PUT",
+            	    url : "/boardComment/deleteBoardComment",
+            	    data : {
+            	    	cno : cno
+            	    },
+            	    success : function(data){
+            	    	if(data == true) {
+            	        	alert("댓글 삭제 성공");
+            	        	location.href = "/board/boardView/" + boardNumber;
+            	    	}
+            	    	else
+            	    		alert("댓글 삭제 실패");
+            	    },error : function(){
+            	        alert("Error");
+            	        return false;
+            	    }
+            	});
+        	}
+        	else return false;
         }
         
         function showCommentByCommentForm(cno) {
@@ -146,7 +172,24 @@
             <td th:text="${boardComment.getNickname()}" width="200"></td>
             <td th:text="${boardComment.getRegister_date()}" width="200"></td>
             <td th:text="${boardComment.getContent()}"></td>
-            <td th:if="${userSid} != null"  width="50"><a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" style="color:#DB8383; font-size:10px; cursor:pointer;">댓글쓰기</a></td>
+            <td th:if="${userSid} != null"  width="50">
+            <div id="menubar">
+            	<ul class="nav flex-column">
+               		<li class="dropdown dropright">
+                    	<a class="nav-link" href="#" id="navbarDroprightMenuLink" 
+                    	role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true"
+                    	style="color:#DB8383; font-size:10px;">
+                    	 	더보기
+                    	</a>
+                    	<div class="dropdown-menu text-center">
+                    		<a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" class="dropdown-item" style="cursor:pointer; color:#A566FF">댓글쓰기<br></a>
+                        	<a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>
+                        	<a th:id="bc+${boardComment.getCno()}" th:onClick="|return deleteComment(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:red">삭제</a>
+                    	</div>
+                	</li>
+            	</ul>
+        	</div>
+            </td>
         </tr>
         </tbody>
     </table>

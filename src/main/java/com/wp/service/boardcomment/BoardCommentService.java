@@ -12,4 +12,5 @@ public interface BoardCommentService {
     Page<BoardComment> findAllBoardCommentByBno(Pageable pageable, long bno);
     public boolean registerBoardComment(BoardCommentInsertDTO data);
     public int nextGroupID();
+    public boolean deleteBoardComment(long cno);
 }

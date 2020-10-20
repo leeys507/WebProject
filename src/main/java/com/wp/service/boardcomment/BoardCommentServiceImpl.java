@@ -40,4 +40,12 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     public int nextGroupID() {
     	return boardCommentRepository.getBoardCommentCount() == 0 ? 1 : boardCommentRepository.findMaxGroupID() + 1;
     }
+    
+    @Transactional
+    public boolean deleteBoardComment(long cno) {
+    	BoardComment entity = boardCommentRepository.findByCno(cno);
+    	if(entity == null) return false;
+    	entity.delete();
+    	return true;
+    }
 }

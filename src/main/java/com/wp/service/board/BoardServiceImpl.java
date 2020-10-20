@@ -54,6 +54,4 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
         		new Sort(Sort.Direction.DESC, "bno")));
     }
-
-
 }
