@@ -29,10 +29,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             }System.out.println(auth.getAuthority());
         }
         if(user) {
-            out.println("<script>alert('로그인 성공!');location.href='/studentInfo/studentInfoTest'</script>");
+            out.println("<script>alert('로그인 성공!');location.href='/studentInfo/studentInfo'</script>");
         }
         else{
-            out.println("<script>alert('처음 로그인하셔서 정보입력 페이지로 이동합니다!');location.href='/studentInfo/studentRegistrationTest'</script>");
+            out.println("<script>alert('처음 로그인하셔서 정보입력 페이지로 이동합니다!');location.href='/studentInfo/studentRegistration'</script>");
         }
     }
 

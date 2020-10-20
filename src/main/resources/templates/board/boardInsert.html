@@ -2,26 +2,32 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:inline="javascript">
+    <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
 
         function dataSend() {
+            var gender = $(":input:radio[name=gen]:checked").val();
             let queryString = $('#infoForm').serialize() ;
-            var bno=[[${board.getBno()}]];
             var boardtype=$('#boardtype').val();
             $.ajax({
-                type: "PUT",
-                url : "/boardUpdate/"+bno,
+                type: "POST",
+                url : "/boardInsert",
                 data : queryString,
                 // data : queryString,
                 // contentType:'application/json; charset=utf-8',
                 // datatype : 'json',
                 success : function(data){
-                    if(data == bno) {
-                        alert("수정 성공");
-                        location.href='/board/boardListTest?boardtype='+boardtype;
+                    if(data == $('#sid').val()) {
+                        alert("등록 성공");
+                        location.href='/board/boardList?boardtype='+boardtype;
                     }
                     else
-                        alert("수정 실패");
+                        alert("등록 실패");
                 },error : function(){
                     alert(queryString);
                     return false;
@@ -31,7 +37,7 @@
         }
     </script>
     <script th:inline="javascript">
-        var a=[[${board.getBoardtype()}]];
+        var a=getParameterByName("boardtype");
         $("#"+a).attr("selected","selected");
     </script>
 </th:block>
@@ -46,39 +52,37 @@
     <div class="card-content">
         <form id="infoForm" name="infoForm">
             <div class="container">
-
                 <select class="form-control" name="boardtype" id="boardtype">
                     <option id="자유게시판" name="자유게시판">자유게시판</option>
                     <option id="잡담게시판" name="잡담게시판">잡담게시판</option>
                     <option id="게임게시판" name="게임게시판">게임게시판</option>
                 </select>
-
             </div>
             <br>
             <div>
                 <label class="col-sm-2 control-label">제목</label>
                 <div class="col-sm-10">
-                    <input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" th:value="${board.getTitle()}" required="required"/>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" required="required"/>
                 </div>
             </div>
 
             <div>
                 <label class="col-sm-2 control-label">내용</label>
                 <div class="col-sm-10">
-                    <textarea type="text" id="content" name="content" class="form-control" placeholder="내용 입력" th:text="${board.getContent()}" required="required"></textarea>
+                    <textarea type="text" id="content" name="content" class="form-control" placeholder="내용 입력" required="required"></textarea>
                 </div>
             </div>
             <div>
                 <div>
                     <label th:for="writer" class="col-sm-2 control-label">학번</label>
                     <div class="col-sm-10" >
-                        <input type="text" name = "sid" id = "sid" class="form-control" placeholder="학번을 입력해 주세요." th:value="${board.getSid()}"required="required"/>
+                        <input type="text" name = "sid" id = "sid" class="form-control" th:value="${userSid}" required="required" readonly/>
                     </div>
                 </div>
                 <div>
                     <label th:for="writer" class="col-sm-2 control-label">닉네임</label>
                     <div class="col-sm-10" >
-                        <input type="text" name = "nickname" id = "nickname" class="form-control" placeholder="학번을 입력해 주세요."th:value="${board.getNickname()}" required="required"/>
+                        <input type="text" name = "nickname" id = "nickname" class="form-control" th:value="${userNickname}" required="required" readonly/>
                     </div>
                 </div>
             </div>
@@ -87,11 +91,21 @@
                 <input type="file" id="imagepath" name="imagepath" />
                 <div class="select_img"><img src="" /></div>
 
-
+                <script>
+                    $("#gdsImg").change(function(){
+                        if(this.files && this.files[0]) {
+                            var reader = new FileReader;
+                            reader.onload = function(data) {
+                                $(".select_img img").attr("src", data.target.result).width(500);
+                            }
+                            reader.readAsDataURL(this.files[0]);
+                        }
+                    });
+                </script>
             </div>
         </form>
         <div>
-            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="dataSend()">수정</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="dataSend()">등록</button>
             <button type="button" onClick="history.back(-1);" class="btn btn-primary waves-effect waves-light">이전</button>
         </div>
 

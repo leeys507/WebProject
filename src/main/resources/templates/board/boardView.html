@@ -2,18 +2,19 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="script">
-    <script type="text/javascript">
+    <script type="text/javascript"> 
+    	var pages = getParameterByName("page");
+    	if(pages == ""){
+        	pages=0;
+    	}
+   		 $("#page"+pages).attr("class","active");
+  
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
                 results = regex.exec(location.search);
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-        var pages = getParameterByName("page");
-        if(pages == ""){
-            pages=0;
-        }
-        $("#page"+pages).attr("class","active");
         
         function commentCancel(part) {
         	document.getElementById(part + "commentForm").style.display = "none";
@@ -46,7 +47,7 @@
         	
         	$.ajax({
         	    type: "POST",
-        	    url : "/boardComment/boardCommentInsertTest",
+        	    url : "/boardComment/boardCommentInsert",
         	    data : {
         	    	bno : boardNumber,
         	    	sid : sid.val(),
@@ -57,7 +58,7 @@
         	    	if(data == true) {
         	        	alert("댓글 등록 성공");
         	        	commentCancel(part);
-        	        	location.href="/board/boardViewTest/"+boardNumber;
+        	        	location.href="/board/boardView/"+boardNumber;
         	    	}
         	    	else
         	    		alert("댓글 등록 실패");
@@ -66,6 +67,10 @@
         	        return false;
         	    }
         	});
+        }
+        
+        function showCommentByCommentForm(cno) {
+        	
         }
     </script>
 </th:block>
@@ -97,7 +102,7 @@
         </form>
         <div>
             <a th:if="${userSid} != null" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/board/boardUpdate/'+${board.getBno()}">수정</a>
-            <button type="button" onClick="location.href='/board/boardListTest?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">이전</button>
+            <button type="button" onClick="location.href='/board/boardList?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">이전</button>
             <button th:if="${userSid} != null" type="button" onClick="document.getElementById('commentForm').style.display='block';" class="btn btn-primary waves-effect waves-light">댓글작성</button>
         </div>
     </div>
