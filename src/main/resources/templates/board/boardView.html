@@ -18,6 +18,19 @@
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
         
+        function pageMove(param) {
+        	var boardNumber = document.getElementsByName("boardNumber")[0].id;
+        	var pageNum = parseInt(getParameterByName("page"));
+        	var nextOrPrev;
+        	nextOrPrev = (param == "next") ? 1 : -1;
+        	
+        	if(pageNum + nextOrPrev < 0) return false;
+        	else if(pageNum + nextOrPrev > [[${boardCommentList.getTotalPages()}]] - 1) return false;
+        	
+        	location.href = "/board/boardView/" + boardNumber + "?page=" + (pageNum + nextOrPrev);
+        	return true;
+        }
+        
         function cancelComment(part) {
         	document.getElementById(part + "commentForm").style.display = "none";
         	document.getElementById(part + "cTextArea").value = "";
@@ -62,7 +75,7 @@
         	    	if(data == true) {
         	        	alert("댓글 등록 성공");
         	        	cancelComment(part);
-        	        	location.href = "/board/boardView/" + boardNumber;
+        	        	location.href = location.href;
         	    	}
         	    	else
         	    		alert("댓글 등록 실패");
@@ -86,7 +99,7 @@
             	    success : function(data){
             	    	if(data == true) {
             	        	alert("댓글 삭제 성공");
-            	        	location.href = "/board/boardView/" + boardNumber;
+            	        	location.href = location.href;
             	    	}
             	    	else
             	    		alert("댓글 삭제 실패");
@@ -171,25 +184,26 @@
             <td th:text="${boardComment.getCno()}" width="50"></td>
             <td th:text="${boardComment.getNickname()}" width="200"></td>
             <td th:text="${boardComment.getRegister_date()}" width="200"></td>
-            <td th:text="${boardComment.getContent()}"></td>
-            <td th:if="${userSid} != null"  width="50">
-            <div id="menubar">
-            	<ul class="nav flex-column">
-               		<li class="dropdown dropright">
-                    	<a class="nav-link" href="#" id="navbarDroprightMenuLink" 
-                    	role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true"
-                    	style="color:#DB8383; font-size:10px;">
-                    	 	더보기
-                    	</a>
-                    	<div class="dropdown-menu text-center">
-                    		<a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" class="dropdown-item" style="cursor:pointer; color:#A566FF">댓글쓰기<br></a>
-                        	<a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>
-                        	<a th:id="bc+${boardComment.getCno()}" th:onClick="|return deleteComment(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:red">삭제</a>
-                    	</div>
-                	</li>
-            	</ul>
-        	</div>
-            </td>
+            <td th:if="${boardComment.getCheck_delete()} == 'F'" th:text="${boardComment.getContent()}"></td>
+            <td th:unless="${boardComment.getCheck_delete()} == 'F'">삭제된 댓글입니다<td>
+            <td th:if="${userSid} != null and ${boardComment.getCheck_delete()} == 'F'" width="50">
+            	<div id="menubar">
+            		<ul class="nav flex-column">
+               			<li class="dropdown dropright">
+                    		<a class="nav-link" href="#" id="navbarDroprightMenuLink" 
+                    		role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true"
+                   			style="color:#DB8383; font-size:10px;">
+                   	 		더보기
+                   			</a>
+                   			<div class="dropdown-menu text-center">
+                   				<a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" class="dropdown-item" style="cursor:pointer; color:#A566FF">댓글쓰기<br></a>
+                       			<a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>
+                       			<a th:id="bc+${boardComment.getCno()}" th:onClick="|return deleteComment(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:red">삭제</a>
+                   			</div>
+               			</li>
+           			</ul>
+        		</div>
+       		</td>
         </tr>
         </tbody>
     </table>
@@ -200,8 +214,18 @@
                 <span>«</span>
             </a>
         </li>
-        <li  th:if="${boardCommentList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,boardCommentList.getTotalPages()-1)}">
+        <li style="cursor:pointer" id="pagePrev">
+            <a th:onClick="|return pageMove('prev');|">
+                <span>＜</span>
+            </a>
+        </li>
+        <li style="cursor:pointer" th:if="${boardCommentList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,boardCommentList.getTotalPages()-1)}">
             <a th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+        </li>
+        <li id="pageNext">
+            <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                <span>></span>
+            </a>
         </li>
         <li>
             <a th:if="${boardCommentList.getTotalPages()}>0" th:href="'?'+page+'='+${boardCommentList.getTotalPages()-1}">
