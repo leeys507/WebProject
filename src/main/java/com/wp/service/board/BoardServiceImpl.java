@@ -36,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
     }
     @Transactional
     public long update(long Bno, BoardUpdateDTO data) {
-        Board board=boardRepository.findById(Bno).orElseThrow(()->new
+        Board board = boardRepository.findById(Bno).orElseThrow(()->new
                 IllegalArgumentException("해당 게시글이 없습니다. id="+Bno));
         board.update(data.getTitle(),data.getContent(), data.getBoardtype());
         return Bno;

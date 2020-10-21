@@ -42,6 +42,14 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     }
     
     @Transactional
+    public boolean updateBoardComment(long bno, long cno, String content) {
+    	BoardComment entity = boardCommentRepository.findByBnoAndCno(bno, cno);
+    	if(entity == null) return false;
+    	entity.update(content);
+    	return true;
+    }
+    
+    @Transactional
     public boolean deleteBoardComment(long cno) {
     	BoardComment entity = boardCommentRepository.findByCno(cno);
     	if(entity == null) return false;

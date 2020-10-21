@@ -44,9 +44,8 @@ public class BoardCommentDataController {
 	}
 	
 	@PutMapping("/boardComment/updateBoardComment")
-	public boolean updateBoardComment(long cno) {
-		BoardCommentGetDTO data = boardCommentService.findByCno(cno);
-		return true;
+	public boolean updateBoardComment(long bno, long cno, String content) {
+		return boardCommentService.updateBoardComment(bno, cno, content);
 	}
 	
 	@PutMapping("/boardComment/deleteBoardComment")		// change check_delete, delete_date
