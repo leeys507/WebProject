@@ -22,6 +22,8 @@
         	var boardNumber = document.getElementsByName("boardNumber")[0].id;
         	var pageNum = parseInt(getParameterByName("page"));
         	var nextOrPrev;
+        	
+        	if(isNaN(pageNum)) pageNum = 0;
         	nextOrPrev = (param == "next") ? 1 : -1;
         	
         	if(pageNum + nextOrPrev < 0) return false;
@@ -117,7 +119,7 @@
         	document.getElementById("ccommentForm").style.display = "block";
         }
         
-        function showModifyCommentForm(cno) {
+        function showUpdateCommentForm(cno) {
         	clickCommentCno = cno;
         	document.getElementById("light").style.display = "block";
         	document.getElementById("fade").style.display = "block";
@@ -132,9 +134,9 @@
         
         function updateComment(cno) {
         	var boardNumber = document.getElementsByName("boardNumber")[0].id;
-        	var sid = $("#mcsid");
-        	var nickname = $("#mcnickname");
-        	var content = $("#mcTextArea");
+        	var sid = $("#ucsid");
+        	var nickname = $("#ucnickname");
+        	var content = $("#ucTextArea");
         	
         	if(sid.val() == "") {
         		alert("학번 입력");
@@ -232,7 +234,7 @@
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr>
-        <th>댓글</th>
+        <th style="font-size:30px" colspan="5">댓글</th>
         </tr>
         </thead>
         <tbody id="tbody">
@@ -254,7 +256,7 @@
                    			</a>
                    			<div class="dropdown-menu text-center">
                    				<a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" class="dropdown-item" style="cursor:pointer; color:#A566FF">댓글쓰기<br></a>
-                       			<a th:onClick="|showModifyCommentForm(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>
+                       			<a th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>
                        			<a th:id="bc+${boardComment.getCno()}" th:onClick="|return deleteComment(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:red">삭제</a>
                    			</div>
                			</li>
@@ -302,8 +304,8 @@
     	<div style="font-size:10pt; text-align:left; margin-left:5%; margin-top:10px">
     		<b>&lt;대댓글 작성&gt;</b>
     		<div style="float:right; font-size:10pt; text-align:left; margin-right:5%;">
-				학번 <br><br><input type="text" th:value="${userSid}" id = "mcsid" readonly/> <br><br>
-				닉네임<br><br><input type="text" th:value="${userNickname}" id = "mcnickname" readonly/>
+				학번 <br><br><input type="text" th:value="${userSid}" id = "ccsid" readonly/> <br><br>
+				닉네임<br><br><input type="text" th:value="${userNickname}" id = "ccnickname" readonly/>
 			</div>
     		<br>
     		<textarea id = "ccTextArea" rows = "5" cols = "50" placeholder = "이곳에 댓글 입력" 
@@ -323,11 +325,11 @@
     	<div style="font-size:10pt; text-align:left; margin-left:5%; margin-top:10px">
     		<b>&lt;댓글 수정&gt;</b>
     		<div style="float:right; font-size:10pt; text-align:left; margin-right:5%;">
-				학번 <br><br><input type="text" th:value="${userSid}" id = "csid" name = "sid" readonly/> <br><br>
-				닉네임<br><br><input type="text" th:value="${userNickname}" id = "cnickname" name = "nickname" readonly/>
+				학번 <br><br><input type="text" th:value="${userSid}" id = "ucsid" name = "ucsid" readonly/> <br><br>
+				닉네임<br><br><input type="text" th:value="${userNickname}" id = "ucnickname" name = "ucnickname" readonly/>
 			</div>
     		<br>
-    		<textarea id = "mcTextArea" rows = "5" cols = "50" placeholder = "이곳에 수정할 댓글 입력" 
+    		<textarea id = "ucTextArea" rows = "5" cols = "50" placeholder = "이곳에 수정할 댓글 입력" 
     			maxlength = 200 style="font-size:12px; margin-top:10px;"></textarea>
     		<br><br>(200자 내외)
 		</div>
