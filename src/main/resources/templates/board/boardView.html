@@ -120,9 +120,14 @@
         }
         
         function showUpdateCommentForm(cno) {
+        	var selectTr = $("#bc" + cno);
+        	var selectTd = selectTr.children();
+        	
         	clickCommentCno = cno;
         	document.getElementById("light").style.display = "block";
         	document.getElementById("fade").style.display = "block";
+        	document.getElementById("beforeCommentTextArea").value = 
+        		(selectTd.eq(0).text() == "") ? selectTd.eq(4).text() : selectTd.eq(3).text();
         	document.getElementById("mcommentForm").style.display = "block";
         }
         
@@ -238,7 +243,7 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <tr th:each="boardComment :${boardCommentList}">
+        <tr th:each="boardComment :${boardCommentList}" th:id="bc+${boardComment.getCno()}">
         	<td th:if="${boardComment.getCcno()} != 0" width = "50"></td>
             <td th:text="${boardComment.getCno()}" width="50"></td>
             <td th:text="${boardComment.getNickname()}" width="200"></td>
@@ -257,7 +262,7 @@
                    			<div class="dropdown-menu text-center">
                    				<a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" class="dropdown-item" style="cursor:pointer; color:#A566FF">댓글쓰기<br></a>
                        			<a th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>
-                       			<a th:id="bc+${boardComment.getCno()}" th:onClick="|return deleteComment(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:red">삭제</a>
+                       			<a th:onClick="|return deleteComment(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:red">삭제</a>
                    			</div>
                			</li>
            			</ul>
@@ -320,7 +325,12 @@
     </div>
     <!-- /.card-content -->
      <div id="light" class="white_content">
-     	<div id="mcommentForm" style="margin-left:15%; margin-top:20%; width:600px; height:180px; border:1px solid blue; 
+     	<div style="font-size:10pt; text-align:left; width:400px; height:150px; margin-left:15%; margin-top:10%; border:1px solid #5D5D5D">
+     		<b style="margin-left:5%">&lt;수정 전 댓글&gt;</b><br>
+     		<textarea id = "beforeCommentTextArea" rows = "5" cols = "50" readonly
+    			maxlength = 200 style="margin-left:5%; font-size:12px; margin-top:10px; color:#4641D9"></textarea>
+     	</div><br>
+     	<div id="mcommentForm" style="margin-left:15%; margin-top:10%; width:600px; height:180px; border:1px solid blue; 
     	line-height:70%; text-align:center; display:none">
     	<div style="font-size:10pt; text-align:left; margin-left:5%; margin-top:10px">
     		<b>&lt;댓글 수정&gt;</b>
