@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.wp.domain.matching.Matching;
 import com.wp.domain.matching.MatchingRepository;
+import com.wp.domain.matching.dto.MatchingGetDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +17,12 @@ import lombok.RequiredArgsConstructor;
 public class MatchingServiceImpl implements MatchingService {
 	private final MatchingRepository matchingRepository;
 	
+    public MatchingGetDTO findById(long id){
+        Matching entity = matchingRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        return new MatchingGetDTO(entity);
+    }
+    
     public Page<Matching> findMatchingList(Pageable pageable, String boardtype){
         if(boardtype==null){
             boardtype = "심부름";

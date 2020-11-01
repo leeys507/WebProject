@@ -24,6 +24,7 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id="+ id));
         return new BoardGetDTO(entity);
     }
+    
     @Transactional
     public String InsertBoard(BoardInsertDTO data) {
         return boardRepository.save(data.toEntity()).getStudentForeignkey().getSid();

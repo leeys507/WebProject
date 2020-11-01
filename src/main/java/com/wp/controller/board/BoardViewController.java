@@ -25,6 +25,7 @@ public class BoardViewController {
     private final StudentInfoService studentInfoService;
     private final BoardCommentService boardCommentService;
     private final HttpSession httpSession;
+    
     @GetMapping("/board/boardList")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Board> page = boardService.findBoards(pageable, boardtype);
@@ -48,7 +49,7 @@ public class BoardViewController {
         BoardGetDTO dto = boardService.findById(bno);
         String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("board", dto);
-        model.addAttribute("userSid",sid);
+        model.addAttribute("userSid", sid);
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);
         model.addAttribute("boardCommentList", page);
