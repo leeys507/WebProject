@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
+    
     public BoardGetDTO findById(long id){
         Board entity = boardRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id="+ id));
@@ -25,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
     }
     @Transactional
     public String InsertBoard(BoardInsertDTO data) {
-        return boardRepository.save(data.toEntity()).getForeignkey().getSid();
+        return boardRepository.save(data.toEntity()).getStudentForeignkey().getSid();
     }
 
     public List<BoardListGetDTO> findAllDesc() {
@@ -34,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
                 .map(BoardListGetDTO::new)
                 .collect(Collectors.toList());
     }
+    
     @Transactional
     public long update(long Bno, BoardUpdateDTO data) {
         Board board = boardRepository.findById(Bno).orElseThrow(()->new
@@ -41,15 +43,17 @@ public class BoardServiceImpl implements BoardService {
         board.update(data.getTitle(),data.getContent(), data.getBoardtype());
         return Bno;
     }
+    
     @Transactional
     public void updateViewCnt(long Bno){
         Board board = boardRepository.findById(Bno).orElseThrow(()->new
                 IllegalArgumentException("해당 게시글이 없습니다. id="+Bno));
         board.setRead_count(board.getRead_count()+1);
     }
+    
     public Page<Board> findBoards(Pageable pageable, String boardtype){
         if(boardtype==null){
-            boardtype="게시판1";
+            boardtype = "자유게시판";
         }
         return boardRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
         		new Sort(Sort.Direction.DESC, "bno")));

@@ -17,20 +17,20 @@
         $("#page"+pages).attr("class","active");
         var boardtype=getParameterByName("boardtype");
         
-        function InsertBoard() {
-            location.href = "/board/boardInsert?boardtype=" +boardtype;
+        function InsertMatchingBoard() {
+            //location.href = "/board/boardInsert?boardtype=" +boardtype;
         }
     </script>
 
 </th:block>
 <th:block layout:fragment="title">
-    <title>Board List</title>
+    <title>Matching List</title>
 </th:block>
 
 <th:block layout:fragment="nav-title">
     <div class="fixed-navbar">
         <div class="pull-left">
-            <h1 class="page-title">Board list</h1>
+            <h1 class="page-title">Matching List</h1>
         </div>
     </div>
 </th:block>
@@ -41,19 +41,19 @@
             <ul class="nav flex-column">
                 <li class="dropdown dropright">
                     <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true">
-                    	 게시판
+                    	 매칭게시판
                     </a>
                     <div class="dropdown-menu text-center">
-                        <a class="dropdown-item" href="/board/boardList?boardtype=자유게시판">자유게시판</a><br>
-                        <a class="dropdown-item" href="/board/boardList?boardtype=잡담게시판">잡담게시판</a><br>
-                        <a class="dropdown-item" href="/board/boardList?boardtype=게임게시판">게임게시판</a>
+                        <a class="dropdown-item" href="/matching/matchingList?boardtype=심부름">심부름</a><br>
+                        <a class="dropdown-item" href="/matching/matchingList?boardtype=역할대행">역할대행</a><br>
+                        <a class="dropdown-item" href="/matching/matchingList?boardtype=멘토맨티">멘토멘티</a>
                     </div>
                 </li>
             </ul>
         </div>
         <br>
     </div>
-    <div><h2 style="color:Blue">Board List</h2></div>
+    <div><h2 style="color:Blue">Matching list</h2></div>
     <br><br>
 
     <table class="table table-horizontal table-bordered">
@@ -63,18 +63,19 @@
             <th>제목</th>
             <th>작성자</th>
             <th>등록일</th>
+            <th>해결여부</th>
             <th>조회수</th>
-            <th>좋아요</th>
         </tr>
         </thead>
         <tbody id="tbody">
-        <tr th:each="boardlist :${board}">
-            <td th:text="${boardlist.getBno()}"></td>
-            <td> <a th:href="@{'/board/boardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
-            <td th:text="${boardlist.getNickname()}"></td>
-            <td th:text="${boardlist.getRegister_date()}"></td>
-            <td th:text="${boardlist.getRead_count()}"></td>
-            <td th:text="${boardlist.getLike_count()}"></td>
+        <tr th:each="matching :${matchingList}">
+            <td th:text="${matching.getBno()}"></td>
+            <td> <a th:href="@{'/matching/matchingView/'+${matching.getBno()}}" th:text="${matching.getTitle()}"></a></td>
+            <td th:text="${matching.getRequest_nickname()}"></td>
+            <td th:text="${matching.getRegister_date()}"></td>
+            <td th:if="${matching.getStudentForeignkey_accept()} == null">NO</td>
+            <td th:unless="${matching.getStudentForeignkey_accept()} == null">YES</td> 
+            <td th:text="${matching.getRead_count()}"></td>
         </tr>
         </tbody>
     </table>
@@ -85,14 +86,14 @@
                 <span>«</span>
             </a>
         </li>
-        <li th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
+        <li th:if="${matchingList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,matchingList.getTotalPages()-1)}">
             <a th:href="'?'+page+'='+${num}+'&'+boardtype+'='+${boardType}" th:text="${num+1}"></a>
         </li>
         <li>
-            <a th:if="${board.getTotalPages()}>0" th:href="'?'+page+'='+${board.getTotalPages()-1}+'&'+boardtype+'='+${boardType}">
+            <a th:if="${matchingList.getTotalPages()}>0" th:href="'?'+page+'='+${matchingList.getTotalPages()-1}+'&'+boardtype+'='+${boardType}">
                 <span>»</span>
             </a>
-            <a th:if="${board.getTotalPages()}==0" th:href="'?'+page+'='+${board.getTotalPages()}+'&'+boardtype+'='+${boardType}">
+            <a th:if="${matchingList.getTotalPages()}==0" th:href="'?'+page+'='+${matchingList.getTotalPages()}+'&'+boardtype+'='+${boardType}">
                 <span>»</span>
             </a>
         </li>
@@ -100,7 +101,7 @@
 
     <div style="float: right">
         <button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
-        <button th:if="${userSid} != null" type="button" onClick="InsertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
+        <button th:if="${userSid} != null" type="button" onClick="InsertMatchingBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
     </div>
     <!-- /.card-content -->
 </th:block>

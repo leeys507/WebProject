@@ -21,7 +21,7 @@ public class BoardGetDTO {
 	
 	public BoardGetDTO(Board entity) {	
 		this.bno = entity.getBno();
-        this.sid = entity.getForeignkey().getSid();
+        this.sid = entity.getStudentForeignkey().getSid();
         this.nickname = entity.getNickname();
         this.boardtype = entity.getBoardtype();
         this.title = entity.getTitle();

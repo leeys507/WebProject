@@ -25,7 +25,7 @@ public class BoardInsertDTO {
         Student sData = new Student();
         sData.setSid(sid);
         
-        bData.setForeignkey(sData);
+        bData.setStudentForeignkey(sData);
         bData.setNickname(nickname);
         bData.setBoardtype(boardtype);
         bData.setTitle(title);

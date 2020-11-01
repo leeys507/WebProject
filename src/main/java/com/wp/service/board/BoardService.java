@@ -18,5 +18,4 @@ public interface BoardService {
     long update(long Bno, BoardUpdateDTO data);
     void updateViewCnt(long Bno);
     Page<Board> findBoards(Pageable pageable, String boardtype);
-
 }

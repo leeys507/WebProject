@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="script">
+	<script type="text/javascript"> 
+    	var pages = getParameterByName("page");
+    	var clickCommentCno;
+    	
+    	if(pages == ""){
+        	pages = 0;
+    	}
+   		 $("#page" + pages).attr("class","active");
+  
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        function pageMove(param) {
+        	var boardNumber = document.getElementsByName("boardNumber")[0].id;
+        	var pageNum = parseInt(getParameterByName("page"));
+        	var nextOrPrev;
+        	
+        	if(isNaN(pageNum)) pageNum = 0;
+        	nextOrPrev = (param == "next") ? 1 : -1;
+        	
+        	if(pageNum + nextOrPrev < 0) return false;
+        	else if(pageNum + nextOrPrev > [[${boardCommentList.getTotalPages()}]] - 1) return false;
+        	
+        	location.href = "/board/boardView/" + boardNumber + "?page=" + (pageNum + nextOrPrev);
+        	return true;
+        }
+        
+        function cancelCommentForm(part) {
+        	document.getElementById(part + "commentForm").style.display = "none";
+        	document.getElementById(part + "cTextArea").value = "";
+        }
+        
+        function registerComment(part) {
+        	var boardNumber = document.getElementsByName("boardNumber")[0].id;
+        	var sid = $("#" + part + "csid");
+        	var nickname = $("#" + part + "cnickname");
+        	var content = $("#" + part + "cTextArea");
+        	var ccno;
+        	
+        	if(sid.val() == "") {
+        		alert("학번 입력");
+        		sid.focus();
+        		return false;
+        	}
+        	if(nickname.val() == "") {
+        		alert("닉네임 입력");
+        		nickname.focus();
+        		return false;
+        	}
+        	if(content.val() == "") {
+        		alert("내용 입력");
+        		content.focus();
+        		return false;
+        	}
+        	
+        	ccno = (part == "") ? 0 : clickCommentCno;
+        	
+        	$.ajax({
+        	    type: "POST",
+        	    url : "/boardComment/insertBoardComment",
+        	    data : {
+        	    	bno : boardNumber,
+        	    	ccno : ccno,
+        	    	sid : sid.val(),
+        	    	nickname : nickname.val(),
+        	        content : content.val(),
+        	    },
+        	    success : function(data){
+        	    	if(data == true) {
+        	        	alert("댓글 등록 성공");
+        	        	cancelCommentForm(part);
+        	        	location.href = location.href;
+        	    	}
+        	    	else
+        	    		alert("댓글 등록 실패");
+        	    },error : function(){
+        	        alert("Error");
+        	        return false;
+        	    }
+        	});
+        }
+        
+        function deleteComment(cno) {
+        	if(confirm("선택된 댓글을 삭제하시겠습니까?")) {
+        		var boardNumber = document.getElementsByName("boardNumber")[0].id;
+        		
+            	$.ajax({
+            	    type: "PUT",
+            	    url : "/boardComment/deleteBoardComment",
+            	    data : {
+            	    	cno : cno
+            	    },
+            	    success : function(data){
+            	    	if(data == true) {
+            	        	alert("댓글 삭제 성공");
+            	        	location.href = location.href;
+            	    	}
+            	    	else
+            	    		alert("댓글 삭제 실패");
+            	    },error : function(){
+            	        alert("Error");
+            	        return false;
+            	    }
+            	});
+        	}
+        	else return false;
+        }
+        
+        function showCommentByCommentForm(cno) {
+        	clickCommentCno = cno;
+        	document.getElementById("ccommentForm").style.display = "block";
+        }
+        
+        function showUpdateCommentForm(cno) {
+        	var selectTr = $("#bc" + cno);
+        	var selectTd = selectTr.children();
+        	
+        	clickCommentCno = cno;
+        	document.getElementById("light").style.display = "block";
+        	document.getElementById("fade").style.display = "block";
+        	document.getElementById("beforeCommentTextArea").value = 
+        		(selectTd.eq(0).text() == "") ? selectTd.eq(4).text() : selectTd.eq(3).text();
+        	document.getElementById("mcommentForm").style.display = "block";
+        }
+        
+        function cancelUpdateCommentForm() {
+        	document.getElementById("light").style.display = "none";
+        	document.getElementById("fade").style.display = "none";
+        	cancelCommentForm("m");
+        }
+        
+        function updateComment(cno) {
+        	var boardNumber = document.getElementsByName("boardNumber")[0].id;
+        	var sid = $("#ucsid");
+        	var nickname = $("#ucnickname");
+        	var content = $("#ucTextArea");
+        	
+        	if(sid.val() == "") {
+        		alert("학번 입력");
+        		sid.focus();
+        		return false;
+        	}
+        	if(nickname.val() == "") {
+        		alert("닉네임 입력");
+        		nickname.focus();
+        		return false;
+        	}
+        	if(content.val() == "") {
+        		alert("내용 입력");
+        		content.focus();
+        		return false;
+        	}
+        	
+        	$.ajax({
+        	    type: "PUT",
+        	    url : "/boardComment/updateBoardComment",
+        	    data : {
+        	    	bno : boardNumber,
+        	    	cno : clickCommentCno,
+        	    	content : content.val()
+        	    },
+        	    success : function(data){
+        	    	if(data == true) {
+        	        	alert("댓글 수정 성공");
+        	        	location.href = location.href;
+        	    	}
+        	    	else
+        	    		alert("댓글 수정 실패");
+        	    },error : function(){
+        	        alert("Error");
+        	        return false;
+        	    }
+        	});
+        }
+    </script>
+</th:block>
+
+<th:block layout:fragment="title">
+    <title>Matching View</title>
+</th:block>
+
+<th:block layout:fragment="content">
+	<input type = "hidden" th:id="${matching.bno}" name="matchingNumber">
+
+    <div><h2 th:text="${matching.getTitle()}"></h2></div>
+    <br><br>
+    <div class="card-content">
+        <form id="infoForm" name="infoForm">
+        <br>
+            <div>
+                <div class="col-sm-10">
+                	<b>&lt;작성일&gt;</b> <span th:text="${matching.register_date}"></span><br>
+                	<b>&lt;조회&gt;</b> <span th:text="${matching.readcount}"></span><br>
+                	<b>&lt;작성자&gt;</b> <span th:text="${matching.nickname}"></span>
+                </div>
+                <br>
+                <div>
+                	<textarea id = "contentArea" th:inline="text" class="form-control" readonly>[[${matching.content}]]</textarea>
+                </div>
+            </div>
+        </form>
+        <div>
+            <a th:if="${userSid} != null" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/board/boardUpdate/'+${board.getBno()}">수정</a>
+            <button type="button" onClick="location.href='/board/boardList?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">이전</button>
+            <button th:if="${userSid} != null" type="button" onClick="document.getElementById('commentForm').style.display='block';" class="btn btn-primary waves-effect waves-light">댓글작성</button>
+        </div>
+    </div>
+    <!-- /.card-content -->
+</th:block>
+</html>

@@ -1,8 +1,7 @@
-package com.wp.domain.board;
+package com.wp.domain.matching;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,9 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -25,26 +22,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "board")
-public class Board {
+@Entity(name = "matching")
+public class Matching {
     @Id
     @Column(name = "bno", columnDefinition = "int")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bno;
-
+    
     @ManyToOne
-    @JoinColumn(name = "sid", nullable = false)
-    private Student studentForeignkey;
-
-    @Column(name = "nickname", nullable = false, length = 12)
-    private String nickname;
+    @JoinColumn(name = "request_sid", nullable = false)
+    private Student studentForeignkey_request;
+    
+    @Column(name = "request_nickname", nullable = false, length = 12)
+    private String request_nickname;
+    
+    @ManyToOne
+    @JoinColumn(name = "accept_sid")
+    private Student studentForeignkey_accept;
+    
+    @Column(name = "accept_nickname", length = 12)
+    private String accept_nickname;
     
     @Column(name = "boardtype", nullable = false, length = 12)
     private String boardtype;
 
     @Column(name = "title", nullable = false, length = 150)
     private String title;
-
+    
     @Lob
     @Column(name = "content", nullable = false)      //text
     private String content;
@@ -58,15 +62,15 @@ public class Board {
     @Column(name = "image_path", length = 300)
     private String image_path;
 
-    @Column(name = "like_count", nullable = false)
-    private Integer like_count;
-    
     @Column(name = "update_date")
     private LocalDateTime update_date;
     
-    @OneToMany(mappedBy = "boardForeignkey", targetEntity= BoardComment.class)
-    private List<BoardComment> boardList = new ArrayList<BoardComment>();
-
+    @Column(name = "delete_date")
+    private LocalDateTime delete_date;
+    
+    @Column(name = "check_delete", nullable = false, length = 2)
+    private String check_delete;
+    
     public String getRegister_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return formatter.format(this.register_date);
@@ -77,10 +81,8 @@ public class Board {
     	return (update_date == null) ? null : formatter.format(this.update_date);
     }
     
-    public void update(String title, String content,String boardtype) {
-        this.title=title;
-        this.content=content;
-        this.boardtype=boardtype;
-        this.register_date=LocalDateTime.now();
+    public String getDelete_date() {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+    	return (delete_date == null) ? null : formatter.format(this.delete_date);
     }
 }
