@@ -22,7 +22,9 @@
                 <div class="col-sm-10">
                 	<b>&lt;작성일&gt;</b> <span th:text="${matching.register_date}"></span><br>
                 	<b>&lt;조회&gt;</b> <span th:text="${matching.readcount}"></span><br>
-                	<b>&lt;작성자&gt;</b> <span th:text="${matching.request_nickname}"></span>
+                	<b>&lt;작성자&gt;</b> <span th:text="${matching.request_nickname}"></span><br>
+                	<b>&lt;해결여부&gt;</b> <span th:if="${matching.accept_sid} == null">NO</span>
+                	<span th:unless="${matching.accept_sid} == null">YES</span>
                 </div>
                 <br>
                 <div>
