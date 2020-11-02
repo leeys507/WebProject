@@ -1,5 +1,5 @@
 $(function (){
-    CKEDITOR.replace('content',{
+    CKEDITOR.replace('content', {
         filebrowserUploadUrl: '/mine/imageUpload.do'
     });
 });

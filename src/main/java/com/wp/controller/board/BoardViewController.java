@@ -28,9 +28,9 @@ public class BoardViewController {
     @GetMapping("/board/boardList")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Board> page = boardService.findBoards(pageable, boardtype);
-        model.addAttribute("boardType",boardtype);
+        model.addAttribute("boardType", boardtype);
         model.addAttribute("board", page);
-        model.addAttribute("userSid",httpSession.getAttribute("sid"));
+        model.addAttribute("userSid", httpSession.getAttribute("sid"));
         return "board/boardList";
     }
 
