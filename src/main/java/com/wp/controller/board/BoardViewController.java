@@ -25,7 +25,6 @@ public class BoardViewController {
     private final StudentInfoService studentInfoService;
     private final BoardCommentService boardCommentService;
     private final HttpSession httpSession;
-    
     @GetMapping("/board/boardList")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Board> page = boardService.findBoards(pageable, boardtype);
@@ -34,7 +33,7 @@ public class BoardViewController {
         model.addAttribute("userSid",httpSession.getAttribute("sid"));
         return "board/boardList";
     }
-    
+
     @GetMapping("/board/boardInsert")
     public String openBoardInsertView(Model model) {
         String sid= (String) httpSession.getAttribute("sid");
@@ -42,7 +41,7 @@ public class BoardViewController {
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         return "board/boardInsert";
     }
-    
+
     @GetMapping("/board/boardView/{bno}")	// board 1 + comment
     public String openBoardView(@PathVariable long bno, Model model, Pageable pageable) {
         boardService.updateViewCnt(bno);
@@ -55,7 +54,7 @@ public class BoardViewController {
         model.addAttribute("boardCommentList", page);
         return "board/boardView";
     }
-    
+
     @GetMapping("/board/boardUpdate/{bno}")
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         BoardGetDTO dto = boardService.findById(bno);
