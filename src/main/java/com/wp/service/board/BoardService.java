@@ -8,6 +8,9 @@ import com.wp.domain.board.dto.BoardUpdateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface BoardService {
@@ -16,7 +19,8 @@ public interface BoardService {
     List<BoardListGetDTO> findAllDesc();
 
     long update(long Bno, BoardUpdateDTO data);
-    void updateViewCnt(long Bno);
+    void updateViewCnt(long Bno, HttpServletRequest request, HttpServletResponse response, HttpSession session);
     Page<Board> findBoards(Pageable pageable, String boardtype);
 
+    boolean deleteBoard(long bno);
 }

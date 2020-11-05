@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import com.wp.domain.board.Board;
 import com.wp.domain.boardcomment.BoardComment;
+import com.wp.domain.matching.Matching;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,11 +51,17 @@ public class Student {
    @Column(name = "update_date")
    private LocalDateTime update_date;
 
-   @OneToMany(mappedBy = "foreignkey", targetEntity= Board.class)
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity= Board.class)
    private List<Board> boardList = new ArrayList<Board>();
 
    @OneToMany(mappedBy = "studentForeignkey", targetEntity= BoardComment.class)
    private List<BoardComment> boardCommentList = new ArrayList<BoardComment>();
+   
+   @OneToMany(mappedBy = "studentForeignkey_request", targetEntity= Matching.class)
+   private List<Matching> matchingList_request = new ArrayList<Matching>();
+   
+   @OneToMany(mappedBy = "studentForeignkey_accept", targetEntity= Matching.class)
+   private List<Matching> matchingList_accept = new ArrayList<Matching>();
    
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
@@ -63,6 +70,6 @@ public class Student {
    
    public String getUpdate_date() {
 	   	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-	   	return formatter.format(this.update_date);
+	   	return (update_date == null) ? null : formatter.format(this.update_date);
    }
 }

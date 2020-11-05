@@ -1,4 +1,4 @@
-package com.wp.domain.boardcomment;
+package com.wp.domain.matching;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,9 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import com.wp.domain.board.Board;
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -21,36 +21,46 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "boardcomment")
-public class BoardComment {
-    @ManyToOne
-    @JoinColumn(name = "bno", nullable = false)
-    private Board boardForeignkey;
-    
+@Entity(name = "matching")
+public class Matching {
     @Id
-    @Column(name = "cno", columnDefinition = "int")
+    @Column(name = "bno", columnDefinition = "int")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cno;
+    private long bno;
     
-    @Column(name = "ccno", columnDefinition = "int")
-    private long ccno;
-    
-    @Column(name = "group_id", nullable = false, columnDefinition = "int")
-    private long group_id;
-
     @ManyToOne
-    @JoinColumn(name = "sid", nullable = false)
-    private Student studentForeignkey;
+    @JoinColumn(name = "request_sid", nullable = false)
+    private Student studentForeignkey_request;
+    
+    @Column(name = "request_nickname", nullable = false, length = 12)
+    private String request_nickname;
+    
+    @ManyToOne
+    @JoinColumn(name = "accept_sid")
+    private Student studentForeignkey_accept;
+    
+    @Column(name = "accept_nickname", length = 12)
+    private String accept_nickname;
+    
+    @Column(name = "boardtype", nullable = false, length = 12)
+    private String boardtype;
 
-    @Column(name = "nickname", nullable = false, length = 12)
-    private String nickname;
-
-    @Column(name = "content", nullable = false, length = 200)
+    @Column(name = "title", nullable = false, length = 150)
+    private String title;
+    
+    @Lob
+    @Column(name = "content", nullable = false)      //text
     private String content;
 
     @Column(name = "register_date", nullable = false)
     private LocalDateTime register_date;
-    
+
+    @Column(name = "read_count", nullable = false)
+    private int read_count;
+
+    @Column(name = "image_path", length = 300)
+    private String image_path;
+
     @Column(name = "update_date")
     private LocalDateTime update_date;
     
@@ -73,15 +83,5 @@ public class BoardComment {
     public String getDelete_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return (delete_date == null) ? null : formatter.format(this.delete_date);
-    }
-    
-    public void update(String content) {
-    	this.content = content;
-        this.update_date = LocalDateTime.now();
-    }
-    
-    public void delete() {
-    	this.check_delete = "T";
-        this.delete_date = LocalDateTime.now();
     }
 }

@@ -24,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 페이지 권한 설정
-                .antMatchers("/studentInfo/studentRegistrationTest").hasAuthority("GUEST")
-                .antMatchers("/board/boardInsertTest","board/boardUpdateTest").hasAuthority("USER")
+                .antMatchers("/studentInfo/studentRegistration").hasAuthority("GUEST")
+                .antMatchers("/board/boardInsert","board/boardUpdate").hasAuthority("USER")
                 .anyRequest().permitAll()
                 .and() // 로그인 설정
                 .formLogin()
