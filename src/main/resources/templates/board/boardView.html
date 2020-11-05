@@ -9,6 +9,7 @@
             pages=0;
         }
         $("#page"+pages).attr("class","active");
+
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -28,7 +29,29 @@
             location.href = "/board/boardView/" + boardNumber + "?page=" + (pageNum + nextOrPrev);
             return true;
         }
-
+        function deleteBoard(bno) {
+            if(confirm("게시글을 삭제하시겠습니까?")) {
+                $.ajax({
+                    type: "PUT",
+                    url : "/board/deleteBoard",
+                    data : {
+                        bno : bno
+                    },
+                    success : function(data){
+                        if(data == true) {
+                            alert("게시글 삭제 성공");
+                            location.href = '/board/boardList?boardtype=자유게시판';
+                        }
+                        else
+                            alert("게시글 삭제 실패");
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+                });
+            }
+            else return false;
+        }
         function cancelCommentForm(part) {
             document.getElementById(part + "commentForm").style.display = "none";
             document.getElementById(part + "cTextArea").value = "";
@@ -173,6 +196,59 @@
                 }
             });
         }
+        var likecheck = "[[${boardlike}]]";
+        if(likecheck==''||likecheck=='F'){
+            $("#likeboard").html("좋아요");
+        }
+        else{
+            $("#likeboard").html("좋아요 취소");
+        }
+        function likeBoard() {
+            var likecheck = "[[${boardlike}]]";
+            var bno = [[${board.getBno()}]];
+            var sid = "[[${userSid}]]";
+            if(likecheck=="") {
+                $.ajax({
+                    url: "/boardLike/insertBoardLike",
+                    type: "POST",
+                    data: {
+                        sid: sid,
+                        bno: bno
+                    },
+                    success: function () {
+                        location.href = location.href;
+                    },
+                    error: function () {
+                        alert("좋아요 실패");
+                        return false;
+                    }
+                });
+            }
+            else{
+                $.ajax({
+                    url: "/boardLike/updateBoardLike",
+                    type: "PUT",
+                    data: {
+                        sid: sid,
+                        bno: bno
+                    },
+                    success: function (data) {
+                        $("#likecnt").html(data);
+                        if($("#likeboard").html()=="좋아요") {
+                            $("#likeboard").html("좋아요 취소");
+                        }
+                        else{
+                            $("#likeboard").html("좋아요");
+                        }
+                    },
+                    error: function () {
+                        alert("좋아요 실패");
+                        return false;
+                    }
+                });
+            }
+            return true;
+        }
     </script>
 </th:block>
 
@@ -192,15 +268,17 @@
                 <div class="col-sm-10">
                 	<b>&lt;작성일&gt;</b> <span th:text="${board.register_date}"></span><br>
                 	<b>&lt;조회&gt;</b> <span th:text="${board.readcount}"></span><br>
-                	<b>&lt;좋아요&gt;</b> <span th:text="${board.likecount}"></span><br>
+                	<b>&lt;좋아요&gt;</b> <span id="likecnt" th:text="${board.likecount}"></span><br>
                 	<b>&lt;작성자&gt;</b> <span th:text="${board.nickname}"></span>
                     <div th:utext="${board.content}" style="width:1000px; height:auto; border:1px solid green">
-                    </div><br>
+                    </div>
                 </div>
             </div>
         </form>
         <div class="col-sm-10">
+            <button th:if="${userSid} == ${board.getSid()}" id="likeboard" type="button" th:onClick="|return likeBoard();|" class="btn btn-primary waves-effect waves-light" ></button>
             <a th:if="${userSid} == ${board.getSid()}" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/board/boardUpdate/'+${board.getBno()}">수정</a>
+            <button th:if="${userSid} == ${board.getSid()}" type="button" th:onClick="|return deleteBoard(${board.getBno()});|" class="btn btn-primary waves-effect waves-light">삭제</button>
             <button type="button" onClick="location.href='/board/boardList?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">이전</button>
             <button th:if="${userSid} != null" type="button" onClick="document.getElementById('commentForm').style.display='block';" class="btn btn-primary waves-effect waves-light">댓글작성</button>
         </div>

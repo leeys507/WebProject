@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Getter
@@ -33,6 +34,7 @@ public class BoardInsertDTO {
         bData.setRead_count(0);
         bData.setRegister_date(LocalDateTime.now());
         bData.setImage_path(image_path);
+        bData.setCheck_delete("F");
         bData.setLike_count(0);
         return bData;
     }

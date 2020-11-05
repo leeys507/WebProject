@@ -3,20 +3,31 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
+        var pages = getParameterByName("page");
+        if(pages == ""){
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
                 results = regex.exec(location.search);
             return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
+        function pageMove(param) {
+            var boardtype=getParameterByName("boardtype");
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
 
-        var pages = getParameterByName("page");
-        if(pages == "") {
-            pages = 0;
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
+
+            location.href = "/board/boardList/?boardtype="+boardtype+"page=" + (pageNum + nextOrPrev);
+            return true;
         }
-        $("#page"+pages).attr("class","active");
         var boardtype=getParameterByName("boardtype");
-        
         function InsertBoard() {
             location.href = "/board/boardInsert?boardtype=" +boardtype;
         }
@@ -78,15 +89,24 @@
         </tr>
         </tbody>
     </table>
-
     <ul class="pagination">
         <li id="pagefirst">
             <a th:href="'?'+page+'='+0+'&'+boardtype+'='+${boardType}">
-                <span>«</span>
+            <span>«</span>
             </a>
         </li>
-        <li th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
-            <a th:href="'?'+page+'='+${num}+'&'+boardtype+'='+${boardType}" th:text="${num+1}"></a>
+        <li style="cursor:pointer" id="pagePrev">
+            <a th:onClick="|return pageMove('prev');|">
+                <span><</span>
+            </a>
+        </li>
+        <li style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
+            <a th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+        </li>
+        <li id="pageNext">
+            <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                <span>></span>
+            </a>
         </li>
         <li>
             <a th:if="${board.getTotalPages()}>0" th:href="'?'+page+'='+${board.getTotalPages()-1}+'&'+boardtype+'='+${boardType}">
@@ -97,7 +117,6 @@
             </a>
         </li>
     </ul>
-
     <div style="float: right">
         <button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
         <button th:if="${userSid} != null" type="button" onClick="InsertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>

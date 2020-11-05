@@ -63,7 +63,13 @@ public class Board {
     
     @Column(name = "update_date")
     private LocalDateTime update_date;
-    
+
+    @Column(name = "delete_date")
+    private LocalDateTime delete_date;
+
+    @Column(name = "check_delete", nullable = false, length = 2)
+    private String check_delete;
+
     @OneToMany(mappedBy = "boardForeignkey", targetEntity= BoardComment.class)
     private List<BoardComment> boardList = new ArrayList<BoardComment>();
 
@@ -82,5 +88,13 @@ public class Board {
         this.content=content;
         this.boardtype=boardtype;
         this.register_date=LocalDateTime.now();
+    }
+
+    public void delete() {
+        this.check_delete = "T";
+        this.delete_date = LocalDateTime.now();
+    }
+    public void updatelike(int like_count){
+        this.like_count=this.like_count+like_count;
     }
 }

@@ -20,4 +20,8 @@ public class BoardDataController {
     public long updateBoard(@PathVariable long Bno, @ModelAttribute BoardUpdateDTO data) throws Exception{
         return boardService.update(Bno, data);
     }
+    @PutMapping("/board/deleteBoard")
+    public boolean deleteBoard(long bno) {
+        return boardService.deleteBoard(bno);
+    }
 }

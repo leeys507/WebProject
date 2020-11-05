@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.wp.domain.board.Board;
 
+import java.util.List;
+
 public interface BoardCommentRepository extends JpaRepository<BoardComment, Long>, PagingAndSortingRepository<BoardComment, Long> {
 	@Query(value = "SELECT * FROM boardcomment bc WHERE bc.cno = :cno", nativeQuery = true)
 	BoardComment findByCno(@Param("cno") long cno);
