@@ -5,9 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 
 
 import javax.servlet.ServletException;
@@ -18,37 +15,24 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+    private RedirectStrategy redirectStratgy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-        RequestCache requestCache = new HttpSessionRequestCache();
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-        String targetUrl;
-        try{
-            targetUrl = savedRequest.getRedirectUrl();
-        }catch (NullPointerException e){
-            targetUrl = null;
-        }
         boolean user=false;
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("USER".equals(auth.getAuthority())){
                 user = true;
-            }
+            }System.out.println(auth.getAuthority());
         }
         if(user) {
-            if(targetUrl==null){
-                out.println("<script>location.href='/studentInfo/studentInfo'</script>");
-            }
-            else {
-                redirectStrategy.sendRedirect(request, response, targetUrl);
-            }
+            out.println("<script>alert('로그인성공!');location.href='/studentInfo/studentInfoTest'</script>");
         }
         else{
-            out.println("<script>alert('처음 로그인하셔서 정보입력페이지로 이동합니다!');location.href='/studentInfo/studentRegistration'</script>");
+            out.println("<script>alert('처음 로그인하셔서 정보입력페이지로 이동합니다!');location.href='/studentInfo/studentRegistrationTest'</script>");
         }
     }
 

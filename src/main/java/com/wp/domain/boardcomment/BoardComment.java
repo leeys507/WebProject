@@ -67,21 +67,11 @@ public class BoardComment {
     
     public String getUpdate_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-    	return (update_date == null) ? null : formatter.format(this.update_date);
+    	return formatter.format(this.update_date);
     }
     
     public String getDelete_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-    	return (delete_date == null) ? null : formatter.format(this.delete_date);
-    }
-    
-    public void update(String content) {
-    	this.content = content;
-        this.update_date = LocalDateTime.now();
-    }
-    
-    public void delete() {
-    	this.check_delete = "T";
-        this.delete_date = LocalDateTime.now();
+    	return formatter.format(this.delete_date);
     }
 }

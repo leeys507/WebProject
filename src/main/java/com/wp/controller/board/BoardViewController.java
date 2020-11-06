@@ -25,40 +25,40 @@ public class BoardViewController {
     private final StudentInfoService studentInfoService;
     private final BoardCommentService boardCommentService;
     private final HttpSession httpSession;
-    @GetMapping("/board/boardList")    // view
+    @GetMapping("/board/boardListTest")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Board> page = boardService.findBoards(pageable, boardtype);
-        model.addAttribute("boardType", boardtype);
+        model.addAttribute("boardType",boardtype);
         model.addAttribute("board", page);
-        model.addAttribute("userSid", httpSession.getAttribute("sid"));
-        return "board/boardList";
+        model.addAttribute("userSid",httpSession.getAttribute("sid"));
+        return "board/boardListTest";
     }
-
-    @GetMapping("/board/boardInsert")
+    
+    @GetMapping("/board/boardInsertTest")
     public String openBoardInsertView(Model model) {
         String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("userSid",sid);
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
-        return "board/boardInsert";
+        return "board/boardInsertTest";
     }
-
-    @GetMapping("/board/boardView/{bno}")	// board 1 + comment
+    
+    @GetMapping("/board/boardViewTest/{bno}")	// board 1 + comment
     public String openBoardView(@PathVariable long bno, Model model, Pageable pageable) {
         boardService.updateViewCnt(bno);
         BoardGetDTO dto = boardService.findById(bno);
         String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("board", dto);
-        model.addAttribute("userSid", sid);
+        model.addAttribute("userSid",sid);
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);
         model.addAttribute("boardCommentList", page);
-        return "board/boardView";
+        return "board/boardViewTest";
     }
-
+    
     @GetMapping("/board/boardUpdate/{bno}")
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         BoardGetDTO dto = boardService.findById(bno);
         model.addAttribute("board", dto);
-        return "board/boardUpdate";
+        return "board/boardUpdateTest";
     }
 }

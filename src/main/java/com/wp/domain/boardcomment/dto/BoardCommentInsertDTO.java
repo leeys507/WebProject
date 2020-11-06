@@ -36,7 +36,7 @@ public class BoardCommentInsertDTO {
         bcData.setNickname(nickname);
         bcData.setContent(content);
         bcData.setRegister_date(LocalDateTime.now());
-        bcData.setCheck_delete("F");
+        bcData.setCheck_delete("N");
         return bcData;
     }
 }

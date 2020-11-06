@@ -34,26 +34,11 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     
     @Transactional
     public boolean registerBoardComment(BoardCommentInsertDTO data) {
+    	System.out.println(data.getNickname());
     	return boardCommentRepository.save(data.toEntity()) != null;
     }
     
     public int nextGroupID() {
-    	return boardCommentRepository.getBoardCommentCount() == 0 ? 1 : boardCommentRepository.findMaxGroupID() + 1;
-    }
-    
-    @Transactional
-    public boolean updateBoardComment(long bno, long cno, String content) {
-    	BoardComment entity = boardCommentRepository.findByBnoAndCno(bno, cno);
-    	if(entity == null) return false;
-    	entity.update(content);
-    	return true;
-    }
-    
-    @Transactional
-    public boolean deleteBoardComment(long cno) {
-    	BoardComment entity = boardCommentRepository.findByCno(cno);
-    	if(entity == null) return false;
-    	entity.delete();
-    	return true;
+    	return boardCommentRepository.getBoardCommentCount() == 0?1:boardCommentRepository.findMaxGroupID() + 1;
     }
 }

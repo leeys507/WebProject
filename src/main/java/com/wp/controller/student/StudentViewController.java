@@ -15,16 +15,16 @@ import javax.servlet.http.HttpSession;
 public class StudentViewController {
 	private final StudentInfoService studentInfoService;
 	private final HttpSession httpSession;
-	@GetMapping(value = "/studentInfo/studentInfo")
+	@GetMapping(value = "/studentInfo/studentInfoTest")
 	public String openStudentInfoView(Model model) {
 		model.addAttribute("count", studentInfoService.getStudentCount());
 		model.addAttribute("userSid",httpSession.getAttribute("sid"));
-		return "studentInfo/studentInfo";
+		return "studentInfo/studentInfoTest";
 	}
 	
-	@GetMapping(value = "/studentInfo/studentRegistration")
+	@GetMapping(value = "/studentInfo/studentRegistrationTest")
 	public String openStudentRegisterView(Model model) {
 		model.addAttribute("userSid",httpSession.getAttribute("resSid"));
-		return "studentInfo/studentRegistration";
+		return "studentInfo/studentRegistrationTest";
 	}
 }

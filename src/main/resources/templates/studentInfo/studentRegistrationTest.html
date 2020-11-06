@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">	
+<th:block layout:fragment="script">
+<script type="text/javascript">
+	function foo(){
+		alert('서브밋!');
+	}
+	
+	function dataSend() {
+		//var gender = $(":input:radio[name=gen]:checked").val();
+		var queryString = $("form[name=infoForm]").serialize();
+		//JSON.stringify($("form[name=infoForm]").serializeObject());
+   	 /*var messageDTO={
+       	 result:data
+   	};*/
+   	//alert(queryString);
+    	$.ajax({
+    	    type: "POST",
+    	    url : "/studentRegistration",
+    	    /*data : { sid : $("#sid").val(),
+    	             department : $("#department").val(),
+    	             syear : $("#syear").val(),
+    	             nickname : $("#nickname").val(),
+    	             email : $("#email").val(),
+    	             gen : gender
+    	    },*/
+    	    data : queryString,
+    	    //contentType:'application/json; charset=utf-8',
+    	    //contentType:'application/x-www-form-urlencoded; charset=utf-8',
+    	    //datatype : 'json',
+    	    success : function(data){
+    	    	if(data == true) {
+    	        	alert("등록 성공, 재로그인 해주세요.");
+    	        	location.href='/studentInfo/studentInfoTest';
+    	    	}
+    	    	else
+    	    		alert("등록 실패");
+    	    },error : function(){
+    	        alert("Error");
+    	        return false;
+    	    }
+    	});
+   		return false;
+	}
+</script>
+ </th:block>	
+
+	<th:block layout:fragment="title">
+		<title>Student Registration</title>
+	</th:block>
+	
+	<th:block layout:fragment="content">
+		<div><h2 style="color:green">Student Registration</h2></div>
+		<br><br>
+		<div class="card-content">
+			<form id="infoForm" name="infoForm" onSubmit='return dataSend()' method="post">
+				<div>
+					<label class="col-sm-2 control-label">학번</label>
+					<div class="col-sm-10">
+						<input type="text" id="sid" name="sid" class="form-control" th:value="${userSid}" required="required" readonly/>
+					</div>
+				</div>
+
+				<div>
+					<label class="col-sm-2 control-label">학과</label>
+					<div class="col-sm-10">
+						<input type="text" id="department" name="department" class="form-control" placeholder="학과 입력" required="required"/>
+					</div>
+				</div>
+
+				<div>
+					<label for="writer" class="col-sm-2 control-label">학년</label>
+					<div class="col-sm-10">
+						<input type="text" id="syear" name="syear" class="form-control" placeholder="학년 입력" required="required"/>
+					</div>
+				</div>
+
+				<div>
+					<label for="title" class="col-sm-2 control-label">닉네임</label>
+					<div class="col-sm-10">
+						<input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required" />
+					</div>
+				</div>
+				
+				<div>
+					<label for="writer" class="col-sm-2 control-label">이메일</label>
+					<div class="col-sm-10">
+						<input type="text" id="email" name="email" class="form-control" placeholder="이메일 입력" required="required"/>
+					</div>
+				</div>
+				
+				<div>
+					<label for="writer" class="col-sm-2 control-label">성별</label>
+					<div class="col-sm-10">		
+						<input type="radio" id="genM" name="gen" value="M" required="required">남
+						<input type="radio" id="genF" name="gen" value="F" required="required">여
+					</div>
+				</div>
+
+				<div>
+					<button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>
+					<button type="button" onClick="location.href='/studentInfo/studentInfoTest'" class="btn btn-primary waves-effect waves-light">이전</button>
+				</div>
+			</form>
+		</div>
+		<!-- /.card-content -->
+	</th:block>
+</html>
