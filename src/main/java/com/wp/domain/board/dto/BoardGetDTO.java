@@ -16,7 +16,6 @@ public class BoardGetDTO {
 	private String content;
 	private String register_date;
 	private int readcount;
-	private String imagepath;
 	private int likecount;
 	public BoardGetDTO(Board entity) {	
 		this.bno = entity.getBno();
@@ -27,7 +26,6 @@ public class BoardGetDTO {
         this.content = entity.getContent();
         this.register_date = entity.getRegister_date();
         this.readcount = entity.getRead_count();
-        this.imagepath = entity.getImage_path();
         this.likecount = entity.getLike_count();
 	}
 }

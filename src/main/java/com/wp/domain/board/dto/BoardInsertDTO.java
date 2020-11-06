@@ -33,7 +33,6 @@ public class BoardInsertDTO {
         bData.setContent(content);
         bData.setRead_count(0);
         bData.setRegister_date(LocalDateTime.now());
-        bData.setImage_path(image_path);
         bData.setCheck_delete("F");
         bData.setLike_count(0);
         return bData;

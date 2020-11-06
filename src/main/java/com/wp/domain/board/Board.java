@@ -55,9 +55,6 @@ public class Board {
     @Column(name = "read_count", nullable = false)
     private int read_count;
 
-    @Column(name = "image_path", length = 300)
-    private String image_path;
-
     @Column(name = "like_count", nullable = false)
     private Integer like_count;
     
