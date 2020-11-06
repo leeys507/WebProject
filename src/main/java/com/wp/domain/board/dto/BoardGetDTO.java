@@ -17,6 +17,7 @@ public class BoardGetDTO {
 	private String register_date;
 	private int readcount;
 	private int likecount;
+	
 	public BoardGetDTO(Board entity) {	
 		this.bno = entity.getBno();
         this.sid = entity.getStudentForeignkey().getSid();

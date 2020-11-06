@@ -19,7 +19,6 @@ public class BoardInsertDTO {
     private String boardtype;
     private String title;
     private String content;
-    private String image_path;
 
     public Board toEntity() {
         Board bData = new Board();
