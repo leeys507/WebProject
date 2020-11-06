@@ -108,6 +108,7 @@ public class AuthProvider implements AuthenticationProvider {
 
         return userName;
     }
+    
     public void setSSL() throws NoSuchAlgorithmException, KeyManagementException {
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 

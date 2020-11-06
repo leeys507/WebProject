@@ -30,6 +30,7 @@ public class BoardViewController {
     private final BoardCommentService boardCommentService;
     private final BoardLikeService boardLikeService;
     private final HttpSession httpSession;
+    
     @GetMapping("/board/boardList")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Board> page = boardService.findBoards(pageable, boardtype);

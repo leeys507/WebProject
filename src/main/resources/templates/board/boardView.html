@@ -5,10 +5,19 @@
     <script type="text/javascript">
         var pages = getParameterByName("page");
         var clickCommentCno;
+        var likecheck = "[[${boardlike}]]";
+        
         if(pages == ""){
             pages=0;
         }
         $("#page"+pages).attr("class","active");
+        
+        if(likecheck==''||likecheck=='F'){
+            $("#likeboard").html("좋아요");
+        }
+        else{
+            $("#likeboard").html("좋아요 취소");
+        }
 
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -196,13 +205,7 @@
                 }
             });
         }
-        var likecheck = "[[${boardlike}]]";
-        if(likecheck==''||likecheck=='F'){
-            $("#likeboard").html("좋아요");
-        }
-        else{
-            $("#likeboard").html("좋아요 취소");
-        }
+
         function likeBoard() {
             var likecheck = "[[${boardlike}]]";
             var bno = [[${board.getBno()}]];
