@@ -15,8 +15,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.net.ssl.*;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +38,7 @@ public class AuthProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String id = authentication.getName();
         String password = authentication.getCredentials().toString();
+        setSSL();
         String name = login(id,password);
         if(name.isEmpty()){
             return null;
@@ -100,5 +107,36 @@ public class AuthProvider implements AuthenticationProvider {
         userName = Home.select("strong.site-font-color").html();
 
         return userName;
+    }
+    public void setSSL() throws NoSuchAlgorithmException, KeyManagementException {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                // TODO Auto-generated method stub
+
+            }
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+        }};
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new SecureRandom());
+        HttpsURLConnection.setDefaultHostnameVerifier(
+                new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                }
+        );
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
     }
 }
