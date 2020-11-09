@@ -32,7 +32,13 @@ public class MatchingViewController {
         model.addAttribute("userSid",httpSession.getAttribute("sid"));
         return "matching/matchingList";
     }
-    
+    @GetMapping("/matching/matchingInsert")
+    public String openMatchingInsertView(Model model) {
+        String sid= (String) httpSession.getAttribute("sid");
+        model.addAttribute("userSid",sid);
+        model.addAttribute("userNickname",studentInfoService.getNickname(sid));
+        return "matching/matchingInsert";
+    }
     @GetMapping("/matching/matchingView/{bno}")
     public String openMatchingView(@PathVariable long bno, Model model) {
         MatchingGetDTO dto = matchingService.findById(bno);

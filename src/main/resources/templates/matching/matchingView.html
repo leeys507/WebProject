@@ -25,14 +25,14 @@
                 	<b>&lt;작성자&gt;</b> <span th:text="${matching.request_nickname}"></span><br>
                 	<b>&lt;해결여부&gt;</b> <span th:if="${matching.accept_sid} == null">NO</span>
                 	<span th:unless="${matching.accept_sid} == null">YES</span>
+                    <b>&lt;금액&gt;</b> <span th:text="${matching.money}"></span><br>
+                    <div th:utext="${matching.content}" style="width:1000px; height:auto; border:1px solid green">
+                    </div>
                 </div>
                 <br>
-                <div>
-                	<textarea id = "contentArea" th:inline="text" class="form-control" readonly>[[${matching.content}]]</textarea>
-                </div>
             </div>
         </form>
-        <div>
+        <div class="col-sm-10">
             <a th:if="${userSid} != null" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/matching/matchingUpdate/'+${matching.getBno()}">수정</a>
             <button type="button" onClick="location.href='/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
         </div>

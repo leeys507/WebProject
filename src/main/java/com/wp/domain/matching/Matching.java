@@ -44,13 +44,13 @@ public class Matching {
     
     @Column(name = "boardtype", nullable = false, length = 12)
     private String boardtype;
-    
-    @Column(name = "money", nullable = false)
-    private int money;
 
     @Column(name = "title", nullable = false, length = 150)
     private String title;
-    
+
+    @Column(name = "money", nullable = false)
+    private int money;
+
     @Lob
     @Column(name = "content", nullable = false)      //text
     private String content;
