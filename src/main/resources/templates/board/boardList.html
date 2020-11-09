@@ -19,7 +19,6 @@
         }
         
         function pageMove(param) {
-            var boardtype=getParameterByName("boardtype");
             var pageNum = parseInt(getParameterByName("page"));
             var nextOrPrev;
             if(isNaN(pageNum)) pageNum = 0;
@@ -96,7 +95,7 @@
     </table>
     <ul class="pagination">
         <li id="pagefirst">
-            <a th:href="'?'+page+'='+0+'&'+boardtype+'='+${boardType}">
+            <a th:href="'?' + boardtype + '=' + ${boardType} + '&' + page + '=' + 0">
             <span>«</span>
             </a>
         </li>
@@ -106,7 +105,7 @@
             </a>
         </li>
         <li style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
-            <a th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+            <a th:href="'?'+ boardtype + '=' + ${boardType} + '&' + page + '=' + ${num}" th:text="${num+1}"></a>
         </li>
         <li id="pageNext">
             <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
@@ -114,10 +113,10 @@
             </a>
         </li>
         <li>
-            <a th:if="${board.getTotalPages()}>0" th:href="'?'+page+'='+${board.getTotalPages()-1}+'&'+boardtype+'='+${boardType}">
+            <a th:if="${board.getTotalPages()}>0" th:href="'?' + boardtype + '=' +${boardType} + '&' + page + '=' + ${board.getTotalPages()-1}">
                 <span>»</span>
             </a>
-            <a th:if="${board.getTotalPages()}==0" th:href="'?'+page+'='+${board.getTotalPages()}+'&'+boardtype+'='+${boardType}">
+            <a th:if="${board.getTotalPages()}==0" th:href="'?' + boardtype + '=' + ${boardType} + '&' + page + '=' + ${board.getTotalPages()}">
                 <span>»</span>
             </a>
         </li>
