@@ -44,6 +44,9 @@ public class Matching {
     
     @Column(name = "boardtype", nullable = false, length = 12)
     private String boardtype;
+    
+    @Column(name = "money", nullable = false)
+    private int money;
 
     @Column(name = "title", nullable = false, length = 150)
     private String title;
@@ -57,9 +60,6 @@ public class Matching {
 
     @Column(name = "read_count", nullable = false)
     private int read_count;
-
-    @Column(name = "image_path", length = 300)
-    private String image_path;
 
     @Column(name = "update_date")
     private LocalDateTime update_date;

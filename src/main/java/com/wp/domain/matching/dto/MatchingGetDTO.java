@@ -14,6 +14,7 @@ public class MatchingGetDTO {
 	private String accept_sid;
 	private String accept_nickname;
 	private String boardtype;
+	private int money;
 	private String title;
 	private String content;
 	private String register_date;
@@ -30,11 +31,11 @@ public class MatchingGetDTO {
         this.accept_sid = entity.getStudentForeignkey_accept() == null ? null : entity.getStudentForeignkey_accept().getSid();
         this.accept_nickname = entity.getAccept_nickname();
         this.boardtype = entity.getBoardtype();
+        this.money = entity.getMoney();
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.register_date = entity.getRegister_date();
         this.readcount = entity.getRead_count();
-        this.imagepath = entity.getImage_path();
         this.update_date = entity.getUpdate_date();
         this.delete_date = entity.getDelete_date();
         this.check_delete = entity.getCheck_delete();

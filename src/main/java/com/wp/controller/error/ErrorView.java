@@ -31,7 +31,7 @@ public class ErrorView implements ErrorController {
 			}
 			if(statusCode == HttpStatus.FORBIDDEN.value()) {
 				return "errors/errorPage"; 
-			} 
+			}
 		}
 		return "error";
 	}
