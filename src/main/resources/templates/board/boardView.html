@@ -328,9 +328,7 @@
                         <li class="dropdown dropright">
                             <a class="nav-link" href="#" id="navbarDroprightMenuLink"
                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true"
-                               style="color:#DB8383; font-size:10px;">
-                                더보기
-                            </a>
+                               style="color:#DB8383; font-size:10px;">더보기</a>
                             <div class="dropdown-menu text-center">
                                 <a th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|" class="dropdown-item" style="cursor:pointer; color:#A566FF">댓글쓰기<br></a>
                                 <a th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|" th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}" class="dropdown-item" style="cursor:pointer; color:#47C83E">수정<br></a>

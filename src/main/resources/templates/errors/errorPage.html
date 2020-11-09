@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Error Page</title>
+</head>
+<body>
+	<div style ="text-align:center; margin-top:20%">
+		요청하신 페이지를 찾을 수 없거나 오류가 발생했습니다.<br><br>
+		<a style="cursor:pointer; text-decoration:underline; color:#FF4848" onClick = "history.go(-1)">뒤로가기</a>&nbsp;&nbsp;
+		<a th:if="${userSid} != null" style="cursor:pointer; text-decoration:underline; color:#65D35D" onClick="location.href='/logout'">로그아웃</a>
+	</div>
+	<br>
+	<div style ="text-align:center; margin-top:10px">
+		<span style="cursor:pointer; font-size:20px; text-decoration:underline; color:#486AAE" onClick="showErrorInformation()">Error Information</span><br>
+		<div style="font-size:15px; display:none; border:1px solid #660058; width:600px; margin:0 auto;" id="errorInfoDiv">
+			<p th:text="${'path: ' + path}"></p>
+			<p th:text="${'status: ' + status}"></p>
+			<p th:text="${'timestamp: ' + timestamp}"></p>
+			<p th:text="${'error: ' + error}"></p>
+			<p th:text="${'errors: ' + errors}"></p>
+			<p th:text="${'exception: ' + exception}"></p>
+			<p th:text="${'message: ' + message}"></p>
+			<p th:text="${'trace: ' + trace}"></p>
+		</div>
+	</div>
+	
+	<script src="/scripts/jquery.min.js"></script>
+	<script type="text/javascript">
+    function showErrorInformation() {
+    	var errorInfoDiv = $("#errorInfoDiv");
+    	if(errorInfoDiv.css("display") == "block") {
+    		errorInfoDiv.css("display", "none");
+    	}
+    	else {
+    		errorInfoDiv.css("display", "block");
+    	}
+    }
+    </script>
+</body>
+</html>
