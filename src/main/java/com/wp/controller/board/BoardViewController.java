@@ -15,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +44,7 @@ public class BoardViewController {
 
     @GetMapping("/board/boardInsert")
     public String openBoardInsertView(Model model) {
-        String sid= (String) httpSession.getAttribute("sid");
+        String sid = (String) httpSession.getAttribute("sid");
         model.addAttribute("userSid",sid);
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         return "board/boardInsert";
@@ -52,7 +54,7 @@ public class BoardViewController {
     public String openBoardView(@PathVariable long bno, Model model, Pageable pageable, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         boardService.updateViewCnt(bno,request,response,session);
         BoardGetDTO dto = boardService.findById(bno);
-        String sid= (String) httpSession.getAttribute("sid");
+        String sid = (String) httpSession.getAttribute("sid");
         model.addAttribute("board", dto);
         model.addAttribute("userSid", sid);
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));

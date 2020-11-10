@@ -4,6 +4,7 @@ import com.wp.domain.board.dto.BoardInsertDTO;
 import com.wp.domain.board.dto.BoardUpdateDTO;
 import com.wp.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor

@@ -10,21 +10,22 @@ import org.springframework.data.repository.query.Param;
 import com.wp.domain.student.dto.StudentGetDTO;
 
 public interface StudentRepository extends JpaRepository<Student, StudentGetDTO> {
-	   @Query(value = "SELECT * FROM student s WHERE s.sid = :sid", nativeQuery = true)
-	   Student findBySid(@Param("sid") String sid);
+	@Query(value = "SELECT * FROM student s WHERE s.sid = :sid", nativeQuery = true)
+	Student findBySid(@Param("sid") String sid);
 
 		boolean existsBySid(String sid);
 	@Query(value = "SELECT s.nickname FROM student s WHERE s.sid = :sid", nativeQuery = true)
 	String getBoardByNickname(@Param("sid") String sid);
-		@Transactional
-	   @Modifying
-	   @Query(value = "UPDATE student SET nickname = :nickname, update_time = NOW() WHERE sid = :sid", nativeQuery = true)
-	   int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname);
-	   
-	   @Transactional
-	   @Modifying
-	   @Query(value = "UPDATE student s SET s.email = :email WHERE s.sid = :sid", nativeQuery = true)
-	   int updateEmail(@Param("sid") String sid, @Param("email") String email);
+		
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE student SET nickname = :nickname, update_time = NOW() WHERE sid = :sid", nativeQuery = true)
+	int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE student s SET s.email = :email WHERE s.sid = :sid", nativeQuery = true)
+	int updateEmail(@Param("sid") String sid, @Param("email") String email);
 }
 
 //@Repository
