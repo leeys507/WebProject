@@ -181,6 +181,9 @@
             </a>
         </li>
     </ul>
+    
+    <br>Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
+    
     <div style="float: right">
         <button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
         <button th:if="${userSid} != null" type="button" onClick="insertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>

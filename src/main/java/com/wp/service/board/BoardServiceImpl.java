@@ -80,7 +80,6 @@ public class BoardServiceImpl implements BoardService {
     public Page<Board> searchAll(Pageable pageable, String text, String date, String option){
     	String addQuery = "";
     	int dateNum = 0;
-    	boolean like = false;
     	
     	if(date.equals("all") && option.equals("all")) {
     		return boardRepository.searchBoardAll(text, PageRequest.of(pageable.getPageNumber(), 10));
@@ -91,13 +90,13 @@ public class BoardServiceImpl implements BoardService {
         			addQuery = "match(title) against(?1 in boolean mode)";
         		else if(option.equals("writer")) {
         			addQuery = "nickname like ?1";
-        			like = true;
+        			text = "%" + text + "%";
         		}
         		else if(option.equals("commentContent"))
         			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode))";
         		
         		if(date.equals("all"))
-        			return boardRepository.searchBoardOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10), like);
+        			return boardRepository.searchBoardOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     		if(!date.equals("all")) {
         		if(date.equals("1week"))
@@ -111,7 +110,7 @@ public class BoardServiceImpl implements BoardService {
         			return boardRepository.searchBoardDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     	}
-    	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10), like);
+    	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 
     @Transactional
