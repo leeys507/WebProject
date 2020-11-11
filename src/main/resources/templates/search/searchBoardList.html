@@ -17,9 +17,9 @@
     		$("#tbody").append(tr);
     	}
 
-        $("#totalSearchBox").val([[${text}]]);
-        $("#totalSearchDate").val([[${date}]]).prop("selected", true);
-        $("#totalSearchOption").val([[${option}]]).prop("selected", true);
+        $("#searchBox").val([[${text}]]);
+        $("#searchDate").val([[${date}]]).prop("selected", true);
+        $("#searchOption").val([[${option}]]).prop("selected", true);
         
         if(pages == "") {
             pages=0;
@@ -69,6 +69,27 @@
         	chgText = chgText.replace(/\\/gi, '%5C');
         	
         	location.href = "/search/searchAllList?text=" + 
+        			chgText + "&date=" + date.val() + "&option=" + option.val();
+        }
+        
+        function searchBoard() {
+        	var text = $("#searchBox");
+        	var date = $("#searchDate option:selected");
+        	var option = $("#searchOption option:selected");
+        	
+        	if(text.val().trim() == "") {
+        		alert("검색어를 입력하세요");
+        		return false;
+        	}
+        	else if(text.val().length < 2) {
+        		alert("검색어는 2글자 이상이어야 합니다");
+        		return false;
+        	}
+        	
+        	var chgText = text.val().replace(/%/gi, '%25');
+        	chgText = chgText.replace(/\\/gi, '%5C');
+        	
+        	location.href = "/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
     </script>
@@ -128,7 +149,7 @@
     	<button onClick="return searchTotalBoard()">▶</button>
     </div>
     <div><h2 style="color:Blue">Board List</h2></div>
-    <div><h4 style="color:red">전체 게시판</h4></div>
+    <div><h4 style="color:red" th:text="${boardType}"></h4></div>
     <br><br>
 
     <table class="table table-horizontal table-bordered" id="boardListTable">
@@ -187,6 +208,27 @@
     <div style="float: right">
         <button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
         <button th:if="${userSid} != null" type="button" onClick="insertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
+    </div>
+    <br>
+    <div style="width:500px; margin:0 auto; font-size:15px; height:30px">
+    	<b>
+    		<select id="searchDate">
+    			<option value="all">전체기간</option>
+    			<option value="1week">1주</option>
+    			<option value="1month">1개월</option>
+    			<option value="6month">6개월</option>
+    		</select>
+    	</b> 
+    	<b>
+    		<select id="searchOption">
+    			<option value="all">제목+내용</option>
+    			<option value="title">제목</option>
+    			<option value="writer">글작성자</option>
+    			<option value="commentContent">댓글내용</option>
+    		</select>
+    	</b> 
+    	<input type="text" id="searchBox" style="font-size:15px;" onKeypress = "if(event.keyCode==13) {return searchBoard()}">
+    	<button onClick="return searchBoard()">▶</button>
     </div>
     <!-- /.card-content -->
 </th:block>

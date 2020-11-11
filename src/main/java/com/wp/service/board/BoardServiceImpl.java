@@ -107,7 +107,43 @@ public class BoardServiceImpl implements BoardService {
         			dateNum = 180;
         		
         		if(option.equals("all"))
-        			return boardRepository.searchBoardDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        			return boardRepository.searchBoardAllDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    		}
+    	}
+    	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    }
+    
+    public Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option){
+    	String addQuery = "";
+    	int dateNum = 0;
+    	
+    	if(date.equals("all") && option.equals("all")) {
+    		return boardRepository.searchBoardType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
+    	}
+    	else {
+    		if(!option.equals("all")) {
+        		if(option.equals("title"))
+        			addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+        		else if(option.equals("writer")) {
+        			addQuery = "boardtype = '" + boardtype + "' and nickname like ?1";
+        			text = "%" + text + "%";
+        		}
+        		else if(option.equals("commentContent"))
+        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+        		
+        		if(date.equals("all"))
+        			return boardRepository.searchBoardOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+    		}
+    		if(!date.equals("all")) {
+        		if(date.equals("1week"))
+        			dateNum = 7;
+        		else if(date.equals("1month"))
+        			dateNum = 30;
+        		else if(date.equals("6month"))
+        			dateNum = 180;
+        		
+        		if(option.equals("all"))
+        			return boardRepository.searchBoardTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     	}
     	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));

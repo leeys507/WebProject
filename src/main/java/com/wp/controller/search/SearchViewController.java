@@ -23,12 +23,27 @@ public class SearchViewController {
     @GetMapping("/search/searchAllList")
     public String searchBoardListView(@RequestParam String text, @RequestParam String date, @RequestParam String option, 
     		Model model, Pageable pageable) {
-        Page<Board> page = boardService.searchAll(pageable, text, date, option);
+        Page<Board> data = boardService.searchAll(pageable, text, date, option);
         model.addAttribute("text", text);
         model.addAttribute("date", date);
         model.addAttribute("option", option);
         model.addAttribute("userSid", httpSession.getAttribute("sid"));
-        model.addAttribute("board", page);
+        model.addAttribute("board", data);
+
         return "search/searchAllList";
+    }
+    
+    @GetMapping("/search/searchBoardList")
+    public String searchBoardListView(@RequestParam String boardtype, @RequestParam String text, 
+    		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
+        Page<Board> data = boardService.searchBoard(pageable, boardtype, text, date, option);
+        model.addAttribute("boardtype", boardtype);
+        model.addAttribute("text", text);
+        model.addAttribute("date", date);
+        model.addAttribute("option", option);
+        model.addAttribute("userSid", httpSession.getAttribute("sid"));
+        model.addAttribute("board", data);
+
+        return "search/searchBoardList";
     }
 }

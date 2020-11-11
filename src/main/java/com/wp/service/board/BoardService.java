@@ -22,6 +22,7 @@ public interface BoardService {
     void updateViewCnt(long Bno, HttpServletRequest request, HttpServletResponse response, HttpSession session);
     Page<Board> findBoards(Pageable pageable, String boardtype);
     Page<Board> searchAll(Pageable pageable, String text, String date, String option);
+    Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option);
 
     boolean deleteBoard(long bno);
 }

@@ -55,6 +55,27 @@
         	location.href = "/search/searchAllList?text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
+        
+        function searchBoard() {
+        	var text = $("#searchBox");
+        	var date = $("#searchDate option:selected");
+        	var option = $("#searchOption option:selected");
+        	
+        	if(text.val().trim() == "") {
+        		alert("검색어를 입력하세요");
+        		return false;
+        	}
+        	else if(text.val().length < 2) {
+        		alert("검색어는 2글자 이상이어야 합니다");
+        		return false;
+        	}
+        	
+        	var chgText = text.val().replace(/%/gi, '%25');
+        	chgText = chgText.replace(/\\/gi, '%5C');
+        	
+        	location.href = "/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
+        			chgText + "&date=" + date.val() + "&option=" + option.val();
+        }
     </script>
 
 </th:block>
@@ -188,8 +209,8 @@
     			<option value="commentContent">댓글내용</option>
     		</select>
     	</b> 
-    	<input type="text" id="searchBox" style="font-size:15px;">
-    	<button>▶</button>
+    	<input type="text" id="searchBox" style="font-size:15px;" onKeypress = "if(event.keyCode==13) {return searchBoard()}">
+    	<button onClick="return searchBoard()">▶</button>
     </div>
 </th:block>
 </html>
