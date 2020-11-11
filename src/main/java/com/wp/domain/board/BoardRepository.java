@@ -23,7 +23,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>, PagingAndSo
     Page<Board> searchBoardAll(@Param("text")String text, Pageable pageable);
     
     @Query(value = "select * from board where match(title, content) against(:text in boolean mode)"
-    		+ " and boardtype = ':boardtype'", nativeQuery = true)
+    		+ " and boardtype = :boardtype", nativeQuery = true)
     Page<Board> searchBoardType(@Param("boardtype")String boardtype, @Param("text")String text, Pageable pageable);
     
 //    @Query(value = "select * from board where :addQuery", nativeQuery = true)
@@ -34,7 +34,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>, PagingAndSo
     Page<Board> searchBoardAllDates(@Param("text")String text, @Param("date")int date, Pageable pageable);
     
     @Query(value = "select * from board where match(title, content) against(:text in boolean mode) "
-    		+ "and boardtype = ':boardtype' and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY)", nativeQuery = true)
+    		+ "and boardtype = :boardtype and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY)", nativeQuery = true)
     Page<Board> searchBoardTypeDates(@Param("boardtype")String boardtype, @Param("text")String text, @Param("date")int date, Pageable pageable);
     
 //    @Query(value = "select * from board where :addQuery and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY)", nativeQuery = true)
