@@ -82,17 +82,11 @@
             var IMP = window.IMP;
             IMP.init('imp14540701');
             var money = $('#money').val();
-
             IMP.request_pay({
                 pg: 'kakao',
                 merchant_uid: 'merchant_' + new Date().getTime(),
-                name: '주문명 : 주문명 설정',
                 amount: money,
-                buyer_email: 'iamport@siot.do',
-                buyer_name: '구매자이름',
-                buyer_tel: '010-1234-5678',
-                buyer_addr: '인천광역시 부평구',
-                buyer_postcode: '123-456'
+                buyer_tel: '[[${userphonenum}]]',
             }, function (rsp) {
                 console.log(rsp);
                 if (rsp.success) {

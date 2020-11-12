@@ -75,8 +75,9 @@
             <td th:text="${matching.getMoney()}"></td>
             <td th:text="${matching.getRequest_nickname()}"></td>
             <td th:text="${matching.getRegister_date()}"></td>
-            <td th:if="${matching.getStudentForeignkey_accept()} == null">NO</td>
-            <td th:unless="${matching.getStudentForeignkey_accept()} == null">YES</td> 
+            <td th:if="${matching.getCheck_success()} == F">NO</td>
+            <td th:if="${matching.getCheck_success()} == I">진행중</td>
+            <td th:if="${matching.getCheck_success()} == T">YES</td>
             <td th:text="${matching.getRead_count()}"></td>
         </tr>
         </tbody>

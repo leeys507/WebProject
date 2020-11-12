@@ -38,7 +38,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 //		return studentRepository.save(entity) != null;
 		return studentRepository.updateNickname(sid, nickname) > 0 ? true : false;
 	}
-
+	public String getPhoneNum(String sid){
+		return studentRepository.findBySid(sid).getPhonenum();
+	}
 	public String getNickname(String sid) {
 		return studentRepository.getBoardByNickname(sid);
 	}

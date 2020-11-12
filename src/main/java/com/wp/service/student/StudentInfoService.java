@@ -11,7 +11,7 @@ public interface StudentInfoService {
 	public String getNickname(String sid);
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum);
 	public boolean updateStudentNickName(String sid, String nickname);
-	
+	public String getPhoneNum(String sid);
 	public boolean updateStudentEmail(String sid, String email);
 	
 	public int getStudentCount();

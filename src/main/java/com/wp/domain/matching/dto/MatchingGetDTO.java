@@ -13,6 +13,7 @@ public class MatchingGetDTO {
 	private String request_nickname;
 	private String accept_sid;
 	private String accept_nickname;
+	private String accept_account;
 	private String boardtype;
 	private String title;
 	private String content;
@@ -29,6 +30,7 @@ public class MatchingGetDTO {
         this.request_nickname = entity.getRequest_nickname();
         this.accept_sid = entity.getStudentForeignkey_accept() == null ? null : entity.getStudentForeignkey_accept().getSid();
         this.accept_nickname = entity.getAccept_nickname();
+        this.accept_account=entity.getAccept_account();
         this.boardtype = entity.getBoardtype();
         this.title = entity.getTitle();
         this.content = entity.getContent();

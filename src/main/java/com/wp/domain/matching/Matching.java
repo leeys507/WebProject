@@ -41,7 +41,10 @@ public class Matching {
     
     @Column(name = "accept_nickname", length = 12)
     private String accept_nickname;
-    
+
+    @Column(name = "accept_account", length = 30)
+    private String accept_account;
+
     @Column(name = "boardtype", nullable = false, length = 12)
     private String boardtype;
 
@@ -87,9 +90,14 @@ public class Matching {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return (delete_date == null) ? null : formatter.format(this.delete_date);
     }
-    public void update(Student student,String nickname){
+    public void delete() {
+        this.check_delete = "T";
+        this.delete_date = LocalDateTime.now();
+    }
+    public void update(Student student,String nickname,String account,String check_success){
         this.studentForeignkey_accept=student;
         this.accept_nickname=nickname;
-        this.check_success="I";
+        this.check_success=check_success;
+        this.accept_account=account;
     }
 }

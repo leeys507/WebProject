@@ -2,6 +2,7 @@ package com.wp.controller.matching;
 
 import javax.servlet.http.HttpSession;
 
+import com.wp.domain.board.dto.BoardGetDTO;
 import com.wp.domain.matching.ChatRoomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +39,7 @@ public class MatchingViewController {
     public String openMatchingInsertView(Model model) {
         String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("userSid",sid);
+        model.addAttribute("userphonenum",studentInfoService.getPhoneNum(sid));
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         return "matching/matchingInsert";
     }
@@ -59,6 +61,12 @@ public class MatchingViewController {
         model.addAttribute("requestSid",matchingService.findById(bno).getRequest_sid());
         model.addAttribute("chatRoom",chatRoomRepository.findRoomById(String.valueOf(bno)));
         return matchingService.ProceedPage(sid,bno);
+    }
+    @GetMapping("/matching/matchingUpdate/{bno}")
+    public String openBoardUpdate(@PathVariable long bno, Model model) {
+        MatchingGetDTO dto = matchingService.findById(bno);
+        model.addAttribute("matching", dto);
+        return "matching/matchingUpdate";
     }
 
 }
