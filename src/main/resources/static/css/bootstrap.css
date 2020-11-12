@@ -10710,7 +10710,7 @@ footer > div > div > a, footer > div > div {
 
 .comment-content {
   float: left;
-  width: 60%;
+  width: 50%;
   margin-right : 33px;
   margin-top : 3px;
 }
@@ -10722,7 +10722,7 @@ footer > div > div > a, footer > div > div {
 
 .comment-written-at {
   float: left;
-  width: 10%;
+  width: 20%;
   margin-right : 33px;
   margin-top : 3px;
 }

@@ -1,6 +1,226 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
+<<<<<<< Updated upstream
+=======
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" , initial-scale="1">
+  <title>이성욱</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+    <a class="navbar-brand" href="index.html">나만 따라 YU</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+            매칭
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown">
+            <a class="dropdown-item" href="#">청소</a>
+            <a class="dropdown-item" href="#">배달</a>
+            <a class="dropdown-item" href="#">역할대행</a>
+            <a class="dropdown-item" href="#">심부름</a>
+          </div>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#">시간표</a></li>
+        <li class="nav-item"><a class="nav-link" href="class.html">강의평가</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">게시판</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">통계그래프</a></li>
+        <li>
+          <form class="input-group">
+            <input class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
+            <button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+          </form>
+        </li>
+        <li>
+          <form class="form-signin" style="margin:auto;">
+            <img th:src="@{/images/증명사진.jpg}" style="width:25%;">
+            <div style="color: white">이성욱 님, 환영합니다!!!</div>
+            <button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
+            <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="row flex">
+    <div class="col-2 item">
+      <a href="login.html"><img th:src="@{/images/영대마크.png}" href="#page-top"></a>
+    </div>
+    <div class="col-7 item">
+      <form class="input-group" method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
+        <button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+      </form>
+    </div>
+    <div class="col-3 item">
+      <form class="form-signin" style="margin:auto;">
+        <img th:src="@{/images/증명사진.jpg}" style="width:25%;">
+        이성욱 님, 환영합니다!!!
+        <button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='myInfo.html'">내정보</button>
+        <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
+      </form>
+    </div>
+  </div>
+
+  <br>
+
+  <div id="grid">
+    <div id="menubar">
+      <ul class="nav flex-column">
+        <li class="dropdown dropright">
+          <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
+            매칭
+          </a>
+          <div id="demo" class="collapse">
+            <a href="#">청소</a><br>
+            <a href="#">배달</a><br>
+            <a href="#">역할대행</a><br>
+            <a href="#">심부름</a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="schedule.html" tabindex="-1" aria-disabled="true">시간표</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="class.html" tabindex="-1" aria-disabled="true">강의평가</a>
+        </li>
+        <li class="dropdown dropright">
+          <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo2">
+            게시판
+          </a>
+          <div id="demo2" class="collapse">
+            <a href="/board/boardList?boardtype=자유게시판">자유게시판</a><br>
+            <a href="/board/boardList?boardtype=중고게시판">중고게시판</a><br>
+            <a href="/board/boardList?boardtype=정보게시판">정보게시판</a><br>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">통계 그래프</a>
+        </li>
+      </ul>
+    </div>
+
+    <br>
+
+    <div id="article">
+      <div class="container-fluid">
+        <div class="col-sm-auto article-header">
+          <h2 style="color:red" th:text=${boardType}></h2>
+        </div>
+        <table class="col-sm-auto table table-hover">
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>글쓴이</th>
+              <th>작성일</th>
+              <th>조회수</th>
+              <th>좋아요</th>
+            </tr>
+          </thead>
+		<tbody id="tbody">
+        <tr th:each="boardlist :${board}">
+            <td th:text="${boardlist.getBno()}"></td>
+            <td> <a th:href="@{'/board/boardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
+            <td th:text="${boardlist.getNickname()}"></td>
+            <td th:text="${boardlist.getRegister_date()}"></td>
+            <td th:text="${boardlist.getRead_count()}"></td>
+            <td th:text="${boardlist.getLike_count()}"></td>
+        </tr>
+        </tbody>
+        </table>
+        <hr />
+        <a class="btn btn-primary" th:if="${userSid} != null" type="button" onClick="insertBoard()" role="button">글쓰기</a>
+
+
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li id="pagefirst">
+				<a th:href="'?boardtype=' + ${boardType} + '&page=0'">
+					<span class="page-link">«</span>
+				</a>
+			</li>
+			<li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+				<a th:onClick="|return pageMove('prev');|">
+					<span class="page-link"><</span>
+				</a>
+			</li>
+			<li class="page-item" style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
+				<a class="page-link" th:href="'?boardtype=' + ${boardType} + '&page=' + ${num}" th:text="${num+1}"></a>
+			</li>
+			<li id="pageNext">
+				<a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+					<span class="page-link">></span>
+				</a>
+			</li>
+			<li>
+				<a th:if="${board.getTotalPages()}>0" th:href="'?boardtype=' + ${boardType} + '&page=' + ${board.getTotalPages()-1}">
+					<span class="page-link">»</span>
+				</a>
+				<a th:if="${board.getTotalPages()}==0" th:href="'?boardtype=' + ${boardType} + '&page=' + ${board.getTotalPages()}">
+					<span class="page-link">»</span>
+				</a>
+			</li>
+          </ul>
+        </nav>
+
+       	<form id="search-form" method="get">
+          <fieldset>
+          	<div class="search-wrap clear">
+              <!-- 옵션 -->
+              <div class="search-option-wrap fl">
+                <select id="searchDate" class="search-date">
+                  <option value="all">전체기간</option>
+                  <option value="1week">1주</option>
+                  <option value="1month">1개월</option>
+                  <option value="6month">6개월</option>
+                </select>
+                <select id="searchOption" class="search-option">
+                  <option value="all">제목+내용</option>
+                  <option value="title">제목</option>
+                  <option value="writer">글작성자</option>
+                  <option value="commentContent">댓글내용</option>
+                </select>
+              </div>
+              <!-- 검색어 입력창 -->
+              <div class="search-input-wrap fl">
+                <input class="form-control mr-sm-2" type="search" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요.">
+              </div>
+              <button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" onClick="return searchBoard()" class="button-image"></button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
+    <div class="row">
+      <div class="col-2"><a href="#"></a>이용약관</div>
+      <div class="col-2"><a href="#"></a>개인정보처리방침</div>
+      <div class="col-2"><a href="#"></a>커뮤니티이용규칙</div>
+      <div class="col-2"><a href="#"></a>공지사항</div>
+      <div class="col-2"><a href="#"></a>문의하기</div>
+      <div class="col-2">(주)나만따라YU</div>
+    </div>
+  </footer>
+  
+>>>>>>> Stashed changes
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         var pages = getParameterByName("page");
