@@ -69,6 +69,9 @@ public class Matching {
     
     @Column(name = "check_delete", nullable = false, length = 2)
     private String check_delete;
+
+    @Column(name = "check_success", nullable = false, length = 2)
+    private String check_success;
     
     public String getRegister_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
@@ -83,5 +86,10 @@ public class Matching {
     public String getDelete_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return (delete_date == null) ? null : formatter.format(this.delete_date);
+    }
+    public void update(Student student,String nickname){
+        this.studentForeignkey_accept=student;
+        this.accept_nickname=nickname;
+        this.check_success="I";
     }
 }

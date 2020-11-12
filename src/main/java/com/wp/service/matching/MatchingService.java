@@ -12,4 +12,10 @@ public interface MatchingService {
 	Page<Matching> findMatchingList(Pageable pageable, String boardtype);
 
     String InsertMatching(MatchingInsertDTO data);
+
+    boolean ProceedMatching(long bno, String sid);
+
+    String ProceedPage(String sid, long bno);
+
+    boolean CancelMatching(long bno);
 }

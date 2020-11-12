@@ -2,6 +2,7 @@ package com.wp.controller.matching;
 
 import javax.servlet.http.HttpSession;
 
+import com.wp.domain.matching.ChatRoomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,8 @@ public class MatchingViewController {
 	private final StudentInfoService studentInfoService;
 	private final MatchingService matchingService;
 	private final HttpSession httpSession;
-	
+    private final ChatRoomRepository chatRoomRepository;
+
     @GetMapping("/matching/matchingList")    // view
     public String openMatchingListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Matching> page = matchingService.findMatchingList(pageable, boardtype);
@@ -49,4 +51,14 @@ public class MatchingViewController {
         model.addAttribute("userNickname", studentInfoService.getNickname(sid));
         return "matching/matchingView";
     }
+    @GetMapping("/matching/matchingProceeding/{bno}")
+    public String openMatcingProceeding(@PathVariable long bno,Model model){
+        String sid = (String) httpSession.getAttribute("sid");
+        model.addAttribute("userSid", sid);
+        model.addAttribute("bno", bno);
+        model.addAttribute("requestSid",matchingService.findById(bno).getRequest_sid());
+        model.addAttribute("chatRoom",chatRoomRepository.findRoomById(String.valueOf(bno)));
+        return matchingService.ProceedPage(sid,bno);
+    }
+
 }

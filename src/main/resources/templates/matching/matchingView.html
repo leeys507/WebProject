@@ -2,8 +2,34 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="script">
-	<script type="text/javascript"> 
-    </script>
+<script type="text/javascript">
+    function proceedMatching(){
+    if(confirm("요청하시겠습니까?")) {
+        var bno = [[${matching.bno}]];
+        var sid = "[[${userSid}]]";
+        $.ajax({
+            type: "PUT",
+            url : "/matchingProceed",
+            data : {
+                bno : bno,
+                sid : sid,
+            },
+            success : function(data){
+                if(data == true) {
+                    alert("요청 성공");
+                    location.href = '/matching/matchingProceeding/'+bno;
+                }
+                else
+                    alert("요청 실패");
+            },error : function(){
+                alert("Error");
+                return false;
+            }
+        });
+    }
+    else return false;
+    }
+</script>
 </th:block>
 
 <th:block layout:fragment="title">
@@ -33,10 +59,10 @@
             </div>
         </form>
         <div class="col-sm-10">
-            <a th:if="${userSid} != null" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/matching/matchingUpdate/'+${matching.getBno()}">수정</a>
+            <a th:if="${userSid} == ${matching.request_sid}" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/matching/matchingUpdate/'+${matching.getBno()}">수정</a>
             <button type="button" onClick="location.href='/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
+            <button th:if="${userSid} != null and ${matching.request_sid} != ${userSid} and ${matching.accept_sid} == null" type="button" onclick="proceedMatching()" class="btn btn-primary waves-effect waves-light">요청</button>
         </div>
     </div>
-    <!-- /.card-content -->
 </th:block>
 </html>

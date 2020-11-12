@@ -22,7 +22,7 @@ public class MatchingGetDTO {
 	private String update_date;
 	private String delete_date;
 	private String check_delete;
-	
+	private String check_success;
 	public MatchingGetDTO(Matching entity) {	
 		this.bno = entity.getBno();
         this.request_sid = entity.getStudentForeignkey_request().getSid();
@@ -38,5 +38,6 @@ public class MatchingGetDTO {
         this.update_date = entity.getUpdate_date();
         this.delete_date = entity.getDelete_date();
         this.check_delete = entity.getCheck_delete();
+        this.check_success=entity.getCheck_success();
 	}
 }

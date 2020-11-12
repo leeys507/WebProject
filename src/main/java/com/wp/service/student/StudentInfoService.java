@@ -9,7 +9,7 @@ public interface StudentInfoService {
 	
 	public StudentGetDTO getStudent(String sid);
 	public String getNickname(String sid);
-
+	public void certifiedPhoneNumber(String phoneNumber, String cerNum);
 	public boolean updateStudentNickName(String sid, String nickname);
 	
 	public boolean updateStudentEmail(String sid, String email);

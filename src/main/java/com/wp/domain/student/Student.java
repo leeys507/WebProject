@@ -27,6 +27,9 @@ public class Student {
    @Column(name = "nickname", length = 12, unique = true)
    private String nickname;
 
+   @Column(name = "phonenum", length = 11, nullable = false)
+   private String phonenum;
+
    @Column(name = "gen", nullable = false, length = 2)
    private String gen;
 

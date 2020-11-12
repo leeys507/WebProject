@@ -32,6 +32,7 @@ public class MatchingInsertDTO {
         MData.setContent(content);
         MData.setRegister_date(LocalDateTime.now());
         MData.setCheck_delete("F");
+        MData.setCheck_success("F");
         return MData;
     }
 }
