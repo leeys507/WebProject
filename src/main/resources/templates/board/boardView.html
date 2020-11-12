@@ -55,7 +55,7 @@
     <!-- pc header -->
     <div class="row flex">
         <div class="col-2 item">
-            <a href="login.html"><img src="images/영대마크.png" href="#page-top"></a>
+            <a href="/yuhome/login"><img th:src="@{/images/영대마크.png}"></a>
         </div>
         <div class="col-7 item">
             <form class="input-group">
@@ -137,9 +137,9 @@
                     <div id="recommend-btn" class="recommend-btn clear">
                         <div class="btn-inner">
                             <!-- 좋아요 -->
-                            <div class="like-btn-form fl" th:if="${userSid} != null">
-                                <span>좋아요</span>
-                                <button type="button" class="btn-like"><img th:src="@{/images/pngwing.com.png}" th:onClick="|return likeBoard();|" id="likeboard" class="like-btn"></button>
+                            <div style="width:160px;text-align:right;" class="like-btn-form fl" th:if="${userSid} != null">
+                                <span style="vertical-align:middle" id="likeText">좋아요</span>
+                                <button type="button" class="btn-like"><img style="width:40px;height:40px;" th:src="@{/images/pngwing.com.png}" th:onClick="|return likeBoard();|" id="likeboard" class="like-btn"></button>
                             </div>
                             <!-- 신고 -->
                             <div class="declare-btn-form fl">
@@ -184,10 +184,10 @@
                                 <!-- 댓글 날짜 -->
                                 <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
                                 <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
-                                <div class="comment-option-button">
+                                <div class="comment-option-button" th:if="${userSid} != null and ${boardComment.getCheck_delete()} == 'F'">
                                     <a>댓글 쓰기</a>
-                                    <a>수정</a>
-                                    <a>삭제</a>
+                                    <a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}">수정</a>
+                                    <a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}">삭제</a>
                                 </div>
                             </div>
                         </li>
@@ -248,10 +248,12 @@
         $("#page"+pages).attr("class","active");
         
         if(likecheck==''||likecheck=='F'){
-            $("#likeboard").attr("th:src", "@{/images/pngwing.com.png}");
+        	$("#likeText").html("좋아요");
+            $("#likeboard").attr("src", "/images/pngwing.com.png");
         }
         else{
-            $("#likeboard").attr("th:src", "@{/images/pngwingdown.com.png}");
+        	$("#likeText").html("좋아요 취소");
+            $("#likeboard").attr("src", "/images/pngwingdown.com.png");
         }
 
         function getParameterByName(name) {
@@ -473,11 +475,13 @@
                     success: function (data) {
                         $("#likecnt").html(data);
 
-                        if($("#likeboard").attr("th:src") == "@{/images/pngwing.com.png}") {
-                            $("#likeboard").attr("th:src", "@{/images/pngwingdown.com.png}");
+                        if($("#likeboard").attr("src") == "/images/pngwing.com.png") {
+                        	$("#likeText").html("좋아요 취소");
+                            $("#likeboard").attr("src", "/images/pngwingdown.com.png");
                         }
                         else{
-                            $("#likeboard").attr("th:src", "@{/images/pngwing.com.png}");
+                        	$("#likeText").html("좋아요");
+                            $("#likeboard").attr("src", "/images/pngwing.com.png");
                         }
                     },
                     error: function () {
