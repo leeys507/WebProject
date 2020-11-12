@@ -6,7 +6,23 @@
         var pages = getParameterByName("page");
         var boardtype=getParameterByName("boardtype");
         
-        if(pages == ""){
+    	if([[${board.getTotalElements()}]] == 0) {
+    		var tr = document.createElement("tr");
+    		var th = document.createElement("th");
+    		
+    		th.colSpan = 6;
+    		th.style.fontSize = "25px";
+    		th.innerHTML = "검색 결과가 없습니다";
+    		tr.appendChild(th);
+    		$("#tbody").append(tr);
+    	}
+
+        $("#searchBox").val([[${text}]]);
+        $("#searchBox").focus();
+        $("#searchDate").val([[${date}]]).prop("selected", true);
+        $("#searchOption").val([[${option}]]).prop("selected", true);
+        
+        if(pages == "") {
             pages=0;
         }
         $("#page"+pages).attr("class","active");
@@ -27,7 +43,8 @@
             if(pageNum + nextOrPrev < 0) return false;
             else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
 
-            location.href = "/board/boardList/?boardtype=" + boardtype + "&page=" + (pageNum + nextOrPrev);
+            location.href = "/search/searchAllList?text=" + [[${text}]] + "&date=" 
+            		+ [[${date}]] + "&option=" + [[${option}]] + "&page=" + (pageNum + nextOrPrev);
             return true;
         }
         
@@ -133,7 +150,7 @@
     	<button onClick="return searchTotalBoard()">▶</button>
     </div>
     <div><h2 style="color:Blue">Board List</h2></div>
-    <div><h4 style="color:red" th:text=${boardType}></h4></div>
+    <div><h4 style="color:red" th:text="${boardType}"></h4></div>
     <br><br>
 
     <table class="table table-horizontal table-bordered" id="boardListTable">
@@ -148,7 +165,7 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <tr th:each="boardlist :${board}">
+        <tr th:each="boardlist :${board}" th:if="${boardlist.getCheck_delete()} != 'T'">
             <td th:text="${boardlist.getBno()}"></td>
             <td> <a th:href="@{'/board/boardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
             <td th:text="${boardlist.getNickname()}"></td>
@@ -160,7 +177,7 @@
     </table>
     <ul class="pagination">
         <li id="pagefirst">
-            <a th:href="'?boardtype=' + ${boardType} + '&page=0'">
+            <a th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=0'">
             <span>«</span>
             </a>
         </li>
@@ -170,7 +187,7 @@
             </a>
         </li>
         <li style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
-            <a th:href="'?boardtype=' + ${boardType} + '&page=' + ${num}" th:text="${num+1}"></a>
+            <a th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
         </li>
         <li id="pageNext">
             <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
@@ -178,19 +195,21 @@
             </a>
         </li>
         <li>
-            <a th:if="${board.getTotalPages()}>0" th:href="'?boardtype=' + ${boardType} + '&page=' + ${board.getTotalPages()-1}">
+            <a th:if="${board.getTotalPages()}>0" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${board.getTotalPages()-1}">
                 <span>»</span>
             </a>
-            <a th:if="${board.getTotalPages()}==0" th:href="'?boardtype=' + ${boardType} + '&page=' + ${board.getTotalPages()}">
+            <a th:if="${board.getTotalPages()}==0" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${board.getTotalPages()}">
                 <span>»</span>
             </a>
         </li>
     </ul>
+    
+    <br>Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
+    
     <div style="float: right">
         <button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
         <button th:if="${userSid} != null" type="button" onClick="insertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
     </div>
-    <!-- /.card-content -->
     <br>
     <div style="width:500px; margin:0 auto; font-size:15px; height:30px">
     	<b>
@@ -212,5 +231,6 @@
     	<input type="text" id="searchBox" style="font-size:15px;" onKeypress = "if(event.keyCode==13) {return searchBoard()}">
     	<button onClick="return searchBoard()">▶</button>
     </div>
+    <!-- /.card-content -->
 </th:block>
 </html>
