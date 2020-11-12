@@ -2,13 +2,9 @@ package com.wp.controller.student;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Random;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.domain.student.dto.StudentInsertDTO;
@@ -80,5 +76,21 @@ public class StudentDataController {
 	@PostMapping("/studentInfo/getStudentCount")
 	public int getStudentCount() throws Exception {
 		return studentInfoService.getStudentCount();
+	}
+	@GetMapping("/check/sendSMS")
+	@ResponseBody
+	public String sendSMS(String phoneNumber) {
+
+		Random rand  = new Random();
+		String numStr = "";
+		for(int i=0; i<4; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			numStr+=ran;
+		}
+
+		System.out.println("수신자 번호 : " + phoneNumber);
+		System.out.println("인증번호 : " + numStr);
+		studentInfoService.certifiedPhoneNumber(phoneNumber,numStr);
+		return numStr;
 	}
 }

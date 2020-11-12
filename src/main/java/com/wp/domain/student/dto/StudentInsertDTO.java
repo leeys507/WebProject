@@ -18,7 +18,7 @@ public class StudentInsertDTO {
     private String email;
     private int syear;
     private String department;
-    
+	private String phonenum;
     public Student toEntity() {
     	Student data = new Student();
     	data.setSid(sid);
@@ -26,6 +26,7 @@ public class StudentInsertDTO {
     	data.setGen(gen);
     	data.setEmail(email);
     	data.setSyear(syear);
+    	data.setPhonenum(phonenum);
     	data.setDepartment(department);
     	data.setPoint(0);
     	data.setExp(0);
