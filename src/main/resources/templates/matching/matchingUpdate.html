@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+
+
+<th:block layout:fragment="title">
+    <title>Matching Update</title>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div><h2 style="color:green">Matching Update</h2></div>
+    <br><br>
+    <div class="card-content">
+        <form id="infoForm" name="infoForm">
+            <div class="container">
+
+                <select class="form-control" name="boardtype" id="boardtype">
+                    <option id="자유게시판" name="자유게시판">자유게시판</option>
+                    <option id="잡담게시판" name="잡담게시판">잡담게시판</option>
+                    <option id="게임게시판" name="게임게시판">게임게시판</option>
+                </select>
+
+            </div>
+            <br>
+            <div>
+                <label class="col-sm-2 control-label">제목</label>
+                <div class="col-sm-10">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" th:value="${matching.getTitle()}" required="required"/>
+                </div>
+            </div>
+
+            <div>
+                <label class="col-sm-2 control-label">내용</label>
+                <div class="col-sm-10">
+                    <textarea type="text" id="content" name="content" class="form-control" placeholder="내용 입력" th:utext="${matching.getContent()}" required="required"></textarea>
+                </div>
+            </div>
+        </form>
+        <div>
+            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="dataSend()">수정</button>
+            <button type="button" onClick="history.back(-1);" class="btn btn-primary waves-effect waves-light">이전</button>
+        </div>
+
+    </div>
+    <!-- /.card-content -->
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/scripts/ckeditor.js}">
+    </script>
+    <script type="text/javascript" th:inline="javascript">
+        function dataSend() {
+            var content=$('#content').val(CKEDITOR.instances.content.getData());
+            let queryString = $('#infoForm').serialize() ;
+            var bno=[[${matching.getBno()}]];
+            var boardtype=$('#boardtype').val();
+            var title=$('#title');
+            if(title.val() == "") {
+                alert("제목 입력");
+                title.focus();
+                return false;
+            }
+            if(content == "") {
+                alert("내용 입력");
+                return false;
+            }
+            $.ajax({
+                type: "PUT",
+                url : "/matchingUpdate/"+bno,
+                data : queryString,
+                success : function(data){
+                    if(data == bno) {
+                        alert("수정 성공");
+                        location.href='/matching/matchingView/'+bno;
+                    }
+                    else
+                        alert("수정 실패");
+                },error : function(){
+                    alert(queryString);
+                    return false;
+                }
+            });
+            return false;
+        }
+        var a=[[${matching.getBoardtype()}]];
+        $("#"+a).attr("selected","selected");
+
+    </script>
+</th:block>
+</html>
