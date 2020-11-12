@@ -2,34 +2,34 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="script">
-<script type="text/javascript">
-    function proceedMatching(){
-    if(confirm("요청하시겠습니까?")) {
-        var bno = [[${matching.bno}]];
-        var sid = "[[${userSid}]]";
-        $.ajax({
-            type: "PUT",
-            url : "/matchingProceed",
-            data : {
-                bno : bno,
-                sid : sid,
-            },
-            success : function(data){
-                if(data == true) {
-                    alert("요청 성공");
-                    location.href = '/matching/matchingProceeding/'+bno;
-                }
-                else
-                    alert("요청 실패");
-            },error : function(){
-                alert("Error");
-                return false;
+    <script type="text/javascript">
+        function proceedMatching(){
+            if(confirm("요청하시겠습니까?")) {
+                var bno = [[${matching.bno}]];
+                var sid = "[[${userSid}]]";
+                $.ajax({
+                    type: "PUT",
+                    url : "/matchingProceed",
+                    data : {
+                        bno : bno,
+                        sid : sid,
+                    },
+                    success : function(data){
+                        if(data == true) {
+                            alert("요청 성공");
+                            location.href = '/matching/matchingProceeding/'+bno;
+                        }
+                        else
+                            alert("요청 실패");
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+                });
             }
-        });
-    }
-    else return false;
-    }
-</script>
+            else return false;
+        }
+    </script>
 </th:block>
 
 <th:block layout:fragment="title">
@@ -37,20 +37,20 @@
 </th:block>
 
 <th:block layout:fragment="content">
-	<input type = "hidden" th:id="${matching.bno}" name="matchingNumber">
+    <input type = "hidden" th:id="${matching.bno}" name="matchingNumber">
 
     <div><h2 th:text="${matching.getTitle()}"></h2></div>
     <br><br>
     <div class="card-content">
         <form id="infoForm" name="infoForm">
-        <br>
+            <br>
             <div>
                 <div class="col-sm-10">
-                	<b>&lt;작성일&gt;</b> <span th:text="${matching.register_date}"></span><br>
-                	<b>&lt;조회&gt;</b> <span th:text="${matching.readcount}"></span><br>
-                	<b>&lt;작성자&gt;</b> <span th:text="${matching.request_nickname}"></span><br>
-                	<b>&lt;해결여부&gt;</b> <span th:if="${matching.accept_sid} == null">NO</span>
-                	<span th:unless="${matching.accept_sid} == null">YES</span>
+                    <b>&lt;작성일&gt;</b> <span th:text="${matching.register_date}"></span><br>
+                    <b>&lt;조회&gt;</b> <span th:text="${matching.readcount}"></span><br>
+                    <b>&lt;작성자&gt;</b> <span th:text="${matching.request_nickname}"></span><br>
+                    <b>&lt;해결여부&gt;</b> <span th:if="${matching.accept_sid} == null">NO</span>
+                    <span th:unless="${matching.accept_sid} == null">YES</span>
                     <b>&lt;금액&gt;</b> <span th:text="${matching.money}"></span><br>
                     <div th:utext="${matching.content}" style="width:1000px; height:auto; border:1px solid green">
                     </div>
@@ -61,7 +61,7 @@
         <div class="col-sm-10">
             <a th:if="${userSid} == ${matching.request_sid}" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/matching/matchingUpdate/'+${matching.getBno()}">수정</a>
             <button type="button" onClick="location.href='/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
-            <button th:if="${userSid} != null and ${matching.request_sid}==${userSid} and ${matching.accept_sid} == null" type="button" onclick="proceedMatching()" class="btn btn-primary waves-effect waves-light">요청</button>
+            <button th:if="${userSid} != null and ${matching.request_sid} != ${userSid} and ${matching.accept_sid} == null" type="button" onclick="proceedMatching()" class="btn btn-primary waves-effect waves-light">요청</button>
         </div>
     </div>
 </th:block>

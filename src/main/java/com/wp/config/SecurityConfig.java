@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and() // 로그인 설정
                 .formLogin()
+                .loginProcessingUrl("/loginProcess")
                 .successHandler(new LoginSuccessHandler())
                 .failureHandler(new LoginFailureHandler())
                 .and()
