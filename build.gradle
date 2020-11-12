@@ -19,9 +19,11 @@ repositories {
 }
 
 dependencies {
+	compile 'net.nurigo:javaSDK:2.2'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' /* Thymeleaf Layout */
 	implementation 'org.jsoup:jsoup:1.11.3'
 	compileOnly 'org.projectlombok:lombok'
