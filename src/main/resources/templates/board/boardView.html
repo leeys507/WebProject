@@ -12,248 +12,246 @@
     <script th:src="@{/scripts/jquery.min.js}"></script>
 </head>
 <body>
-<!-- 모바일 header -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
-    <a class="navbar-brand" href="login.html">나만 따라 YU</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="#">
-                매칭
-            </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown">
-                    <a class="dropdown-item" href="#">청소</a>
-                    <a class="dropdown-item" href="#">배달</a>
-                    <a class="dropdown-item" href="#">역할대행</a>
-                    <a class="dropdown-item" href="#">심부름</a>
-                </div>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="schedule.html">시간표</a></li>
-            <li class="nav-item"><a class="nav-link" href="class.html">강의평가</a></li>
-            <li class="nav-item"><a class="nav-link" href="board.html">게시판</a></li>
-            <li class="nav-item"><a class="nav-link" href="graph.html">통계그래프</a></li>
-            <li>
-                <form class="input-group">
-                    <input class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
-                    <button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
-                </form>
-            </li>
-            <li>
-                <form class="form-signin" style="margin:auto;">
-                    <img src="images/증명사진.jpg" style="width:25%;">
-                    <div style="color: white">이성욱 님, 환영합니다!!!</div>
-                    <button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
-                    <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
-                </form>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<!-- pc header -->
-<div class="row flex">
-    <div class="col-2 item">
-        <a href="/yuhome/login"><img th:src="@{/images/영대마크.png}"></a>
-    </div>
-    <div class="col-7 item">
-        <form class="input-group">
-            <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
-            <button class="btn glass" type="submit"><img src="images/돋보기.png" width="100%"></button>
-        </form>
-    </div>
-    <div class="col-3 item">
-        <form class="form-signin" style="margin:auto;">
-            <img src="images/증명사진.jpg" style="width:25%;">
-            이성욱 님, 환영합니다!!!
-            <button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='myInfo.html'">내정보</button>
-            <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
-        </form>
-    </div>
-</div>
-
-<!-- contents -->
-<br>
-<div id="grid">
-    <!-- 왼쪽 메뉴바 -->
-    <div id="menubar">
-        <ul class="nav flex-column">
-            <li class="dropdown dropright">
-                <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
+    <!-- 모바일 header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+        <a class="navbar-brand" href="login.html">나만 따라 YU</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="#">
                     매칭
                 </a>
-                <div id="demo" class="collapse">
-                    <a href="#">청소</a><br>
-                    <a href="#">배달</a><br>
-                    <a href="#">역할대행</a><br>
-                    <a href="#">심부름</a>
-                </div>
-            </li>
+                    <div class="dropdown-menu" aria-labelledby="dropdown">
+                        <a class="dropdown-item" href="#">청소</a>
+                        <a class="dropdown-item" href="#">배달</a>
+                        <a class="dropdown-item" href="#">역할대행</a>
+                        <a class="dropdown-item" href="#">심부름</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="schedule.html">시간표</a></li>
+                <li class="nav-item"><a class="nav-link" href="class.html">강의평가</a></li>
+                <li class="nav-item"><a class="nav-link" href="board.html">게시판</a></li>
+                <li class="nav-item"><a class="nav-link" href="graph.html">통계그래프</a></li>
+                <li>
+                    <form class="input-group">
+                        <input class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
+                        <button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+                    </form>
+                </li>
+                <li>
+                    <form class="form-signin" style="margin:auto;">
+                        <img src="images/증명사진.jpg" style="width:25%;">
+                        <div style="color: white">이성욱 님, 환영합니다!!!</div>
+                        <button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
+                        <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-            <li class="nav-item">
-                <a class="nav-link" href="schedule.html" tabindex="-1" aria-disabled="true">시간표</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="class.html" tabindex="-1" aria-disabled="true">강의평가</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="board.html" tabindex="-1" aria-disabled="true">게시판</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="graph.html" tabindex="-1" aria-disabled="true">통계 그래프</a>
-            </li>
-        </ul>
+    <!-- pc header -->
+    <div class="row flex">
+        <div class="col-2 item">
+            <a href="login.html"><img src="images/영대마크.png" href="#page-top"></a>
+        </div>
+        <div class="col-7 item">
+            <form class="input-group">
+                <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
+                <button class="btn glass" type="submit"><img src="images/돋보기.png" width="100%"></button>
+            </form>
+        </div>
+        <div class="col-3 item">
+            <form class="form-signin" style="margin:auto;">
+                <img src="images/증명사진.jpg" style="width:25%;">
+                이성욱 님, 환영합니다!!!
+                <button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='myInfo.html'">내정보</button>
+                <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='index.html'">로그아웃</button>
+            </form>
+        </div>
     </div>
+
+    <!-- contents -->
     <br>
-    <!-- 오른쪽 컨텐츠 -->
-    <div id="article" class="article-wrap">
-        <input type = "hidden" th:id="${board.bno}" name="boardNumber">
-        <div id="article-container">
-            <header>
-                <div class="col-sm-auto clear article-head">
-                    <!-- 글 제목 -->
-                    <h3 class="title">
-                        <span th:text="${board.getTitle()}"></span>
-                    </h3>
-                    <!-- 작성자, 글쓴이, 작성일,  조회, 좋아요 수 -->
-                    <div class="article-info">
-                        <div class="fr">
-                            <span th:text="${board.nickname}"></span>
-                            <span th:text="${board.readcount}"></span>
-                            <span th:text="${board.register_date}"></span>
-                            <span id="likecnt" th:text="${board.likecount}"></span>
-                        </div>
+    <div id="grid">
+        <!-- 왼쪽 메뉴바 -->
+        <div id="menubar">
+            <ul class="nav flex-column">
+                <li class="dropdown dropright">
+                    <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
+                        매칭
+                    </a>
+                    <div id="demo" class="collapse">
+                        <a href="#">청소</a><br>
+                        <a href="#">배달</a><br>
+                        <a href="#">역할대행</a><br>
+                        <a href="#">심부름</a>
                     </div>
-                </div>
-            </header>
-            <!-- 글 내용 -->
-            <div class="article-contents">
-                <div class="article-inner clear">
-                    <div th:utext="${board.content}">
-                    </div>
-                </div>
-                <!-- 각종 버튼 -->
-                <div id="recommend-btn" class="recommend-btn clear">
-                    <div class="btn-inner">
-                        <!-- 좋아요 -->
-                        <div style="width:160px;text-align:right;" class="like-btn-form fl" th:if="${userSid} != null">
-                            <span style="vertical-align:middle" id="likeText">좋아요</span>
-                            <button type="button" class="btn-like"><img style="width:40px;height:40px;" th:src="@{/images/pngwing.com.png}" th:onClick="|return likeBoard();|" id="likeboard" class="like-btn"></button>
-                        </div>
-                        <!-- 신고 -->
-                        <div class="declare-btn-form fl">
-                            <span>신고</span>
-                            <button type="button" class="btn-declare"><img src="#" class="declare-btn">(신고버튼이미지)</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 댓글 -->
-        <div class="comment-wrap">
-            <!-- 댓글 헤더 -->
-            <div class="comment-title">
-                <div class="comment-title-font">댓글 목록</div>
-            </div>
-            <!-- 댓글 내용 -->
-            <div class="comment-box">
-                <ul class="comment-list">
-                    <!-- 여기를 반복문하면 될듯 -->
-                    <li class="up-content">
-                        <div class="comment-info clear">
-                            <!-- 댓글작성 닉네임 -->
-                            <div class="comment-nick"><span class="comment-writer">닉네임</span></div>
-                            <!-- 댓글 내용 -->
-                            <div class="comment-content clear"><p>내용</p></div>
-                            <!-- 댓글 날짜 -->
-                            <div class="comment-written-at"><span class="date-time">날짜</span></div>
-                            <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
-                            <div class="comment-option-button">
-                                <a>댓글 쓰기</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="up-content" th:each="boardComment :${boardCommentList}" th:id="bc+${boardComment.getCno()}">
-                        <div class="comment-info clear">
-                            <!-- 댓글작성 닉네임 -->
-                            <div class="comment-nick"><span class="comment-writer" th:text="${boardComment.getNickname()}"></span></div>
-                            <!-- 댓글 내용 -->
-                            <div class="comment-content clear" th:if="${boardComment.getCheck_delete()} == 'F'" ><p th:text="${boardComment.getContent()}">내용2</p></div>
-                            <div class="comment-content clear" th:unless="${boardComment.getCheck_delete()} == 'F'"><p>삭제된 댓글입니다</p></div>
-                            <!-- 댓글 날짜 -->
-                            <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
-                            <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
-                            <div class="comment-option-button" th:if="${userSid} != null and ${boardComment.getCheck_delete()} == 'F'">
-                                <a>댓글 쓰기</a>
-                                <a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}">수정</a>
-                                <a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}">삭제</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- 댓글 입력창 -->
-        <div class="comment-write-wrap clear">
-            <div class="comment-write-form">
-                <!-- 댓글 입력폼 -->
-                <div class="comment-write">
-                    <textarea maxlength="400" placeholder="댓글을 입력하세요."></textarea>
-                </div>
-                <!-- 댓글 입력버튼 -->
-                <div class="comment-button clear">
-                    <div class="fr">
-                        <button type="button" class="btn-blue">등록</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 수정, 삭제, 목록 버튼 -->
-        <div class="bottom-button-wrap clear">
-            <div class="fl">
-                <button type="button" class="btn-blue" onClick="history.go(-1)">목록</button>
-            </div>
-            <div class="fr">
-                <!--수정-->
-                <button type="button" class="btn-grey">수정</button>
-                <button type="button" class="btn-grey">삭제</button>
-                <button type="button" class="btn-blue">글쓰기</button>
-            </div>
-        </div>
-    </div>
-</div>
+                </li>
 
-<!-- footer -->
-<footer class="bg-dark mt-3 p-3 text-center">
-    <div class="row">
-        <div class="col-2"><a href="#" >이용약관</a></div>
-        <div class="col-2"><a href="#" >개인정보처리방침</a></div>
-        <div class="col-2"><a href="#" >커뮤니티이용규칙</a></div>
-        <div class="col-2"><a href="#" >공지사항</a></div>
-        <div class="col-2"><a href="#" >문의하기</a></div>
-        <div class="col-2">(주)나만따라YU</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="schedule.html" tabindex="-1" aria-disabled="true">시간표</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="class.html" tabindex="-1" aria-disabled="true">강의평가</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="board.html" tabindex="-1" aria-disabled="true">게시판</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="graph.html" tabindex="-1" aria-disabled="true">통계 그래프</a>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <!-- 오른쪽 컨텐츠 -->
+        <div id="article" class="article-wrap">
+        <input type = "hidden" th:id="${board.bno}" name="boardNumber">
+            <div id="article-container">
+                <header>
+                    <div class="col-sm-auto clear article-head">
+                        <!-- 글 제목 -->
+                        <h3 class="title">
+                            <span th:text="${board.getTitle()}"></span>
+                        </h3>
+                        <!-- 작성자, 글쓴이, 작성일,  조회, 좋아요 수 -->
+                        <div class="article-info">
+                            <div class="fr">
+                                <span th:text="${board.nickname}"></span>
+                                <span th:text="${board.readcount}"></span>
+                                <span th:text="${board.register_date}"></span>
+                                <span id="likecnt" th:text="${board.likecount}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- 글 내용 -->
+                <div class="article-contents">
+                    <div class="article-inner clear">
+                        <div th:utext="${board.content}">
+                        </div>
+                    </div>
+                    <!-- 각종 버튼 -->
+                    <div id="recommend-btn" class="recommend-btn clear">
+                        <div class="btn-inner">
+                            <!-- 좋아요 -->
+                            <div class="like-btn-form fl" th:if="${userSid} != null">
+                                <span>좋아요</span>
+                                <button type="button" class="btn-like"><img th:src="@{/images/pngwing.com.png}" th:onClick="|return likeBoard();|" id="likeboard" class="like-btn"></button>
+                            </div>
+                            <!-- 신고 -->
+                            <div class="declare-btn-form fl">
+                                <span>신고</span>
+                                <button type="button" class="btn-declare"><img src="#" class="declare-btn">(신고버튼이미지)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 댓글 -->
+            <div class="comment-wrap">
+                <!-- 댓글 헤더 -->
+                <div class="comment-title">
+                    <div class="comment-title-font">댓글 목록</div>
+                </div>
+                <!-- 댓글 내용 -->
+                <div class="comment-box">
+                    <ul class="comment-list">
+                        <!-- 여기를 반복문하면 될듯 -->
+                        <li class="up-content">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer">닉네임</span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear"><p>내용</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time">날짜</span></div>
+                                <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
+                                <div class="comment-option-button">
+                                    <a>댓글 쓰기</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="up-content" th:each="boardComment :${boardCommentList}" th:id="bc+${boardComment.getCno()}">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer" th:text="${boardComment.getNickname()}"></span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear" th:if="${boardComment.getCheck_delete()} == 'F'" ><p th:text="${boardComment.getContent()}">내용2</p></div>
+                                <div class="comment-content clear" th:unless="${boardComment.getCheck_delete()} == 'F'"><p>삭제된 댓글입니다</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
+                                <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
+                                <div class="comment-option-button">
+                                    <a>댓글 쓰기</a>
+                                    <a>수정</a>
+                                    <a>삭제</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 댓글 입력창 -->
+            <div class="comment-write-wrap clear">
+                <div class="comment-write-form">
+                    <!-- 댓글 입력폼 -->
+                    <div class="comment-write">
+                        <textarea maxlength="400" placeholder="댓글을 입력하세요."></textarea>
+                    </div>
+                    <!-- 댓글 입력버튼 -->
+                    <div class="comment-button clear">
+                        <div class="fr">
+                            <button type="button" class="btn-blue">등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 수정, 삭제, 목록 버튼 -->
+            <div class="bottom-button-wrap clear">
+                <div class="fl">
+                    <button type="button" class="btn-blue" onClick="history.go(-1)">목록</button>
+                </div>
+                <div class="fr">
+                    <!--수정-->
+                    <button type="button" class="btn-grey">수정</button>
+                    <button type="button" class="btn-grey">삭제</button>
+                    <button type="button" class="btn-blue">글쓰기</button>
+                </div>
+            </div>
+        </div>
     </div>
-</footer>
+
+    <!-- footer -->
+    <footer class="bg-dark mt-3 p-3 text-center">
+        <div class="row">
+            <div class="col-2"><a href="#" >이용약관</a></div>
+            <div class="col-2"><a href="#" >개인정보처리방침</a></div>
+            <div class="col-2"><a href="#" >커뮤니티이용규칙</a></div>
+            <div class="col-2"><a href="#" >공지사항</a></div>
+            <div class="col-2"><a href="#" >문의하기</a></div>
+            <div class="col-2">(주)나만따라YU</div>
+        </div>
+    </footer>
 
 <th:block layout:fragment="script">
     <script type="text/javascript">
         var pages = getParameterByName("page");
         var clickCommentCno;
         var likecheck = "[[${boardlike}]]";
-
+        
         if(pages == ""){
             pages=0;
         }
         $("#page"+pages).attr("class","active");
-
+        
         if(likecheck==''||likecheck=='F'){
-            $("#likeText").html("좋아요");
-            $("#likeboard").attr("src", "/images/pngwing.com.png");
+            $("#likeboard").attr("th:src", "@{/images/pngwing.com.png}");
         }
         else{
-            $("#likeText").html("좋아요 취소");
-            $("#likeboard").attr("src", "/images/pngwingdown.com.png");
+            $("#likeboard").attr("th:src", "@{/images/pngwingdown.com.png}");
         }
 
         function getParameterByName(name) {
@@ -475,13 +473,11 @@
                     success: function (data) {
                         $("#likecnt").html(data);
 
-                        if($("#likeboard").attr("src") == "/images/pngwing.com.png") {
-                            $("#likeText").html("좋아요 취소");
-                            $("#likeboard").attr("src", "/images/pngwingdown.com.png");
+                        if($("#likeboard").attr("th:src") == "@{/images/pngwing.com.png}") {
+                            $("#likeboard").attr("th:src", "@{/images/pngwingdown.com.png}");
                         }
                         else{
-                            $("#likeText").html("좋아요");
-                            $("#likeboard").attr("src", "/images/pngwing.com.png");
+                            $("#likeboard").attr("th:src", "@{/images/pngwing.com.png}");
                         }
                     },
                     error: function () {
