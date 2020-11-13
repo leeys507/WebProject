@@ -25,4 +25,6 @@ public interface MatchingService {
     boolean DeleteMatching(long bno);
 
     long UpdateMatching(long bno, MatchingUpdateDTO dto);
+
+    long MaxBno();
 }

@@ -70,6 +70,9 @@
         function importtest(){
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             var title=$('#title');
+            var sid = "[[${userSid}]]";
+            var bno = "[[${bno}]]";
+            alert(bno);
             if(title.val() == "") {
                 alert("제목 입력");
                 title.focus();
@@ -84,7 +87,8 @@
             var money = $('#money').val();
             IMP.request_pay({
                 pg: 'kakao',
-                merchant_uid: 'merchant_' + new Date().getTime(),
+                merchant_uid: 'merchant_' + bno+'_'+sid,
+                name : bno,
                 amount: money,
                 buyer_tel: '[[${userphonenum}]]',
             }, function (rsp) {

@@ -98,6 +98,11 @@ public class MatchingServiceImpl implements MatchingService {
         return bno;
     }
 
+    @Transactional
+    public long MaxBno() {
+        return matchingRepository.MaxBno()+1;
+    }
+
     public void SendMsg(String sid) {
         Student student = studentRepository.findBySid(sid);
         String api_key = "NCSANGRSVWAQTXAU";

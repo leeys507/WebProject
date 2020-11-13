@@ -39,6 +39,7 @@ public class MatchingViewController {
     public String openMatchingInsertView(Model model) {
         String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("userSid",sid);
+        model.addAttribute("bno",matchingService.MaxBno());
         model.addAttribute("userphonenum",studentInfoService.getPhoneNum(sid));
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         return "matching/matchingInsert";

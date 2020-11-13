@@ -13,4 +13,6 @@ public interface MatchingRepository extends JpaRepository<Matching, Long>, Pagin
 	Page<Matching> findAllByBoardtype(String boardtype, Pageable pageable);
 	@Query(value = "SELECT * FROM matching m WHERE m.bno = :bno ", nativeQuery = true)
 	Matching findByBno(@Param("bno") long bno);
+	@Query(value = "SELECT MAX(m.bno) FROM matching m", nativeQuery = true)
+	Long MaxBno();
 }
