@@ -9,7 +9,7 @@
     <div id="article">
       <div class="container-fluid">
         <div class="col-sm-auto article-header">
-          <h2 style="color:red" th:text=${boardType}></h2>
+          <h2 style="color:red" th:text=${boardtype}></h2>
         </div>
         <table class="col-sm-auto table table-hover">
           <thead>
@@ -67,10 +67,8 @@
 			</li>
           </ul>
         </nav>
-
-       	<form id="search-form" method="get">
-          <fieldset>
-          	<div class="search-wrap clear">
+        
+           <div class="search-wrap clear">
               <!-- 옵션 -->
               <div class="search-option-wrap fl">
                 <select id="searchDate" class="search-date">
@@ -91,9 +89,8 @@
                 <input id="searchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요">
               </div>
               <button class="btn glass"><img th:src="@{/images/돋보기.png}" onClick="return searchBoard()" class="button-image"></button>
-            </div>
-          </fieldset>
-        </form>
+          </div>
+           
       </div>
     </div>
 </th:block>
