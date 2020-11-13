@@ -36,7 +36,7 @@ public class StudentDataController {
 //		return "studentInfo/studentInfoTest2";
 //	}
 	
-	@PostMapping("/studentInfo/getStudentInfo")
+	@PostMapping("/yu/studentInfo/getStudentInfo")
 	public StudentGetDTO getStudentInfo(@RequestBody String sid) throws Exception {
 		StudentGetDTO data = studentInfoService.getStudent(sid);
 		if (data == null) {
@@ -48,13 +48,13 @@ public class StudentDataController {
 		return data;
 	}
 	
-	@PostMapping("/studentInfo/studentRegistration")
+	@PostMapping("/yu/studentInfo/studentRegistration")
 	public boolean registerStudent(@ModelAttribute StudentInsertDTO data) throws Exception {
 		System.out.println(data.getSid() + " " + data.getDepartment() + " " + data.getGen());
 		return studentInfoService.registerStudent(data);
 	}
 	
-	@PutMapping("/studentInfo/updateStudentNickname")
+	@PutMapping("/yu/studentInfo/updateStudentNickname")
 	public String updateStudentNickname(String sid, String nickname) throws Exception {
 		StudentGetDTO data = studentInfoService.getStudent(sid);
 //		System.out.println(nickname);
@@ -67,13 +67,13 @@ public class StudentDataController {
 		return studentInfoService.updateStudentNickName(sid, nickname) == true ? "닉네임 변경 완료" : "닉네임 변경 실패";
 	}
 	
-	@PutMapping("/studentInfo/updateStudentEmail")
+	@PutMapping("/yu/studentInfo/updateStudentEmail")
 	public boolean updateStudentEmail(String sid, String email) throws Exception {
 		System.out.println("email = " + email);
 		return studentInfoService.updateStudentEmail(sid, email);
 	}
 	
-	@PostMapping("/studentInfo/getStudentCount")
+	@PostMapping("/yu/studentInfo/getStudentCount")
 	public int getStudentCount() throws Exception {
 		return studentInfoService.getStudentCount();
 	}

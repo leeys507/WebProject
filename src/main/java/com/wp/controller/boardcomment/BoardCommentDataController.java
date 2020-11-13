@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardCommentDataController {
     private final BoardCommentService boardCommentService;
 
-    @PostMapping("/boardComment/insertBoardComment")    // view
+    @PostMapping("/yu/boardComment/insertBoardComment")    // view
     public boolean registerBoardComment(@ModelAttribute BoardCommentInsertDTO data) {
     	if(data.getCcno() != 0) {
     		BoardCommentGetDTO commentInfo = boardCommentService.findByCno(data.getCcno());
@@ -33,7 +33,7 @@ public class BoardCommentDataController {
     	return boardCommentService.registerBoardComment(data);
     }
     
-	@PostMapping("/boardComment/getBoardCommentInfo")
+	@PostMapping("/yu/boardComment/getBoardCommentInfo")
 	public BoardCommentGetDTO getStudentInfo(@RequestBody long cno) {
 		BoardCommentGetDTO data = boardCommentService.findByCno(cno);
 		if (data == null) {
@@ -43,12 +43,12 @@ public class BoardCommentDataController {
 		return data;
 	}
 	
-	@PutMapping("/boardComment/updateBoardComment")
+	@PutMapping("/yu/boardComment/updateBoardComment")
 	public boolean updateBoardComment(long bno, long cno, String content) {
 		return boardCommentService.updateBoardComment(bno, cno, content);
 	}
 	
-	@PutMapping("/boardComment/deleteBoardComment")		// change check_delete, delete_date
+	@PutMapping("/yu/boardComment/deleteBoardComment")		// change check_delete, delete_date
 	public boolean deleteBoardComment(long cno) {
 		return boardCommentService.deleteBoardComment(cno);
 	}

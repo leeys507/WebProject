@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 public class BoardDataController {
     private final BoardService boardService;
 
-    @PostMapping("/boardInsert")
+    @PostMapping("/yu/boardInsert")
     public String InsertBoard(@ModelAttribute BoardInsertDTO data) throws Exception {
         return boardService.InsertBoard(data);
     }
 
-    @PutMapping("/boardUpdate/{Bno}")
+    @PutMapping("/yu/boardUpdate/{Bno}")
     public long updateBoard(@PathVariable long Bno, @ModelAttribute BoardUpdateDTO data) throws Exception{
         return boardService.update(Bno, data);
     }
     
-    @PutMapping("/board/deleteBoard")
+    @PutMapping("/yu/deleteBoard")
     public boolean deleteBoard(long bno) {
         return boardService.deleteBoard(bno);
     }

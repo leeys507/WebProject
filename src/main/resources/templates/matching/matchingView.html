@@ -34,7 +34,7 @@
             success : function(data){
                 if(data == true) {
                     alert("요청 성공");
-                    location.href = '/matching/matchingProceeding/'+bno;
+                    location.href = '/yu/matching/matchingProceeding/'+bno;
                 }
                 else
                     alert("요청 실패");
@@ -62,7 +62,7 @@
                 success : function(data){
                     if(data == true) {
                         alert("게시글 삭제 성공");
-                        location.href = '/matching/matchingList?boardtype=자유게시판';
+                        location.href = '/yu/matching/matchingList?boardtype=자유게시판';
                     }
                     else
                         alert("게시글 삭제 실패");
@@ -111,7 +111,7 @@
         </form>
         <div class="col-sm-10">
             <a th:if="${userSid} == ${matching.request_sid}" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/matching/matchingUpdate/'+${matching.getBno()}">수정</a>
-            <button type="button" onClick="location.href='/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
+            <button type="button" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
             <button th:if="${userSid} == ${matching.request_sid}" type="button" th:onClick="|return deleteMatching(${matching.getBno()});|" class="btn btn-primary waves-effect waves-light">삭제</button>
             <button th:if="${userSid} != null" type="button" onClick="document.getElementById('matchingForm').style.display='block';" class="btn btn-primary waves-effect waves-light">요청</button>
         </div>

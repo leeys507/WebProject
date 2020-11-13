@@ -43,13 +43,13 @@
             if(pageNum + nextOrPrev < 0) return false;
             else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
 
-            location.href = "/search/searchAllList?text=" + [[${text}]] + "&date=" 
+            location.href = "/yu/search/searchAllList?text=" + [[${text}]] + "&date=" 
             		+ [[${date}]] + "&option=" + [[${option}]] + "&page=" + (pageNum + nextOrPrev);
             return true;
         }
         
         function insertBoard() {
-            location.href = "/board/boardInsert?boardtype=" + boardtype;
+            location.href = "/yu/board/boardInsert?boardtype=" + boardtype;
         }
         
         function searchTotalBoard() {
@@ -69,7 +69,7 @@
         	var chgText = text.val().replace(/%/gi, '%25');
         	chgText = chgText.replace(/\\/gi, '%5C');
         	
-        	location.href = "/search/searchAllList?text=" + 
+        	location.href = "/yu/search/searchAllList?text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
         
@@ -90,7 +90,7 @@
         	var chgText = text.val().replace(/%/gi, '%25');
         	chgText = chgText.replace(/\\/gi, '%5C');
         	
-        	location.href = "/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
+        	location.href = "/yu/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
     </script>
@@ -119,9 +119,9 @@
                     	게시판 선택
                     </a>
                     <div class="dropdown-menu text-center">
-                        <a class="dropdown-item" href="/board/boardList?boardtype=자유게시판">자유게시판</a><br>
-                        <a class="dropdown-item" href="/board/boardList?boardtype=잡담게시판">잡담게시판</a><br>
-                        <a class="dropdown-item" href="/board/boardList?boardtype=게임게시판">게임게시판</a>
+                        <a class="dropdown-item" href="/yu/board/boardList?boardtype=자유게시판">자유게시판</a><br>
+                        <a class="dropdown-item" href="/yu/board/boardList?boardtype=잡담게시판">잡담게시판</a><br>
+                        <a class="dropdown-item" href="/yu/board/boardList?boardtype=게임게시판">게임게시판</a>
                     </div>
                 </li>
             </ul>
@@ -207,7 +207,7 @@
     <br>Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
     
     <div style="float: right">
-        <button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
+        <button type="button" onClick="location.href='/yu/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
         <button th:if="${userSid} != null" type="button" onClick="insertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
     </div>
     <br>

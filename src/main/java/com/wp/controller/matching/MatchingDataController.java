@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MatchingDataController {
     private final MatchingService matchingService;
-    @PostMapping("/matchingInsert")
+    @PostMapping("/yu/matchingInsert")
     public String InsertBoard(@ModelAttribute MatchingInsertDTO data) throws Exception {
         return matchingService.InsertMatching(data);
     }
-    @PutMapping("/matchingProceed")
+    @PutMapping("/yu/matchingProceed")
     public boolean ProceedBoard(long bno, String sid, String account) throws Exception{
         return matchingService.ProceedMatching(bno, sid,account);
     }
-    @PutMapping("/matchingCancel")
+    @PutMapping("/yu/matchingCancel")
     public boolean CancelBoard(long bno) throws Exception{
         return matchingService.CancelMatching(bno);
     }
-    @PutMapping("/matchingSuccess")
+    @PutMapping("/yu/matchingSuccess")
     public boolean SuccessBoard(long bno) throws Exception{
         return matchingService.SuccessMatching(bno);
     }
-    @PutMapping("/matchingDelete")
+    @PutMapping("/yu/matchingDelete")
     public boolean DeleteBoard(long bno) throws Exception{
         return matchingService.DeleteMatching(bno);
     }
-    @PutMapping("/matchingUpdate/{Bno}")
+    @PutMapping("/yu/matchingUpdate/{Bno}")
     public long updateBoard(@PathVariable long Bno, MatchingUpdateDTO dto) throws Exception{
         return matchingService.UpdateMatching(Bno, dto);
     }

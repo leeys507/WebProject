@@ -41,14 +41,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
         if(user) {
             if(targetUrl==null){
-                out.println("<script>location.href='/yuhome/login'</script>");
+                out.println("<script>location.href='/yu/login'</script>");
             }
             else {
                 redirectStrategy.sendRedirect(request, response, targetUrl);
             }
         }
         else{
-            out.println("<script>alert('처음 로그인하셔서 정보입력페이지로 이동합니다!');location.href='/studentInfo/studentRegistration'</script>");
+            out.println("<script>alert('처음 로그인하셔서 정보입력페이지로 이동합니다!');location.href='/yu/studentInfo/studentRegistration'</script>");
         }
     }
 }

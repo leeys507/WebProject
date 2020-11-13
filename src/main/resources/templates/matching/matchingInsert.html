@@ -55,7 +55,7 @@
 
         <div>
             <button type="button" class="btn btn-primary waves-effect waves-light" onClick="importtest()">등록</button>
-            <button type="button" onClick="location.href='/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
+            <button type="button" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
         </div>
 
     </div>
@@ -120,12 +120,12 @@
 
             $.ajax({
                 type: "POST",
-                url: "/matchingInsert",
+                url: "/yu/matchingInsert",
                 data: queryString,
                 success: function (data) {
                     if (data == $('#sid').val()) {
                         alert("등록 성공");
-                        location.href = '/matching/matchingList?boardtype=' + boardtype;
+                        location.href = '/yu/matching/matchingList?boardtype=' + boardtype;
                     } else
                         alert("등록 실패");
                 }, error: function () {

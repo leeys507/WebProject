@@ -15,7 +15,7 @@
        	 result:data
    	};*/
     	$.ajax({
-        	url: "/studentInfo/getStudentInfo",
+        	url: "/yu/studentInfo/getStudentInfo",
        	 	data: sid,
         	type: "POST",
         	contentType:'application/json; charset=utf-8',
@@ -42,7 +42,7 @@
 	
 	function getStudentCount() {
     	$.ajax({
-        	url: "/studentInfo/getStudentCount",
+        	url: "/yu/studentInfo/getStudentCount",
         	type: "POST",
         	success: function(fragment){
         		if(fragment == 0)
@@ -71,7 +71,7 @@
 		}
 		
     	$.ajax({
-        	url: "/studentInfo/updateStudentNickname",
+        	url: "/yu/studentInfo/updateStudentNickname",
         	data : { sid : sid,
         		nickname : nickname
         	},
@@ -102,7 +102,7 @@
 		}
 		
     	$.ajax({
-        	url: "/studentInfo/updateStudentEmail",
+        	url: "/yu/studentInfo/updateStudentEmail",
         	data : { sid : sid,
         		email : email
         	},
@@ -193,8 +193,8 @@
 				<button type="button" onClick="getStudentCount()" class="btn btn-primary waves-effect waves-light">학생 수</button>
 				<button th:if="${userSid} != null" type="button" onClick="location.href='/logout'" class="btn btn-primary waves-effect waves-light">로그아웃</button>
 				<button th:unless="${userSid} != null" type="button" onClick="location.href='/login'" class="btn btn-primary waves-effect waves-light">로그인</button>
-				<button type="button" onClick="location.href='/board/boardList?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">게시판</button>
-				<button type="button" onClick="location.href='/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">매칭게시판</button>
+				<button type="button" onClick="location.href='/yu/board/boardList?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">게시판</button>
+				<button type="button" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">매칭게시판</button>
 			</div>
 		</div>
 		<!-- /.card-content -->

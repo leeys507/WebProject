@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class BoardLikeDataController {
     private final BoardLikeService boardLikeService;
-    @PostMapping("/boardLike/insertBoardLike")
+    @PostMapping("/yu/boardLike/insertBoardLike")
     public boolean insertBoardLike(@ModelAttribute BoardLikeInsertDTO data) {
         return boardLikeService.insertBoardLike(data);
     }
-    @PutMapping("/boardLike/updateBoardLike")
+    @PutMapping("/yu/boardLike/updateBoardLike")
     public int updateBoardLike(String sid, long bno) {
         return boardLikeService.updateBoardLike(sid,bno);
     }

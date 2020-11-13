@@ -20,7 +20,7 @@
 		}
     	$.ajax({
     	    type: "POST",
-    	    url : "/studentInfo/studentRegistration",
+    	    url : "/yu/studentInfo/studentRegistration",
     	    /*data : { sid : $("#sid").val(),
     	             department : $("#department").val(),
     	             syear : $("#syear").val(),
@@ -35,7 +35,7 @@
     	    success : function(data){
     	    	if(data == true) {
     	        	alert("등록 성공, 재로그인 해주세요.");
-    	        	location.href='/studentInfo/studentInfo';
+    	        	location.href='/yu/studentInfo/studentInfo';
     	    	}
     	    	else
     	    		alert("등록 실패");
@@ -146,7 +146,7 @@
 
 				<div>
 					<button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>
-					<button type="button" onClick="location.href='/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">이전</button>
+					<button type="button" onClick="location.href='/yu/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">이전</button>
 				</div>
 			</form>
 		</div>

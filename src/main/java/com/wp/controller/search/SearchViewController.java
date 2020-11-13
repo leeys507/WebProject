@@ -20,7 +20,7 @@ public class SearchViewController {
 	private final BoardService boardService;
 	private final HttpSession httpSession;
 	
-    @GetMapping("/search/searchAllList")
+    @GetMapping("/yu/search/searchAllList")
     public String searchBoardListView(@RequestParam String text, @RequestParam String date, @RequestParam String option, 
     		Model model, Pageable pageable) {
         Page<Board> data = boardService.searchAll(pageable, text, date, option);
@@ -29,11 +29,12 @@ public class SearchViewController {
         model.addAttribute("option", option);
         model.addAttribute("userSid", httpSession.getAttribute("sid"));
         model.addAttribute("board", data);
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 
         return "search/searchAllList";
     }
     
-    @GetMapping("/search/searchBoardList")
+    @GetMapping("/yu/search/searchBoardList")
     public String searchBoardListView(@RequestParam String boardtype, @RequestParam String text, 
     		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
         Page<Board> data = boardService.searchBoard(pageable, boardtype, text, date, option);
@@ -43,6 +44,7 @@ public class SearchViewController {
         model.addAttribute("option", option);
         model.addAttribute("userSid", httpSession.getAttribute("sid"));
         model.addAttribute("board", data);
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 
         return "search/searchBoardList";
     }

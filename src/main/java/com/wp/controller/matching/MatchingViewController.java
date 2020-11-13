@@ -27,7 +27,7 @@ public class MatchingViewController {
 	private final HttpSession httpSession;
     private final ChatRoomRepository chatRoomRepository;
 
-    @GetMapping("/matching/matchingList")    // view
+    @GetMapping("/yu/matching/matchingList")    // view
     public String openMatchingListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         Page<Matching> page = matchingService.findMatchingList(pageable, boardtype);
         model.addAttribute("boardType", boardtype);
@@ -35,7 +35,7 @@ public class MatchingViewController {
         model.addAttribute("userSid",httpSession.getAttribute("sid"));
         return "matching/matchingList";
     }
-    @GetMapping("/matching/matchingInsert")
+    @GetMapping("/yu/matching/matchingInsert")
     public String openMatchingInsertView(Model model) {
         String sid= (String) httpSession.getAttribute("sid");
         model.addAttribute("userSid",sid);
@@ -44,7 +44,7 @@ public class MatchingViewController {
         model.addAttribute("userNickname",studentInfoService.getNickname(sid));
         return "matching/matchingInsert";
     }
-    @GetMapping("/matching/matchingView/{bno}")
+    @GetMapping("/yu/matching/matchingView/{bno}")
     public String openMatchingView(@PathVariable long bno, Model model) {
         MatchingGetDTO dto = matchingService.findById(bno);
         System.out.println(dto == null ? "true" : "false");
@@ -54,7 +54,7 @@ public class MatchingViewController {
         model.addAttribute("userNickname", studentInfoService.getNickname(sid));
         return "matching/matchingView";
     }
-    @GetMapping("/matching/matchingProceeding/{bno}")
+    @GetMapping("/yu/matching/matchingProceeding/{bno}")
     public String openMatcingProceeding(@PathVariable long bno,Model model){
         String sid = (String) httpSession.getAttribute("sid");
         model.addAttribute("userSid", sid);
@@ -63,7 +63,7 @@ public class MatchingViewController {
         model.addAttribute("chatRoom",chatRoomRepository.findRoomById(String.valueOf(bno)));
         return matchingService.ProceedPage(sid,bno);
     }
-    @GetMapping("/matching/matchingUpdate/{bno}")
+    @GetMapping("/yu/matching/matchingUpdate/{bno}")
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         MatchingGetDTO dto = matchingService.findById(bno);
         model.addAttribute("matching", dto);

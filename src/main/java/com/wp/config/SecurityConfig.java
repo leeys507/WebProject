@@ -24,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 페이지 권한 설정
-                .antMatchers("/studentInfo/studentRegistration").hasAuthority("GUEST")
-                .antMatchers("/yuhome/index","/loginProcess","/indexLogin").permitAll()
+                .antMatchers("/yu/studentInfo/studentRegistration").hasAuthority("GUEST")
+                .antMatchers("/yu/index","/loginProcess","/indexLogin").permitAll()
                 .anyRequest().hasAuthority("USER")
                 .and() // 로그인 설정
                 .formLogin()
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/yuhome/index")
+                .logoutSuccessUrl("/yu/login")
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(new CusAccessDeniedHandler())

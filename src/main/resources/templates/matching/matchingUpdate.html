@@ -65,12 +65,12 @@
             }
             $.ajax({
                 type: "PUT",
-                url : "/matchingUpdate/"+bno,
+                url : "/yu/matchingUpdate/"+bno,
                 data : queryString,
                 success : function(data){
                     if(data == bno) {
                         alert("수정 성공");
-                        location.href='/matching/matchingView/'+bno;
+                        location.href='/yu/matching/matchingView/'+bno;
                     }
                     else
                         alert("수정 실패");

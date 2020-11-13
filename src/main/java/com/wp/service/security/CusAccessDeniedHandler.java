@@ -15,6 +15,6 @@ public class CusAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.println("<script>alert('로그인 해주세요');location.href='/yuhome/index'</script>");
+        out.println("<script>alert('로그인 해주세요');location.href='/yu/index'</script>");
     }
 }

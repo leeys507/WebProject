@@ -5,54 +5,41 @@
     <title>Board Insert</title>
 </th:block>
 
-<th:block layout:fragment="content">
-    <div><h2 style="color:green">Board Insert</h2></div>
-    <br><br>
-    <div class="card-content">
-        <form id="infoForm" name="infoForm" role="infoForm">
-            <div class="container">
-                <select class="form-control" name="boardtype" id="boardtype">
-                    <option id="자유게시판" name="자유게시판">자유게시판</option>
-                    <option id="잡담게시판" name="잡담게시판">잡담게시판</option>
-                    <option id="게임게시판" name="게임게시판">게임게시판</option>
-                </select>
-            </div>
-            <br>
-            <div>
-                <label class="col-sm-2 control-label">제목</label>
-                <div class="col-sm-10">
-                    <input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" required="required"/>
-                </div>
-            </div>
-
-            <div>
-                <label class="col-sm-2 control-label">내용</label>
-                <div class="col-sm-10">
-                    <textarea id="content" name="content" class="form-control" placeholder="내용 입력" required="required"></textarea>
-                </div>
-            </div>
-            <div>
-                <div>
-                    <label th:for="writer" class="col-sm-2 control-label">학번</label>
-                    <div class="col-sm-10" >
-                        <input type="text" name = "sid" id = "sid" class="form-control" th:value="${userSid}" required="required" readonly/>
-                    </div>
-                </div>
-                <div>
-                    <label th:for="writer" class="col-sm-2 control-label">닉네임</label>
-                    <div class="col-sm-10" >
-                        <input type="text" name = "nickname" id = "nickname" class="form-control" th:value="${userNickname}" required="required" readonly/>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <div>
-            <button type="button" class="btn btn-primary waves-effect waves-light" onClick="dataSend()">등록</button>
-            <button type="button" onClick="history.back(-1);" class="btn btn-primary waves-effect waves-light">이전</button>
+<th:block layout:fragment="article">
+    <div class="col-sm-auto article-header">
+        <h2>게시글 등록</h2>
+      </div>
+      <br>
+      <!-- 게시판 향후 수정 -->
+      <div class="col-sm-auto">
+        <form id="infoForm" name="infoForm">
+        <div class="form-group">
+            <select name="boardtype" id="boardtype" class="boardselect">
+              <option id="자유게시판">자유게시판</option>
+              <option id="중고게시판">중고게시판</option>
+              <option id="정보게시판">정보게시판</option>
+            </select>
         </div>
-
-    </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
+          </div>
+          <br>
+          <br>
+          <div class="form-group">
+            <textarea class="form-control" id="content" name="content"  placeholder="내용을 입력하세요" required="required"></textarea>
+          </div>
+          <div id="button_group" class="btn-form">
+            <button type="submit" class="btn btn-primary" style="margin-right:5px;" onClick="return dataSend()">등록</button>
+            <button type="button" class="btn btn-secondary" onclick="cancel()">취소</button>
+          </div>
+          <div class="form-group">
+              <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${userSid}" required="required" readonly/>
+          </div>
+          <div class="form-group">
+              <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${userNickname}" required="required" readonly/>
+          </div>
+        </form>
+      </div>
     <!-- /.card-content -->
 </th:block>
 <th:block layout:fragment="script">
@@ -70,25 +57,26 @@
         function dataSend() {
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             let queryString = $('#infoForm').serialize();
-            var boardtype = $('#boardtype').val();
             var title=$('#title');
+            var boardtype = $('#boardtype').val();
+
             if(title.val() == "") {
                 alert("제목 입력");
                 title.focus();
                 return false;
             }
-            if(content == "") {
+            if(content.val() == "") {
                 alert("내용 입력");
                 return false;
             }
             $.ajax({
                 type: "POST",
-                url: "/boardInsert",
+                url: "/yu/boardInsert",
                 data: queryString,
                 success: function (data) {
                     if (data == $('#sid').val()) {
                         alert("등록 성공");
-                        location.href = '/board/boardList?boardtype=' + boardtype;
+                        location.href = '/yu/board/boardList?boardtype=' + boardtype;
                     } else
                         alert("등록 실패");
                 }, error: function () {
@@ -98,8 +86,11 @@
             });
             return false;
         }
+        
+        function cancel() {
+        	location.href="/yu/board/boardList?boardtype=" + getParameterByName("boardtype");
+        }
     </script>
-    <script th:src="@{/scripts/ckeditor.js}">
-    </script>
+    <script th:src="@{/scripts/ckeditor.js}"></script>
 </th:block>
 </html>
