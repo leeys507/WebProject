@@ -88,7 +88,7 @@
               </div>
               <!-- 검색어 입력창 -->
               <div class="search-input-wrap fl">
-                <input class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요">
+                <input id="searchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요">
               </div>
               <button class="btn glass"><img th:src="@{/images/돋보기.png}" onClick="return searchBoard()" class="button-image"></button>
             </div>
@@ -158,7 +158,6 @@
         	var date = $("#searchDate option:selected");
         	var option = $("#searchOption option:selected");
         	
-        	alert(text.val());
         	if(text.val().trim() == "") {
         		alert("검색어를 입력하세요");
         		return false;
@@ -167,10 +166,10 @@
         		alert("검색어는 2글자 이상이어야 합니다");
         		return false;
         	}
-        	
+
         	var chgText = text.val().replace(/%/gi, '%25');
         	chgText = chgText.replace(/\\/gi, '%5C');
-        	
+
         	location.href = "/yu/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
