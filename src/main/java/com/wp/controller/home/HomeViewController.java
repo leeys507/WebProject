@@ -24,4 +24,8 @@ public class HomeViewController {
 		model.addAttribute("userSid",httpSession.getAttribute("resSid"));
 		return "home/login";
 	}
+	@GetMapping("/indexLogin")
+	public String openIndexLogin() {
+		return "home/indexLogin";
+	}
 }
