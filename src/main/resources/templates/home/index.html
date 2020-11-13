@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="kr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" dir="ltr" layout:decorate="~{layout/basicTemp}">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}" dir="ltr">
 
 <th:block layout:fragment="title">
-  <title>Web</title>
+    <title>YU Main</title>
 </th:block>
 
-<th:block layout:fragment="content">
-  <div id="article">
+<th:block layout:fragment="article">
     <div class="container-fluid">
       <div class="row">
         <div class="col">
@@ -128,6 +127,5 @@
         </div>
       </div>
     </div>
-  </div>
 </th:block>
 </html>

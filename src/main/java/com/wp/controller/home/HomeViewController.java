@@ -21,7 +21,7 @@ public class HomeViewController {
     
 	@GetMapping(value = "/yuhome/login")
 	public String openHomeLoginView(Model model) {
-		model.addAttribute("userSid",httpSession.getAttribute("resSid"));
+		model.addAttribute("userSid",httpSession.getAttribute("sid"));
 		return "home/login";
 	}
 	@GetMapping("/indexLogin")

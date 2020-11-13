@@ -1,64 +1,11 @@
 <!DOCTYPE html>
-<html lang="kr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" dir="ltr">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}" dir="ltr">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width" , initial-scale="1">
-  <title>YU Main</title>
-  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  <script th:src="@{/js/bootstrap.js}"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-     $('#exampleModal').modal('show');
-    });
-   </script>
-</head>
+<th:block layout:fragment="title">
+	<title>YU Main</title>
+</th:block>
 
-<body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
-      <a class="navbar-brand" href="index.html">나만 따라 YU</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id ="navbar">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
-            매칭
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropdown">
-            <a class="dropdown-item" href="#">청소</a>
-            <a class="dropdown-item" href="#">배달</a>
-            <a class="dropdown-item" href="#">역할대행</a>
-            <a class="dropdown-item" href="#">심부름</a>
-          </div>
-          </li>
-          <li class="nav-item"><a class="nav-link" href = "schedule.html">시간표</a></li>
-          <li class="nav-item"><a class="nav-link" href = "class.html">강의평가</a></li>
-          <li class="nav-item"><a class="nav-link" href="board.html">게시판</a></li>
-          <li class="nav-item"><a class="nav-link" href = "graph.html">통계그래프</a></li>
-          <li>
-            <form class="input-group">
-            <input class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
-            <button class="btn glass" type="submit"><img src="images/돋보기.png" width="100%"></button>
-          </form>
-          </li>
-          <li>
-            <form class="form-signin" style="margin:auto;">
-              <img src="images/증명사진.jpg" style="width:25%;">
-              <div style="color: white">이성욱 님, 환영합니다!!!</div>
-              <button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
-              <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yuhome/index'">로그아웃</button>
-            </form>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-
+<th:block>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -129,203 +76,129 @@
             </div>
           </div>
         </div>
+</th:block>
 
-
-
-  <div class="row flex">
-    <div class="col-2 item">
-      <a href="login.html"><img src="images/영대마크.png" href="#page-top"></a>
-    </div>
-    <div class="col-7 item">
-      <form class="input-group">
-        <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
-        <button class="btn glass" type="submit"><img src="images/돋보기.png" width="100%"></button>
-      </form>
-    </div>
-    <div class="col-3 item">
-      <form class="form-signin" style="margin:auto;">
-        <img src="images/증명사진.jpg" style="width:25%;">
-        이성욱 님, 환영합니다!!!
-        <button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='myInfo.html'">내정보</button>
-        <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yuhome/index'">로그아웃</button>
-      </form>
-    </div>
-  </div>
-
-  <br>
-
-  <div id="grid">
-    <div id="menubar">
-      <ul class="nav flex-column">
-        <li class="dropdown dropright">
-          <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
-            매칭
-          </a>
-          <div id="demo" class="collapse">
-            <a href="#">청소</a><br>
-            <a href="#">배달</a><br>
-            <a href="#">역할대행</a><br>
-            <a href="#">심부름</a>
-          </div>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="schedule.html" tabindex="-1" aria-disabled="true">시간표</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="class.html" tabindex="-1" aria-disabled="true">강의평가</a>
-        </li>
-        <li class="dropdown dropright">
-          <a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo2">
-            게시판
-          </a>
-          <div id="demo2" class="collapse">
-            <a href="#">자유게시판</a><br>
-            <a href="#">중고게시판</a><br>
-            <a href="#">정보게시</a><br>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="graph.html" tabindex="-1" aria-disabled="true">통계 그래프</a>
-        </li>
-      </ul>
-    </div>
-    <br>
-    <div id="article">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col" style="color:#0D3F7A">최근 등록된 매칭</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="col">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col" style="color:#0D3F7A">실시간 검색어</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="w-100"></div>
-          <div class="col">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col" style="color:#0D3F7A">Hot 게시물</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="col">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col" style="color:#0D3F7A">학과 강의평가</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+<th:block layout:fragment="article">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">최근 등록된 매칭</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">실시간 검색어</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">Hot 게시물</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">학과 강의평가</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-
     </div>
-  </div>
-
-</body>
-<footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
-    <div class="row">
-      <div class="col-2"><a href="#"></a>이용약관</div>
-      <div class="col-2"><a href="#"></a>개인정보처리방침</div>
-      <div class="col-2"><a href="#"></a>커뮤니티이용규칙</div>
-      <div class="col-2"><a href="#"></a>공지사항</div>
-      <div class="col-2"><a href="#"></a>문의하기</div>
-      <div class="col-2">(주)나만따라YU</div>
-    </div>
-</footer>
+</th:block>
 </html>

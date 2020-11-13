@@ -1,47 +1,137 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<body th:fragment="main-body">
-		<div class="fixed-navbar">
-			<div class="pull-left">
-				<h1 class="page-title">Web Project</h1>
-			</div>
-		</div>
+	
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+  			<a class="navbar-brand" href="index.html">나만 따라 YU</a>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+    			<span class="navbar-toggler-icon"></span>
+  			</button>
+  			<div class="collapse navbar-collapse" id ="navbar">
+    			<ul class="navbar-nav mr-auto">
+      				<li class="nav-item"><a class="nav-link" href = "#">매칭</a></li>
+      				<li class="nav-item"><a class="nav-link" href = "#">시간표</a></li>
+      				<li class="nav-item"><a class="nav-link" href = "#">강의평가</a></li>
+     				<li class="nav-item"><a class="nav-link" href = "#">게시판</a></li>
+      				<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
+      				<li>
+        				<form class="input-group">
+          					<input class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요." aria-label="Search">
+          					<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+        				</form>
+      				</li>
+      				<li th:if="${userSid} == null">
+        				<form class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
+          					<label for="username" class="sr-only">Student Number</label>
+          					<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요." required autofocus>
+         					<label for="password" class="sr-only">Password</label>
+          					<input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요." required>
+          					<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
+          					<button class="btn btn-sm btn-block btn btn-secondary" type="button" 
+          					onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
+          					비밀번호 찾기
+          					</button>
+        				</form>
+      				</li>
+      				<li th:unless="${userSid} == null">
+            			<form class="form-signin" style="margin:auto;">
+              				<img src="images/증명사진.jpg" style="width:25%;">
+              				<div style="color: white">이성욱 님, 환영합니다!!!</div>
+              				<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
+              				<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/logout'">로그아웃</button>
+            			</form>
+          			</li>
+   				</ul>
+  			</div>
+		</nav>
 		<!-- /.fixed-navbar -->
-		<div id="wrapper">
-			<div class="main-content">
-				<div class="row row-inline-block small-spacing">
-					<div class="col-xs-12">
-						<div class="box-content">
-							<div class="clearfix">
-								<h4 class="box-title pull-left"></h4>
-								<!-- /.box-title -->
-	
-								<th:block layout:fragment="search"></th:block>
-	
-							</div>
-							<!-- //.clearfix -->
-	
-							<th:block layout:fragment="content"></th:block>
-	
-							<th:block layout:fragment="paging"></th:block>
-						</div>
-						<!-- /.box-content -->
-						
-						<th:block layout:fragment="add-content"></th:block>
-
-					</div>
-					<!-- /.col-xs-12 -->
-				</div>
-				<!-- /.row row-inline-block small-spacing -->
-				<footer class="footer">
-					<ul class="list-inline">
-						<li>2020 © Web Project.</li>
-					</ul>
-				</footer>
-			</div>
-			<!-- /.main-content -->
+		
+		<div class="row flex">
+  			<div class="col-2 item">
+    			<a href="index.html"><img th:src="@{/images/영대마크.png}" href="#page-top"></a>
+  			</div>
+  			<div class="col-7 item">
+    			<form class="input-group">
+      				<input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요." aria-label="Search">
+      				<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+    			</form>
+  			</div>
+  			<div class="col-3 item">
+    			<form th:if="${userSid} == null" class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
+      				<label for="username" class="sr-only">Student Number</label>
+      				<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요." required autofocus>
+      				<label for="password" class="sr-only">Password</label>
+      				<input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요." required>
+      				<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
+      				<button class="btn btn-sm btn-block btn btn-secondary" type="button" 
+      				onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
+          			비밀번호 찾기
+          			</button>
+    			</form>
+    			<form th:unless="${userSid} == null" class="form-signin" style="margin:auto;">
+              		<img src="images/증명사진.jpg" style="width:25%;">
+              		<div style="color: white">이성욱 님, 환영합니다!!!</div>
+              		<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
+              		<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/logout'">로그아웃</button>
+            	</form>
+  			</div>
 		</div>
-		<!-- /#wrapper -->
+		
+	<div id="grid">
+    	<div id="menubar">
+      		<ul class="nav flex-column">
+        		<li class="dropdown dropright">
+          			<a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
+            		매칭
+          			</a>
+          		<div id="demo" class="collapse">
+            		<a href="#">청소</a><br>
+            		<a href="#">배달</a><br>
+            		<a href="#">역할대행</a><br>
+            		<a href="#">심부름</a>
+          		</div>
+        		</li>
+
+        		<li class="nav-item">
+          			<a class="nav-link" tabindex="-1" aria-disabled="true">시간표</a>
+        		</li>
+        		<li class="nav-item">
+        			<a class="nav-link" tabindex="-1" aria-disabled="true">강의평가</a>
+       			</li>
+        		<li class="dropdown dropright">
+          			<a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo2">
+           	 		게시판
+          			</a>
+          			<div id="demo2" class="collapse">
+            			<a href="/board/boardList?boardtype=자유게시판">자유게시판</a><br>
+            			<a href="/board/boardList?boardtype=중고게시판">중고게시판</a><br>
+            			<a href="/board/boardList?boardtype=정보게시판">정보게시판</a><br>
+          			</div>
+        		</li>
+        		<li class="nav-item">
+          			<a class="nav-link" tabindex="-1" aria-disabled="true">통계 그래프</a>
+        		</li>
+      		</ul>
+    	</div>
+    	<br>
+    	<div id="article">
+    		<th:block layout:fragment="article">
+    		</th:block>
+    	</div>
+    </div>
+
+    	<br>
+    
+    	<footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
+  			<div class="row">
+    			<div class="col-2"><a href="#"></a>이용약관</div>
+   				<div class="col-2"><a href="#"></a>개인정보처리방침</div>
+    			<div class="col-2"><a href="#"></a>커뮤니티이용규칙</div>
+    			<div class="col-2"><a href="#"></a>공지사항</div>
+    			<div class="col-2"><a href="#"></a>문의하기</div>
+    			<div class="col-2">(주)나만따라YU</div>
+  			</div>
+		</footer>
 
 		<script th:src="@{/scripts/jquery.min.js}"></script>
 		<script th:src="@{/plugin/bootstrap/js/bootstrap.min.js}"></script>
@@ -49,6 +139,10 @@
 		<script th:src="@{/ckeditor/ckeditor.js}"></script>
 		<script th:src="@{/scripts/main.js}"></script>
 		<script th:src="@{/scripts/common.js}"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+		<script rel="JavaScript" th:href="@{/js/bootstrap.js}"></script>
 
 		<th:block layout:fragment="script"></th:block>
 	</body>
