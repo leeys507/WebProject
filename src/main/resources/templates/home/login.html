@@ -6,7 +6,7 @@
 </th:block>
 
 <th:block>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+    <div th:if="${studentInfo} == null and ${userSid} != null" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -18,46 +18,70 @@
             </div>
             <div class="modal-body">
               <h5>최초 로그인시 입력이 필요합니다!</h5>
-              <h5>입력하신 정보 "내 정보"에서 수정가능합니다.</h5>
-              <form>
+              <h5>입력하신 정보는 "내 정보"에서 수정가능합니다.</h5>
+             <form>
+              	<div class="form-group" style="display:none">
+					<input type="hidden" id="sid" name="sid" class="form-control" th:value="${userSid}" required="required" readonly/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nickName" class="col-form-label"><h5>닉네임</h5></label>
+					<input type="text" id="department" name="department" class="form-control" placeholder="학과 입력" required="required"/>
+				</div>
+				
                 <div class="form-group">
                   <label for="nickName" class="col-form-label"><h5>닉네임</h5></label>
-                  <input type="text" class="form-control" id="nickName">
+                  <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required" />
                 </div>
+                
                 <div class="form-group">
                   <label for="yourEmail" class="col-form-label"><h5>이메일</h5></label>
-                  <input type="text" class="form-control" id="yourEmail">
+                  <input type="text" id="email" name="email" class="form-control" placeholder="이메일 입력" required="required"/>
                 </div>
-              </form>
+
+				<div class="form-group">
+						<label for="phoneNumber" class="col-form-label">휴대폰 번호</label>
+						<input type="number" min="0" id="phonenum" name="phonenum" class="form-control" placeholder="번호 입력" required="required"/>
+						<button type="button" id="sendPhoneNumber" class="btn btn-primary">인증받기</button>
+				</div>
+				
+
+				<div class="form-group">
+					<label for="certificationNumber" class="col-form-label">인증 번호</label>
+					<input type="number" min="0" id="CertifiedNumber" class="form-control" placeholder="인증번호 입력" required="required"/>
+					<button type="button" id="checkBtn" class="btn btn-primary">체크</button>
+				</div>
+
+              
               <br><br>
               <p><h5>성별</h5></p>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="gender" id="gender-1" class="custom-control-input">
+                  <input type="radio" class="custom-control-input" id="genM" name="gen" value="M" required="required">
                         <label class="custom-control-label" for="gender-1">남자  </label>
                 </div>
                 <div class="custom custom-radio custom-control-inline">
-                  <input type="radio" name="gender" id="gender-2" class="custom-control-input">
+                  <input type="radio" class="custom-control-input" id="genF" name="gen" value="F" required="required">
                         <label class="custom-control-label" for="gender-2">여자</label>
                 </div>
               <p><h5>학년</h5></p>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="grade" id="grade-1" class="custom-control-input">
+                  <input type="radio" class="custom-control-input" id="syear1" name="syear" value="1" required="required">
                   <label class="custom-control-label" for="grade-1">1</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="grade" id="grade-2" class="custom-control-input">
+                  <input type="radio" class="custom-control-input" id="syear2" name="syear" value="2" required="required">
                   <label class="custom-control-label" for="grade-2">2</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="grade" id="grade-3" class="custom-control-input">
+                  <input type="radio" class="custom-control-input" id="syear3" name="syear" value="3" required="required">
                   <label class="custom-control-label" for="grade-3">3</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" name="grade" id="grade-4" class="custom-control-input">
+                  <input type="radio" class="custom-control-input" id="syear4" name="syear" value="4" required="required">
                   <label class="custom-control-label" for="grade-4">4</label>
                 </div>
-                <br>
-                <div class="custom-control custom-radio custom-control-inline">
+              </form>
+            <!--    <div class="custom-control custom-radio custom-control-inline">
                   <input type="radio" name="job" id="job-1" class="custom-control-input">
                   <label class="custom-control-label" for="job-1">대학생</label>
                 </div>
@@ -68,7 +92,7 @@
                 <div class="custom-control custom-radio custom-control-inline">
                   <input type="radio" name="job" id="job-3" class="custom-control-input">
                   <label class="custom-control-label" for="job-3">졸업생</label>
-                </div>
+                </div>-->
             </div>
             <div class="modal-footer">
                   <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
@@ -201,4 +225,81 @@
       </div>
     </div>
 </th:block>
+
+<th:block layout:fragment="script">
+<script type="text/javascript">
+	function foo(){
+		alert('서브밋!');
+	}
+	
+	function dataSend() {
+		//var gender = $(":input:radio[name=gen]:checked").val();
+		var queryString = $("form[name=infoForm]").serialize();
+		//JSON.stringify($("form[name=infoForm]").serializeObject());
+   	 /*var messageDTO={
+       	 result:data
+   	};*/
+   	//alert(queryString);
+		if(!$('#CertifiedNumber').prop("readonly")){
+			alert("휴대폰 인증을해주세요");
+			return false;
+		}
+    	$.ajax({
+    	    type: "POST",
+    	    url : "/yu/studentInfo/studentRegistration",
+    	    /*data : { sid : $("#sid").val(),
+    	             department : $("#department").val(),
+    	             syear : $("#syear").val(),
+    	             nickname : $("#nickname").val(),
+    	             email : $("#email").val(),
+    	             gen : gender
+    	    },*/
+    	    data : queryString,
+    	    //contentType:'application/json; charset=utf-8',
+    	    //contentType:'application/x-www-form-urlencoded; charset=utf-8',
+    	    //datatype : 'json',
+    	    success : function(data){
+    	    	if(data == true) {
+    	        	alert("등록 성공, 재로그인 해주세요.");
+    	        	location.href='/yu/index';
+    	    	}
+    	    	else
+    	    		alert("등록 실패");
+    	    },error : function(){
+    	        alert("Error");
+    	        return false;
+    	    }
+    	});
+   		return false;
+	}
+	$('#sendPhoneNumber').click(function(){
+		let phoneNumber = $('#phonenum').val();
+		var regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+		if(!regPhone.test(phoneNumber)){
+			alert("휴대폰번호를 입력해주세요");
+			return false;
+		}
+		alert("인증번호 요청완료");
+
+		$.ajax({
+			type: "GET",
+			url: "/check/sendSMS",
+			data: {
+				"phoneNumber" : phoneNumber
+			},
+			success: function(res){
+				$('#checkBtn').click(function(){
+					if(res ==$('#CertifiedNumber').val()){
+						alert("인증성공");
+						$('#CertifiedNumber').attr("readonly",true);
+						$('#phonenum').attr("readonly",true);
+					}else{
+						alert("인증실패");
+					}
+				})
+			}
+		})
+	});
+</script>
+ </th:block>
 </html>

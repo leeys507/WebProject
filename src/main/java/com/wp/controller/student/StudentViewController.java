@@ -24,6 +24,6 @@ public class StudentViewController {
 	@GetMapping(value = "/yu/studentInfo/studentRegistration")
 	public String openStudentRegisterView(Model model) {
 		model.addAttribute("userSid",httpSession.getAttribute("resSid"));
-		return "studentInfo/studentRegistration";
+		return "yu/login";
 	}
 }
