@@ -48,7 +48,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             }
         }
         else{
-            out.println("<script>alert('처음 로그인하셔서 정보입력페이지로 이동합니다!');location.href='/yu/login'</script>");
+            out.println("<script>alert('처음 로그인하셔서 정보입력페이지로 이동합니다!');location.href='/yu/studentInfo/studentRegistration'</script>");
         }
     }
 }

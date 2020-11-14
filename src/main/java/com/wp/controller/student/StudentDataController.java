@@ -77,10 +77,10 @@ public class StudentDataController {
 	public int getStudentCount() throws Exception {
 		return studentInfoService.getStudentCount();
 	}
+	
 	@GetMapping("/check/sendSMS")
 	@ResponseBody
 	public String sendSMS(String phoneNumber) {
-
 		Random rand  = new Random();
 		String numStr = "";
 		for(int i=0; i<4; i++) {

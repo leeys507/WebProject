@@ -1,10 +1,238 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">	
+<html lang="kr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}" dir="ltr">
+
+<th:block layout:fragment="title">
+	<title>YU Main</title>
+</th:block>
+
+<th:block layout:fragment="middle">
+    <div th:if="${studentInfo} == null" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">최초 로그인창</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h5>최초 로그인시 입력이 필요합니다!</h5>
+              <h5>입력하신 정보는 "내 정보"에서 수정가능합니다.</h5>
+          <form id="infoForm" name="infoForm" onSubmit='return dataSend()' method="post">
+             <fieldset>
+              	<div class="form-group" style="display:none">
+					<input type="hidden" id="sid" name="sid" class="form-control" th:value="${userSid}" required="required" readonly/>
+				</div>
+				
+				<div class="form-group">
+					<label for="department" class="col-form-label"><h5>학과</h5></label>
+					<input type="text" id="department" name="department" class="form-control" placeholder="학과 입력" required="required"/>
+				</div>
+				
+                <div class="form-group">
+                  <label for="nickName" class="col-form-label"><h5>닉네임</h5></label>
+                  <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required" />
+                </div>
+                
+                <div class="form-group">
+                  <label for="yourEmail" class="col-form-label"><h5>이메일</h5></label>
+                  <input type="text" id="email" name="email" class="form-control" placeholder="이메일 입력" required="required"/>
+                </div>
+
+				<div class="form-group">
+						<label for="phoneNumber" class="col-form-label"><h5>휴대폰 번호</h5></label>
+						<input type="text" id="phonenum" name="phonenum" class="form-control" placeholder="번호 입력" required="required"/>
+						<button type="button" id="sendPhoneNumber" class="btn btn-primary">인증받기</button>
+				</div>
+				
+
+				<div class="form-group">
+					<label for="certificationNumber" class="col-form-label"><h5>인증 번호</h5></label>
+					<input type="text" id="CertifiedNumber" class="form-control" placeholder="인증번호 입력" required="required"/>
+					<button type="button" id="checkBtn" class="btn btn-primary">체크</button>
+				</div>
+
+              
+              <br><br>
+              <p><h5>성별</h5></p>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="genM" name="gen" value="M" required="required">
+                        <label class="custom-control-label" for="gender-1">남자  </label>
+                </div>
+                <div class="custom custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="genF" name="gen" value="F" required="required">
+                        <label class="custom-control-label" for="gender-2">여자</label>
+                </div>
+              <p><h5>학년</h5></p>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="syear1" name="syear" value="1" required="required">
+                  <label class="custom-control-label" for="grade-1">1</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="syear2" name="syear" value="2" required="required">
+                  <label class="custom-control-label" for="grade-2">2</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="syear3" name="syear" value="3" required="required">
+                  <label class="custom-control-label" for="grade-3">3</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="syear4" name="syear" value="4" required="required">
+                  <label class="custom-control-label" for="grade-4">4</label>
+                </div>
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" data-dismiss="modal">등록</button>
+              </div>
+              </fieldset>
+           </form>
+            <!--    <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" name="job" id="job-1" class="custom-control-input">
+                  <label class="custom-control-label" for="job-1">대학생</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" name="job" id="job-2" class="custom-control-input">
+                  <label class="custom-control-label" for="job-2">대학원생</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" name="job" id="job-3" class="custom-control-input">
+                  <label class="custom-control-label" for="job-3">졸업생</label>
+                </div>-->
+            </div>
+            </div>
+          </div>
+        </div>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">최근 등록된 매칭</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">실시간 검색어</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">Hot 게시물</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">학과 강의평가</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</th:block>
+
 <th:block layout:fragment="script">
 <script type="text/javascript">
-	function foo(){
-		alert('서브밋!');
-	}
+	$(document).ready(function() {
+    $('#exampleModal').modal('show');
+   });
 	
 	function dataSend() {
 		//var gender = $(":input:radio[name=gen]:checked").val();
@@ -35,7 +263,7 @@
     	    success : function(data){
     	    	if(data == true) {
     	        	alert("등록 성공, 재로그인 해주세요.");
-    	        	location.href='/yu/studentInfo/studentInfo';
+    	        	location.href='/yu/index';
     	    	}
     	    	else
     	    		alert("등록 실패");
@@ -46,6 +274,7 @@
     	});
    		return false;
 	}
+	
 	$('#sendPhoneNumber').click(function(){
 		let phoneNumber = $('#phonenum').val();
 		var regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
@@ -59,10 +288,12 @@
 			type: "GET",
 			url: "/check/sendSMS",
 			data: {
-				"phoneNumber" : phoneNumber
+				phoneNumber : phoneNumber
 			},
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			success: function(res){
 				$('#checkBtn').click(function(){
+					alert(res);
 					if(res ==$('#CertifiedNumber').val()){
 						alert("인증성공");
 						$('#CertifiedNumber').attr("readonly",true);
@@ -75,81 +306,5 @@
 		})
 	});
 </script>
- </th:block>	
-
-	<th:block layout:fragment="title">
-		<title>Student Registration</title>
-	</th:block>
-	
-	<th:block layout:fragment="content">
-		<div><h2 style="color:green">Student Registration</h2></div>
-		<br><br>
-		<div class="card-content">
-			<form id="infoForm" name="infoForm" onSubmit='return dataSend()' method="post">
-				<div>
-					<label class="col-sm-2 control-label">학번</label>
-					<div class="col-sm-10">
-						<input type="text" id="sid" name="sid" class="form-control" th:value="${userSid}" required="required" readonly/>
-					</div>
-				</div>
-
-				<div>
-					<label class="col-sm-2 control-label">학과</label>
-					<div class="col-sm-10">
-						<input type="text" id="department" name="department" class="form-control" placeholder="학과 입력" required="required"/>
-					</div>
-				</div>
-
-				<div>
-					<label for="writer" class="col-sm-2 control-label">학년</label>
-					<div class="col-sm-10">
-						<input type="text" id="syear" name="syear" class="form-control" placeholder="학년 입력" required="required"/>
-					</div>
-				</div>
-
-				<div>
-					<label for="title" class="col-sm-2 control-label">닉네임</label>
-					<div class="col-sm-10">
-						<input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required" />
-					</div>
-				</div>
-				
-				<div>
-					<label for="writer" class="col-sm-2 control-label">이메일</label>
-					<div class="col-sm-10">
-						<input type="text" id="email" name="email" class="form-control" placeholder="이메일 입력" required="required"/>
-					</div>
-				</div>
-
-				<div>
-					<label for="writer" class="col-sm-2 control-label">휴대폰 번호</label>
-					<div class="col-sm-10">
-						<input type="number" min="0" id="phonenum" name="phonenum" class="form-control" placeholder="번호 입력" required="required"/>
-						<button type="button" id="sendPhoneNumber" class="btn btn-primary waves-effect waves-light">인증받기</button>
-					</div>
-				</div>
-
-				<div>
-					<label for="writer" class="col-sm-2 control-label">인증 번호</label>
-					<div class="col-sm-10">
-						<input type="number" min="0" id="CertifiedNumber" class="form-control" placeholder="번호 입력" required="required"/>
-						<button type="button" id="checkBtn" class="btn btn-primary waves-effect waves-light">체크</button>
-					</div>
-				</div>
-				<div>
-					<label for="writer" class="col-sm-2 control-label">성별</label>
-					<div class="col-sm-10">		
-						<input type="radio" id="genM" name="gen" value="M" required="required"/>남
-						<input type="radio" id="genF" name="gen" value="F" required="required"/>여
-					</div>
-				</div>
-
-				<div>
-					<button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>
-					<button type="button" onClick="location.href='/yu/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">이전</button>
-				</div>
-			</form>
-		</div>
-		<!-- /.card-content -->
-	</th:block>
+ </th:block>
 </html>

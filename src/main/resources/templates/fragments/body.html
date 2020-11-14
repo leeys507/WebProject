@@ -17,16 +17,16 @@
       				<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
       				<li>
         				<form class="input-group">
-          					<input id="totalSearchBox" class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">
+          					<input id="totalSearchBoxM" class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">
           					<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
         				</form>
       				</li>
       				<li th:if="${studentInfo} == null">
         				<form class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
           					<label for="username" class="sr-only">Student Number</label>
-          					<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요" required autofocus>
+          					<input type="text" name="username" id="usernameM" class="form-control" placeholder="학번을 입력해주세요" required autofocus>
          					<label for="password" class="sr-only">Password</label>
-          					<input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요" required>
+          					<input type="password" name="password" id="passwordM" class="form-control" placeholder="비밀번호를 입력해주세요" required>
           					<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
           					<button class="btn btn-sm btn-block btn btn-secondary" type="button" 
           					onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
@@ -79,6 +79,8 @@
   			</div>
 		</div>
 		
+	<th:block layout:fragment="middle"></th:block>
+	
 	<div id="grid">
     	<div id="menubar">
       		<ul class="nav flex-column">
@@ -135,13 +137,13 @@
   			</div>
 		</footer>
 
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
+		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+		<!--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+    	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!--<script th:src="@{/scripts/jquery.min.js}"></script> -->
     	<script th:src="@{/ckeditor/ckeditor.js}"></script>
     	<script th:src="@{/js/bootstrap.js}"></script>
-    	<script th:src="@{/scripts/jquery.min.js}"></script>
     	
 		<th:block layout:fragment="script"></th:block>
 	</body>

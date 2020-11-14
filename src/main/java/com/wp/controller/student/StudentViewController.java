@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @Controller
 public class StudentViewController {
-	private final StudentInfoService studentInfoService;
 	private final HttpSession httpSession;
+	
 	@GetMapping(value = "/yu/studentInfo/studentInfo")
 	public String openStudentInfoView(Model model) {
 		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
@@ -23,7 +23,8 @@ public class StudentViewController {
 	
 	@GetMapping(value = "/yu/studentInfo/studentRegistration")
 	public String openStudentRegisterView(Model model) {
+		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		model.addAttribute("userSid",httpSession.getAttribute("resSid"));
-		return "yu/login";
+		return "studentInfo/studentRegistration";
 	}
 }

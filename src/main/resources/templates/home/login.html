@@ -6,7 +6,7 @@
 </th:block>
 
 <th:block>
-    <div th:if="${studentInfo} == null and ${userSid} != null" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+    <div th:if="${studentInfo} == null" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -25,7 +25,7 @@
 				</div>
 				
 				<div class="form-group">
-					<label for="nickName" class="col-form-label"><h5>닉네임</h5></label>
+					<label for="department" class="col-form-label"><h5>학과</h5></label>
 					<input type="text" id="department" name="department" class="form-control" placeholder="학과 입력" required="required"/>
 				</div>
 				
