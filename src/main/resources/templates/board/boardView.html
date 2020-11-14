@@ -35,7 +35,7 @@
                     <div id="recommend-btn" class="recommend-btn clear">
                         <div class="btn-inner">
                             <!-- 좋아요 -->
-                            <div style="width:160px;text-align:right;" class="like-btn-form fl" th:if="${userSid} != null">
+                            <div style="width:160px;text-align:right;" class="like-btn-form fl" th:if="${studentInfo} != null">
                                 <span style="vertical-align:middle" id="likeText">좋아요</span>
                                 <button type="button" class="btn-like"><img style="width:40px;height:40px;" th:src="@{/images/pngwing.com.png}" th:onClick="|return likeBoard();|" id="likeboard" class="like-btn"></button>
                             </div>
@@ -82,10 +82,10 @@
                                 <!-- 댓글 날짜 -->
                                 <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
                                 <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
-                                <div class="comment-option-button" th:if="${userSid} != null and ${boardComment.getCheck_delete()} == 'F'">
+                                <div class="comment-option-button" th:if="${studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
                                     <a>댓글 쓰기</a>
-                                    <a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}">수정</a>
-                                    <a th:if="${userSid} == ${boardComment.getStudentForeignkey().getSid()}">삭제</a>
+                                    <a th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}">수정</a>
+                                    <a th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}">삭제</a>
                                 </div>
                             </div>
                         </li>
@@ -364,7 +364,7 @@
         function likeBoard() {
             var likecheck = "[[${boardlike}]]";
             var bno = [[${board.getBno()}]];
-            var sid = "[[${userSid}]]";
+            var sid = "[[${studentInfo.getSid()}]]";
             if(likecheck=="") {
                 $.ajax({
                     url: "/yu/boardLike/insertBoardLike",

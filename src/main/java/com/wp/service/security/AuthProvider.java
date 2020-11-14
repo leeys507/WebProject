@@ -1,6 +1,9 @@
 package com.wp.service.security;
 
 import com.wp.domain.student.StudentRepository;
+import com.wp.domain.student.dto.StudentGetDTO;
+import com.wp.service.student.StudentInfoService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jsoup.Connection;
@@ -33,6 +36,7 @@ public class AuthProvider implements AuthenticationProvider {
 
     private final HttpSession httpSession;
     private final StudentRepository studentRepository;
+    private final StudentInfoService studentInfoService;
     @SneakyThrows
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -45,7 +49,8 @@ public class AuthProvider implements AuthenticationProvider {
         }
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         if(studentRepository.existsBySid(id)) {
-            httpSession.setAttribute("sid", id);
+    		StudentGetDTO data = studentInfoService.getStudent(id);
+    		httpSession.setAttribute("studentInfo", data);
             grantedAuthorityList.add(new SimpleGrantedAuthority("USER"));
             return new UsernamePasswordAuthenticationToken(id, password, grantedAuthorityList);
         }

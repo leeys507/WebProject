@@ -33,10 +33,10 @@
             <button type="button" class="btn btn-secondary" onclick="cancel()">취소</button>
           </div>
           <div class="form-group">
-              <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${userSid}" required="required" readonly/>
+              <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${studentInfo.getSid()}" required="required" readonly/>
           </div>
           <div class="form-group">
-              <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${userNickname}" required="required" readonly/>
+              <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${studentInfo.getNickname()}" required="required" readonly/>
           </div>
         </form>
       </div>

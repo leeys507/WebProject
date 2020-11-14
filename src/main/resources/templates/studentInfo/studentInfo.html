@@ -1,202 +1,250 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
-<th:block layout:fragment="script">
-<script type="text/javascript">
-	function foo(){
-		alert('서브밋!');
-	}
-	
-	function dataSend() {
-    	var sid = $("#sid").val();	// id
-    	if(sid == "") sid = " ";
- 
-   	 /*var messageDTO={
-       	 result:data
-   	};*/
-    	$.ajax({
-        	url: "/yu/studentInfo/getStudentInfo",
-       	 	data: sid,
-        	type: "POST",
-        	contentType:'application/json; charset=utf-8',
-     	   	datatype : 'json',
-        	success: function(fragment){
-        		if(fragment == "") {
-        			$("#resTA").val("정보 없음");
-        		}
-        		else {
-        			var str = fragment.nickname + "\r\n";
-        			str += fragment.department + "\r\n";
-        			str += fragment.email + "\r\n";
-        			str += fragment.gen + "\r\n";
-        			str += fragment.first_login + "\r\n";;
-        			str += fragment.update_time;
-        			$("#resTA").val(str);
-        		}
-        	},
-        	error: function() {
-        		alert("Error");
-        	}
-        })
-	}
-	
-	function getStudentCount() {
-    	$.ajax({
-        	url: "/yu/studentInfo/getStudentCount",
-        	type: "POST",
-        	success: function(fragment){
-        		if(fragment == 0)
-        			$("#count").val("없음");
-        		else
-        			$("#count").val(fragment);
-        	},
-        	error: function() {
-        		alert("Error");
-        	}
-        })
-	}
-	
-	function updateStudentNickname() {
-		var sid = $("#sid").val();
-		var nickname = $("#modifiedNickname").val();
-		if(sid == "") {
-			alert("학번 입력");
-			$("#sid").focus();
-			return false;
-		}
-		if(nickname == "") {
-			alert("닉네임 입력");
-			$("#modifiedNickname").focus();
-			return false;
-		}
-		
-    	$.ajax({
-        	url: "/yu/studentInfo/updateStudentNickname",
-        	data : { sid : sid,
-        		nickname : nickname
-        	},
-            department : $("#department").val(),
-        	type: "PUT",
-        	success: function(fragment){
-        		alert(fragment);
-        	},
-        	error: function() {
-        		alert("Error");
-        	}
-        })
-        return true;
-	}
-	
-	function updateStudentEmail() {
-		var sid = $("#sid").val();
-		var email = $("#modifiedEmail").val();
-		if(sid == "") {
-			alert("학번 입력");
-			$("#sid").focus();
-			return false;
-		}
-		if(email == "") {
-			alert("이메일 입력");
-			$("#modifiedEmail").focus();
-			return false;
-		}
-		
-    	$.ajax({
-        	url: "/yu/studentInfo/updateStudentEmail",
-        	data : { sid : sid,
-        		email : email
-        	},
-        	type: "PUT",
-        	success: function(fragment){
-        		if(fragment == true)
-        			alert("이메일 변경 완료");
-        		else
-        			alert("이메일 변경 실패");
-        	},
-        	error: function() {
-        		alert("Error");
-        	}
-        })
-        return true;
-	}
-</script>
- </th:block>
-	<th:block layout:fragment="title">
-		<title>Student Information</title>
-	</th:block>
-	
-	<th:block layout:fragment="nav-title">
-		<div class="fixed-navbar">
-			<div class="pull-left">
-				<h1 class="page-title">Student Information</h1>
-			</div>
-		</div>
-	</th:block>
-	
-	<th:block layout:fragment="content">
-		<div><h2 style="color:Blue">Student Information</h2></div>
-		<br><br>
-		<div class="card-content">
-			<div>
-				<label class="col-sm-2 control-label">설정1</label>
-				<div class="col-sm-10" style="margin-top: 10px;">
-					<input type="checkbox"/>
-				</div>
-			</div>
+<th:block layout:fragment="title">
+	<title>YU My Information</title>
+</th:block>
 
-			<div>
-				<label for="secretYn" class="col-sm-2 control-label">설정2</label>
-				<div class="col-sm-10" style="margin-top: 10px;">
-					<input type="checkbox" id="secretYn" name="secretYn"/>
-				</div>
-			</div>
+<th:block layout:fragment="article">
+    <div id="article">
+      <div class="container-fluid">
+        <div class="card text-center mb-3">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#myInfo" data-toggle="tab">내정보</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#history" data-toggle="tab">활동기록</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#myArticle" data-toggle="tab">내 글 보기</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#center" data-toggle="tab">고객센터</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="myInfo">
+              <!--내정보-->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img src="images/증명사진.jpg" class="card-img">
+                  </div>
+                  <div class="col-md-10">
+                    <p class="card-text text-left">Lv.7 (640/700)</p>
+                    <p class="card-text text-left">닉네임: [[${studentInfo.getNickname()}]]</p>
+                    <p class="card-text text-left">학년: [[${studentInfo.getSyear()}]]</p>
+                    <p class="card-text text-left">학과: [[${studentInfo.getDepartment()}]]</p>
+                    <p class="card-text text-left">이메일: [[${studentInfo.getEmail()}]]</p>
+                    <p class="card-text text-left">포인트: [[${studentInfo.getPoint()}]]</p>
+                    <p class="card-text text-left">비밀번호 변경: <a href="https://adm.yu.ac.kr/com/com/port/plet/findPortPwdInitFormN_L_S.do">yu.ac.kr//PasswordChange</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="history">
+              <!--활동기록-->
+              <div class="card-body text-left">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="card-text">최초 로그인: [[${studentInfo.getFirst_login()}]]</p>
+                    <p class="card-text">최초 게시글: 2020.06.14 17:30:47</p>
+                    <p class="card-text">최초 댓글: 2020.06.14 17:45:12</p>
+                    <p class="card-text">최근 로그인 기록: 2020.06.17 22:15:14</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="card-text">좋아요 받은 수: 564</p>
+                    <p class="card-text">내 댓글 수: 12</p>
+                    <p class="card-text">내 게시글 수: 1</p>
+                    <p class="card-text">로그인 횟수: 7</p>
+                  </div>
+                </div>
+                <br><br>
+                <div class="row row-cols-1">
+                  <p>
+                  <div class="col">
+                    <p class="card-text text-left h4">검색기록</p>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col"><a href="#" class="text-secondary"><u>영남대</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>휴강</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>중간고사</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>코로나</u></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </p>
 
-			<div>
-				<label for="title" class="col-sm-2 control-label">학생 수</label>
-				<div class="col-sm-10">
-					<input type="text" id = "count" th:value="${count}" name = "count" class="form-control" readonly />
-				</div>
-			</div>
-			
-			<div>
-				<label for="writer" class="col-sm-2 control-label">학번</label>
-				<div class="col-sm-10" >
-					<input type="text" name = "sid" id = "sid" class="form-control" placeholder="학번을 입력해 주세요" required="required"/>
-				</div>
-			</div>
-			
-			<div>
-				<label for="title" class="col-sm-2 control-label">변경할 닉네임</label>
-				<div class="col-sm-10">
-					<input type="text" id = "modifiedNickname"  name = "modifiedNickname" class="form-control" placeholder="닉네임 입력" />
-					<button type="button" onClick="return updateStudentNickname()" class="btn btn-primary waves-effect waves-light">닉네임 변경</button>
-				</div>
-			</div>
-			
-			<div>
-				<label for="title" class="col-sm-2 control-label">변경할 이메일</label>
-				<div class="col-sm-10">
-					<input type="text" id = "modifiedEmail"  name = "modifiedEmail" class="form-control" placeholder="이메일 입력" />
-					<button type="button" onClick="return updateStudentEmail()" class="btn btn-primary waves-effect waves-light">이메일 변경</button>
-				</div>
-			</div>
-				
-			<div>
-				<label for="content" class="col-sm-2 control-label">내용</label>
-				<div class="col-sm-10">
-					<textarea id = "resTA" th:inline="text" class="form-control" placeholder="내용은 여기에" readonly></textarea>
-				</div>
-			</div>
+                  <p>
+                  <div class="col">
+                    <p class="card-text text-left h4">내가 즐겨찾는 게시판</p>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col"><a href="#" class="text-secondary"><u>자유게시판</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>중고게시판</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>게임게시판</u></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="myArticle">
+              <!--내 글보기-->
+              <div class="card-body text-left">
+                <div class="row row-cols-1">
+                  <div class="col">
+                    <table class="table table-hover">
+                      <caption class="myArticleTableCaption h4">내가 쓴 게시물</caption>
+                      <thead>
+                        <tr>
+                          <th>제목</th>
+                          <th>위치</th>
+                          <th>작성일</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col">
+                    <table class="table table-hover">
+                      <caption class="myArticleTableCaption h4">내가 쓴 댓글</caption>
+                      <thead>
+                        <tr>
+                          <th>내용</th>
+                          <th>위치</th>
+                          <th>작성일</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                          <td>이성욱</td>
+                          <td>9.15 22:55</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="center">
+              <!--고객센터-->
+              <div class="card-body text-left">
+                <div class="row row-cols-1">
+                  <div class="col">
+                    <table class="table table-hover">
+                      <caption class="myArticleTableCaption h4">자주 묻는 질문</caption>
+                      <tbody>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                        </tr>
+                        <tr>
+                          <td>ㅁㄴㅇㄹ</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <br><br>
+                <h4>문의하기</h4>
+                <br>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="card-text">문의 이메일: <a href="mailto:qwer@asdf.zxc"><u>qwer@asdf.zxc</u></a></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="card-text">문의 번호: 010-1234-1234</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-primary float-right">수정하기</a>
 
-			<div>
-				<button type="button" onClick="dataSend()" class="btn btn-primary waves-effect waves-light">검색</button>
-				<button type="button" onClick="getStudentCount()" class="btn btn-primary waves-effect waves-light">학생 수</button>
-				<button th:if="${userSid} != null" type="button" onClick="location.href='/logout'" class="btn btn-primary waves-effect waves-light">로그아웃</button>
-				<button th:unless="${userSid} != null" type="button" onClick="location.href='/login'" class="btn btn-primary waves-effect waves-light">로그인</button>
-				<button type="button" onClick="location.href='/yu/board/boardList?boardtype=자유게시판'" class="btn btn-primary waves-effect waves-light">게시판</button>
-				<button type="button" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">매칭게시판</button>
-			</div>
-		</div>
-		<!-- /.card-content -->
-	</th:block>
+
+      </div>
+    </div>
+</th:block>
+
+  <footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
+    <div class="row">
+      <div class="col-2"><a href="#"></a>이용약관</div>
+      <div class="col-2"><a href="#"></a>개인정보처리방침</div>
+      <div class="col-2"><a href="#"></a>커뮤니티이용규칙</div>
+      <div class="col-2"><a href="#"></a>공지사항</div>
+      <div class="col-2"><a href="#"></a>문의하기</div>
+      <div class="col-2">(주)나만따라YU</div>
+    </div>
+  </footer>
+
+  <script>
+    $('a[data-toggle="tab"]').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+      var id = $(e.target).attr("href");
+      localStorage.setItem('selectedTab', id)
+    });
+
+    var selectedTab = localStorage.getItem('selectedTab');
+    if (selectedTab != null) {
+      $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+    }
+  </script>
+</body>
+
 </html>

@@ -21,7 +21,7 @@ public class ErrorView implements ErrorController {
 	@RequestMapping(value = "/error")
 	public String handleError(HttpServletRequest request, Model model) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		model.addAttribute("userSid", httpSession.getAttribute("sid"));
+		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		
 		if(status != null) {
 			int statusCode = Integer.valueOf(status.toString());
@@ -30,6 +30,12 @@ public class ErrorView implements ErrorController {
 				return "errors/errorPage";
 			}
 			if(statusCode == HttpStatus.FORBIDDEN.value()) {
+				return "errors/errorPage"; 
+			}
+			if(statusCode == HttpStatus.BAD_REQUEST.value()) {
+				return "errors/errorPage"; 
+			}
+			if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				return "errors/errorPage"; 
 			}
 		}

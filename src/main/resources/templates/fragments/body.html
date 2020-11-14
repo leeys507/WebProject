@@ -3,7 +3,8 @@
 	<body th:fragment="main-body">
 	
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
-  			<a class="navbar-brand" href="/yu/index">나만 따라 YU</a>
+  			<a class="navbar-brand" th:if="${studentInfo} == null" href="/yu/index">나만 따라 YU</a>
+  			<a class="navbar-brand" th:unless="${studentInfo} == null" href="/yu/login">나만 따라 YU</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
     			<span class="navbar-toggler-icon"></span>
   			</button>
@@ -20,7 +21,7 @@
           					<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
         				</form>
       				</li>
-      				<li th:if="${userSid} == null">
+      				<li th:if="${studentInfo} == null">
         				<form class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
           					<label for="username" class="sr-only">Student Number</label>
           					<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요" required autofocus>
@@ -33,11 +34,11 @@
           					</button>
         				</form>
       				</li>
-      				<li th:unless="${userSid} == null">
+      				<li th:unless="${studentInfo} == null">
             			<form class="form-signin" style="margin:auto;">
               				<img src="images/증명사진.jpg" style="width:25%;">
               				<div style="color: white">[[${studentInfo.getNickname()}]] 님 환영합니다!!!</div>
-              				<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='myInfo.html'">내정보</button>
+              				<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
               				<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/logout'">로그아웃</button>
             			</form>
           			</li>
@@ -48,7 +49,8 @@
 		
 		<div class="row flex">
   			<div class="col-2 item">
-    			<a href="/yu/index"><img th:src="@{/images/영대마크.png}" href="#page-top"></a>
+    			<a th:if="${studentInfo} == null" href="/yu/index"><img th:src="@{/images/영대마크.png}"></a>
+    			<a th:unless="${studentInfo} == null" href="/yu/login"><img th:src="@{/images/영대마크.png}"></a>
   			</div>
   			<div class="col-7 item">
     			<form class="input-group">
@@ -57,7 +59,7 @@
     			</form>
   			</div>
   			<div class="col-3 item">
-    			<form th:if="${userSid} == null" class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
+    			<form th:if="${studentInfo} == null" class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
       				<label for="username" class="sr-only">Student Number</label>
       				<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요." required autofocus>
       				<label for="password" class="sr-only">Password</label>
@@ -68,10 +70,10 @@
           			비밀번호 찾기
           			</button>
     			</form>
-            	<form th:unless="${userSid} == null" class="form-signin" style="margin:auto;">
+            	<form th:unless="${studentInfo} == null" class="form-signin" style="margin:auto;">
               		<img src="images/증명사진.jpg" style="width:25%;">
-              		<div style="color:white">[[${studentInfo.getNickname()}]] 님 환영합니다!!!</div>
-              		<button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='myInfo.html'">내정보</button>
+              		<div style="color:black">[[${studentInfo.getNickname()}]] 님 환영합니다!!!</div>
+              		<button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
               		<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/logout'">로그아웃</button>
             	</form>
   			</div>

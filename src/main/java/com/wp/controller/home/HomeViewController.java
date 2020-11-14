@@ -14,22 +14,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class HomeViewController {
-	private final StudentInfoService studentInfoService;
 	private final HttpSession httpSession;
 	
     @GetMapping("/yu/index")    // view
     public String openHomeIndexView(Model model) {
-		model.addAttribute("userSid", httpSession.getAttribute("sid"));
         return "home/index";
     }
     
 	@GetMapping("/yu/login")
 	public String openHomeLoginView(Model model) {
-		String sid = (String)httpSession.getAttribute("sid");
-		StudentGetDTO data = studentInfoService.getStudent(sid);
-		httpSession.setAttribute("studentInfo", data);
-		model.addAttribute("userSid", sid);
-		model.addAttribute("studentInfo", data);
+		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		return "home/login";
 	}
 	

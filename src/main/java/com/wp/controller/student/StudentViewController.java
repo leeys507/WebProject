@@ -17,8 +17,7 @@ public class StudentViewController {
 	private final HttpSession httpSession;
 	@GetMapping(value = "/yu/studentInfo/studentInfo")
 	public String openStudentInfoView(Model model) {
-		model.addAttribute("count", studentInfoService.getStudentCount());
-		model.addAttribute("userSid",httpSession.getAttribute("sid"));
+		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		return "studentInfo/studentInfo";
 	}
 	
