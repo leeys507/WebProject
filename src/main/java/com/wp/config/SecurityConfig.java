@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/yu/index")
                 .and()
                 .exceptionHandling()
-
+                .accessDeniedHandler(new CusAccessDeniedHandler())
                 .and()
                 .authenticationProvider(authProvider)
                 .csrf().disable();
