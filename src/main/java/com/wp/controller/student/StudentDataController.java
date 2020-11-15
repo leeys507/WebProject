@@ -48,7 +48,7 @@ public class StudentDataController {
 		return data;
 	}
 	
-	@PostMapping("/yu/studentInfo/studentRegistration")
+	@PostMapping("/yu/studentInfo/studentRegistrationData")
 	public boolean registerStudent(@ModelAttribute StudentInsertDTO data) throws Exception {
 		System.out.println(data.getSid() + " " + data.getDepartment() + " " + data.getGen());
 		return studentInfoService.registerStudent(data);

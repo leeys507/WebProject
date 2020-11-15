@@ -19,6 +19,7 @@ public class StudentInsertDTO {
     private int syear;
     private String department;
 	private String phonenum;
+	
     public Student toEntity() {
     	Student data = new Student();
     	data.setSid(sid);

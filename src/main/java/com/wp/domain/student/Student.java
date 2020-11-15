@@ -10,10 +10,25 @@ import javax.persistence.*;
 import com.wp.domain.board.Board;
 import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.matching.Matching;
+import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+@SqlResultSetMapping(
+        name="StudentGetMyBoardDTOMapping",
+        classes = @ConstructorResult(
+                targetClass = StudentGetMyBoardDTO.class,
+                columns = {
+                        @ColumnResult(name="title", type = String.class),
+                        @ColumnResult(name="bno", type = Long.class),
+                        @ColumnResult(name="register_date", type = LocalDateTime.class),
+                        @ColumnResult(name="check_delete", type = String.class),
+                        @ColumnResult(name="type", type = String.class),
+                        @ColumnResult(name="boardtype", type = String.class),
+                })
+)
 
 @Getter
 @Setter

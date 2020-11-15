@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.wp.domain.student.Student;
 import com.wp.domain.student.StudentRepository;
 import com.wp.domain.student.dto.StudentGetDTO;
+import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentInsertDTO;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -51,6 +53,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	public int getStudentCount() {
 		return (int) studentRepository.count();
 	}
+	
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum) {
 
 		String api_key = "NCSANGRSVWAQTXAU";
@@ -73,5 +76,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 			System.out.println(e.getCode());
 		}
 */
+	}
+	
+	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
+		return studentRepository.getMyBoard(sid, limit);
 	}
 }

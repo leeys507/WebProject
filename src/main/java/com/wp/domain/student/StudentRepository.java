@@ -1,5 +1,7 @@
 package com.wp.domain.student;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.wp.domain.student.dto.StudentGetDTO;
 
-public interface StudentRepository extends JpaRepository<Student, StudentGetDTO> {
+public interface StudentRepository extends JpaRepository<Student, StudentGetDTO>, StudentCustomRepository {
 	@Query(value = "SELECT * FROM student s WHERE s.sid = :sid", nativeQuery = true)
 	Student findBySid(@Param("sid") String sid);
 

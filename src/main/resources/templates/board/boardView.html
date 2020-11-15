@@ -42,7 +42,7 @@
                             <!-- 신고 -->
                             <div class="declare-btn-form fl">
                                 <span>신고</span>
-                                <button type="button" class="btn-declare"><img src="#" class="declare-btn">(신고버튼이미지)</button>
+                                <button type="button" class="btn-declare"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                             </div>
                         </li>
                         <li class="up-content" th:each="boardComment :${boardCommentList}" th:id="bc+${boardComment.getCno()}">
-                            <div class="comment-info clear">
+                            <div th:if="${boardComment.getCcno()} == 0" class="comment-info clear">
                                 <!-- 댓글작성 닉네임 -->
                                 <div class="comment-nick" id="divCommentWriter"><span class="comment-writer" id="spanCommentWriter" th:text="${boardComment.getNickname()}"></span></div>
                                 <!-- 댓글 내용 -->
@@ -80,6 +80,27 @@
                                 <!-- 댓글 날짜 -->
                                 <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
                                 <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
+                                <div class="comment-option-button" th:if="${studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
+                                    <a style="cursor:pointer" th:if="${studentInfo} != null" th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|">댓글 쓰기</a>
+                                    <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|">수정</a>
+                                    <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|return deleteComment(${boardComment.getCno()});|">삭제</a>
+                                </div>
+                            </div>
+                            <!-- 대댓글 -->
+                            <div th:unless="${boardComment.getCcno()} == 0" class="reply-info-wrap clear">
+                                <!--화살표 닉네임 -->
+                                <div class="comment-nick">
+                                	<div id="toCommentCno" th:text="${boardComment.getCcno()}" style="display:none"></div>
+                                    <div class="reply-img" id="divCommentWriter"><img th:src="@{/images/sp_img.png}">
+                                    <span class="comment-writer" id="spanCommentWriter" th:text="${boardComment.getNickname()}"></span></div>
+                                </div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear" th:if="${boardComment.getCheck_delete()} == 'F'">
+                                <p th:id="bc+${boardComment.getCno()}" th:text="${boardComment.getContent()}" style="white-space:pre-line;"></p></div>
+                                <div class="comment-content clear" th:unless="${boardComment.getCheck_delete()} == 'F'"><p>삭제된 댓글입니다</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
+                                <!-- 대댓글 옵션 -->
                                 <div class="comment-option-button" th:if="${studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
                                     <a style="cursor:pointer" th:if="${studentInfo} != null" th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|">댓글 쓰기</a>
                                     <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|">수정</a>
@@ -396,6 +417,10 @@
                 });
             }
             return true;
+        }
+        
+        function showCommentToCommentNickname() {
+        	
         }
     </script>
 </th:block>
