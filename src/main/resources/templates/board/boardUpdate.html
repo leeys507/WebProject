@@ -1,66 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
-
-
 <th:block layout:fragment="title">
-    <title>Board Update</title>
+    <title>YU Board Update</title>
 </th:block>
 
-<th:block layout:fragment="content">
-    <div><h2 style="color:green">Board Update</h2></div>
-    <br><br>
-    <div class="card-content">
+<th:block layout:fragment="article">
+    <div class="col-sm-auto article-header">
+        <h2>게시글 등록</h2>
+      </div>
+      <br>
+      <!-- 게시판 향후 수정 -->
+      <div class="col-sm-auto">
         <form id="infoForm" name="infoForm">
-            <div class="container">
-
-                <select class="form-control" name="boardtype" id="boardtype">
-                    <option id="자유게시판" name="자유게시판">자유게시판</option>
-                    <option id="잡담게시판" name="잡담게시판">잡담게시판</option>
-                    <option id="게임게시판" name="게임게시판">게임게시판</option>
-                </select>
-
-            </div>
-            <br>
-            <div>
-                <label class="col-sm-2 control-label">제목</label>
-                <div class="col-sm-10">
-                    <input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" th:value="${board.getTitle()}" required="required"/>
-                </div>
-            </div>
-
-            <div>
-                <label class="col-sm-2 control-label">내용</label>
-                <div class="col-sm-10">
-                        <textarea type="text" id="content" name="content" class="form-control" placeholder="내용 입력" th:utext="${board.getContent()}" required="required"></textarea>
-                </div>
-            </div>
-            <div>
-                <div>
-                    <label th:for="writer" class="col-sm-2 control-label">학번</label>
-                    <div class="col-sm-10" >
-                        <input type="text" name = "sid" id = "sid" class="form-control" placeholder="학번을 입력해 주세요." th:value="${board.getSid()}"required="required"/>
-                    </div>
-                </div>
-                <div>
-                    <label th:for="writer" class="col-sm-2 control-label">닉네임</label>
-                    <div class="col-sm-10" >
-                        <input type="text" name = "nickname" id = "nickname" class="form-control" placeholder="학번을 입력해 주세요."th:value="${board.getNickname()}" required="required"/>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div>
-            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="dataSend()">수정</button>
-            <button type="button" onClick="history.back(-1);" class="btn btn-primary waves-effect waves-light">이전</button>
+        <div class="form-group">
+            <select name="boardtype" id="boardtype" class="boardselect">
+              <option id="자유게시판">자유게시판</option>
+              <option id="중고게시판">중고게시판</option>
+              <option id="정보게시판">정보게시판</option>
+            </select>
         </div>
-
-    </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="title" name="title" th:value="${board.getTitle()}" placeholder="제목을 입력하세요" required>
+          </div>
+          <br>
+          <br>
+          <div class="form-group">
+            <textarea class="form-control" id="content" name="content" th:utext="${board.getContent()}" placeholder="내용을 입력하세요" required="required"></textarea>
+          </div>
+          <div id="button_group" class="btn-form">
+            <button type="submit" class="btn btn-primary" style="margin-right:5px;" onclick="dataSend()">수정</button>
+            <button type="button" class="btn btn-secondary" onclick="cancel()">취소</button>
+          </div>
+          <div class="form-group">
+              <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${studentInfo.getSid()}" required="required" readonly/>
+          </div>
+          <div class="form-group">
+              <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${studentInfo.getNickname()}" required="required" readonly/>
+          </div>
+        </form>
+      </div>
     <!-- /.card-content -->
 </th:block>
 <th:block layout:fragment="script">
-    <script th:src="@{/scripts/ckeditor.js}">
-    </script>
     <script type="text/javascript" th:inline="javascript">
         function dataSend() {
             var content=$('#content').val(CKEDITOR.instances.content.getData());
@@ -68,18 +50,19 @@
             var bno=[[${board.getBno()}]];
             var boardtype=$('#boardtype').val();
             var title=$('#title');
+            
             if(title.val() == "") {
                 alert("제목 입력");
                 title.focus();
                 return false;
             }
-            if(content == "") {
+            if(content.val() == "") {
                 alert("내용 입력");
                 return false;
             }
             $.ajax({
                 type: "PUT",
-                url : "/boardUpdate/"+bno,
+                url : "/yu/boardUpdate/"+bno,
                 data : queryString,
                 // data : queryString,
                 // contentType:'application/json; charset=utf-8',
@@ -92,15 +75,20 @@
                     else
                         alert("수정 실패");
                 },error : function(){
-                    alert(queryString);
+                	alert("Error");
                     return false;
                 }
             });
             return false;
         }
+        
         var a=[[${board.getBoardtype()}]];
         $("#"+a).attr("selected","selected");
-
+        
+        function cancel() {
+        	location.href="/yu/board/boardList?boardtype=" + [[${board.getBoardtype()}]];
+        }
     </script>
+    <script th:src="@{/scripts/ckeditor.js}"></script>
 </th:block>
 </html>

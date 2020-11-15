@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BoardGetDTO {
 	private long bno;
-	//private String sid;
+	private String sid;
 	private String nickname;
 	private String boardtype;
 	private String title;
@@ -20,7 +20,7 @@ public class BoardGetDTO {
 	
 	public BoardGetDTO(Board entity) {	
 		this.bno = entity.getBno();
-        //this.sid = entity.getStudentForeignkey().getSid();
+        this.sid = entity.getStudentForeignkey().getSid();
         this.nickname = entity.getNickname();
         this.boardtype = entity.getBoardtype();
         this.title = entity.getTitle();
