@@ -48,7 +48,7 @@ public class BoardViewController {
 
     @GetMapping("/yu/board/boardView/{bno}")	// board 1 + comment
     public String openBoardView(@PathVariable long bno, Model model, Pageable pageable, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        boardService.updateViewCnt(bno,request,response,session);
+    	boardService.updateViewCnt(bno,request,response,session);
         BoardGetDTO dto = boardService.findById(bno);
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         

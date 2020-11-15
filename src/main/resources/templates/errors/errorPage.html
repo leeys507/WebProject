@@ -13,15 +13,13 @@
 	<br>
 	<div style ="text-align:center; margin-top:10px">
 		<span style="cursor:pointer; font-size:20px; text-decoration:underline; color:#486AAE" onClick="showErrorInformation()">Error Information</span><br>
-		<div style="font-size:15px; display:none; border:1px solid #660058; width:600px; margin:0 auto;" id="errorInfoDiv">
-			<p th:text="${'path: ' + path}"></p>
-			<p th:text="${'status: ' + status}"></p>
-			<p th:text="${'timestamp: ' + timestamp}"></p>
-			<p th:text="${'error: ' + error}"></p>
-			<p th:text="${'errors: ' + errors}"></p>
-			<p th:text="${'exception: ' + exception}"></p>
-			<p th:text="${'message: ' + message}"></p>
-			<p th:text="${'trace: ' + trace}"></p>
+		<div style="font-size:15px; display:none; border:1px solid #660058; width:800px; margin:0 auto;" id="errorInfoDiv">
+			<p><b>Path: </b>[[${path}]]</p>
+			<p><b>Status: </b>[[${status}]]</p>
+			<p><b>Timestamp: </b>[[${timestamp}]]</p>
+			<p><b>Error: </b>[[${error}]]</p>
+			<p><b>Exception: </b>[[${exception}]]</p>
+			<p><b>Message: </b>[[${message}]]</p>
 		</div>
 	</div>
 	
