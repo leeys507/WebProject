@@ -15,6 +15,7 @@ public class BoardCommentGetDTO {
 	private String sid;
 	private String nickname;
 	private String content;
+	private String tonickname;
 	private String register_date;
 	private String update_date;
 	private String delete_date;
@@ -28,6 +29,7 @@ public class BoardCommentGetDTO {
 		this.sid = entity.getStudentForeignkey().getSid();
 		this.nickname = entity.getNickname();
 		this.content = entity.getContent();
+		this.tonickname = entity.getTonickname();
 		this.register_date = entity.getRegister_date();
 		this.update_date = entity.getUpdate_date();
 		this.delete_date = entity.getDelete_date();

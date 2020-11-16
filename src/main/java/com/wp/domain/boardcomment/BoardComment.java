@@ -47,6 +47,9 @@ public class BoardComment {
 
     @Column(name = "content", nullable = false, length = 200)
     private String content;
+    
+    @Column(name = "tonickname", length = 12)
+    private String tonickname;
 
     @Column(name = "register_date", nullable = false)
     private LocalDateTime register_date;

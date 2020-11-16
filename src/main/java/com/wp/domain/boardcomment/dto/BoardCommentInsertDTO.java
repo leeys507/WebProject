@@ -20,6 +20,7 @@ public class BoardCommentInsertDTO {
     private String sid;
     private String nickname;
     private String content;
+    private String tonickname;
 
     public BoardComment toEntity() {
     	BoardComment bcData = new BoardComment();
@@ -35,6 +36,7 @@ public class BoardCommentInsertDTO {
         bcData.setStudentForeignkey(sData);
         bcData.setNickname(nickname);
         bcData.setContent(content);
+        bcData.setTonickname(tonickname);
         bcData.setRegister_date(LocalDateTime.now());
         bcData.setCheck_delete("F");
         return bcData;
