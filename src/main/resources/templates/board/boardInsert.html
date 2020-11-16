@@ -87,6 +87,9 @@
             return false;
         }
         
+        var type="[[${boardtype}]]";
+        $("#"+type).attr("selected","selected");
+        
         function cancel() {
         	location.href="/yu/board/boardList?boardtype=" + getParameterByName("boardtype");
         }

@@ -44,6 +44,7 @@
                   </div>
                 </div>
               </div>
+              <a href="#" class="btn btn-primary float-right">수정하기</a>
             </div>
             <div class="tab-pane" id="history">
               <!--활동기록-->
@@ -106,16 +107,17 @@
                       <caption class="myArticleTableCaption h4">내가 쓴 게시물</caption>
                       <thead>
                         <tr>
-                          <th>제목</th>
-                          <th>작성일</th>
-                          <th>위치</th>
+                          <th style="text-align:center">제목</th>
+                          <th style="text-align:center">작성일</th>
+                          <th style="text-align:center">위치</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr th:each="board :${myBoardList}" th:if="${board.getCheck_delete()} != 'T'">
-                          <td><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
-                          <td th:text="${board.getRegister_date()}"></td>
-                          <td th:text="${board.getBoardtype()}"></td>
+                          <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
+                          <td style="width:15%; text-align:center" th:text="${board.getRegister_date()}"></td>
+                          <td style="width:25%; text-align:center" th:text="${board.getBoardtype()}"></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -124,31 +126,16 @@
                       <caption class="myArticleTableCaption h4">내가 쓴 댓글</caption>
                       <thead>
                         <tr>
-                          <th>내용</th>
-                          <th>위치</th>
-                          <th>작성일</th>
+                          <th style="text-align:center">내용</th>
+                          <th style="text-align:center">작성일</th>
+                          <th style="text-align:center">위치</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>ㅁㄴㅇㄹ</td>
-                          <td>이성욱</td>
-                          <td>9.15 22:55</td>
-                        </tr>
-                        <tr>
-                          <td>ㅁㄴㅇㄹ</td>
-                          <td>이성욱</td>
-                          <td>9.15 22:55</td>
-                        </tr>
-                        <tr>
-                          <td>ㅁㄴㅇㄹ</td>
-                          <td>이성욱</td>
-                          <td>9.15 22:55</td>
-                        </tr>
-                        <tr>
-                          <td>ㅁㄴㅇㄹ</td>
-                          <td>이성욱</td>
-                          <td>9.15 22:55</td>
+                        <tr th:each="comment :${myCommentList}" th:if="${comment.getCheck_delete()} != 'T'">
+                          <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
+                          <td style="width:15%; text-align:center" th:text="${comment.getRegister_date()}"></td>
+                          <td style="width:25%; text-align:center" th:text="${comment.getBoardtype()}"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -195,7 +182,6 @@
             </div>
           </div>
         </div>
-        <a href="#" class="btn btn-primary float-right">수정하기</a>
 
 
       </div>

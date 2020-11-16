@@ -11,6 +11,7 @@ import com.wp.domain.board.Board;
 import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
+import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,19 @@ import lombok.Setter;
                         @ColumnResult(name="register_date", type = LocalDateTime.class),
                         @ColumnResult(name="check_delete", type = String.class),
                         @ColumnResult(name="type", type = String.class),
+                        @ColumnResult(name="boardtype", type = String.class),
+                })
+)
+
+@SqlResultSetMapping(
+        name="StudentGetMyCommentDTOMapping",
+        classes = @ConstructorResult(
+                targetClass = StudentGetMyCommentDTO.class,
+                columns = {
+                        @ColumnResult(name="content", type = String.class),
+                        @ColumnResult(name="bno", type = Long.class),
+                        @ColumnResult(name="register_date", type = LocalDateTime.class),
+                        @ColumnResult(name="check_delete", type = String.class),
                         @ColumnResult(name="boardtype", type = String.class),
                 })
 )

@@ -41,7 +41,8 @@ public class BoardViewController {
     }
 
     @GetMapping("/yu/board/boardInsert")
-    public String openBoardInsertView(Model model) {
+    public String openBoardInsertView(String boardtype, Model model) {
+    	model.addAttribute("boardtype", boardtype);
         model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         return "board/boardInsert";
     }

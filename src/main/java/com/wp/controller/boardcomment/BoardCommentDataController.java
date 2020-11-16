@@ -29,7 +29,7 @@ public class BoardCommentDataController {
     }
     
 	@PostMapping("/yu/boardComment/getBoardCommentInfo")
-	public BoardCommentGetDTO getStudentInfo(@RequestBody long cno) {
+	public BoardCommentGetDTO getBoardComment(@RequestBody long cno) {
 		BoardCommentGetDTO data = boardCommentService.findByCno(cno);
 		if (data == null) {
 			// TODO => 검색 실패 메시지 전달

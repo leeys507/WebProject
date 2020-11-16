@@ -10,6 +10,7 @@ import com.wp.domain.student.Student;
 import com.wp.domain.student.StudentRepository;
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
+import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 import com.wp.domain.student.dto.StudentInsertDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -80,5 +81,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
 		return studentRepository.getMyBoard(sid, limit);
+	}
+	
+	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit) {
+		return studentRepository.getMyComment(sid, limit);
 	}
 }
