@@ -40,7 +40,7 @@
                     <p class="card-text text-left">학과: [[${studentInfo.getDepartment()}]]</p>
                     <p class="card-text text-left">이메일: [[${studentInfo.getEmail()}]]</p>
                     <p class="card-text text-left">포인트: [[${studentInfo.getPoint()}]]</p>
-                    <p class="card-text text-left">비밀번호 변경: <a href="https://adm.yu.ac.kr/com/com/port/plet/findPortPwdInitFormN_L_S.do">yu.ac.kr//PasswordChange</a></p>
+                    <p class="card-text text-left">비밀번호 변경: <a style="text-decoration:underline" href="https://adm.yu.ac.kr/com/com/port/plet/findPortPwdInitFormN_L_S.do">yu.ac.kr//PasswordChange</a></p>
                   </div>
                 </div>
               </div>
@@ -104,7 +104,11 @@
                 <div class="row row-cols-1">
                   <div class="col">
                     <table class="table table-hover">
-                      <caption class="myArticleTableCaption h4">내가 쓴 게시물</caption>
+                      <caption class="myArticleTableCaption h4">내가 쓴 게시물
+                          <div class="float-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn-blue" onclick="location.href='/yu/studentInfo/studentMyBoardList'">전체보기</button>
+                          </div>
+                        </caption>
                       <thead>
                         <tr>
                           <th style="text-align:center">제목</th>
@@ -123,7 +127,11 @@
                   </div>
                   <div class="col">
                     <table class="table table-hover">
-                      <caption class="myArticleTableCaption h4">내가 쓴 댓글</caption>
+                        <caption class="myArticleTableCaption h4">내가 쓴 댓글
+                          <div class="float-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn-blue" onclick="location.href='/yu/studentInfo/studentMyCommentList'">전체보기</button>
+                          </div>
+                        </caption>
                       <thead>
                         <tr>
                           <th style="text-align:center">내용</th>

@@ -3,6 +3,9 @@ package com.wp.service.student;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.domain.student.dto.StudentInsertDTO;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
@@ -19,5 +22,7 @@ public interface StudentInfoService {
 	public boolean updateStudentEmail(String sid, String email);
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit);
 	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit);
+	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable);
+	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable);
 	public int getStudentCount();
 }

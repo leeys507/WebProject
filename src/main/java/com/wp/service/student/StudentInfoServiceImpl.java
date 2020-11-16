@@ -3,6 +3,9 @@ package com.wp.service.student;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,5 +88,13 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	
 	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit) {
 		return studentRepository.getMyComment(sid, limit);
+	}
+	
+	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable) {
+		return studentRepository.getMyAllBoard(sid, PageRequest.of(pageable.getPageNumber(), 10));
+	}
+	
+	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable) {
+		return studentRepository.getMyAllComment(sid, PageRequest.of(pageable.getPageNumber(), 10));
 	}
 }

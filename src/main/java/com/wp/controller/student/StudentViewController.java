@@ -3,6 +3,8 @@ package com.wp.controller.student;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
@@ -45,5 +47,35 @@ public class StudentViewController {
 		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		model.addAttribute("userSid",httpSession.getAttribute("resSid"));
 		return "studentInfo/studentRegistration";
+	}
+	
+	@GetMapping(value = "/yu/studentInfo/studentMyBoardList")
+	public String openStudentMyBoardListView(Model model, Pageable pageable) {
+		StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
+		Page<StudentGetMyBoardDTO> boardList = null;
+		
+		if(data != null) {
+			boardList = studentService.getMyAllBoard(data.getSid(), pageable);
+		}
+		
+		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+		model.addAttribute("myBoardList", boardList);
+
+		return "studentInfo/studentMyBoardList";
+	}
+	
+	@GetMapping(value = "/yu/studentInfo/studentMyCommentList")
+	public String openStudentMyCommentListView(Model model, Pageable pageable) {
+		StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
+		Page<StudentGetMyCommentDTO> commentList = null;
+		
+		if(data != null) {
+			commentList = studentService.getMyAllComment(data.getSid(), pageable);
+		}
+		
+		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+		model.addAttribute("myCommentList", commentList);
+		
+		return "studentInfo/studentMyCommentList";
 	}
 }

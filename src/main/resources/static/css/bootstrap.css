@@ -10786,7 +10786,7 @@ textarea {
   float: right;
 }
 
-.comment-button .btn-blue, .bottom-button-wrap .btn-blue {
+.comment-button .btn-blue, .bottom-button-wrap .btn-blue, .btn-blue {
   width: 85px;
   height: 40px;
   border-radius: 5px;
