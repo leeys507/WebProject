@@ -9,7 +9,7 @@
     <div id="article">
       <div class="container-fluid">
         <div class="col-sm-auto article-header">
-          <h2 style="color:green">내가 쓴 댓글 (전체)</h2>
+          <h2 style="color:green">내가 작성한 댓글 (전체)</h2>
         </div>
         <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
@@ -20,14 +20,20 @@
             </tr>
           </thead>
 		<tbody id="tbody">
-          <tr th:each="comment :${myCommentList}" th:if="${comment.getCheck_delete()} != 'T'">
+          <tr th:each="comment :${myCommentList}">
           	<td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
           	<td style="width:15%; text-align:center" th:text="${comment.getRegister_date()}"></td>
           	<td style="width:25%; text-align:center" th:text="${comment.getBoardtype()}"></td>
           </tr>
         </tbody>
         </table>
-        <hr style="margin:0"/>
+        <hr style="margin:0"/><br>
+        
+       <div class="clear">
+        	<div class="float-right">
+        		Total <b style="color:red">[[${myCommentList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${myCommentList.getTotalElements()}]]</b> Elements
+        	</div>
+        </div>
 
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
@@ -42,7 +48,8 @@
 				</a>
 			</li>
 			<li class="page-item" style="cursor:pointer" th:if="${myCommentList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0, myCommentList.getTotalPages()-1)}">
-				<a class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+				<a th:if="${myCommentList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+				<a th:unless="${myCommentList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
 			</li>
 			<li id="pageNext">
 				<a style="cursor:pointer" th:onClick="|return pageMove('next');|">

@@ -16,7 +16,6 @@ public class StudentGetMyBoardDTO {
 	String title;
 	long bno;
 	LocalDateTime register_date;
-	String check_delete;
 	String type;
 	String boardtype;
 	

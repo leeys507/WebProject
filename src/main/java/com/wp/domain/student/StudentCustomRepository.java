@@ -33,9 +33,10 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	Long totalCount = (long) 0;
 	
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
-		String sql = "select title, bno, register_date, check_delete, '게시판' as 'type', boardtype from board where sid = ?1 " +
+		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
-				"select title, bno, register_date, check_delete, '매칭게시판' as 'type', '매칭게시판' as boardtype from matching where request_sid = ?2 " +
+				"select title, bno, register_date, '매칭게시판' as 'type', '매칭게시판' as boardtype from matching " +
+				"where request_sid = ?2 and check_delete = 'F'" +
 				"order by register_date desc limit ?3";
 		
 	    Query query = null;
@@ -52,9 +53,10 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable) {
-		String sql = "select title, bno, register_date, check_delete, '게시판' as 'type', boardtype from board where sid = ?1 " +
+		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
-				"select title, bno, register_date, check_delete, '매칭게시판' as 'type', '매칭게시판' as boardtype from matching where request_sid = ?2 " +
+				"select title, bno, register_date, '매칭게시판' as 'type', '매칭게시판' as boardtype from matching " +
+				"where request_sid = ?2 and check_delete = 'F'" +
 				"order by register_date desc";
 	    Query query = null;
 	    Query countQuery = null;
@@ -83,9 +85,9 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		List<StudentGetMyBoardDTO> list = query.getResultList();
 	    
 	    String countSql = "select sum(c) from " +
-	    		"(select count(*) as c from board where sid = ?1 " +
+	    		"(select count(*) as c from board where sid = ?1 and check_delete = 'F'" +
 	    		"union " +
-	    		"select count(*) as c from matching where request_sid = ?2) as t";
+	    		"select count(*) as c from matching where request_sid = ?2 and check_delete = 'F') as t";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
     	countQuery.setParameter(1, sid);
@@ -95,8 +97,8 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit) {
-		String sql = "select bc.content, b.bno, bc.register_date, bc.check_delete, b.boardtype from board b, boardcomment bc " +
-				"where b.bno = bc.bno and bc.sid = ?1 order by bc.register_date desc limit ?2";
+		String sql = "select bc.content, b.bno, bc.register_date, b.boardtype from board b, boardcomment bc " +
+				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' order by bc.register_date desc limit ?2";
 		
 	    Query query = null;
 
@@ -111,8 +113,8 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable) {
-		String sql = "select bc.content, b.bno, bc.register_date, bc.check_delete, b.boardtype from board b, boardcomment bc " +
-				"where b.bno = bc.bno and bc.sid = ?1 order by bc.register_date desc";
+		String sql = "select bc.content, b.bno, bc.register_date, b.boardtype from board b, boardcomment bc " +
+				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' order by bc.register_date desc";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -139,7 +141,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		List<StudentGetMyCommentDTO> list = query.getResultList();
 	    
 	    String countSql = "select count(*) from board b, boardcomment bc" +
-	    		" where b.bno = bc.bno and bc.sid = ?1";
+	    		" where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F'";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
     	countQuery.setParameter(1, sid);

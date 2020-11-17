@@ -11,7 +11,7 @@
         <div class="col-sm-auto article-header">
           <h2 style="color:red" th:text=${boardtype}></h2>
         </div>
-        <table class="col-sm-auto table table-hover">
+        <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
             <tr>
               <th style="text-align:center">번호</th>
@@ -33,9 +33,16 @@
         </tr>
         </tbody>
         </table>
-        <hr />
-        <a class="btn btn-primary" th:if="${studentInfo} != null" type="button" onClick="insertBoard()" role="button">글쓰기</a>
-
+        <hr style="margin:0"/><br>
+        
+       	<div class="clear">
+        	<div class="float-right">
+        		Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
+        	</div>
+			<div class="float-left">
+				<a class="btn btn-primary" th:if="${studentInfo} != null" type="button" onClick="insertBoard()" role="button">글쓰기</a>
+			</div>
+        </div>
 
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
@@ -50,7 +57,8 @@
 				</a>
 			</li>
 			<li class="page-item" style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
-				<a class="page-link" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+				<a th:if="${board.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+				<a th:unless="${board.getNumber()} == ${num}" class="page-link" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
 			</li>
 			<li id="pageNext">
 				<a style="cursor:pointer" th:onClick="|return pageMove('next');|">

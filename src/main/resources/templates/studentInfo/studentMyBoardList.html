@@ -9,7 +9,7 @@
     <div id="article">
       <div class="container-fluid">
         <div class="col-sm-auto article-header">
-          <h2 style="color:green">내가 쓴 게시물 (전체)</h2>
+          <h2 style="color:green">내가 작성한 게시물 (전체)</h2>
         </div>
         <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
@@ -20,7 +20,7 @@
             </tr>
           </thead>
 		<tbody id="tbody">
-           <tr th:each="board :${myBoardList}" th:if="${board.getCheck_delete()} != 'T'">
+           <tr th:each="board :${myBoardList}">
            <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
            <td style="width:15%; text-align:center" th:text="${board.getRegister_date()}"></td>
            <td style="width:25%; text-align:center" th:text="${board.getBoardtype()}"></td>
@@ -28,6 +28,12 @@
         </tbody>
         </table>
         <hr style="margin:0"/><br>
+        
+        <div class="clear">
+        	<div class="float-right">
+        		Total <b style="color:red">[[${myBoardList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${myBoardList.getTotalElements()}]]</b> Elements
+        	</div>
+        </div>
 
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
@@ -42,7 +48,8 @@
 				</a>
 			</li>
 			<li class="page-item" style="cursor:pointer" th:if="${myBoardList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,myBoardList.getTotalPages()-1)}">
-				<a class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+				<a th:if="${myBoardList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+				<a th:unless="${myBoardList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
 			</li>
 			<li id="pageNext">
 				<a style="cursor:pointer" th:onClick="|return pageMove('next');|">

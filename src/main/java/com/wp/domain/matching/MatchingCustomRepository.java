@@ -55,7 +55,7 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 	    @SuppressWarnings("unchecked")
 		List<Matching> list = query.getResultList();
 
-    	countQuery = entityManager.createNativeQuery("select count(*) from matching where " + addQuery);
+    	countQuery = entityManager.createNativeQuery("select count(*) from matching where " + addQuery + " and check_delete = 'F'");
     	countQuery.setParameter(1, text);
 
 	    return createPage(list, pageable, countQuery);
@@ -63,7 +63,7 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 	
 	@Override
 	public Page<Matching> searchMatchingOptionsAndDate(String addQuery, String text, int dateNum, Pageable pageable) {
-		String sql = "select * from matching where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY)";
+		String sql = "select * from matching where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -91,7 +91,7 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 		List<Matching> list = query.getResultList();
 	    
 	    countQuery = entityManager.createNativeQuery("select count(*) from matching where " + 
-	    		addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY)");
+	    		addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
     	countQuery.setParameter(1, text);
     	countQuery.setParameter(2, dateNum);
     	

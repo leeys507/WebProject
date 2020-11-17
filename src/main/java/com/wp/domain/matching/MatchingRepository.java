@@ -11,15 +11,15 @@ public interface MatchingRepository extends JpaRepository<Matching, Long>, Pagin
 	@Query(value = "SELECT * FROM matching m WHERE m.boardtype=:boardtype AND m.check_delete='F'", nativeQuery = true)
 	Page<Matching> findAllByBoardtype(@Param("boardtype") String boardtype, Pageable pageable);
 	
-	@Query(value = "SELECT * FROM matching m WHERE m.bno = :bno ", nativeQuery = true)
+	@Query(value = "SELECT * FROM matching m WHERE m.bno = :bno", nativeQuery = true)
 	Matching findByBno(@Param("bno") long bno);
 	
     @Query(value = "select * from matching where match(title, content) against(:text in boolean mode)"
-    		+ " and boardtype = :boardtype", nativeQuery = true)
+    		+ " and boardtype = :boardtype and check_delete = 'F'", nativeQuery = true)
     Page<Matching> searchBoardType(@Param("boardtype")String boardtype, @Param("text")String text, Pageable pageable);
     
     @Query(value = "select * from matching where match(title, content) against(:text in boolean mode) "
-    		+ "and boardtype = :boardtype and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY)", nativeQuery = true)
+    		+ "and boardtype = :boardtype and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY) and check_delete = 'F'", nativeQuery = true)
     Page<Matching> searchBoardTypeDates(@Param("boardtype")String boardtype, @Param("text")String text, @Param("date")int date, Pageable pageable);
 	
 	@Query(value = "SELECT MAX(m.bno) FROM matching m", nativeQuery = true)

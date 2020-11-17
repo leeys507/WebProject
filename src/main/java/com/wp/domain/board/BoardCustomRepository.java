@@ -29,7 +29,7 @@ class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
 	@Override
 	public Page<Board> searchBoardOptions(String addQuery, String text, Pageable pageable) {
-		String sql = "select * from board where " + addQuery;
+		String sql = "select * from board where " + addQuery + " and check_delete = 'F'";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -55,7 +55,7 @@ class BoardCustomRepositoryImpl implements BoardCustomRepository {
 	    @SuppressWarnings("unchecked")
 		List<Board> list = query.getResultList();
 
-    	countQuery = entityManager.createNativeQuery("select count(*) from board where " + addQuery);
+    	countQuery = entityManager.createNativeQuery("select count(*) from board where " + addQuery + " and check_delete = 'F'");
     	countQuery.setParameter(1, text);
 
 	    return createPage(list, pageable, countQuery);
@@ -63,7 +63,7 @@ class BoardCustomRepositoryImpl implements BoardCustomRepository {
 	
 	@Override
 	public Page<Board> searchBoardOptionsAndDate(String addQuery, String text, int dateNum, Pageable pageable) {
-		String sql = "select * from board where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY)";
+		String sql = "select * from board where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -91,7 +91,7 @@ class BoardCustomRepositoryImpl implements BoardCustomRepository {
 		List<Board> list = query.getResultList();
 	    
 	    countQuery = entityManager.createNativeQuery("select count(*) from board where " + 
-	    		addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY)");
+	    		addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
     	countQuery.setParameter(1, text);
     	countQuery.setParameter(2, dateNum);
     	

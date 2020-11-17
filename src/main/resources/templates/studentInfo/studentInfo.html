@@ -173,7 +173,7 @@
                 <div class="row row-cols-1">
                   <div class="col">
                     <table class="table table-hover">
-                      <caption class="myArticleTableCaption h4">내가 쓴 게시물
+                      <caption class="myArticleTableCaption h4">내가 작성한 게시물
                           <div class="float-right" style="margin-bottom:10px;">
                             <button type="button" class="btn-blue" onclick="location.href='/yu/studentInfo/studentMyBoardList'">전체보기</button>
                           </div>
@@ -185,8 +185,8 @@
                           <th style="text-align:center">위치</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr th:each="board :${myBoardList}" th:if="${board.getCheck_delete()} != 'T'">
+                      <tbody id="myBoardTbody">
+                        <tr th:each="board :${myBoardList}">
                           <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
                           <td style="width:15%; text-align:center" th:text="${board.getRegister_date()}"></td>
                           <td style="width:25%; text-align:center" th:text="${board.getBoardtype()}"></td>
@@ -196,7 +196,7 @@
                   </div>
                   <div class="col">
                     <table class="table table-hover">
-                        <caption class="myArticleTableCaption h4">내가 쓴 댓글
+                        <caption class="myArticleTableCaption h4">내가 작성한 댓글
                           <div class="float-right" style="margin-bottom:10px;">
                             <button type="button" class="btn-blue" onclick="location.href='/yu/studentInfo/studentMyCommentList'">전체보기</button>
                           </div>
@@ -208,8 +208,8 @@
                           <th style="text-align:center">위치</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr th:each="comment :${myCommentList}" th:if="${comment.getCheck_delete()} != 'T'">
+                      <tbody id="myCommentTbody">
+                        <tr th:each="comment :${myCommentList}">
                           <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
                           <td style="width:15%; text-align:center" th:text="${comment.getRegister_date()}"></td>
                           <td style="width:25%; text-align:center" th:text="${comment.getBoardtype()}"></td>
@@ -290,6 +290,30 @@
     if (selectedTab != null) {
       $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
     }
+    
+	if([[${myBoardList.size()}]] == 0) {
+		var tr = document.createElement("tr");
+		var th = document.createElement("th");
+		
+		th.colSpan = 3;
+		th.style.fontSize = "15px";
+		th.style.textAlign = "center";
+		th.innerHTML = "등록된 글이 없습니다";
+		tr.appendChild(th);
+		$("#myBoardTbody").append(tr);
+	}
+	
+	if([[${myCommentList.size()}]] == 0) {
+		var tr = document.createElement("tr");
+		var th = document.createElement("th");
+		
+		th.colSpan = 3;
+		th.style.fontSize = "15px";
+		th.style.textAlign = "center";
+		th.innerHTML = "등록된 글이 없습니다";
+		tr.appendChild(th);
+		$("#myCommentTbody").append(tr);
+	}
     
     var modal1 = document.getElementById('modal1');
     var btn1 = document.getElementById("modalbtn1");

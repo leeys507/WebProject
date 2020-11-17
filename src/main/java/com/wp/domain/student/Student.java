@@ -25,7 +25,6 @@ import lombok.Setter;
                         @ColumnResult(name="title", type = String.class),
                         @ColumnResult(name="bno", type = Long.class),
                         @ColumnResult(name="register_date", type = LocalDateTime.class),
-                        @ColumnResult(name="check_delete", type = String.class),
                         @ColumnResult(name="type", type = String.class),
                         @ColumnResult(name="boardtype", type = String.class),
                 })
@@ -39,7 +38,6 @@ import lombok.Setter;
                         @ColumnResult(name="content", type = String.class),
                         @ColumnResult(name="bno", type = Long.class),
                         @ColumnResult(name="register_date", type = LocalDateTime.class),
-                        @ColumnResult(name="check_delete", type = String.class),
                         @ColumnResult(name="boardtype", type = String.class),
                 })
 )
