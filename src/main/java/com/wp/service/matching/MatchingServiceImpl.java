@@ -27,6 +27,7 @@ public class MatchingServiceImpl implements MatchingService {
 	private final MatchingRepository matchingRepository;
 	private final StudentRepository studentRepository;
 	private final ChatRoomRepository chatRoomRepository;
+	
     public MatchingGetDTO findById(long id){
         Matching entity = matchingRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
@@ -34,7 +35,7 @@ public class MatchingServiceImpl implements MatchingService {
     }
     
     public Page<Matching> findMatchingList(Pageable pageable, String boardtype){
-        if(boardtype==null){
+        if(boardtype == null){
             boardtype = "심부름";
         }
         return matchingRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
@@ -54,6 +55,7 @@ public class MatchingServiceImpl implements MatchingService {
         SendMsg(entity.getStudentForeignkey_request().getSid());
         return true;
     }
+    
     @Transactional
     public String ProceedPage(String sid, long bno){
         Matching entity=matchingRepository.findByBno(bno);
@@ -122,5 +124,41 @@ public class MatchingServiceImpl implements MatchingService {
 			System.out.println(e.getCode());
 		}
 */
+    }
+    
+    public Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option) {
+    	String addQuery = "";
+    	int dateNum = 0;
+    	
+    	if(date.equals("all") && option.equals("all")) {
+    		return matchingRepository.searchBoardType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
+    	}
+    	else {
+    		if(!option.equals("all")) {
+        		if(option.equals("title"))
+        			addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+        		else if(option.equals("writer")) {
+        			addQuery = "boardtype = '" + boardtype + "' and request_nickname like ?1";
+        			text = "%" + text + "%";
+        		}
+        		else if(option.equals("commentContent"))
+        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+        		
+        		if(date.equals("all"))
+        			return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+    		}
+    		if(!date.equals("all")) {
+        		if(date.equals("1week"))
+        			dateNum = 7;
+        		else if(date.equals("1month"))
+        			dateNum = 30;
+        		else if(date.equals("6month"))
+        			dateNum = 180;
+        		
+        		if(option.equals("all"))
+        			return matchingRepository.searchBoardTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    		}
+    	}
+    	return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 }

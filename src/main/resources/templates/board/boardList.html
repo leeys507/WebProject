@@ -11,7 +11,7 @@
         <div class="col-sm-auto article-header">
           <h2 style="color:red" th:text=${boardtype}></h2>
         </div>
-        <table class="col-sm-auto table table-hover">
+        <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
             <tr>
               <th style="text-align:center">번호</th>
@@ -36,7 +36,7 @@
         </tr>
         </tbody>
         </table>
-        <hr />
+        <hr style="margin:0"/><br>
         <a class="btn btn-primary" th:if="${studentInfo} != null" type="button" onClick="insertBoard()" role="button">글쓰기</a>
 
 
@@ -131,7 +131,7 @@
             location.href = "/yu/board/boardInsert?boardtype=" + boardtype;
         }
         
-        function searchTotalBoard() {
+        function searchTotalList() {
         	var text = $("#totalSearchBox");
         	var date = $("#totalSearchDate option:selected");
         	var option = $("#totalSearchOption option:selected");

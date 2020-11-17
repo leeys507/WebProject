@@ -1,6 +1,5 @@
 package com.wp.domain.matching.dto;
 
-import com.wp.domain.board.Board;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.student.Student;
 import lombok.Getter;
@@ -20,6 +19,7 @@ public class MatchingInsertDTO {
     private int money;
     private String title;
     private String content;
+    
     public Matching toEntity() {
         Matching MData = new Matching();
         Student sData = new Student();

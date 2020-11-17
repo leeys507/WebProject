@@ -5,6 +5,75 @@
 	<title>YU My Information</title>
 </th:block>
 
+<th:block layout:fragment="middle">
+<div class="modal" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close1" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)아이디/비밀번호가 생각나지 않아요.</h5><br>
+          <h5>A)나만따라YU는 개인정보처리방침과 개인정보보호법에 따라 개인정보를 개인에게 직접 알려드릴 수 없습니다.</h5><br>
+          <h5>아이디의 경우 자신의 학번, 비밀번호의 경우 영남대 홈페이지에서 로그인시 사용하는 비밀번호와 같습니다.</h5><br>
+          <h5>영남대 홈페이지 비밀번호도 생각나지 않는다면 영남대 홈페이지에서 찾아주셔야 합니다. 감사합니다.</h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close2" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)아이디를 여러개 만들 수는 없나요?</h5><br>
+          <h5>A)나만따라YU는 1인 1계정 원칙에 따라, 영남대 홈페이지에 로그인 가능한 정보만 사용 가능합니다. 감사합니다. </h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close3" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)영남대 학생이 아닌데 이용할 수 있나요?</h5><br>
+          <h5>A)나만따라YU는 영남대학교 학생을 위한 서비스입니다. 영남대학교의 재학생 및 졸업생이 아닐 경우, 이용이 불가능합니다. 감사합니다. </h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close4" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)매칭 결제는 어떤것이 가능한가요?</h5><br>
+          <h5>A)나만따라YU는 현재 개발중인 서비스로서, 현재는 <u>카카오페이</u>만 지원하고 있습니다. 빠른 시일내에 다양한 결제방법을 추가하도록 하겠습니다. 감사합니다.  </h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>
+
 <th:block layout:fragment="article">
     <div id="article">
       <div class="container-fluid">
@@ -31,7 +100,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2">
-                    <img src="images/증명사진.jpg" class="card-img">
+                    <img src="" class="card-img">
                   </div>
                   <div class="col-md-10">
                     <p class="card-text text-left">Lv.7 (640/700)</p>
@@ -160,16 +229,16 @@
                       <caption class="myArticleTableCaption h4">자주 묻는 질문</caption>
                       <tbody>
                         <tr>
-                          <td>ㅁㄴㅇㄹ</td>
+                          <td><a type='button' id="modalbtn1">아이디/비밀번호가 생각나지 않아요.</a></td>
                         </tr>
                         <tr>
-                          <td>ㅁㄴㅇㄹ</td>
+                          <td><a type='button' id="modalbtn2">아이디를 여러개 만들 수는 없나요?</a></td>
                         </tr>
                         <tr>
-                          <td>ㅁㄴㅇㄹ</td>
+                          <td><a type='button' id="modalbtn3">영남대 학생이 아닌데 이용할 수 있나요?</a></td>
                         </tr>
                         <tr>
-                          <td>ㅁㄴㅇㄹ</td>
+                          <td><a type='button' id="modalbtn4">매칭 결제는 어떤것이 가능한가요?</a></td>
                         </tr>
                       </tbody>
                     </table>
@@ -190,8 +259,6 @@
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
 </th:block>
@@ -207,6 +274,7 @@
     </div>
   </footer>
 
+<th:block layout:fragment="script">
   <script>
     $('a[data-toggle="tab"]').click(function(e) {
       e.preventDefault();
@@ -222,7 +290,63 @@
     if (selectedTab != null) {
       $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
     }
-  </script>
-</body>
+    
+    var modal1 = document.getElementById('modal1');
+    var btn1 = document.getElementById("modalbtn1");
+    var span1 = document.getElementsByClassName("close1")[0];
+    var modal2 = document.getElementById('modal2');
+    var btn2 = document.getElementById("modalbtn2");
+    var span2 = document.getElementsByClassName("close2")[0];
+    var modal3 = document.getElementById('modal3');
+    var btn3 = document.getElementById("modalbtn3");
+    var span3 = document.getElementsByClassName("close3")[0];
+    var modal4 = document.getElementById('modal4');
+    var btn4 = document.getElementById("modalbtn4");
+    var span4 = document.getElementsByClassName("close4")[0];
 
+    btn1.onclick = function() {
+      modal1.style.display = "block";
+    }
+
+    span1.onclick = function() {
+      modal1.style.display = "none";
+    }
+
+    btn2.onclick = function() {
+      modal2.style.display = "block";
+    }
+
+    span2.onclick = function() {
+      modal2.style.display = "none";
+    }
+
+    btn3.onclick = function() {
+      modal3.style.display = "block";
+    }
+
+    span3.onclick = function() {
+      modal3.style.display = "none";
+    }
+
+    btn4.onclick = function() {
+      modal4.style.display = "block";
+    }
+
+    span4.onclick = function() {
+      modal4.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal1) {
+        modal1.style.display = "none";
+      } else if (event.target == modal2) {
+        modal2.style.display = "none";
+      } else if (event.target == modal3) {
+        modal3.style.display = "none";
+      }else if (event.target == modal4) {
+        modal4.style.display = "none";
+      }
+    }
+  </script>
+</th:block>
 </html>

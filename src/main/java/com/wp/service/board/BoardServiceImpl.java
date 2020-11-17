@@ -3,8 +3,6 @@ package com.wp.service.board;
 import com.wp.domain.board.Board;
 import com.wp.domain.board.BoardRepository;
 import com.wp.domain.board.dto.*;
-import com.wp.domain.boardcomment.BoardComment;
-import com.wp.domain.boardcomment.BoardCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
-    private final BoardCommentRepository boardCommentRepository;
     
     public BoardGetDTO findById(long bno){
         Board entity = boardRepository.findByBno(bno);
@@ -70,7 +67,7 @@ public class BoardServiceImpl implements BoardService {
     }
     
     public Page<Board> findBoards(Pageable pageable, String boardtype){
-        if(boardtype==null){
+        if(boardtype == null){
             boardtype = "자유게시판";
         }
         return boardRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 

@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.wp.domain.board.Board;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 

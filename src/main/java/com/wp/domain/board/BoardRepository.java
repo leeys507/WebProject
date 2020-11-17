@@ -13,10 +13,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>, PagingAndSo
     @Query("select p from board p ORDER BY p.bno DESC ")
     List<Board> findAllDesc();
 
-    @Query(value = "SELECT * FROM board b WHERE b.boardtype=:boardtype AND b.check_delete='F'", nativeQuery = true)
+    @Query(value = "SELECT * FROM board WHERE boardtype = :boardtype AND check_delete = 'F'", nativeQuery = true)
     Page<Board> findAllByBoardtype(@Param("boardtype")String boardtype, Pageable pageable);
     
-    @Query(value = "SELECT * FROM board b WHERE b.bno = :bno AND b.check_delete='F'", nativeQuery = true)
+    @Query(value = "SELECT * FROM board WHERE bno = :bno AND check_delete = 'F'", nativeQuery = true)
     Board findByBno(@Param("bno") long bno);
     
     @Query(value = "select * from board where match(title, content) against(:text in boolean mode)", nativeQuery = true)

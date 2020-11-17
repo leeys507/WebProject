@@ -24,6 +24,7 @@ public class MatchingGetDTO {
 	private String delete_date;
 	private String check_delete;
 	private String check_success;
+	
 	public MatchingGetDTO(Matching entity) {	
 		this.bno = entity.getBno();
         this.request_sid = entity.getStudentForeignkey_request().getSid();

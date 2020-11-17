@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -56,6 +55,7 @@ public class BoardViewController {
         model.addAttribute("board", dto);
         model.addAttribute("studentInfo", data);
         model.addAttribute("boardlike",boardLikeService.getCheckLike(data.getSid(),bno));
+        
         Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);
         model.addAttribute("boardCommentList", page);
         return "board/boardView";

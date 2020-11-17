@@ -10,6 +10,7 @@ import com.wp.domain.matching.dto.MatchingGetDTO;
 
 public interface MatchingService {
 	MatchingGetDTO findById(long id);
+	
 	Page<Matching> findMatchingList(Pageable pageable, String boardtype);
 
     String InsertMatching(MatchingInsertDTO data);
@@ -27,4 +28,6 @@ public interface MatchingService {
     long UpdateMatching(long bno, MatchingUpdateDTO dto);
 
     long MaxBno();
+    
+    Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option);
 }

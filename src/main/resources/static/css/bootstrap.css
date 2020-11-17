@@ -10921,4 +10921,64 @@ textarea {
   margin: 0 3px;
 }
 
+button.close1 {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+button.close2 {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+button.close3 {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+button.close4 {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+
+.comment-modify , .comment-cancel, .comment-select, .comment-chatting {
+  width: 3.5rem;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 5px;
+  border-style: solid;
+
+}
+
+.comment-modify , .comment-cancel {
+  background: gray;
+  border-color: gray;
+  color: white;
+}
+
+.comment-select {
+  border-color: dodgerblue;
+  background: transparent;
+  color: dodgerblue;
+}
+
+.comment-chatting {
+  background: transparent;
+  border-color: yellowgreen;
+  color: yellowgreen;
+}
+
+.cost-title {
+  color: blue;
+  font-weight: bold;
+  font-size: 16px;
+  padding-right: 10px;
+}
+
+.cost-content {
+  color: red;
+  font-weight: bold;
+  font-size: 16px;
+}
 /*# sourceMappingURL=bootstrap.css.map */

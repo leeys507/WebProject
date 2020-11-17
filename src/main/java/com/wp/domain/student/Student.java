@@ -83,16 +83,16 @@ public class Student {
    @Column(name = "update_date")
    private LocalDateTime update_date;
 
-   @OneToMany(mappedBy = "studentForeignkey", targetEntity= Board.class)
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity = Board.class)
    private List<Board> boardList = new ArrayList<Board>();
 
-   @OneToMany(mappedBy = "studentForeignkey", targetEntity= BoardComment.class)
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity = BoardComment.class)
    private List<BoardComment> boardCommentList = new ArrayList<BoardComment>();
    
-   @OneToMany(mappedBy = "studentForeignkey_request", targetEntity= Matching.class)
+   @OneToMany(mappedBy = "studentForeignkey_request", targetEntity = Matching.class)
    private List<Matching> matchingList_request = new ArrayList<Matching>();
    
-   @OneToMany(mappedBy = "studentForeignkey_accept", targetEntity= Matching.class)
+   @OneToMany(mappedBy = "studentForeignkey_accept", targetEntity = Matching.class)
    private List<Matching> matchingList_accept = new ArrayList<Matching>();
    
    public String getFirst_login() {

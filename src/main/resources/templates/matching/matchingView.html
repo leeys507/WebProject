@@ -1,12 +1,134 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
+<th:block layout:fragment="title">
+	<title>YU Matching View</title>
+</th:block>
+
+<th:block layout:fragment="article">
+	<input type = "hidden" th:id="${matching.bno}" name="matchingNumber">
+        <!-- 오른쪽 컨텐츠 -->
+        <div id="article" class="col-sm-auto article-wrap">
+            <div id="article-container">
+                <header>
+                    <div class="clear article-head">
+                        <!-- 글 제목 -->
+                        <h3 class="title">
+                            <span th:text="${matching.getTitle()}"></span>
+                        </h3>
+                        <!-- 작성자, 조회수, 작성일  -->
+                        <div class="article-info">
+                            <div class="fr">
+                                <span th:text="${matching.request_nickname}"></span>
+                                <span th:text="${matching.readcount}"></span>
+                                <span th:text="${matching.register_date}"></span>
+                                <span th:if="${matching.getCheck_success()} == 'F'">해결여부: NO</span>
+                                <span th:if="${matching.getCheck_success()} == 'I'">해결여부: 진행중</span>
+                                <span th:if="${matching.getCheck_success()} == 'T'">해결여부: YES</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- 글 내용 -->
+                <div class="article-contents">
+                    <div class="article-inner clear">
+                        <!-- 수행 비용 -->
+                        <div>
+                            <span class="cost-title">수행 비용 :</span>
+                            <span class="cost-content" th:text="${matching.money} + '원'"></span>
+                        </div>
+                        <!-- 글 내용 -->
+                        <div th:utext="${matching.content}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 참여 -->
+            <div class="comment-wrap">
+                <!-- 참여 헤더 -->
+                <div class="comment-title">
+                    <div class="comment-title-font">참여 목록</div>
+                </div>
+                <!-- 참여 내용 -->
+                <div class="comment-box">
+                    <ul class="comment-list">
+                        <!-- 여기를 반복문하면 될듯 -->
+                        <li class="up-content">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer">참여자1</span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear"><p>신속하고 정확하게 수행해드리겠습니다!!</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time">2020-11-10</span></div>
+                                <!-- 본인이 참여자 : 수정, 삭제 버튼 보이게 해주시고 / 본인이 글 작성자 : 선택하기 버튼 -->
+                                <div class="comment-option-button">
+                                    <div class="fr">
+                                        <button type="button" class="comment-modify">수정</button>
+                                        <button type="button" class="comment-cancel">취소</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="up-content">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer">참여자2</span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear"><p>존나 일 잘합니다 시켜만주세요</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time">2020-11-15</span></div>
+                                <!-- 본인이 참여자 : 수정, 삭제 버튼 보이게 해주시고 / 본인이 글 작성자 : 선택, 채팅 버튼 -->
+                                <div class="comment-option-button">
+                                    <div class="fr">
+                                        <button type="button" class="comment-select"onclick="location.href='#'">선택</button>
+                                        <button type="button" class="comment-chatting" onclick="location.href='matching-chating.html'">채팅</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 댓글 입력창 -->
+            <div class="comment-write-wrap clear">
+                <div class="comment-write-form">
+                    <!-- 댓글 입력폼 -->
+                    <div class="comment-write">
+                        <textarea maxlength="400" placeholder="내용을 입력하세요."></textarea>
+                    </div>
+                    <!-- 댓글 입력버튼 -->
+                    <div class="comment-button clear">
+                        <div class="fr">
+                            <button type="button" class="btn-blue">등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 수정, 삭제, 목록 버튼 -->
+            <div class="bottom-button-wrap clear">
+                <div class="fl">
+                    <button type="button" class="btn-blue">목록</button>
+                </div>
+                <div class="fr">
+                    <!-- 내가 쓴글이면 수정, 삭제 기능을 할수있게 만들어주세요 -->
+                    <button type="button" class="btn-grey">수정</button>
+                    <button type="button" class="btn-grey">취소</button>
+                </div>
+            </div>
+        </div>
+        <!-- 채팅 -->
+        <div id="aside" class="col-sm-auto chatting-wrap">
+
+        </div>
+</th:block>
+
 <th:block layout:fragment="script">
 <script type="text/javascript">
     function proceedMatching(){
     if(confirm("요청하시겠습니까?")) {
         var bno = [[${matching.bno}]];
-        var sid = "[[${userSid}]]";
+        var sid = "[[${studentInfo.getSid()}]]";
         if($('#bankname').val() == "") {
             alert("은행 이름 입력");
             $('#bankname').focus();
@@ -25,7 +147,7 @@
         var account = $('#bankname').val()+", "+$('#account').val()+", "+$('#accountname').val();
         $.ajax({
             type: "PUT",
-            url : "/matchingProceed",
+            url : "/yu/matchingProceed",
             data : {
                 bno : bno,
                 sid : sid,
@@ -55,14 +177,14 @@
         if(confirm("게시글을 삭제하시겠습니까?")) {
             $.ajax({
                 type: "PUT",
-                url : "/matchingDelete",
+                url : "/yu/matchingDelete",
                 data : {
                     bno : bno
                 },
                 success : function(data){
                     if(data == true) {
                         alert("게시글 삭제 성공");
-                        location.href = '/yu/matching/matchingList?boardtype=자유게시판';
+                        location.href = '/yu/matching/matchingList?boardtype=' + "[[${boardtype}]]";
                     }
                     else
                         alert("게시글 삭제 실패");
@@ -81,58 +203,5 @@
         document.getElementById(part + "accountname").value = "";
     }
 </script>
-</th:block>
-
-<th:block layout:fragment="title">
-    <title>Matching View</title>
-</th:block>
-
-<th:block layout:fragment="content">
-	<input type = "hidden" th:id="${matching.bno}" name="matchingNumber">
-
-    <div><h2 th:text="${matching.getTitle()}"></h2></div>
-    <br><br>
-    <div class="card-content">
-        <form id="infoForm" name="infoForm" style="display: inline-block">
-        <br>
-            <div>
-                <div class="col-sm-10">
-                	<b>&lt;작성일&gt;</b> <span th:text="${matching.register_date}"></span><br>
-                	<b>&lt;조회&gt;</b> <span th:text="${matching.readcount}"></span><br>
-                	<b>&lt;작성자&gt;</b> <span th:text="${matching.request_nickname}"></span><br>
-                	<b>&lt;해결여부&gt;</b> <span th:if="${matching.accept_sid} == null">NO</span>
-                	<span th:unless="${matching.accept_sid} == null">YES</span>
-                    <b>&lt;금액&gt;</b> <span th:text="${matching.money}"></span><br>
-                    <div th:utext="${matching.content}" style="width:1000px; height:auto; border:1px solid green">
-                    </div>
-                </div>
-                <br>
-            </div>
-        </form>
-        <div class="col-sm-10">
-            <a th:if="${userSid} == ${matching.request_sid}" type="button" class="btn btn-primary waves-effect waves-light" th:href="'/matching/matchingUpdate/'+${matching.getBno()}">수정</a>
-            <button type="button" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
-            <button th:if="${userSid} == ${matching.request_sid}" type="button" th:onClick="|return deleteMatching(${matching.getBno()});|" class="btn btn-primary waves-effect waves-light">삭제</button>
-            <button th:if="${userSid} != null" type="button" onClick="document.getElementById('matchingForm').style.display='block';" class="btn btn-primary waves-effect waves-light">요청</button>
-        </div>
-    </div>
-    <br><br><br>
-    <div id="matchingForm" style="margin-left:20%; width:300px; height:210px; border:1px solid #ff0000;
-    line-height:70%; text-align:center; display:none">
-        <div style="font-size:10pt; text-align:left; margin-left:5%; margin-top:10px;">
-            <br><b>&lt;요청&gt;</b>
-            <div style="font-size:10pt; text-align:left; margin-right:5%">
-                <br>은행　　 <input type="text" id = "bankname" name = "bankname"/> <br><br>
-                계좌번호 <input type="text"  id = "account" name = "account" /> <br><br>
-                이름　　 <input type="text" id = "accountname" name = "accountname" />
-            </div>
-            <br>
-        </div>
-        <br>
-        <div>
-            <button type="button" onClick="proceedMatching()" class="btn btn-primary waves-effect waves-light">등록</button>
-            <button type="button" onClick="cancelMatchingForm('');" class="btn btn-primary waves-effect waves-light">취소</button>
-        </div>
-    </div>
 </th:block>
 </html>

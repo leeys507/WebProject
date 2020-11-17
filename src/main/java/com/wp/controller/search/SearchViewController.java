@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wp.domain.board.Board;
+import com.wp.domain.matching.Matching;
 import com.wp.service.board.BoardService;
+import com.wp.service.matching.MatchingService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class SearchViewController {
 	private final BoardService boardService;
+	private final MatchingService matchingService;
 	private final HttpSession httpSession;
 	
     @GetMapping("/yu/search/searchAllList")
@@ -46,5 +49,20 @@ public class SearchViewController {
         model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 
         return "search/searchBoardList";
+    }
+    
+    @GetMapping("/yu/search/searchMatchingList")
+    public String searchMatchingListView(@RequestParam String boardtype, @RequestParam String text, 
+    		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
+        Page<Matching> data = matchingService.searchMatching(pageable, boardtype, text, date, option);
+        
+        model.addAttribute("boardtype", boardtype);
+        model.addAttribute("text", text);
+        model.addAttribute("date", date);
+        model.addAttribute("option", option);
+        model.addAttribute("matchingList", data);
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+
+        return "search/searchMatchingList";
     }
 }
