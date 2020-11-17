@@ -62,7 +62,7 @@
 			</li>
 			<li>
             	<a th:if="${matchingList.getTotalPages()}>0" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${matchingList.getTotalPages()-1}">
-                	<span>»</span>
+                	<span class="page-link">»</span>
             	</a>
             	<a th:if="${matchingList.getTotalPages()}==0" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${matchingList.getTotalPages()}">
 					<span class="page-link">»</span>

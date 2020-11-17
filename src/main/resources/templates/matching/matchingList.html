@@ -99,7 +99,7 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:inline="javascript">
+    <script>
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -112,7 +112,7 @@
             pages = 0;
         }
         $("#page"+pages).attr("class","active");
-        var boardtype = [[${boardtype}]];
+        var boardtype = "[[${boardtype}]]";
         
         function InsertMatchingBoard() {
             location.href = "/yu/matching/matchingInsert?boardtype=" +boardtype;

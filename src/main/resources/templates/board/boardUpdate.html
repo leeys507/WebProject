@@ -43,7 +43,7 @@
     <!-- /.card-content -->
 </th:block>
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:inline="javascript">
+    <script type="text/javascript">
         function dataSend() {
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             let queryString = $('#infoForm').serialize() ;

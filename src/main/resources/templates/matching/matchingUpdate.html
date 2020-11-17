@@ -47,7 +47,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/scripts/ckeditor.js}">
     </script>
-    <script type="text/javascript" th:inline="javascript">
+    <script type="text/javascript">
         function dataSend() {
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             let queryString = $('#infoForm').serialize() ;
