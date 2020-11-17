@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class StudentGetDTO {
 	private String sid;
 	private String nickname;
+	private String phonenum;
 	private String gen;
 	private String email;
 	private int syear;
@@ -23,6 +24,7 @@ public class StudentGetDTO {
 		
 		this.sid = entity.getSid();
 		this.nickname = entity.getNickname();
+		this.phonenum = entity.getPhonenum();
 		this.gen = entity.getGen();
 		this.email = entity.getEmail();
 		this.syear = entity.getSyear();

@@ -32,17 +32,16 @@ public class MatchingViewController {
         
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("matchingList", page);
-        model.addAttribute("studentInfo",httpSession.getAttribute("studentInfo"));
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         return "matching/matchingList";
     }
     
     @GetMapping("/yu/matching/matchingInsert")
-    public String openMatchingInsertView(Model model) {
-        String sid= (String) httpSession.getAttribute("sid");
-        model.addAttribute("userSid",sid);
-        model.addAttribute("bno",matchingService.MaxBno());
-        model.addAttribute("userphonenum",studentInfoService.getPhoneNum(sid));
-        model.addAttribute("userNickname",studentInfoService.getNickname(sid));
+    public String openMatchingInsertView(@RequestParam String boardtype, Model model) {
+    	
+    	model.addAttribute("boardtype", boardtype);
+    	model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+        //model.addAttribute("bno",matchingService.MaxBno());
         return "matching/matchingInsert";
     }
     
@@ -52,7 +51,7 @@ public class MatchingViewController {
         System.out.println(dto == null ? "true" : "false");
         String sid = (String) httpSession.getAttribute("sid");
         model.addAttribute("matching", dto);
-        model.addAttribute("studentInfo",httpSession.getAttribute("studentInfo"));
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         return "matching/matchingView";
     }
     

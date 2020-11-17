@@ -10981,4 +10981,18 @@ button.close4 {
   font-weight: bold;
   font-size: 16px;
 }
+
+.matching-select-wrap > select, .matching-title-wrap > input, .matching-cost-wrap > input, .matching-content-wrap > input{
+  float: none;
+}
+.matching-select-wrap > select,  .matching-cost-wrap > input {
+  width: 12rem;
+}
+
+.matching-select-wrap, .matching-title-wrap, .matching-cost-wrap, .matching-content-wrap {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 10px 0;
+}
 /*# sourceMappingURL=bootstrap.css.map */

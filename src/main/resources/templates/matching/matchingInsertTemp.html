@@ -2,69 +2,77 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
 <th:block layout:fragment="title">
-    <title>YU Matching Insert</title>
+    <title>Matching Insert</title>
 </th:block>
 
-<th:block layout:fragment="article">
-    <div id="article">
-      <div class="container-fluid">
-        <div class="col-sm-auto article-header">
-          <h2>매칭 등록</h2>
+<th:block layout:fragment="content">
+    <div><h2 style="color:green">Matching Insert</h2></div>
+    <br><br>
+    <div class="card-content">
+        <form id="infoForm" name="infoForm" role="infoForm">
+            <div class="container">
+                <select class="form-control" name="boardtype" id="boardtype">
+                    <option id="심부름" name="심부름">심부름</option>
+                    <option id="역할대행" name="역할대행">역할대행</option>
+                    <option id="멘토멘티" name="멘토멘티">멘토멘티</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label class="col-sm-2 control-label">제목</label>
+                <div class="col-sm-10">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="제목 입력" required="required"/>
+                </div>
+            </div>
+
+            <div>
+                <label class="col-sm-2 control-label">내용</label>
+                <div class="col-sm-10">
+                    <textarea id="content" name="content" class="form-control" placeholder="내용 입력" required="required"></textarea>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">요청 금액</label>
+                <div class="col-sm-10">
+                    <input type="number" min="0" id="money" name="money" class="form-control" placeholder="금액 입력" required="required"/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label th:for="writer" class="col-sm-2 control-label">학번</label>
+                    <div class="col-sm-10" >
+                        <input type="text" name = "sid" id = "sid" class="form-control" th:value="${userSid}" required="required" readonly/>
+                    </div>
+                </div>
+                <div>
+                    <label th:for="writer" class="col-sm-2 control-label">닉네임</label>
+                    <div class="col-sm-10" >
+                        <input type="text" name = "nickname" id = "nickname" class="form-control" th:value="${userNickname}" required="required" readonly/>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div>
+            <button type="button" class="btn btn-primary waves-effect waves-light" onClick="importtest()">등록</button>
+            <button type="button" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'" class="btn btn-primary waves-effect waves-light">이전</button>
         </div>
-        <br>
-        <div class="col-sm-auto">
-          <form id="infoForm" name="infoForm" role="infoForm">
-            <!-- 매칭 게시판 선택 -->
-            <div class="matching-select-wrap">
-              <select class="form-control" id="boardtype" name="boardtype">
-                <option id="청소">청소</option>
-                <option id="배달">배달</option>
-                <option id="역할대행">역할대행</option>
-                <option id="심부름">심부름</option>
-              </select>
-            </div>
-            <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${studentInfo.getSid()}" required="required" readonly/>
-            <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${studentInfo.getNickname()}" required="required" readonly/>
-            
-            <!-- 제목 -->
-            <div class="matching-title-wrap">
-              <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요" required>
-            </div>
-            <!-- 가격 -->
-            <div class="matching-cost-wrap">
-              <input type="number" class="form-control" style="width:20%" min="0" id="money" name="money" placeholder="가격을 입력해 주세요" required>
-            </div>
-            <!-- 내용 -->
-            <div class="matching-content-wrap">
-              <textarea class="form-control nonesize" id="content" name="content" placeholder="장소와 시간을 꼭 입력해 주세요" required></textarea>
-            </div>
-            <!-- 버튼 -->
-          </form>
-          <div class="bottom-button-wrap clear">
-             <div class="fr">
-                <!--수정-->
-               <button type="button" class="btn-grey" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'">취소</button>
-               <button type="button" class="btn-blue" onClick="importtest()">등록</button>
-             </div>
-          </div>
-        </div>
-      </div>
+
     </div>
-</th:block>
-
+    <!-- /.card-content -->
 </th:block>
 <th:block layout:fragment="script">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script type="text/javascript">
-        var boardTypeName = "[[${boardtype}]]";
-        $("#" + boardTypeName).attr("selected","selected");
-        
+        //var boardTypeName = getParameterByName("boardtype");
+        //$("#" + boardTypeName).attr("selected","selected");
         function importtest(){
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             var title=$('#title');
-            var sid = "[[${studentInfo.getSid()}]]";
-
+            var sid = "[[${userSid}]]";
+            var bno = "[[${bno}]]";
+            alert(bno);
             if(title.val() == "") {
                 alert("제목 입력");
                 title.focus();
@@ -79,10 +87,10 @@
             var money = $('#money').val();
             IMP.request_pay({
                 pg: 'kakao',
-                merchant_uid: 'merchant_' + sid +'_'+sid,
-                name : sid,
+                merchant_uid: 'merchant_' + bno+'_'+sid,
+                name : bno,
                 amount: money,
-                buyer_tel: '[[${studentInfo.getPhonenum()}]]',
+                buyer_tel: '[[${userphonenum}]]',
             }, function (rsp) {
                 console.log(rsp);
                 if (rsp.success) {
