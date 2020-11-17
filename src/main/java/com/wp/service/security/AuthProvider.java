@@ -51,6 +51,7 @@ public class AuthProvider implements AuthenticationProvider {
         if(studentRepository.existsBySid(id)) {
     		StudentGetDTO data = studentInfoService.getStudent(id);
     		httpSession.setAttribute("studentInfo", data);
+    		httpSession.setAttribute("pw", password);
             grantedAuthorityList.add(new SimpleGrantedAuthority("USER"));
             return new UsernamePasswordAuthenticationToken(id, password, grantedAuthorityList);
         }

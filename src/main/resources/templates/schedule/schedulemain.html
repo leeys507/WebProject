@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+        <th:block layout:fragment="title">
+    <title>YU Student Schedule</title>
+
+    <style>
+        .tablebody{
+            overflow:scroll;
+        }
+        .time{
+            border:1px solid black;
+            height:50px;
+            width:70px;
+            line-height: 50px;
+        }
+        .grid{
+            border:1px solid black;
+            height:50px;
+            width:150px;
+            z-inde:0;
+        }
+        .month{
+            border:1px solid black;
+            background-color: #90a4ae;
+            height:50px;
+            width:150px;
+            line-height: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .wrap{
+            position:relative;
+            left:350px;
+        }
+        .mysubject{
+            position:absolute;
+            z-index:10;
+            border:1px solid black;
+            width:150px;
+            background-color: #00aeff;
+        }
+
+
+    </style>
+</th:block>
+
+<th:block layout:fragment="article">
+
+
+
+
+    <div id="data" style="display:none;">
+        <div id="title"></div>
+        <div id="profname"></div>
+        <div id="placename"></div>
+        <div id="colornum"></div>
+        <div id="topnum"></div>
+        <div id="heightnum"></div>
+        <div id="coursenum"></div>
+        <div id="dayid"></div>
+    </div>
+
+
+    <button id="create">저장</button>
+
+    <button id="delete">제거</button>
+    <a th:href="@{/schedule/contentSearch}" th:onclick="  window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a>
+
+    <div class="wrap">
+        <div class="tablehead">
+            <table class="tablehead"><tbody>
+            <tr><th style="border:1px solid black;height:50px;width:70px;line-height: 50px;"></th>
+                <td class="month">월</td>
+                <td class="month">화</td>
+                <td class="month">수</td>
+                <td class="month">목</td>
+                <td class="month">금</td>
+                <td style="display: none;">토</td>
+                <td style="display: none;">일</td>
+                <th></th></tr></tbody></table></div>
+
+        <div class="tablebody">
+            <table class="tablebody">
+                <tbody>
+
+                <tr>
+                    <th><div class="times" style=""><!--17개-->
+                        <div class="time">오전 8시</div>
+                        <div class="time">오전 9시</div>
+                        <div class="time">오전 10시</div>
+                        <div class="time">오전 11시</div>
+                        <div class="time">오후 12시</div>
+                        <div class="time">오후 1시</div>
+                        <div class="time">오후 2시</div>
+                        <div class="time">오후 3시</div>
+                        <div class="time">오후 4시</div>
+                        <div class="time">오후 5시</div>
+                        <div class="time">오후 6시</div>
+                        <div class="time">오후 7시</div>
+                        <div class="time">오후 8시</div>
+                        <div class="time">오후 9시</div>
+                        <div class="time">오후 10시</div>
+                        <div class="time">오후 11시</div>
+                        <div class="time">오후 12시</div>
+                    </div>
+
+                    </th>
+
+                    <td><!--월-->
+                        <div class="cols" id="cols0">
+                        </div>
+                        <div class="grids"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                    </td>
+
+                    <td><!--화-->
+                        <div class="cols" id="cols1"></div><div class="grids"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div>
+                    </td>
+
+                    <td><!--수-->
+                        <div class="cols" id="cols2"></div><div class="grids"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div>
+                    </td>
+
+                    <td><!--목-->
+                    <div class="cols" id="cols3"></div><div class="grids"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div>
+                    </td>
+
+                    <td><!--금-->
+                    <div class="cols" id="cols4"></div><div class="grids"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div>
+                    </td>
+
+
+                </tr></tbody></table><div class="nontimes"></div></div>
+    </div>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $.ajax({
+                url : "/schedule/load",
+                type :"get",
+                data :"date=a" ,
+                cache:false}).done(function (a) {
+
+
+                    var temp=a.split("!");
+
+                   // alert(temp[temp.length-2]);
+
+               for(i=0;i<temp.length-1;i++)
+               {
+
+                   var itemp=temp[i].split("*");
+
+
+/*
+                   if(i==temp.length-1)
+                   {
+                       alert(itemp[0]);
+                       alert(itemp[1]);
+                       alert(itemp[2]);
+                       alert(itemp[3]);
+                       alert(itemp[4]);
+                       alert(itemp[5]);
+                       alert(itemp[6]);
+                       alert(itemp[7]);
+
+                   }*/
+
+                       $("#title").text(itemp[0]);
+                       $("#profname").text(itemp[1]);
+                       $("#placename").text(itemp[2]);
+                       $("#colornum").text("#"+itemp[3]);
+                       $("#topnum").text(itemp[4]);
+                       $("#heightnum").text(itemp[5]);
+                       $("#coursenum").text(itemp[6]);
+                       $("#dayid").text(itemp[7]);
+                   createobject();
+
+               }
+            });});
+
+
+
+        var list= new Array();
+        var clickEle = $('#create');
+        clickEle.click(function () {
+
+            for(var i=0;i<list.length;i++){
+
+                $.ajax({
+                    url : "/schedule/save",
+                    type : "get",
+                    data : "title=" + list[i].get("title")+"&profname="+list[i].get("profname")+"&placename="+list[i].get("placename"+"")+"&colornum=" + list[i].get("colornum").substr(1)+"&topnum="+list[i].get("topnum")+"&heightnum="+list[i].get("heightnum")+"&coursenum="+list[i].get("coursenum")+"&dayid="+list[i].get("dayid"),
+                    cache:false}).done(function () {
+
+                });
+
+            }
+        });
+
+
+        var clickEle = $('#delete');
+        clickEle.click(function () {
+
+
+            var sid;
+            $.ajax({
+                url : "/schedule/deleteload",
+                type :"get",
+                data :"date=a" ,
+                cache:false}).done(function (a) {
+
+
+
+                $.ajax({
+                    url : "/schedule/delete",
+                    type :"get",
+                    data :"sid="+a ,
+                    cache:false}).done(function (aa) {
+
+                });
+
+                //alert(sid);
+            });
+
+
+
+            list=[];
+
+
+
+            //alert("dd");
+            //$('ul').children('li:eq(0)');
+          //  $('#cols0').children().remove();
+
+            //alert($('.mysubject').text())
+            //alert($('#cols0').children('div:eq(0)').text());
+           $('#cols0').children('div').remove();
+            $('#cols1').children('div').remove();
+            $('#cols2').children('div').remove();
+            $('#cols3').children('div').remove();
+            $('#cols4').children('div').remove();
+
+        });
+
+/*
+        var clickEle = $('#create');
+        clickEle.click(function () {
+
+            alert("dd");
+            /!*<div class="mysubject"
+                 style="position:absolute;z-index:10;border:1px solid black;height:50px;width:100px; background-color: #00aeff; top:300px; ">물리 101호 김명진</div>
+        </div><!--실질적으로 과목이 들어오는 칸, 셀렉되면 이칸으로 이 div안에 또 div가 들어옴.-->
+*!/
+            var str="<div class='mysubject'style='position:absolute;z-index:10;border:1px solid black;height:50px;width:100px; background-color: #00aeff; top:300px; '>물리 101호 김명진</div>"
+
+            $('#cols0').append(str);
+
+        });*/
+
+        function createobject() {
+
+            let max = new Map();
+
+            max.set("title", $('#title').text());
+            max.set("profname", $('#profname').text());
+            max.set("placename", $('#placename').text());
+            max.set("colornum", $('#colornum').text());
+            max.set("topnum", $('#topnum').text());
+            max.set("heightnum", $('#heightnum').text());
+            max.set("coursenum", $('#coursenum').text());
+            max.set("dayid", $('#dayid').text());
+            list.push(max);
+
+
+
+
+            var str = "<div class='mysubject'style='" +"position:absolute;z-index:10;border:1px solid black;width:150px;background-color:"+$('#colornum').text()+
+                ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;'>"+$('#title').text() +$('#profname').text()+$('#placename').text()+"</div>";
+
+
+            var distinguish ='#'+$('#dayid').text();
+
+
+           // alert(distinguish);
+            $(distinguish).append(str);
+
+        }
+
+
+
+
+        </script>
+</th:block>
+</html>

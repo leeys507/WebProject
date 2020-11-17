@@ -31,4 +31,22 @@ public class HomeViewController {
 	public String openIndexLogin() {
 		return "home/indexLogin";
 	}
+	
+	@GetMapping("/yu/home/footer1")
+    public String openHomeFooter1View(Model model){
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+        return "home/footer1";
+    }
+
+    @GetMapping("/yu/home/footer2")
+    public String openHomeFooter2View(Model model){
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+        return "home/footer2";
+    }
+
+    @GetMapping("/yu/home/footer3")
+    public String openHomeFooter3View(Model model){
+        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+        return "home/footer3";
+    }
 }
