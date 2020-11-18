@@ -54,6 +54,8 @@ public class AuthProvider implements AuthenticationProvider {
         if(studentRepository.existsBySid(id)) {
     		StudentGetDTO data = studentInfoService.getStudent(id);
     		httpSession.setAttribute("studentInfo", data);
+    		httpSession.setAttribute("id", id);
+    		httpSession.setAttribute("password", password);
             grantedAuthorityList.add(new SimpleGrantedAuthority("USER"));
             return new UsernamePasswordAuthenticationToken(id, password, grantedAuthorityList);
         }
@@ -71,13 +73,6 @@ public class AuthProvider implements AuthenticationProvider {
         Map<String,String> loginCookie;
         String G = "http://portal.yu.ac.kr/sso/login.jsp?type=lms&cReturn_Url=http%3A%2F%2Flms.yu.ac.kr%2Filos%2Flo%2Flogin_sso.acl";
         String A = "https://portal.yu.ac.kr/sso/login_process.jsp";
-        
-        HttpServletRequest request =((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession(true);
-
-        // 사용자 session 저장
-        session.setAttribute("id", userNo);
-        session.setAttribute("pw", userPwd);
         
         Connection.Response loginPageResponse = Jsoup.connect(G)
                 .timeout(3000)

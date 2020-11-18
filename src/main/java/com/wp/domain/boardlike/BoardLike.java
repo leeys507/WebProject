@@ -30,6 +30,7 @@ public class BoardLike  {
 
     @Column(name = "check_like", nullable = false, length = 2)
     private String check_like;
+    
     public void update(String check_like) {
         this.check_like = check_like;
     }

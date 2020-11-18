@@ -87,10 +87,10 @@ public class Board {
     }
     
     public void update(String title, String content,String boardtype) {
-        this.title=title;
-        this.content=content;
-        this.boardtype=boardtype;
-        this.register_date=LocalDateTime.now();
+        this.title = title;
+        this.content = content;
+        this.boardtype = boardtype;
+        this.register_date = LocalDateTime.now();
     }
 
     public void delete() {
@@ -98,6 +98,6 @@ public class Board {
         this.delete_date = LocalDateTime.now();
     }
     public void updatelike(int like_count){
-        this.like_count=this.like_count+like_count;
+        this.like_count=this.like_count + like_count;
     }
 }

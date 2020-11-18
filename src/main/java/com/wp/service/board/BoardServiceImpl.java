@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
     }
     
     @Transactional
-    public void updateViewCnt(long bno, int present_read_count, HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public void updateViewCnt(long bno, int presentReadCount, HttpServletRequest request, HttpServletResponse response, HttpSession session){
         Cookie[] cookieFromRequest = request.getCookies();
         String cookieValue = cookieFromRequest[0].getValue();
         if (session.getAttribute("cookieview") == null) {
@@ -60,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
                 session.setAttribute("cookieview",  cookieValue);
             }
         }if (!session.getAttribute("cookieview").equals(session.getAttribute("cookie exchange"))) {
-        	boardRepository.updateReadCount(bno, present_read_count + 1);
+        	boardRepository.updateReadCount(bno, presentReadCount + 1);
         }
     }
     

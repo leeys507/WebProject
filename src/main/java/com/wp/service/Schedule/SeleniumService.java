@@ -3,6 +3,8 @@ package com.wp.service.Schedule;
 import com.gargoylesoftware.css.parser.Locatable;
 import com.wp.domain.student.dto.StudentGetDTO;
 
+import lombok.RequiredArgsConstructor;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -31,7 +33,6 @@ public class SeleniumService {
 
     //Properties
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    public static final String WEB_DRIVER_PATH = "C:\\Users\\User\\workspace-spring-tool-suite-4-4.7.2.RELEASE\\WebProject\\src\\main\\resources\\drivers\\chromedriver_win32\\chromedriver.exe";
 
     //크롤링 할 URL
     private String base_url;
@@ -39,7 +40,7 @@ public class SeleniumService {
     public SeleniumService() {
         super();
         String path = System.getProperty("user.dir");
-        System.out.println(path); 
+        System.out.println(path);
         
         //System Property SetUp
         System.setProperty(WEB_DRIVER_ID , path+"\\src\\main\\resources\\drivers\\chromedriver_win32\\chromedriver.exe");
@@ -47,8 +48,8 @@ public class SeleniumService {
         //Driver SetUp
         ChromeOptions options = new ChromeOptions();
         options.setCapability("ignoreProtectedModeSettings", true);
-        //options.addArguments("--headless");
-        //options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
         driver = new ChromeDriver(options);
 
         base_url = "https://std.yu.ac.kr/std/std_login.jsp";
@@ -82,7 +83,7 @@ public class SeleniumService {
 
             //iframe 내부에서 pw 필드 탐색
             webElement = driver.findElement(By.id("passwd"));
-            String pw =(String)session.getAttribute("pw");
+            String pw =(String)session.getAttribute("password");
             webElement.sendKeys(pw);
 
 
