@@ -10,11 +10,30 @@
   			</button>
   			<div class="collapse navbar-collapse" id ="navbar">
     			<ul class="navbar-nav mr-auto">
-      				<li class="nav-item"><a class="nav-link" href = "#">매칭</a></li>
-      				<li class="nav-item"><a class="nav-link" href = "#">시간표</a></li>
+					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+						매칭
+					</a>
+						<div class="dropdown-menu text-center" aria-labelledby="dropdown">
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=청소">청소</a>
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=배달">배달</a>
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=역할대행">역할대행</a>
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=심부름">심부름</a>
+						</div>
+					</li>
+      				<li class="nav-item"><a class="nav-link" href = "/yu/schedule/main">시간표</a></li>
       				<li class="nav-item"><a class="nav-link" href = "#">강의평가</a></li>
-     				<li class="nav-item"><a class="nav-link" href = "#">게시판</a></li>
-      				<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
+
+					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+						게시판
+					</a>
+						<div class="dropdown-menu text-center" aria-labelledby="dropdown">
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=자유게시판">자유게시판</a>
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=중고게시판">중고게시판</a>
+							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=정보게시판">정보게시판</a>
+						</div>
+					</li>
+
+					<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
       				<li>
         				<form class="input-group">
           					<input id="totalSearchBoxM" class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">

@@ -109,6 +109,17 @@
 
 <th:block layout:fragment="script">
     <script type="text/javascript">
+        if([[${board.getTotalElements()}]] == 0) {
+            var tr = document.createElement("tr");
+            var th = document.createElement("th");
+
+            th.colSpan = 6;
+            th.style.fontSize = "15px";
+            th.style.textAlign = "center";
+            th.innerHTML = "등록된 글이 없습니다";
+            tr.appendChild(th);
+            $("#tbody").append(tr);
+        }
         var pages = getParameterByName("page");
         var boardtype=getParameterByName("boardtype");
 
