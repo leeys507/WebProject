@@ -72,6 +72,40 @@
       </div>
     </div>
   </div>
+<div class="modal" id="modal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">내 정보 수정하기</h5>
+          <button type="button" class="close5" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>닉네임, 이메일만 수정가능합니다.</h5><br>
+          <form>
+            <div class="form-group">
+              <label for="nickName" class="col-form-label"><h5>닉네임</h5><b>(닉네임은 1개월 주기로 변경이 가능합니다.)</b>
+              <br>마지막 변경일: <b th:if="${studentInfo.getUpdate_date()} == null">없음</b>
+              <b th:unless="${studentInfo.getUpdate_date()} == null">[[${studentInfo.getUpdate_date()}]]</b>
+              </label>
+              <input type="text" class="form-control" id="updateNickName" placeholder="수정할 닉네임을 입력해주세요" onKeyPress="if(event.keyCode==13) {return updateNickNameOrEmail();}">
+            </div>
+            <div class="form-group">
+              <label for="yourEmail" class="col-form-label"><h5>이메일</h5></label>
+              <input type="text" class="form-control" id="updateEmail" placeholder="수정할 이메일을 입력해주세요" onKeyPress="if(event.keyCode==13) {return updateNickNameOrEmail();}">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-red">탈퇴하기</button>
+            <div class="float-right">
+              <button type="button" class="btn-blue" data-dismiss="modal" onClick="return updateNickNameOrEmail();">수정하기</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
 </th:block>
 
 <th:block layout:fragment="article">
@@ -113,7 +147,9 @@
                   </div>
                 </div>
               </div>
-              <a href="#" class="btn btn-primary float-right">수정하</a>
+              <div class="float-right" style="margin-bottom:10px; margin-right:10px;">
+                  <button type="button" class="btn-blue" id="modalbtn5">수정하기</button>
+              </div>
             </div>
             <div class="tab-pane" id="history">
               <!--활동기록-->
@@ -128,7 +164,7 @@
                   <div class="col-md-6">
                     <p class="card-text">좋아요 받은 수: 564</p>
                     <p class="card-text">내 댓글 수: 12</p>
-                    <p class="card-text">내 게시글 수: 1</p>
+                    <p class="card-text">내 게시글 수: [[${myBoardCount}]]</p>
                     <p class="card-text">로그인 횟수: 7</p>
                   </div>
                 </div>
@@ -327,6 +363,9 @@
     var modal4 = document.getElementById('modal4');
     var btn4 = document.getElementById("modalbtn4");
     var span4 = document.getElementsByClassName("close4")[0];
+    var modal5 = document.getElementById('modal5');
+    var btn5 = document.getElementById("modalbtn5")
+    var span5 = document.getElementsByClassName("close5")[0];
 
     btn1.onclick = function() {
       modal1.style.display = "block";
@@ -359,17 +398,83 @@
     span4.onclick = function() {
       modal4.style.display = "none";
     }
+    btn5.onclick = function() {
+      modal5.style.display = "block";
+    }
+    span5.onclick = function() {
+      modal5.style.display = "none";
+    }
 
     window.onclick = function(event) {
-      if (event.target == modal1) {
-        modal1.style.display = "none";
-      } else if (event.target == modal2) {
-        modal2.style.display = "none";
-      } else if (event.target == modal3) {
-        modal3.style.display = "none";
-      }else if (event.target == modal4) {
-        modal4.style.display = "none";
-      }
+        if (event.target == modal1) {
+          modal1.style.display = "none";
+        } else if (event.target == modal2) {
+          modal2.style.display = "none";
+        } else if (event.target == modal3) {
+          modal3.style.display = "none";
+        }else if (event.target == modal4) {
+          modal4.style.display = "none";
+        }else if (event.target == modal5) {
+          modal5.style.display = "none";
+        }
+     }
+    
+    function updateNickNameOrEmail() {
+    	var nickname = $("#updateNickName");
+    	var email = $("#updateEmail");
+    	
+    	if(nickname.val() == "" && email.val() == "") {
+    		alert("변경할 정보를 입력해 주세요");
+    		nickname.focus();
+    		return false;
+    	}
+    	else if(nickname.val() != "" && (nickname.val().length < 2 || nickname.val().length > 12)) {
+    		alert("닉네임은 2자 이상 12자 이하입니다");
+    		nickname.focus();
+    		return false;
+    	}
+    	
+    	if(nickname.val() != "") {
+        	$.ajax ({
+        		type: "PUT",
+        		url: "/yu/studentInfo/updateStudentNickname",
+                data: {
+                	sid: [[${studentInfo.getSid()}]],
+                	nickname: nickname.val()
+                },
+                success: function (data) {
+                    if (data == "닉네임 변경 완료") {
+                        alert(data);
+                        location.href = "/yu/studentInfo/studentInfo";
+                    } else
+                        alert(data);
+                }, error: function () {
+                    alert(queryString);
+                    return false;
+                }
+        	});
+    	}
+    	if(email.val() != "") {
+        	$.ajax ({
+        		type: "PUT",
+        		url: "/yu/studentInfo/updateStudentEmail",
+                data: {
+                	sid: [[${studentInfo.getSid()}]],
+                	email: email.val()
+                },
+                success: function (data) {
+                    if (data == "이메일 변경 완료") {
+                        alert(data);
+                        location.href = "/yu/studentInfo/studentInfo";
+                    } else {
+                        alert(data);
+                    }
+                }, error: function () {
+                    alert(queryString);
+                    return false;
+                }
+        	});
+    	}
     }
   </script>
 </th:block>

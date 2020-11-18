@@ -1,5 +1,7 @@
 package com.wp.domain.student.dto;
 
+import java.time.LocalDateTime;
+
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -19,6 +21,7 @@ public class StudentGetDTO {
 	private int exp;
 	private String first_login;
 	private String update_date;
+	private LocalDateTime update_dateLocal;
 	
 	public StudentGetDTO(Student entity) {
 		
@@ -34,5 +37,6 @@ public class StudentGetDTO {
 		this.first_login = entity.getFirst_login();
 		//this.fboard = entity.getFboard();
 		this.update_date = entity.getUpdate_date();
+		this.update_dateLocal = entity.getUpdate_dateLocalDate();
 	}
 }

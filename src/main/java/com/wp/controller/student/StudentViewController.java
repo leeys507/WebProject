@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class StudentViewController {
 	private final HttpSession httpSession;
-	private final StudentInfoService studentService;
+	private final StudentInfoService studentInfoService;
 	
 	@GetMapping(value = "/yu/studentInfo/studentInfo")
 	public String openStudentInfoView(Model model) {
@@ -31,10 +31,11 @@ public class StudentViewController {
 		int limit = 5;
 		
 		if(data != null) {
-			boardList = studentService.getMyBoard(data.getSid(), limit);
-			commentList = studentService.getMyComment(data.getSid(), limit);
+			boardList = studentInfoService.getMyBoard(data.getSid(), limit);
+			commentList = studentInfoService.getMyComment(data.getSid(), limit);
 		}
 
+		model.addAttribute("myBoardCount", studentInfoService.getMyBoardCount(data.getSid()));
 		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		model.addAttribute("myBoardList", boardList);
 		model.addAttribute("myCommentList", commentList);
@@ -55,7 +56,7 @@ public class StudentViewController {
 		Page<StudentGetMyBoardDTO> boardList = null;
 		
 		if(data != null) {
-			boardList = studentService.getMyAllBoard(data.getSid(), pageable);
+			boardList = studentInfoService.getMyAllBoard(data.getSid(), pageable);
 		}
 		
 		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
@@ -70,7 +71,7 @@ public class StudentViewController {
 		Page<StudentGetMyCommentDTO> commentList = null;
 		
 		if(data != null) {
-			commentList = studentService.getMyAllComment(data.getSid(), pageable);
+			commentList = studentInfoService.getMyAllComment(data.getSid(), pageable);
 		}
 		
 		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));

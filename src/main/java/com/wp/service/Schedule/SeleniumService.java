@@ -57,7 +57,6 @@ public class SeleniumService {
 
     public String crawl(int con3, int con2, int con1, String searchname, String searchnum, int grade) {
 
-
         String all="";
 
         try {
@@ -86,15 +85,8 @@ public class SeleniumService {
             String pw =(String)session.getAttribute("password");
             webElement.sendKeys(pw);
 
-
-
-
             webElement=driver.findElement(By.xpath("//input[@onclick='check();return false;']"));//홈페이지 로그인버튼클릭
             webElement.click();
-
-
-
-
 
 /*
             WebDriverWait myWaitVar = new WebDriverWait(driver,20);

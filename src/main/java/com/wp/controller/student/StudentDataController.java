@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.wp.domain.student.dto.StudentGetDTO;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class StudentDataController {
 	private final StudentInfoService studentInfoService;
+	private final HttpSession httpSession;
 
 //	@RequestMapping(value = "/studentInfo/studentInfoTest", method = RequestMethod.POST)
 //	public String openBoardWrite(@RequestParam(value = "sid", required = false) String sid, Model model) {
@@ -56,21 +59,33 @@ public class StudentDataController {
 	
 	@PutMapping("/yu/studentInfo/updateStudentNickname")
 	public String updateStudentNickname(String sid, String nickname) throws Exception {
-		StudentGetDTO data = studentInfoService.getStudent(sid);
-//		System.out.println(nickname);
-//		LocalDate lastUpdateTime = data.getUpdate_time().toLocalDate();
-//		LocalDate currentDate = LocalDate.now();
+		StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
 
-//		Period period = Period.between(lastUpdateTime, currentDate);
-//		if(period.getMonths() < 1) return "닉네임을 재변경하려면 1개월 이상 지나야 합니다.";
+		LocalDate lastUpdateTime = data.getUpdate_dateLocal().toLocalDate();
+		LocalDate currentDate = LocalDate.now();
+
+		Period period = Period.between(lastUpdateTime, currentDate);
+		if(period.getMonths() < 1) return "닉네임을 재변경하려면 1개월 이상 지나야 합니다.";
 		if(data.getNickname().equals(nickname)) return "닉네임이 이전과 같습니다";
-		return studentInfoService.updateStudentNickName(sid, nickname) == true ? "닉네임 변경 완료" : "닉네임 변경 실패";
+		else if(studentInfoService.getEqualNickname(nickname) == 1) return "이미 사용중인 닉네임 입니다";
+		else if(studentInfoService.updateStudentNickName(sid, nickname) == true) {
+			data = studentInfoService.getStudent(sid);
+			httpSession.setAttribute("studentInfo", data);
+			return "닉네임 변경 완료";
+		}
+		return "닉네임 변경 실패";
 	}
 	
 	@PutMapping("/yu/studentInfo/updateStudentEmail")
-	public boolean updateStudentEmail(String sid, String email) throws Exception {
-		System.out.println("email = " + email);
-		return studentInfoService.updateStudentEmail(sid, email);
+	public String updateStudentEmail(String sid, String email) throws Exception {
+		StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
+		if(data.getEmail().equals(email)) return "이메일이 이전과 같습니다";
+		if(studentInfoService.updateStudentEmail(sid, email) == true) {
+			data = studentInfoService.getStudent(sid);
+			httpSession.setAttribute("studentInfo", data);
+			return "이메일 변경 완료";
+		}
+		return "이메일 변경 실패";
 	}
 	
 	@PostMapping("/yu/studentInfo/getStudentCount")

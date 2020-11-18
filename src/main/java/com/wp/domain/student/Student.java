@@ -106,4 +106,8 @@ public class Student {
 	   	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
 	   	return (update_date == null) ? null : formatter.format(this.update_date);
    }
+   
+   public LocalDateTime getUpdate_dateLocalDate() {
+	   return update_date;
+  }
 }

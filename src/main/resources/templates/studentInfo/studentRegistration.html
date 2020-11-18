@@ -124,7 +124,7 @@
    		var gen = $("#gen");
    		var syear = $("#syear");
    		
-   		if($("#nickname").val().length < 2) {
+   		if($("#nickname").val().length < 2 || $("#nickname").val().length > 12) {
    			alert("닉네임은 2자 이상 12자 이하 입니다");
    			$("#nickname").focus();
    			return false;

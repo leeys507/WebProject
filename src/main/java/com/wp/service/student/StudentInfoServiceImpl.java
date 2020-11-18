@@ -82,6 +82,14 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 */
 	}
 	
+	public int getMyBoardCount(String sid) {
+		return studentRepository.getMyBoardCount(sid);
+	}
+	
+	public int getEqualNickname(String nickname) {
+		return studentRepository.getEqualNickname(nickname);
+	}
+	
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
 		return studentRepository.getMyBoard(sid, limit);
 	}
