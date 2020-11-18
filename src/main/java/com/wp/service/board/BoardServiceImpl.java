@@ -41,15 +41,15 @@ public class BoardServiceImpl implements BoardService {
     }
     
     @Transactional
-    public long update(long Bno, BoardUpdateDTO data) {
-        Board board = boardRepository.findById(Bno).orElseThrow(()->new
-                IllegalArgumentException("해당 게시글이 없습니다. id="+Bno));
+    public long update(long bno, BoardUpdateDTO data) {
+        Board board = boardRepository.findById(bno).orElseThrow(()->new
+                IllegalArgumentException("해당 게시글이 없습니다. id=" + bno));
         board.update(data.getTitle(),data.getContent(), data.getBoardtype());
-        return Bno;
+        return bno;
     }
     
     @Transactional
-    public void updateViewCnt(long Bno, HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public void updateViewCnt(long bno, int present_read_count, HttpServletRequest request, HttpServletResponse response, HttpSession session){
         Cookie[] cookieFromRequest = request.getCookies();
         String cookieValue = cookieFromRequest[0].getValue();
         if (session.getAttribute("cookieview") == null) {
@@ -60,9 +60,7 @@ public class BoardServiceImpl implements BoardService {
                 session.setAttribute("cookieview",  cookieValue);
             }
         }if (!session.getAttribute("cookieview").equals(session.getAttribute("cookie exchange"))) {
-            Board board = boardRepository.findById(Bno).orElseThrow(()->new
-                    IllegalArgumentException("해당 게시글이 없습니다. id="+Bno));
-            board.setRead_count(board.getRead_count()+1);
+        	boardRepository.updateReadCount(bno, present_read_count + 1);
         }
     }
     

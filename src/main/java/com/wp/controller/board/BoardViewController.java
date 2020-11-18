@@ -48,15 +48,15 @@ public class BoardViewController {
 
     @GetMapping("/yu/board/boardView/{bno}")	// board 1 + comment
     public String openBoardView(@PathVariable long bno, Model model, Pageable pageable, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-    	boardService.updateViewCnt(bno,request,response,session);
-        BoardGetDTO dto = boardService.findById(bno);
+        BoardGetDTO dto = boardService.findById(bno);	// 1
+        boardService.updateViewCnt(bno, dto.getReadcount(), request, response, session);
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         
         model.addAttribute("board", dto);
         model.addAttribute("studentInfo", data);
-        model.addAttribute("boardlike",boardLikeService.getCheckLike(data.getSid(),bno));
+        model.addAttribute("boardlike", boardLikeService.getCheckLike(data.getSid(), bno));	// 2
         
-        Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);
+        Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);	// 3
         model.addAttribute("boardCommentList", page);
         return "board/boardView";
     }

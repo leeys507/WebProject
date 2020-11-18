@@ -9,6 +9,5 @@ public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
     String findCheckBySidAndBno(@Param("sid")String sid, @Param("bno") long bno);
 
     @Query(value = "SELECT * FROM boardlike bl WHERE bl.bno = :bno and bl.sid = :sid", nativeQuery = true)
-    BoardLike findBySidAndBno(@Param("sid")String sid,@Param("bno") long bno);
+    BoardLike findBySidAndBno(@Param("sid")String sid, @Param("bno") long bno);
 }
-

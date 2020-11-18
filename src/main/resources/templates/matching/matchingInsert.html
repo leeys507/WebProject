@@ -63,6 +63,7 @@
         function importtest(){
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             var title=$('#title');
+            var money=$('#money');
             var sid = "[[${studentInfo.getSid()}]]";
 
             if(title.val() == "") {
@@ -70,10 +71,15 @@
                 title.focus();
                 return false;
             }
-            if(content.val() == "") {
+            else if(money.val() == "") {
+                alert("가격 입력");
+                return false;
+            }
+            else if(content.val() == "") {
                 alert("내용 입력");
                 return false;
             }
+            
             var IMP = window.IMP;
             IMP.init('imp14540701');
             var money = $('#money').val();
