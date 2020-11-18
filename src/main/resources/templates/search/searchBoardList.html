@@ -110,9 +110,9 @@
     	if([[${board.getTotalElements()}]] == 0) {
     		var tr = document.createElement("tr");
     		var th = document.createElement("th");
-    		
+    		th.style.textAlign= "center";
     		th.colSpan = 6;
-    		th.style.fontSize = "25px";
+    		th.style.fontSize = "15px";
     		th.innerHTML = "검색 결과가 없습니다";
     		tr.appendChild(th);
     		$("#tbody").append(tr);
