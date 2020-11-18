@@ -130,7 +130,8 @@
             		</a>
         		</li>
         		<li style="cursor:pointer" th:if="${boardCommentList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,boardCommentList.getTotalPages()-1)}">
-            		<a class="page-link" th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+            		<a th:if="${boardCommentList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+					<a th:unless="${boardCommentList.getNumber()} == ${num}" class="page-link" th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
         		</li>
         		<li id="pageNext">
             		<a style="cursor:pointer" th:onClick="|return pageMove('next');|">
