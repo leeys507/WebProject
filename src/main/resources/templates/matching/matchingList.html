@@ -6,7 +6,6 @@
 </th:block>
 
 <th:block layout:fragment="article">
-	<div id="article">
       <div class="container-fluid">
         <div class="col-sm-auto article-header">
           <h2 style="color:red" th:text=${boardtype}></h2>
@@ -103,7 +102,6 @@
               <button class="btn glass"><img th:src="@{/images/돋보기.png}" onClick="return searchMatching()" class="button-image"></button>
           </div>
       </div>
-    </div>
     <!-- /.card-content -->
 </th:block>
 
