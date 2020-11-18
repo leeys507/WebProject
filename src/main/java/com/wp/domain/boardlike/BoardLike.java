@@ -20,17 +20,17 @@ public class BoardLike  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long lno;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bno", nullable = false)
     private Board boardForeignkey;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sid", nullable = false)
     private Student studentForeignkey;
 
     @Column(name = "check_like", nullable = false, length = 2)
     private String check_like;
     public void update(String check_like) {
-        this.check_like=check_like;
+        this.check_like = check_like;
     }
 }

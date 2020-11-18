@@ -43,13 +43,18 @@ public class ScheduleController {
     public String schedulemain(Model model) {
 
     	model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+    	model.addAttribute("id", httpSession.getAttribute("id"));
+    	model.addAttribute("pw", httpSession.getAttribute("pw"));
         return "schedule/schedulemain";
     }
 
 
     @GetMapping(value="/schedule/contentSearch")
-    public String contentSearch() {
+    public String contentSearch(Model model) {
 
+    	model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+    	model.addAttribute("id", httpSession.getAttribute("id"));
+    	model.addAttribute("pw", httpSession.getAttribute("pw"));
         return "schedule/contentSearch";
     }
 

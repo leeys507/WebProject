@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import com.wp.domain.board.Board;
 import com.wp.domain.boardcomment.BoardComment;
+import com.wp.domain.boardlike.BoardLike;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
@@ -92,6 +93,9 @@ public class Student {
    
    @OneToMany(mappedBy = "studentForeignkey_accept", targetEntity = Matching.class)
    private List<Matching> matchingList_accept = new ArrayList<Matching>();
+   
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity = BoardLike.class)
+   private List<BoardLike> boardLikeList = new ArrayList<BoardLike>();
    
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");

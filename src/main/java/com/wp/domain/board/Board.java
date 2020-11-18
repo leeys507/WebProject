@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.wp.domain.boardcomment.BoardComment;
+import com.wp.domain.boardlike.BoardLike;
 import com.wp.domain.student.Student;
 
 import lombok.Getter;
@@ -33,7 +35,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bno;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sid", nullable = false)
     private Student studentForeignkey;
 
@@ -68,8 +70,11 @@ public class Board {
     @Column(name = "check_delete", nullable = false, length = 2)
     private String check_delete;
 
-    @OneToMany(mappedBy = "boardForeignkey", targetEntity= BoardComment.class)
+    @OneToMany(mappedBy = "boardForeignkey", targetEntity = BoardComment.class)
     private List<BoardComment> boardList = new ArrayList<BoardComment>();
+    
+    @OneToMany(mappedBy = "boardForeignkey", targetEntity = BoardLike.class)
+    private List<BoardLike> boardLikeList = new ArrayList<BoardLike>();
 
     public String getRegister_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");

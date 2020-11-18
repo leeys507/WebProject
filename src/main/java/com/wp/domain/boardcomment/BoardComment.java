@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity(name = "boardcomment")
 public class BoardComment {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bno", nullable = false)
     private Board boardForeignkey;
     
@@ -38,7 +39,7 @@ public class BoardComment {
     @Column(name = "group_id", nullable = false, columnDefinition = "int")
     private long group_id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sid", nullable = false)
     private Student studentForeignkey;
 

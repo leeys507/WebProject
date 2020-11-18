@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,14 +29,14 @@ public class Matching {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bno;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_sid", nullable = false)
     private Student studentForeignkey_request;
     
     @Column(name = "request_nickname", nullable = false, length = 12)
     private String request_nickname;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accept_sid")
     private Student studentForeignkey_accept;
     
