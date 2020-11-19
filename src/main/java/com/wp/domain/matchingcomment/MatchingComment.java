@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -46,12 +47,17 @@ public class MatchingComment {
     private String check_delete;
 
     public void update(String content) {
-        this.content=content;
-        this.update_date=LocalDateTime.now();
+        this.content = content;
+        this.update_date = LocalDateTime.now();
     }
 
     public void delete() {
         this.check_delete = "T";
         this.delete_date = LocalDateTime.now();
     }
+    
+    public String getRegister_date() {
+   		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+   		return formatter.format(this.register_date);
+   }
 }

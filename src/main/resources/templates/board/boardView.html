@@ -37,7 +37,7 @@
                     <div id="recommend-btn" class="recommend-btn clear">
                         <div class="btn-inner">
                             <!-- 좋아요 -->
-                            <div style="width:160px;text-align:right;" class="like-btn-form fl" th:if="${studentInfo} != null">
+                            <div style="width:160px;text-align:right;" class="like-btn-form fl" th:if="${session.studentInfo} != null">
                                 <span style="vertical-align:middle" id="likeText">좋아요</span>
                                 <button type="button" class="btn-like"><img style="width:40px;height:40px;" th:src="@{/images/pngwing.com.png}" th:onClick="|return likeBoard();|" id="likeboard" class="like-btn"></button>
                             </div>
@@ -59,7 +59,7 @@
                 <!-- 댓글 내용 -->
                 <div class="comment-box">
                     <ul class="comment-list">
-                        <!-- 여기를 반복문하면 될듯 -->
+                        <!-- 반복 -->
                         <li class="up-content">
                             <div class="comment-info clear">
                                 <!-- 댓글작성 닉네임 -->
@@ -82,10 +82,10 @@
                                 <!-- 댓글 날짜 -->
                                 <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
                                 <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
-                                <div class="comment-option-button" th:if="${studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
-                                    <a style="cursor:pointer" th:if="${studentInfo} != null" th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|">댓글 쓰기</a>
-                                    <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|">수정</a>
-                                    <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|return deleteComment(${boardComment.getCno()});|">삭제</a>
+                                <div class="comment-option-button" th:if="${session.studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
+                                    <a style="cursor:pointer" th:if="${session.studentInfo} != null" th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|">댓글 쓰기</a>
+                                    <a style="cursor:pointer" th:if="${session.studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|">수정</a>
+                                    <a style="cursor:pointer" th:if="${session.studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|return deleteComment(${boardComment.getCno()});|">삭제</a>
                                 </div>
                             </div>
                             <!-- 대댓글 -->
@@ -105,10 +105,10 @@
                                 <!-- 댓글 날짜 -->
                                 <div class="comment-written-at"><span class="date-time" th:text="${boardComment.getRegister_date()}"></span></div>
                                 <!-- 대댓글 옵션 -->
-                                <div class="comment-option-button" th:if="${studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
-                                    <a style="cursor:pointer" th:if="${studentInfo} != null" th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|">댓글 쓰기</a>
-                                    <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|">수정</a>
-                                    <a style="cursor:pointer" th:if="${studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|return deleteComment(${boardComment.getCno()});|">삭제</a>
+                                <div class="comment-option-button" th:if="${session.studentInfo} != null and ${boardComment.getCheck_delete()} == 'F'">
+                                    <a style="cursor:pointer" th:if="${session.studentInfo} != null" th:onClick="|showCommentByCommentForm(${boardComment.getCno()});|">댓글 쓰기</a>
+                                    <a style="cursor:pointer" th:if="${session.studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${boardComment.getCno()});|">수정</a>
+                                    <a style="cursor:pointer" th:if="${session.studentInfo.getSid()} == ${boardComment.getStudentForeignkey().getSid()}" th:onClick="|return deleteComment(${boardComment.getCno()});|">삭제</a>
                                 </div>
                             </div>
                         </li>
@@ -174,8 +174,8 @@
                     <button type="button" class="btn-blue" onClick="history.go(-1)">목록</button>
                 </div>
                 <div class="fr">         	
-                	<button type="button" class="btn-grey" th:if="${studentInfo.getSid()} == ${board.getSid()}" onClick="updateButtonClick()">수정</button>
-                    <button type="button" class="btn-grey" th:if="${studentInfo.getSid()} == ${board.getSid()}" th:onClick="|return deleteBoard(${board.getBno()});|">삭제</button>
+                	<button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${board.getSid()}" onClick="updateButtonClick()">수정</button>
+                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${board.getSid()}" th:onClick="|return deleteBoard(${board.getBno()});|">삭제</button>
                 </div>
             </div>
 </th:block>
@@ -259,8 +259,8 @@
 
         function registerComment(part) {
             var boardNumber = document.getElementsByName("boardNumber")[0].id;
-            var sid = "[[${studentInfo.getSid()}]]";
-            var nickname = "[[${studentInfo.getNickname()}]]";
+            var sid = "[[${session.studentInfo.getSid()}]]";
+            var nickname = "[[${session.studentInfo.getNickname()}]]";
             var content = $("#cTextArea");
             var ccno;
 
@@ -361,8 +361,8 @@
 
         function updateComment(cno) {
             var boardNumber = document.getElementsByName("boardNumber")[0].id;
-            var sid = "[[${studentInfo.getSid()}]]";
-            var nickname = "[[${studentInfo.getNickname()}]]";
+            var sid = "[[${session.studentInfo.getSid()}]]";
+            var nickname = "[[${session.studentInfo.getNickname()}]]";
             var content = $("#cTextArea");
 
             if(content.val() == "") {
@@ -396,7 +396,7 @@
         function likeBoard() {
             var likecheck = "[[${boardlike}]]";
             var bno = [[${board.getBno()}]];
-            var sid = "[[${studentInfo.getSid()}]]";
+            var sid = "[[${session.studentInfo.getSid()}]]";
             if(likecheck=="") {
                 $.ajax({
                     url: "/yu/boardLike/insertBoardLike",
@@ -445,10 +445,6 @@
         
         function updateButtonClick() {
         	location.href = "/yu/board/boardUpdate/" + [[${board.getBno()}]];
-        }
-
-        function showCommentToCommentNickname() {
-        	
         }
     </script>
 </th:block>

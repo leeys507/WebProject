@@ -18,6 +18,7 @@ import com.wp.domain.student.dto.StudentInsertDTO;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,19 +38,22 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		return (entity == null) ? null : new StudentGetDTO(entity);
 	}
 	
-	public boolean updateStudentNickName(String sid, String nickname) {
+	public boolean updateStudentNickName(String sid, String nickname, LocalDateTime date) {
 //		Student entity = studentRepository.findBySid(sid);
 //		if(entity == null) return false;
 //		entity.setNickname(nickname);
 //		return studentRepository.save(entity) != null;
-		return studentRepository.updateNickname(sid, nickname) > 0 ? true : false;
+		return studentRepository.updateNickname(sid, nickname, date) > 0 ? true : false;
 	}
+	
 	public String getPhoneNum(String sid){
 		return studentRepository.findBySid(sid).getPhonenum();
 	}
+	
 	public String getNickname(String sid) {
 		return studentRepository.getBoardByNickname(sid);
 	}
+	
 	public boolean updateStudentEmail(String sid, String email) {
 		return studentRepository.updateEmail(sid, email) > 0 ? true : false;
 	}

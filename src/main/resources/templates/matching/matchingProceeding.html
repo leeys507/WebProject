@@ -91,7 +91,7 @@
                 <button type="button" class="btn-blue" onClick="cancelMatching()">취소 요청</button>
                 </div>
                 <div class="fr">
-                    <button type="button" th:if="${studentInfo.getSid()}==${matching.getRequest_sid()}" class="btn-blue" onClick="successMatching()">완료</button>
+                    <button type="button" th:if="${session.studentInfo.getSid()}==${matching.getRequest_sid()}" class="btn-blue" onClick="successMatching()">완료</button>
                 </div>
             </div>
         </div>
@@ -99,14 +99,14 @@
 </th:block>
 <th:block layout:fragment="script">
     <script type="text/javascript">
-        var sid="[[${studentInfo.getSid()}]]";
+        var sid="[[${session.studentInfo.getSid()}]]";
         var accsid="[[${matching.getAccept_sid()}]]";
         var account="[[${matching.getAccept_account()}]]";
         if(sid==accsid&&account=="") {
             $("#AccountModal").modal('show');
         }
         var webSocket;
-        var nickname="[[${studentInfo.getNickname()}]]";
+        var nickname="[[${session.studentInfo.getNickname()}]]";
         var roomId = "[[${chatRoom.roomId}]]";
         webSocket = new WebSocket("ws://localhost:8080/chat");
         webSocket.onopen = onOpen;
@@ -197,7 +197,7 @@
         function cancelSend(){
             if(confirm("취소 요청 하시겠습니까?")) {
                 var MatchingNumber = [[${matching.getBno()}]];
-                var sid = "[[${studentInfo.getSid()}]]";
+                var sid = "[[${session.studentInfo.getSid()}]]";
                 var content = $("#content");
                 if(content.val() == "") {
                     alert("내용 입력");

@@ -3,6 +3,7 @@ package com.wp.service.security;
 import com.wp.domain.student.StudentRepository;
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.service.student.StudentInfoService;
+import com.wp.yufunction.YUFunction;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,6 +24,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.net.ssl.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.io.File;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -56,6 +59,17 @@ public class AuthProvider implements AuthenticationProvider {
     		httpSession.setAttribute("studentInfo", data);
     		httpSession.setAttribute("id", id);
     		httpSession.setAttribute("password", password);
+    		
+    		String folderName = data.getNickname() + new YUFunction().createSubFolderName(data.getSid());
+    		String path = System.getProperty("user.dir");
+    		File file = new File(path + "\\src\\main\\resources\\static\\images\\profiles\\" + folderName + "\\profileImage.png");
+    		if(file.exists()) {
+    			httpSession.setAttribute("folderName", folderName);
+    		}
+    		else {
+    			httpSession.setAttribute("folderName", null);
+    		}
+    		
             grantedAuthorityList.add(new SimpleGrantedAuthority("USER"));
             return new UsernamePasswordAuthenticationToken(id, password, grantedAuthorityList);
         }

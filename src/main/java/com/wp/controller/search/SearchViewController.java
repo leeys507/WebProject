@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 public class SearchViewController {
 	private final BoardService boardService;
 	private final MatchingService matchingService;
-	private final HttpSession httpSession;
 	
     @GetMapping("/yu/search/searchAllList")
     public String searchBoardListView(@RequestParam String text, @RequestParam String date, @RequestParam String option, 
@@ -31,7 +30,6 @@ public class SearchViewController {
         model.addAttribute("date", date);
         model.addAttribute("option", option);
         model.addAttribute("board", data);
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 
         return "search/searchAllList";
     }
@@ -46,7 +44,6 @@ public class SearchViewController {
         model.addAttribute("date", date);
         model.addAttribute("option", option);
         model.addAttribute("board", data);
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 
         return "search/searchBoardList";
     }
@@ -61,7 +58,6 @@ public class SearchViewController {
         model.addAttribute("date", date);
         model.addAttribute("option", option);
         model.addAttribute("matchingList", data);
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 
         return "search/searchMatchingList";
     }

@@ -86,8 +86,8 @@
           <form>
             <div class="form-group">
               <label for="nickName" class="col-form-label"><h5>닉네임</h5><b>(닉네임은 1개월 주기로 변경이 가능합니다.)</b>
-              <br>마지막 변경일: <b th:if="${studentInfo.getUpdate_date()} == null">없음</b>
-              <b th:unless="${studentInfo.getUpdate_date()} == null">[[${studentInfo.getUpdate_date()}]]</b>
+              <br>마지막 변경일: <b th:if="${session.studentInfo.getUpdate_date()} == null">없음</b>
+              <b th:unless="${session.studentInfo.getUpdate_date()} == null">[[${session.studentInfo.getUpdate_date()}]]</b>
               </label>
               <input type="text" class="form-control" id="updateNickName" placeholder="수정할 닉네임을 입력해주세요" onKeyPress="if(event.keyCode==13) {return updateNickNameOrEmail();}">
             </div>
@@ -134,25 +134,27 @@
                   <div class="col-md-2">
                   	<div class="row row-cols-1">
                   		<div class="col">
-                    		<img th:src="@{/images/영대마크.png}" style="width:180px;height:240px;" class="card-img">
+                    		<img th:if="${session.folderName} != null" style="width:180px;height:240px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
+                    		<img th:unless="${session.folderName} != null" style="width:180px;height:240px;" src="http://placehold.it/180x240/" class="card-img">
                     	</div>
                     	 <div class="col">
-							<form id = "imageForm" method="post" enctype="multipart/form-data">
+							<form id="imageForm" method="post" enctype="multipart/form-data">
 								<br>
 								<label for="image" style="background-color:#61DBF0;">프로필 이미지</label><br>
 								<input id = "imageFile" name="imageFile" type="file" accept=".jpg, .jpeg, .png, .gif" onChange = "imageCheck(imageFile)"> <br>
-								<a style="font-size:13px">(1MB 이하 / 미등록 가능)<br>(이미지 이름 25자 이내)</a>
+								<a style="font-size:13px">(512KB 이하 / 미등록 가능)<br>(이미지 이름 25자 이내)</a><br>
 							</form>
+							<button class="btn-blue" style="width:70px; height:30px; display:none" id="uploadBtn" onClick="imageUpload()">업로드</button>
 			 			</div>
                     </div>
                   </div>
                   <div class="col-md-10">
                     <p class="card-text text-left">Lv.7 (640/700)</p>
-                    <p class="card-text text-left">닉네임: [[${studentInfo.getNickname()}]]</p>
-                    <p class="card-text text-left">학년: [[${studentInfo.getSyear()}]]</p>
-                    <p class="card-text text-left">학과: [[${studentInfo.getDepartment()}]]</p>
-                    <p class="card-text text-left">이메일: [[${studentInfo.getEmail()}]]</p>
-                    <p class="card-text text-left">포인트: [[${studentInfo.getPoint()}]]</p>
+                    <p class="card-text text-left">닉네임: [[${session.studentInfo.getNickname()}]]</p>
+                    <p class="card-text text-left">학년: [[${session.studentInfo.getSyear()}]]</p>
+                    <p class="card-text text-left">학과: [[${session.studentInfo.getDepartment()}]]</p>
+                    <p class="card-text text-left">이메일: [[${session.studentInfo.getEmail()}]]</p>
+                    <p class="card-text text-left">포인트: [[${session.studentInfo.getPoint()}]]</p>
                     <p class="card-text text-left">비밀번호 변경: <a style="text-decoration:underline" href="https://adm.yu.ac.kr/com/com/port/plet/findPortPwdInitFormN_L_S.do">yu.ac.kr//PasswordChange</a></p>
                   </div>
                 </div>
@@ -169,7 +171,7 @@
               <div class="card-body text-left">
                 <div class="row">
                   <div class="col-md-6">
-                    <p class="card-text">최초 로그인: [[${studentInfo.getFirst_login()}]]</p>
+                    <p class="card-text">최초 로그인: [[${session.studentInfo.getFirst_login()}]]</p>
                     <p class="card-text">최초 게시글: 2020.06.14 17:30:47</p>
                     <p class="card-text">최초 댓글: 2020.06.14 17:45:12</p>
                     <p class="card-text">최근 로그인 기록: 2020.06.17 22:15:14</p>
@@ -409,7 +411,6 @@
       modal4.style.display = "none";
     }
 
-
     window.onclick = function(event) {
         if (event.target == modal1) {
           modal1.style.display = "none";
@@ -421,7 +422,7 @@
           modal4.style.display = "none";
         }
      }
-    
+  
     function updateNickNameOrEmail() {
     	var nickname = $("#updateNickName");
     	var email = $("#updateEmail");
@@ -442,7 +443,7 @@
         		type: "PUT",
         		url: "/yu/studentInfo/updateStudentNickname",
                 data: {
-                	sid: [[${studentInfo.getSid()}]],
+                	sid: [[${session.studentInfo.getSid()}]],
                 	nickname: nickname.val()
                 },
                 success: function (data) {
@@ -462,7 +463,7 @@
         		type: "PUT",
         		url: "/yu/studentInfo/updateStudentEmail",
                 data: {
-                	sid: [[${studentInfo.getSid()}]],
+                	sid: [[${session.studentInfo.getSid()}]],
                 	email: email.val()
                 },
                 success: function (data) {
@@ -484,7 +485,7 @@
     	var fileNameCheck = image.value.split(".");
     	var fileExtension = fileNameCheck[fileNameCheck.length-1].toLowerCase();
         var fileSize = image.files[0].size;
-        var maxSize = 1 * 1024 * 1024;		// 1MB
+        var maxSize = 1024 * 512;		// 1MB
         
     	if(image.value.length != 0) {
     		imagePath = image.value.split("\\");
@@ -494,6 +495,7 @@
     			alert("이미지의 이름을 25자 이내로 설정하세요");
             	image.files[0] = null;
             	image.value = "";
+            	$("#uploadBtn").css("display", "none");
     			return false;
     		}
     	}
@@ -501,15 +503,41 @@
         	alert("지원하지 않는 확장자 입니다");
         	image.files[0] = null;
         	image.value = "";
+        	$("#uploadBtn").css("display", "none");
         	return false;
         }
         if(fileSize > maxSize) {
-        	alert("이미지 크기는 1MB 이하입니다");
+        	alert("이미지 크기는 512KB 이하입니다");
         	image.files[0] = null;
         	image.value = "";
+        	$("#uploadBtn").css("display", "none");
            	return false;
         }
+        $("#uploadBtn").css("display", "inline-block");
        	return true;
+    }
+    
+    function imageUpload() {
+    	var imageFormData = new FormData($("#imageForm")[0]);
+    	
+    	$.ajax ({
+    		type: "POST",
+    		enctype: 'multipart/form-data',
+    		url: "/yu/studentInfo/studentProfileImageUpload",
+            data: imageFormData,
+            processData: false,
+            contentType: false,
+            timeout: 5000,
+            success: function (data) {
+                if (data == "등록 성공") {
+                    alert(data);
+                    location.href = "/yu/studentInfo/studentInfo";
+                } else
+                    alert(data);
+            }, error: function () {
+                return false;
+            }
+    	});
     }
   </script>
 </th:block>

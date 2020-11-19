@@ -20,6 +20,8 @@ import com.wp.domain.matching.Matching;
 import com.wp.domain.matching.dto.MatchingGetDTO;
 import com.wp.service.matching.MatchingService;
 
+import com.wp.yufunction.YUFunction;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,18 +34,19 @@ public class MatchingViewController {
 
     @GetMapping("/yu/matching/matchingList")    // view
     public String openMatchingListView(@RequestParam String boardtype, Model model, Pageable pageable) {
-        Page<Matching> page = matchingService.findMatchingList(pageable, boardtype);
+    	YUFunction function = new YUFunction();
+    	if(!function.matchingTypeCheck(boardtype)) boardtype = "청소";
+    	
+    	Page<Matching> page = matchingService.findMatchingList(pageable, boardtype);
 
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("matchingList", page);
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         return "matching/matchingList";
     }
     
     @GetMapping("/yu/matching/matchingInsert")
     public String openMatchingInsertView(@RequestParam String boardtype, Model model) {
     	model.addAttribute("boardtype", boardtype);
-    	model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         //model.addAttribute("bno",matchingService.MaxBno());
         return "matching/matchingInsert";
     }
@@ -53,7 +56,6 @@ public class MatchingViewController {
         MatchingGetDTO dto = matchingService.findById(bno);
         matchingService.updateViewCnt(bno, dto.getReadcount(), request, response, session);
         model.addAttribute("matching", dto);
-        model.addAttribute("studentInfo", (StudentGetDTO) httpSession.getAttribute("studentInfo"));
         Page<MatchingComment> page = matchingCommentService.findAllMatchingCommentByBno(pageable, bno);	// 3
         model.addAttribute("matchingCommentList", page);
         return "matching/matchingView";
@@ -62,7 +64,6 @@ public class MatchingViewController {
     @GetMapping("/yu/matching/matchingProceeding/{bno}")
     public String openMatchingProceeding(@PathVariable long bno,Model model){
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
-        model.addAttribute("studentInfo", data);
         model.addAttribute("matching", matchingService.findById(bno));
         model.addAttribute("chatRoom", chatRoomRepository.findRoomById(String.valueOf(bno)));
         return matchingService.ProceedPage(data.getSid(),bno);

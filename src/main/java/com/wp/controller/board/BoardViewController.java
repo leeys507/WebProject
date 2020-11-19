@@ -8,6 +8,8 @@ import com.wp.service.board.BoardService;
 import com.wp.service.boardcomment.BoardCommentService;
 
 import com.wp.service.boardlike.BoardLikeService;
+import com.wp.yufunction.YUFunction;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,18 +33,18 @@ public class BoardViewController {
     
     @GetMapping("/yu/board/boardList")    // view
     public String openBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
+    	YUFunction function = new YUFunction();
+    	if(!function.boardTypeCheck(boardtype)) boardtype = "자유게시판";
+    	
         Page<Board> page = boardService.findBoards(pageable, boardtype);
-
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("board", page);
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         return "board/boardList";
     }
 
     @GetMapping("/yu/board/boardInsert")
     public String openBoardInsertView(String boardtype, Model model) {
     	model.addAttribute("boardtype", boardtype);
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
         return "board/boardInsert";
     }
 
@@ -53,7 +55,6 @@ public class BoardViewController {
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
 
         model.addAttribute("board", dto);
-        model.addAttribute("studentInfo", data);
         model.addAttribute("boardlike", boardLikeService.getCheckLike(data.getSid(), bno));	// 2
         
         Page<BoardComment> page = boardCommentService.findAllBoardCommentByBno(pageable, bno);	// 3
@@ -65,7 +66,6 @@ public class BoardViewController {
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         BoardGetDTO dto = boardService.findById(bno);
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
-        model.addAttribute("studentInfo",data );
         model.addAttribute("board", dto);
         return boardService.updateBoardOpen(dto.getSid(),data.getSid());
     }

@@ -40,7 +40,7 @@
         		Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
         	</div>
 			<div class="float-left">
-				<a class="btn btn-primary" th:if="${studentInfo} != null" type="button" onClick="insertBoard()" role="button">글쓰기</a>
+				<a class="btn btn-primary" th:if="${session.studentInfo} != null" type="button" onClick="insertBoard()" role="button">글쓰기</a>
 			</div>
         </div>
 

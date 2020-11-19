@@ -36,7 +36,6 @@ public class StudentViewController {
 		}
 
 		model.addAttribute("myBoardCount", studentInfoService.getMyBoardCount(data.getSid()));
-		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		model.addAttribute("myBoardList", boardList);
 		model.addAttribute("myCommentList", commentList);
 
@@ -58,8 +57,6 @@ public class StudentViewController {
 		if(data != null) {
 			boardList = studentInfoService.getMyAllBoard(data.getSid(), pageable);
 		}
-		
-		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		model.addAttribute("myBoardList", boardList);
 
 		return "studentInfo/studentMyBoardList";
@@ -74,7 +71,6 @@ public class StudentViewController {
 			commentList = studentInfoService.getMyAllComment(data.getSid(), pageable);
 		}
 		
-		model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
 		model.addAttribute("myCommentList", commentList);
 		
 		return "studentInfo/studentMyCommentList";

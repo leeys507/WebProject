@@ -1,5 +1,7 @@
 package com.wp.domain.student;
 
+import java.time.LocalDateTime;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,8 +31,8 @@ public interface StudentRepository extends JpaRepository<Student, StudentGetDTO>
 		
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE student SET nickname = :nickname, update_date = NOW() WHERE sid = :sid", nativeQuery = true)
-	int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname);
+	@Query(value = "UPDATE student SET nickname = :nickname, update_date = :date WHERE sid = :sid", nativeQuery = true)
+	int updateNickname(@Param("sid") String sid, @Param("nickname") String nickname, @Param("date") LocalDateTime date);
 	
 	@Transactional
 	@Modifying

@@ -52,7 +52,19 @@
                 <!-- 참여 내용 -->
                 <div class="comment-box">
                     <ul class="comment-list">
-                        <!-- 여기를 반복문하면 될듯 -->
+                        <!-- 반복 -->
+                         <li class="up-content">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer" style="font-weight:bold">닉네임</span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear" ><p style="font-weight:bold">내용</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time" style="font-weight:bold">날짜</span></div>
+                                <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
+                                <div class="comment-option-button"><a style="font-weight:bold">···</a></div>
+                            </div>
+                        </li>
                         <li class="up-content" th:each="matchingComment :${matchingCommentList}">
                             <div class="comment-info clear">
                                 <!-- 댓글작성 닉네임 -->
@@ -65,10 +77,10 @@
                                 <!-- 본인이 참여자 : 수정, 삭제 버튼 보이게 해주시고 / 본인이 글 작성자 : 선택하기 버튼  -->
                                 <div class="comment-option-button" th:if="${matchingComment.getCheck_delete()} == 'F'">
                                     <div class="fr">
-                                        <button type="button" th:if="${studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${matchingComment.getCno()});|" class="comment-modify">수정</button>
-                                        <button type="button" th:if="${studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()} AND ${matching.getCheck_success()}!='I'" th:onClick="|return deleteComment(${matchingComment.getCno()});|" class="comment-cancel">삭제</button>
-                                        <button type="button" class="comment-select"  th:if="${studentInfo.getSid()} == ${matching.getRequest_sid()} AND ${matching.getCheck_success()}=='F'" th:onClick="|return proceedMatching(${matchingComment.getCno()});|">선택</button>
-                                        <button type="button" th:if="${studentInfo.getSid()} == ${matching.request_sid} AND ${matching.getCheck_success()}=='I'" class="comment-chatting"  th:onClick="|return openChating(${matching.getBno()});|">채팅방 들어가기</button>
+                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${matchingComment.getCno()});|" class="comment-modify">수정</button>
+                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()} AND ${matching.getCheck_success()}!='I'" th:onClick="|return deleteComment(${matchingComment.getCno()});|" class="comment-cancel">삭제</button>
+                                        <button type="button" class="comment-select"  th:if="${session.studentInfo.getSid()} == ${matching.getRequest_sid()} AND ${matching.getCheck_success()}=='F'" th:onClick="|return proceedMatching(${matchingComment.getCno()});|">선택</button>
+                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matching.request_sid} AND ${matching.getCheck_success()}=='I'" class="comment-chatting"  th:onClick="|return openChating(${matching.getBno()});|">채팅방 들어가기</button>
                                     </div>
                                 </div>
                             </div>
@@ -132,8 +144,8 @@
                 </div>
                 <div class="fr">
                     <!-- 내가 쓴글이면 수정, 삭제 기능을 할수있게 만들어주세요 -->
-                    <button type="button" class="btn-grey" th:if="${studentInfo.getSid()} == ${matching.request_sid}" onclick="updateButtonClick()">수정</button>
-                    <button type="button" class="btn-grey" th:if="${studentInfo.getSid()} == ${matching.request_sid}" th:onClick="|return deleteMatching(${matching.getBno()});|" >삭제</button>
+                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${matching.request_sid}" onclick="updateButtonClick()">수정</button>
+                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${matching.request_sid}" th:onClick="|return deleteMatching(${matching.getBno()});|" >삭제</button>
                 </div>
             </div>
         </div>
@@ -235,8 +247,8 @@
     }
     function registerComment() {
         var MatchingNumber = document.getElementsByName("matchingNumber")[0].id;
-        var sid = "[[${studentInfo.getSid()}]]";
-        var nickname = "[[${studentInfo.getNickname()}]]";
+        var sid = "[[${session.studentInfo.getSid()}]]";
+        var nickname = "[[${session.studentInfo.getNickname()}]]";
         var content = $("#cTextArea");
 
         if(content.val() == "") {
@@ -272,8 +284,8 @@
     }
     function updateComment(cno) {
         var matchingNumber = document.getElementsByName("matchingNumber")[0].id;
-        var sid = "[[${studentInfo.getSid()}]]";
-        var nickname = "[[${studentInfo.getNickname()}]]";
+        var sid = "[[${session.studentInfo.getSid()}]]";
+        var nickname = "[[${session.studentInfo.getNickname()}]]";
         var content = $("#cTextArea");
 
         if(content.val() == "") {

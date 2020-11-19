@@ -187,7 +187,7 @@
     
     <div style="float: right">
         <button type="button" onClick="location.href='/yu/studentInfo/studentInfo'" class="btn btn-primary waves-effect waves-light">학생 정보</button>
-        <button th:if="${studentInfo} != null" type="button" onClick="insertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
+        <button th:if="${session.studentInfo} != null" type="button" onClick="insertBoard()" class="btn btn-primary waves-effect waves-light">등록</button>
     </div>
     <!-- /.card-content -->
 </th:block>

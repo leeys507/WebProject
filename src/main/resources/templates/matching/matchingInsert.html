@@ -23,8 +23,8 @@
                 <option id="심부름">심부름</option>
               </select>
             </div>
-            <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${studentInfo.getSid()}" required="required" readonly/>
-            <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${studentInfo.getNickname()}" required="required" readonly/>
+            <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${session.studentInfo.getSid()}" required="required" readonly/>
+            <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${session.studentInfo.getNickname()}" required="required" readonly/>
             
             <!-- 제목 -->
             <div class="matching-title-wrap">
@@ -64,7 +64,7 @@
             var content=$('#content').val(CKEDITOR.instances.content.getData());
             var title=$('#title');
             var money=$('#money');
-            var sid = "[[${studentInfo.getSid()}]]";
+            var sid = "[[${session.studentInfo.getSid()}]]";
 
             if(title.val() == "") {
                 alert("제목 입력");
@@ -88,7 +88,7 @@
                 merchant_uid: 'merchant_' +new Date().getTime(),
                 name : sid,
                 amount: money,
-                buyer_tel: '[[${studentInfo.getPhonenum()}]]',
+                buyer_tel: '[[${session.studentInfo.getPhonenum()}]]',
             }, function (rsp) {
                 console.log(rsp);
                 if (rsp.success) {
