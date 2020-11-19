@@ -503,6 +503,10 @@
 
 <th:block layout:fragment="script">
     <script type="text/javascript">
+        $('.list-group-item').click(function (){
+            $('#department').val($(this).text());
+            $('#subjectModal').modal('hide');
+        })
         function departmentOpen(){
             $('#subjectModal').modal('show');
         }
