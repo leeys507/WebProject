@@ -60,6 +60,53 @@
             line-height: 50px;
             font-size: 1vw;
         }
+        ul.floating {
+            position: fixed;
+            z-index: 80;
+            bottom: 50px;
+        }
+        ul, li {
+            list-style: none;
+        }
+        ul {
+            display: block;
+            list-style-type: disc;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+        }
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+        ul.floating > li.button {
+            float: left;
+            margin: 0 1px;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #0D3F7A;
+        }
+         ul.floating > li.button.custom {
+            padding: 0 20px 0 20px;
+            border-radius: 0 20px 20px 0;
+        }
+        ul.floating > li.button.custom > a{
+            color: #fff;
+        }
+        ul.floating > li.button.search1 {
+            padding: 0 20px 0 20px;
+            border-radius: 0 0 0 0;
+        }
+        ul.floating > li.button.search {
+            padding: 0 20px 0 20px;
+            border-radius: 20px 0 0 20px;
+        }
 
     </style>
 </th:block>
@@ -77,11 +124,6 @@
         <div id="coursenum"></div>
         <div id="dayid"></div>
     </div>
-
-
-    <button id="create">저장</button>
-    <button id="delete">제거</button>
-    <a th:href="@{/schedule/contentSearch}" th:onclick="window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a>
 
 
     <div class="container-fluid">
@@ -223,6 +265,12 @@
             <div class="nontimes"></div>
         </div>
     </div>
+    <ul class="floating" style="left:40%;">
+        <li class="button search">저장</li>
+        <li class="button search1" onclick="register();">제거</li>
+        <li class="button custom"><a th:href="@{/schedule/contentSearch}" th:onclick="window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a></li>
+        </li>
+    </ul>
 
 
 </th:block>
