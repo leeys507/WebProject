@@ -6,49 +6,395 @@
 </th:block>
 <th:block layout:fragment="middle">
     <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog"
-         aria-labelledby="subjectModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+         aria-labelledby="subjectModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="subjectModalLabel"></h5>
+                    <h5 class="modal-title" id="subjectModalLabel">학과 등록</h5>
                 </div>
                 <div class="modal-body">
-                    <h5>전공 영역</h5>
-                    <form>
-                        <div class="filter">
-                            <ul class="category">
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" id="dropdown" data-toggle="dropdown">
-                                        문과대학
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdown">
-                                        <li class="child">국어국문학과</li>
-                                        <li class="child">중국언어문화학과</li>
-                                        <li class="child">일어일문학과</li>
-                                        <li class="child">영어영문학과</li>
-                                        <li class="parent folded">유럽언어문화학부</li>
-                                        <ul class="folded">
-                                            <li class="child">유럽언어문화학부</li>
-                                            <li class="child">프랑스어문전공</li>
-                                            <li class="child">독일언어문화전공</li>
-                                        </ul>
-                                        <li class="child">철학과</li>
-                                        <li class="child">역사학과</li>
-                                        <li class="child">문화인류학과</li>
-                                        <li class="child">심리학과</li>
-                                        <li class="child">사회학과</li>
-                                        <li class="child">언론정보학과</li>
-                                        <li class="child">국어국문학과(야)</li>
+                    <div class="container-fluid">
+                        <div class="panel-group" style="cursor: default">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse1">문과대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">국어국문학과</li>
+                                        <li class="list-group-item">중국언어문화학과</li>
+                                        <li class="list-group-item">일어일문학과</li>
+                                        <li class="list-group-item">영어영문학과</li>
+                                        <li class="list-group-item">유럽언어문화학부</li>
+                                        <li class="list-group-item">유럽언어문화학부</li>
+                                        <li class="list-group-item">프랑스어문전공</li>
+                                        <li class="list-group-item">독일언어문화전공</li>
+                                        <li class="list-group-item">철학과</li>
+                                        <li class="list-group-item">역사학과</li>
+                                        <li class="list-group-item">문화인류학과</li>
+                                        <li class="list-group-item">심리학과</li>
+                                        <li class="list-group-item">사회학과</li>
+                                        <li class="list-group-item">언론정보학과</li>
+                                        <li class="list-group-item">국어국문학과(야)</li>
                                     </ul>
-                                </li>
-                                <li class="parent folded">자연과학대학</li>
-                                <ul class="folded"><li class="child">수학과</li><li class="child">통계학과</li><li class="child">물리학과</li><li class="parent folded">화학생화학부</li><ul class="folded"><li class="child">화학생화학부</li><li class="child">화학전공</li><li class="child">생화학전공</li></ul><li class="child">생명과학과</li></ul><li class="parent folded">공과대학</li><ul class="folded"><li class="child">건설시스템공학과</li><li class="child">환경공학과</li><li class="child">도시공학과</li><li class="parent folded">신소재공학부</li><ul class="folded"><li class="child">신소재공학전공</li></ul><li class="parent folded">화학공학부</li><ul class="folded"><li class="child">화학공학부</li><li class="child">고분자·바이오소재전공</li><li class="child">화공시스템전공</li><li class="child">융합화학공학전공</li><li class="child">에너지화공전공</li></ul><li class="child">파이버시스템공학과</li></ul><li class="parent folded">기계IT대학</li><ul class="folded"><li class="child">기계IT대학</li><li class="parent folded">기계공학부</li><ul class="folded"><li class="child">기계공학부</li><li class="child">기계시스템전공</li><li class="child">기계설계전공</li><li class="child">첨단기계전공</li></ul><li class="child">전기공학과</li><li class="child">전자공학과</li><li class="child">컴퓨터공학과</li><li class="child">정보통신공학과</li><li class="child">자동차기계공학과</li><li class="child">로봇기계공학과</li><li class="child">전기공학과(야)</li></ul><li class="parent folded">정치행정대학</li><ul class="folded"><li class="child">정치외교학과</li><li class="child">행정학과</li><li class="child">새마을국제개발학과</li><li class="child">경찰행정학과</li><li class="child">군사학과</li><li class="child">정치외교학과(야)</li><li class="child">행정학과(야)</li><li class="child">새마을국제개발학과(야)</li></ul><li class="parent folded">상경대학</li><ul class="folded"><li class="child">상경대학</li><li class="parent folded">경제금융학부</li><ul class="folded"><li class="child">경제금융전공</li></ul><li class="parent folded">무역학부</li><ul class="folded"><li class="child">무역학전공</li></ul><li class="parent folded">경제금융학부(야)</li><ul class="folded"><li class="child">경제금융전공(야)</li></ul><li class="parent folded">무역학부(야)</li><ul class="folded"><li class="child">무역학전공(야)</li></ul></ul><li class="parent folded">경영대학</li><ul class="folded"><li class="child">경영대학</li><li class="child">경영학과</li><li class="child">회계세무학과</li><li class="child">경영학과(야)</li></ul><li class="parent folded">의과대학</li><ul class="folded"><li class="child">의예과</li></ul><li class="parent folded">약학대학</li><ul class="folded"><li class="parent folded">약학부</li><ul class="folded"><li class="child">약학전공</li><li class="child">제약학전공</li></ul></ul><li class="parent folded">생명응용과학대학</li><ul class="folded"><li class="child">식품경제외식학과</li><li class="child">원예생명과학과</li><li class="child">산림자원및조경학과</li><li class="child">식품공학과</li><li class="child">생명공학과</li><li class="child">의생명공학과</li><li class="child">외식산업학과</li></ul><li class="parent folded">생활과학대학</li><ul class="folded"><li class="child">가족주거학과</li><li class="child">식품영양학과</li><li class="parent folded">체육학부</li><ul class="folded"><li class="child">체육학부</li><li class="child">체육학전공</li><li class="child">무용학전공</li></ul><li class="child">의류패션학과</li></ul><li class="parent folded">사범대학</li><ul class="folded"><li class="child">교육학과</li><li class="child">국어교육과</li><li class="child">영어교육과</li><li class="child">한문교육과</li><li class="child">수학교육과</li><li class="child">유아교육과</li><li class="child">특수체육교육과</li></ul><li class="parent folded">디자인미술대학</li><ul class="folded"><li class="parent folded">미술학부</li><ul class="folded"><li class="child">미술학부</li><li class="child">회화전공</li><li class="child">트랜스아트전공</li></ul><li class="child">시각디자인학과</li><li class="child">산업디자인학과</li><li class="child">생활제품디자인학과</li></ul><li class="parent folded">음악대학</li><ul class="folded"><li class="child">음악과</li><li class="child">성악과</li><li class="child">기악과</li></ul><li class="parent folded">건축학부</li><ul class="folded"><li class="parent folded">건축학부</li><ul class="folded"><li class="child">건축학부</li><li class="child">건축학전공</li><li class="child">건축디자인전공</li><li class="child">건축공학전공</li></ul></ul><li class="parent folded">기초교육대학</li><ul class="folded"><li class="parent folded">천마인재학부</li><ul class="folded"><li class="child">정책과학전공</li></ul><li class="child">인문자율전공학부</li></ul><li class="parent folded">국제학부</li><ul class="folded"><li class="child">국제학부</li></ul><li class="parent folded">연계전공</li><ul class="folded"><li class="parent folded">연계</li><ul class="folded"><li class="child">국제학전공</li><li class="child">유럽학전공</li><li class="child">그린카전공</li><li class="child">다문화전공</li><li class="child">문화유산해설전공</li><li class="child">통합사회교육전공</li><li class="child">통합과학교육전공</li><li class="child">부동산학전공</li><li class="child">기술가정교육전공</li><li class="child">사회복지전공</li><li class="child">도덕윤리교육전공</li><li class="child">그린에너지전공</li><li class="child">글로벌차이나전공</li><li class="child">국제개발및새마을학전공</li><li class="child">에너지하이브리드융복합전공</li><li class="child">금융보험전공</li><li class="child">기술혁신·기업가정신전공</li><li class="child">미술보존복원전공</li><li class="child">기계IT융합전공</li><li class="child">스마트워터시스템융합전공</li></ul></ul></ul></div>
-                    </form>
-                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse2">자연과학대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">국어국문학과</li>
+                                        <li class="list-group-item">수학과</li>
+                                        <li class="list-group-item">통계학과</li>
+                                        <li class="list-group-item">물리학과</li>
+                                        <li class="list-group-item">화학생화학부</li>
+                                        <li class="list-group-item">화학전공</li>
+                                        <li class="list-group-item">생화학전공</li>
+                                        <li class="list-group-item">생명과학과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse3">공과대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse3" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">건설시스템공학과</li>
+                                        <li class="list-group-item">환경공학과</li>
+                                        <li class="list-group-item">도시공학과</li>
+                                        <li class="list-group-item">신소재공학부</li>
+                                        <li class="list-group-item">신소재공학전공</li>
+                                        <li class="list-group-item">화학공학부</li>
+                                        <li class="list-group-item">고분자·바이오소재전공</li>
+                                        <li class="list-group-item">화공시스템전공</li>
+                                        <li class="list-group-item">융합화학공학전공</li>
+                                        <li class="list-group-item">에너지화공전공</li>
+                                        <li class="list-group-item">파이버시스템공학과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse4">기계 IT대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse4" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">기계공학부</li>
+                                        <li class="list-group-item">기계시스템전공</li>
+                                        <li class="list-group-item">기계설계전공</li>
+                                        <li class="list-group-item">첨단기계전공</li>
+                                        <li class="list-group-item">진기공학과</li>
+                                        <li class="list-group-item">전자공학과</li>
+                                        <li class="list-group-item">컴퓨터공학과</li>
+                                        <li class="list-group-item">정보통신공학과</li>
+                                        <li class="list-group-item">자동차기계공학과</li>
+                                        <li class="list-group-item">로봇기계공학과</li>
+                                        <li class="list-group-item">전기공학과(야)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse5">정치행정대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse5" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">정치외교학과</li>
+                                        <li class="list-group-item">행정학과</li>
+                                        <li class="list-group-item">새마을국제개발학과</li>
+                                        <li class="list-group-item">경찰행정학과</li>
+                                        <li class="list-group-item">군사학과</li>
+                                        <li class="list-group-item">정치외교학과(야)</li>
+                                        <li class="list-group-item">행정학과(야)</li>
+                                        <li class="list-group-item">새마을국제개발학과(야)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse6">상경대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse6" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">경제금융전공</li>
+                                        <li class="list-group-item">무역학전공</li>
+                                        <li class="list-group-item">경제금융전공(야)</li>
+                                        <li class="list-group-item">무역학전공(야)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse7">경영대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse7" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">경영학과</li>
+                                        <li class="list-group-item">회계세무학과</li>
+                                        <li class="list-group-item">경영학과(야)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse8">의과대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse8" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">의예과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse9">약학대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse9" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">약학전공</li>
+                                        <li class="list-group-item">제약학전공</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse10">생명응용과학대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse10" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">식품경제외식학과</li>
+                                        <li class="list-group-item">원예생명과학과</li>
+                                        <li class="list-group-item">산림자원및조경학과</li>
+                                        <li class="list-group-item">식품공학과</li>
+                                        <li class="list-group-item">생명공학과</li>
+                                        <li class="list-group-item">의생명공학과</li>
+                                        <li class="list-group-item">외식산업학과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse11">생활과학대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse11" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">체육학부</li>
+                                        <li class="list-group-item">체육학전공</li>
+                                        <li class="list-group-item">무용학전공</li>
+                                        <li class="list-group-item">의류패션학과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse12">사범대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse12" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">교육학과</li>
+                                        <li class="list-group-item">국어교육과</li>
+                                        <li class="list-group-item">영어교육과</li>
+                                        <li class="list-group-item">한문교육과</li>
+                                        <li class="list-group-item">수학교육과</li>
+                                        <li class="list-group-item">유아교육과</li>
+                                        <li class="list-group-item">특수체육교육과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse13">디자인미술대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse13" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">미술학부</li>
+                                        <li class="list-group-item">회화전공</li>
+                                        <li class="list-group-item">트랜스아트전공</li>
+                                        <li class="list-group-item">시각디자인학과</li>
+                                        <li class="list-group-item">산업디자인학과</li>
+                                        <li class="list-group-item">생활제품디자인학과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse14">음악대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse14" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">음악과</li>
+                                        <li class="list-group-item">성악과</li>
+                                        <li class="list-group-item">기악과</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse15">건축대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse15" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">건축학부</li>
+                                        <li class="list-group-item">건축학전공</li>
+                                        <li class="list-group-item">건축디자인전공</li>
+                                        <li class="list-group-item">건축공학전공</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse16">기초교육대학</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse16" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">천마인재학부</li>
+                                        <li class="list-group-item">정책과학전공</li>
+                                        <li class="list-group-item">인문자율공학부</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse17">국제학부</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse17" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">국제학부</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse18">연계전공</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse18" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item">국제학전공</li>
+                                    <li class="list-group-item">유럽학전공</li>
+                                    <li class="list-group-item">그린카전공</li>
+                                    <li class="list-group-item">다문화전공</li>
+                                    <li class="list-group-item">문화유산해설전공</li>
+                                    <li class="list-group-item">통합사회교육전공</li>
+                                    <li class="list-group-item">통합과학교육전공</li>
+                                    <li class="list-group-item">부동산학전공</li>
+                                    <li class="list-group-item">기술가정교육전공</li>
+                                    <li class="list-group-item">사회복지전공</li>
+                                    <li class="list-group-item">도덕윤리교육전공</li>
+                                    <li class="list-group-item">그린에너지전공</li>
+                                    <li class="list-group-item">글로벌차이나전공</li>
+                                    <li class="list-group-item">국제개발및새마을학전공</li>
+                                    <li class="list-group-item">에너지하이브리드융복합전공</li>
+                                    <li class="list-group-item">금융보험전공</li>
+                                    <li class="list-group-item">기술혁신·기업가정신전공</li><li class="list-group-item">미술보존복원전공</li>
+                                    <li class="list-group-item">기계IT융합전공</li>
+                                    <li class="list-group-item">스마트워터시스템융합전공</li>
+                                </ul>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse19">국제학부</a>
+                                    </h5>
+                                </div>
+                                <div id="collapse19" class="panel-collapse collapse">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">야간강좌개설부</li>
+                                        <li class="list-group-item">국어국문학과(야)</li>
+                                        <li class="list-group-item">전기공학과(야)</li>
+                                        <li class="list-group-item">정치외교학과(야)</li>
+                                        <li class="list-group-item">행정학과(야)</li>
+                                        <li class="list-group-item">새마을국제개발학과(야)</li>
+                                        <li class="list-group-item">지역및복지행정학과(야)</li>
+                                        <li class="list-group-item">경제금융학부(야)</li>
+                                        <li class="list-group-item">무역학부(야)</li>
+                                        <li class="list-group-item">국제통상학부(야)</li>
+                                        <li class="list-group-item">경영학과(야)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
                 </div>
-            </div>
+        </div>
         </div>
     </div>
 </th:block>
@@ -69,9 +415,9 @@
                     <div class="card-header bg-light">
                         <div class="row">
                             <div class="form-group">
-                                <label for="department" class="col-form-label"><h5>학과</h5></label>
+                                <label for="department" class="col-form-label"><h5>학과 등록</h5></label>
                                 <input type="text" id="department" name="department" class="form-control" placeholder="학과 선택" required="required" readonly/>
-                                <button type="button" class="btn btn-primary" onclick="departmentOpen()">학과</button>
+                                <button type="button" class="btn btn-primary" onclick="departmentOpen()">선택</button>
                             </div>
                         </div>
                     </div>
