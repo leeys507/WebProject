@@ -83,10 +83,10 @@
         }
         
         var type = "[[${board.getBoardtype()}]]";
-        $("#"+type).attr("selected","selected");
+        $("#" + type).attr("selected","selected");
         
         function cancel() {
-        	location.href="/yu/board/boardList?boardtype=" + "[[${board.getBoardtype()}]]";
+        	location.href="/yu/board/boardList?boardtype=" + type;
         }
         
         $(function (){		// ckeditor config
