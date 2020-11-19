@@ -206,12 +206,12 @@
 
 
             var str = "<div class='"+"mysubject'"+"id='"+$(this).children('td:eq(2)').text()+"'" +
-                "style='" +"position:absolute;z-index:10;border:1px solid black;width:150px;background-color:"+colorcode+
-                ";top:"+top+"px;"+"height:"+height+"px;'>"+$(this).children('td:eq(3)').text() +$(this).children('td:eq(5)').text()+$(this).children('td:eq(7)').text()+"</div>";
+                "style='" +"position:absolute;z-index:10;border:1px solid gray;width:18%;background-color:"+colorcode+
+                ";top:"+top+"px;"+"height:"+height+"px;'>" +$(this).children('td:eq(3)').text() +$(this).children('td:eq(1)').text()+$(this).children('td:eq(5)').text()+$(this).children('td:eq(7)').text()+"</div>";
 
 
 
-
+            opener.document.getElementById("part").innerText=$(this).children('td:eq(1)').text();
             opener.document.getElementById("title").innerText=$(this).children('td:eq(3)').text();
             opener.document.getElementById("profname").innerText=$(this).children('td:eq(5)').text();
             opener.document.getElementById("placename").innerText=$(this).children('td:eq(7)').text();
@@ -251,9 +251,11 @@
             height+="";
 
             var str = "<div class='"+"mysubject'"+"id='"+$(this).children('td:eq(2)').text()+"'" +
-                "style='" +"position:absolute;z-index:10;border:1px solid black;width:150px;background-color:"+colorcode+
-                ";top:"+top+"px;"+"height:"+height+"px;'>"+$(this).children('td:eq(3)').text() +$(this).children('td:eq(5)').text()+$(this).children('td:eq(7)').text()+"</div>";
+                "style='" +"position:absolute;z-index:10;width:18%;background-color:"+colorcode+
+                ";top:"+top+"px;"+"height:"+height+"px;'>" +$(this).children('td:eq(3)').text() +$(this).children('td:eq(1)').text()  +$(this).children('td:eq(5)').text()+$(this).children('td:eq(7)').text()+"</div>";
 
+
+            opener.document.getElementById("part").innerText=$(this).children('td:eq(1)').text();
             opener.document.getElementById("title").innerText=$(this).children('td:eq(3)').text();
             opener.document.getElementById("profname").innerText=$(this).children('td:eq(5)').text();
             opener.document.getElementById("placename").innerText=$(this).children('td:eq(7)').text();

@@ -1,6 +1,5 @@
 package com.wp.domain.schedule;
 
-import com.wp.domain.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +24,9 @@ public class Schedule {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "part", nullable = false, length=5)
+    private String part;
+    
     @Column(name = "coursenum",nullable = false,length=30)
     private String coursenum;
 
@@ -52,8 +54,6 @@ public class Schedule {
 
     @Column(name="sid",nullable = false,length=50)
     private String sid;
-
-
 
     /*
     @PostMapping으로 클라이언트에게 insert를 요청 받을 때

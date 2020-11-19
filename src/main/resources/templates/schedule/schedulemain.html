@@ -68,6 +68,7 @@
 
     <div id="data" style="display:none;">
         <div id="title"></div>
+        <div id="part"></div>
         <div id="profname"></div>
         <div id="placename"></div>
         <div id="colornum"></div>
@@ -245,13 +246,14 @@
                     var itemp=temp[i].split("*");
 
                     $("#title").text(itemp[0]);
-                    $("#profname").text(itemp[1]);
-                    $("#placename").text(itemp[2]);
-                    $("#colornum").text("#"+itemp[3]);
-                    $("#topnum").text(itemp[4]);
-                    $("#heightnum").text(itemp[5]);
-                    $("#coursenum").text(itemp[6]);
-                    $("#dayid").text(itemp[7]);
+                    $("#part").text(itemp[1]);
+                    $("#profname").text(itemp[2]);
+                    $("#placename").text(itemp[3]);
+                    $("#colornum").text("#"+itemp[4]);
+                    $("#topnum").text(itemp[5]);
+                    $("#heightnum").text(itemp[6]);
+                    $("#coursenum").text(itemp[7]);
+                    $("#dayid").text(itemp[8]);
                     createobject();
 
                 }
@@ -280,7 +282,7 @@
                         $.ajax({
                             url : "/schedule/save",
                             type : "get",
-                            data : "title=" + list[i].get("title")+"&profname="+list[i].get("profname")+"&placename="+list[i].get("placename"+"")+"&colornum=" + list[i].get("colornum").substr(1)+"&topnum="+list[i].get("topnum")+"&heightnum="+list[i].get("heightnum")+"&coursenum="+list[i].get("coursenum")+"&dayid="+list[i].get("dayid"),
+                            data : "title=" + list[i].get("title")+"&profname="+ list[i].get("part")+"&part=" +list[i].get("profname")+"&placename="+list[i].get("placename"+"")+"&colornum=" + list[i].get("colornum").substr(1)+"&topnum="+list[i].get("topnum")+"&heightnum="+list[i].get("heightnum")+"&coursenum="+list[i].get("coursenum")+"&dayid="+list[i].get("dayid"),
                             cache:false}).done(function () {
 
                         });
@@ -332,6 +334,7 @@
             let max = new Map();
 
             max.set("title", $('#title').text());
+            max.set("part", $('#part').text());
             max.set("profname", $('#profname').text());
             max.set("placename", $('#placename').text());
             max.set("colornum", $('#colornum').text());
@@ -342,7 +345,7 @@
             list.push(max);
 
             var str = "<div class='mysubject'style='" +"position:absolute;z-index:10;border:1px solid black;width:19%;background-color:"+$('#colornum').text()+
-                ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;'>"+$('#title').text() +$('#profname').text()+$('#placename').text()+"</div>";
+                ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;'>"+$('#title').text() +$('#part').text()  +$('#profname').text()+$('#placename').text()+"</div>";
 
 
             var distinguish ='#'+$('#dayid').text();
