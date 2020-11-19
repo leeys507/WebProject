@@ -56,7 +56,7 @@
       				<li th:unless="${session.studentInfo} == null">
             			<form class="form-signin" style="margin:auto;">
               				<img th:if="${session.folderName} != null" style="width:70px;height:90px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
-                    		<img th:unless="${session.folderName} != null" style="width:width:70px;height:90px;" src="http://placehold.it/70x90/" class="card-img">
+                    		<img th:unless="${session.folderName} != null" style="width:70px;height:90px;" src="http://placehold.it/70x90/" class="card-img">
               				<div style="color: white">[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!</div>
               				<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
               				<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
@@ -91,9 +91,9 @@
           			</button>
     			</form>
             	<form th:unless="${session.studentInfo} == null" class="form-signin" style="margin:auto;">
-              		<img th:if="${session.folderName} != null" style="width:70px;height:90px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
-                    <img th:unless="${session.folderName} != null" style="width:width:70px;height:90px;" src="http://placehold.it/70x90/" class="card-img">
-              		<div style="color:black">[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!</div>
+              		<img th:if="${session.folderName} != null" style="height:90px;width:25%; " th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
+                    <img th:unless="${session.folderName} != null" style="height:90px; width:25%;" src="http://placehold.it/70x90/" class="card-img">
+              		[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!
               		<button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
               		<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
             	</form>
