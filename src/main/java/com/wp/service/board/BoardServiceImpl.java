@@ -151,4 +151,11 @@ public class BoardServiceImpl implements BoardService {
         entity.delete();
         return true;
     }
+
+	public String updateBoardOpen(String boardSid, String studentSid) {
+		if(!boardSid.equals(studentSid)){
+			return "errors/errorPage";
+		}
+		return "board/boardUpdate";
+	}
 }

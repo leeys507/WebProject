@@ -8,6 +8,10 @@ import org.springframework.data.domain.Pageable;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.matching.dto.MatchingGetDTO;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 public interface MatchingService {
 	MatchingGetDTO findById(long id);
 	
@@ -15,9 +19,11 @@ public interface MatchingService {
 
     String InsertMatching(MatchingInsertDTO data);
 
-    boolean ProceedMatching(long bno, String sid,String account);
+    boolean ProceedMatching(long bno, long sid);
 
     String ProceedPage(String sid, long bno);
+
+    String updateBoardOpen(String boardSid, String studentSid);
 
     boolean CancelMatching(long bno);
 
@@ -30,4 +36,8 @@ public interface MatchingService {
     long MaxBno();
     
     Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option);
+
+    void updateViewCnt(long bno, int readcount, HttpServletRequest request, HttpServletResponse response, HttpSession session);
+
+    boolean UpdateAccount(long bno, String account);
 }

@@ -1,103 +1,233 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
 
-<th:block layout:fragment="script">
-<script type="text/javascript">
-    var webSocket;
-    var nickname="[[${userSid}]]";
-    var roomId = "[[${chatRoom.roomId}]]";
-    webSocket = new WebSocket("ws://localhost:8080/chat");
-    webSocket.onopen = onOpen;
-    webSocket.onmessage = onMessage;
-    window.onbeforeunload = function(){
-        webSocket.send(JSON.stringify({id : roomId,type:'LEAVE',writer:nickname}));
-        webSocket.close();
-    }
-    function send(){
-        msg = document.getElementById("message").value;
-        webSocket.send(JSON.stringify({id : roomId,type:'CHAT',writer:nickname,message : msg}));
-        document.getElementById("message").value = "";
-    }
-    function onOpen(){
-        webSocket.send(JSON.stringify({id : roomId,type:'ENTER',writer:nickname}));
-    }
-    function onMessage(e){
-        data = e.data;
-        chatroom = document.getElementById("chating");
-        chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
-    }
-    function successMatching(){
-        if(confirm("완료 처리할까요?")) {
-            var bno = "[[${bno}]]";
-            $.ajax({
-                type: "PUT",
-                url : "/matchingSuccess",
-                data : {
-                    bno : bno,
-                },
-                success : function(data){
-                    if(data == true) {
-                        alert("완료 성공");
-                        location.href = '/yu/matching/matchingList?boardtype=심부름';
-                    }
-                    else
-                        alert("완료 실패");
-                },error : function(){
-                    alert("Error");
-                    return false;
-                }
-            });
-        }
-        else return false;
-    }
-    function cancelMatching(){
-        if(confirm("취소하시겠습니까?")) {
-            var bno = "[[${bno}]]";
-            $.ajax({
-                type: "PUT",
-                url : "/matchingCancel",
-                data : {
-                    bno : bno,
-                },
-                success : function(data){
-                    if(data == true) {
-                        alert("취소 요청 성공");
-                        location.href = '/yu/matching/matchingList?boardtype=심부름';
-                    }
-                    else
-                        alert("취소 요청 실패");
-                },error : function(){
-                    alert("Error");
-                    return false;
-                }
-            });
-        }
-        else return false;
-    }
-</script>
-
-</th:block>
 <th:block layout:fragment="title">
-    <title>Matching View</title>
+    <title>채팅</title>
 </th:block>
-<th:block layout:fragment="content">
-<h2>진행중</h2>
-    <div id="container" class="container">
-        <h1>채팅</h1>
-        <div id="chating" class="chating">
-        </div>
-        <div id="yourMsg">
-            <table class="inputTable">
-                <tr>
-                    <th>메시지</th>
-                    <th><input onkeypress="if(event.keyCode==13){send()}" id="message" placeholder="보내실 메시지를 입력하세요."></th>
-                    <th><button type="button" onclick="send()" class="btn btn-primary waves-effect waves-light"  id="sendBtn">보내기</button></th>
-                </tr>
-            </table>
+<th:block layout:fragment="middle">
+    <div class="modal fade" id="AccountModal" tabindex="-1" role="dialog"
+         aria-labelledby="AccountModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AccountModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <h5>정보를 입력해주세요.</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="bankname" class="col-form-label"><h5>계좌은행</h5></label>
+                            <input type="text" id="bankname" name="bankname" class="form-control" placeholder="은행 입력" required="required"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="account" class="col-form-label"><h5>계좌번호</h5></label>
+                            <input type="text" id="account" name="account" class="form-control" placeholder="닉네임 입력" required="required" />
+                        </div>
+                        <div class="form-group">
+                            <label for="accountname" class="col-form-label"><h5> 계좌이름 </h5></label>
+                            <input type="text" id="accountname" name="accountname" class="form-control" placeholder="닉네임 입력" required="required" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="accountUpdate()">확인</button>
+                </div>
+            </div>
         </div>
     </div>
-<span th:text="${userSid}"></span><br>
-    <button type="button" class="btn btn-primary waves-effect waves-light" onClick="cancelMatching()">취소</button>
-    <button th:if="${userSid}==${requestSid}" type="button" class="btn btn-primary waves-effect waves-light" onClick="successMatching()">완료</button>
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog"
+         aria-labelledby="cancelModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>정보를 입력해주세요.</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="content" class="col-form-label"><h5>취소 사유</h5></label>
+                            <input type="text" id="content" name="content" class="form-control" placeholder="취소 사유" required="required"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="cancelSend()">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="article">
+    <div class="container_fluid">
+        <div class="card">
+            <div class="card-header top-bar">
+                <div class="col-sm-8s">
+                    <h3 class="card-title">채팅방</h3>
+                </div>
+            </div>
+            <div class="card-body msg_container_base">
+                <div class="row msg_container base_sent">
+                    <div class="col-sm-11">
+                        <div id="chating" class="messages msg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="input-group">
+                    <input type="text" class="col-12 form-control" onkeypress="if(event.keyCode==13){send()}" id="message" placeholder="채팅을 입력해주세요.">
+                    <div class="comment-buttons clear">
+                        <button type="button" class="btn-blue"><i class="fa fa-send fa-1x" aria-hidden="true" onclick="send()">등록</i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-button-wrap clear">
+                <div class="fl">
+                <button type="button" class="btn-blue" onClick="cancelMatching()">취소 요청</button>
+                </div>
+                <div class="fr">
+                    <button type="button" th:if="${studentInfo.getSid()}==${matching.getRequest_sid()}" class="btn-blue" onClick="successMatching()">완료</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        var sid="[[${studentInfo.getSid()}]]";
+        var accsid="[[${matching.getAccept_sid()}]]";
+        var account="[[${matching.getAccept_account()}]]";
+        if(sid==accsid&&account=="") {
+            $("#AccountModal").modal('show');
+        }
+        var webSocket;
+        var nickname="[[${studentInfo.getNickname()}]]";
+        var roomId = "[[${chatRoom.roomId}]]";
+        webSocket = new WebSocket("ws://localhost:8080/chat");
+        webSocket.onopen = onOpen;
+        webSocket.onmessage = onMessage;
+        window.onbeforeunload = function(){
+            webSocket.send(JSON.stringify({id : roomId,type:'LEAVE',writer:nickname}));
+            webSocket.close();
+        }
+        function send(){
+            msg = document.getElementById("message").value;
+            webSocket.send(JSON.stringify({id : roomId,type:'CHAT',writer:nickname,message : msg}));
+            document.getElementById("message").value = "";
+        }
+        function onOpen(){
+            webSocket.send(JSON.stringify({id : roomId,type:'ENTER',writer:nickname}));
+        }
+        function onMessage(e){
+            data = e.data;
+            chatroom = document.getElementById("chating");
+            chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
+        }
+        function successMatching(){
+            if(confirm("완료 처리할까요?")) {
+                var bno = "[[${bno}]]";
+                $.ajax({
+                    type: "PUT",
+                    url : "/yu/matchingSuccess",
+                    data : {
+                        bno : bno,
+                    },
+                    success : function(data){
+                        if(data == true) {
+                            alert("완료 성공");
+                            location.href = '/yu/matching/matchingList?boardtype='+'[[${matching.getBoardtype()}]]';
+                        }
+                        else
+                            alert("완료 실패");
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+                });
+            }
+            else return false;
+        }
+        function accountUpdate() {
+            if (confirm("계좌를 등록 하시겠습니까?")) {
+                var bno = [[${matching.bno}]];
+                if ($('#bankname').val() == "") {
+                    alert("은행 이름 입력");
+                    $('#bankname').focus();
+                    return false;
+                }
+                if ($('#account').val() == "") {
+                    alert("계좌번호 입력");
+                    $('#account').focus();
+                    return false;
+                }
+                if ($('#accountname').val() == "") {
+                    alert("계좌이름 입력");
+                    $('#accountname').focus();
+                    return false;
+                }
+                var account = $('#bankname').val()+", "+$('#account').val()+", "+$('#accountname').val();
+                $.ajax({
+                    type: "PUT",
+                    url : "/yu/matchingAccount",
+                    data : {
+                        bno : bno,
+                        account : account,
+                    },
+                    success : function(data){
+                        if(data == true) {
+                            alert("등록 성공");
+                        }
+                        else
+                            alert("등록 실패");
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+                });
+            }else return false;
+        }
+        function cancelMatching(){
+            $("#cancelModal").modal('show');
+        }
+        function cancelSend(){
+            if(confirm("취소 요청 하시겠습니까?")) {
+                var MatchingNumber = [[${matching.getBno()}]];
+                var sid = "[[${studentInfo.getSid()}]]";
+                var content = $("#content");
+                if(content.val() == "") {
+                    alert("내용 입력");
+                    content.focus();
+                    return false;
+                }
+                var data = {
+                    "bno" : MatchingNumber,
+                    "sid" : sid,
+                    "content" : content.val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url : "/yu/matchingCancel/insertMatchingCancel",
+                    data : data,
+                    success : function(data){
+                        if(data == true) {
+                            alert("취소 요청 성공");
+                            location.href = location.href;
+                        }
+                        else
+                            alert("이미 취소요청 하였습니다.");
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+                });
+            }
+        }
+    </script>
 </th:block>
 </html>

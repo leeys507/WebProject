@@ -25,4 +25,6 @@ public interface BoardService {
     Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option);
 
     boolean deleteBoard(long bno);
+
+    String updateBoardOpen(String boardSid, String studentSid);
 }

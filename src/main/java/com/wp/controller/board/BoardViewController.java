@@ -51,7 +51,7 @@ public class BoardViewController {
         BoardGetDTO dto = boardService.findById(bno);	// 1
         boardService.updateViewCnt(bno, dto.getReadcount(), request, response, session);
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
-        
+
         model.addAttribute("board", dto);
         model.addAttribute("studentInfo", data);
         model.addAttribute("boardlike", boardLikeService.getCheckLike(data.getSid(), bno));	// 2
@@ -64,9 +64,9 @@ public class BoardViewController {
     @GetMapping("/yu/board/boardUpdate/{bno}")
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         BoardGetDTO dto = boardService.findById(bno);
-        
-        model.addAttribute("studentInfo", httpSession.getAttribute("studentInfo"));
+        StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
+        model.addAttribute("studentInfo",data );
         model.addAttribute("board", dto);
-        return "board/boardUpdate";
+        return boardService.updateBoardOpen(dto.getSid(),data.getSid());
     }
 }

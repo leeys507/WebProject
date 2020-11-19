@@ -85,7 +85,7 @@
             var money = $('#money').val();
             IMP.request_pay({
                 pg: 'kakao',
-                merchant_uid: 'merchant_' + sid +'_'+sid,
+                merchant_uid: 'merchant_' +new Date().getTime(),
                 name : sid,
                 amount: money,
                 buyer_tel: '[[${studentInfo.getPhonenum()}]]',

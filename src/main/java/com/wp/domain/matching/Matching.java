@@ -95,10 +95,9 @@ public class Matching {
         this.check_delete = "T";
         this.delete_date = LocalDateTime.now();
     }
-    public void update(Student student,String nickname,String account,String check_success){
+    public void update(Student student,String nickname,String check_success){
         this.studentForeignkey_accept=student;
         this.accept_nickname=nickname;
         this.check_success=check_success;
-        this.accept_account=account;
     }
 }

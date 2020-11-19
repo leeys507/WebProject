@@ -3,6 +3,8 @@ package com.wp.service.matching;
 import com.wp.domain.matching.ChatRoomRepository;
 import com.wp.domain.matching.dto.MatchingInsertDTO;
 import com.wp.domain.matching.dto.MatchingUpdateDTO;
+import com.wp.domain.matchingcomment.MatchingComment;
+import com.wp.domain.matchingcomment.MatchingCommentRepository;
 import com.wp.domain.student.Student;
 import com.wp.domain.student.StudentRepository;
 import net.nurigo.java_sdk.api.Message;
@@ -19,6 +21,11 @@ import com.wp.domain.matching.dto.MatchingGetDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @RequiredArgsConstructor
@@ -27,6 +34,7 @@ public class MatchingServiceImpl implements MatchingService {
 	private final MatchingRepository matchingRepository;
 	private final StudentRepository studentRepository;
 	private final ChatRoomRepository chatRoomRepository;
+	private final MatchingCommentRepository matchingCommentRepository;
 	
     public MatchingGetDTO findById(long id){
         Matching entity = matchingRepository.findById(id)
@@ -46,12 +54,12 @@ public class MatchingServiceImpl implements MatchingService {
         return matchingRepository.save(data.toEntity()).getStudentForeignkey_request().getSid();
     }
     @Transactional
-    public boolean ProceedMatching(long bno, String sid,String account) {
+    public boolean ProceedMatching(long bno, long cno) {
         Matching entity = matchingRepository.findByBno(bno);
         if (entity == null||!entity.getCheck_success().equals("F")) return false;
         chatRoomRepository.createChatRoom(String.valueOf(bno));
-        Student student = studentRepository.findBySid(sid);
-        entity.update(student, student.getNickname(),account,"I");
+        Student student = matchingCommentRepository.findByCno(cno).getStudentForeignkey();
+        entity.update(student, student.getNickname(),"I");
         SendMsg(entity.getStudentForeignkey_request().getSid());
         return true;
     }
@@ -71,7 +79,7 @@ public class MatchingServiceImpl implements MatchingService {
         Matching entity = matchingRepository.findByBno(bno);
         if (entity == null) return false;
         chatRoomRepository.deleteChatRoom(String.valueOf(bno));
-        entity.update(null, null,null,"F");
+        entity.update(null, null,"F");
         return true;
     }
 
@@ -97,7 +105,38 @@ public class MatchingServiceImpl implements MatchingService {
         if (entity == null) return 0;
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
+        entity.setUpdate_date(LocalDateTime.now());
+        entity.setBoardtype(dto.getBoardtype());
         return bno;
+    }
+    public String updateBoardOpen(String boardSid, String studentSid) {
+        if(!boardSid.equals(studentSid)){
+            return "errors/errorPage";
+        }
+        return "matching/matchingUpdate";
+    }
+    @Transactional
+    public void updateViewCnt(long bno, int presentReadCount, HttpServletRequest request, HttpServletResponse response, HttpSession session){
+        Cookie[] cookieFromRequest = request.getCookies();
+        String cookieValue = cookieFromRequest[0].getValue();
+        if (session.getAttribute("cookieview") == null) {
+            session.setAttribute("cookieview", cookieValue);
+        } else {
+            session.setAttribute("cookie exchange", session.getAttribute("cookieview"));
+            if (!session.getAttribute("cookieview").equals(cookieValue)) {
+                session.setAttribute("cookieview",  cookieValue);
+            }
+        }if (!session.getAttribute("cookieview").equals(session.getAttribute("cookie exchange"))) {
+            matchingRepository.updateReadCount(bno, presentReadCount + 1);
+        }
+    }
+
+    @Transactional
+    public boolean UpdateAccount(long bno, String account) {
+        Matching entity = matchingRepository.findByBno(bno);
+        if (entity == null) return false;
+        entity.setAccept_account(account);
+        return true;
     }
 
     @Transactional

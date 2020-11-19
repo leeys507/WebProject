@@ -17,10 +17,13 @@ public class MatchingDataController {
     }
     
     @PutMapping("/yu/matchingProceed")
-    public boolean ProceedBoard(long bno, String sid, String account) throws Exception{
-        return matchingService.ProceedMatching(bno, sid,account);
+    public boolean ProceedBoard(long bno, long cno) throws Exception{
+        return matchingService.ProceedMatching(bno, cno);
     }
-    
+    @PutMapping("/yu/matchingAccount")
+    public boolean AccountBoard(long bno, String account) throws Exception{
+        return matchingService.UpdateAccount(bno, account);
+    }
     @PutMapping("/yu/matchingCancel")
     public boolean CancelBoard(long bno) throws Exception{
         return matchingService.CancelMatching(bno);
