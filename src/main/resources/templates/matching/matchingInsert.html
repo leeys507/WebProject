@@ -133,8 +133,13 @@
             });
             return false;
         }
-    </script>
-    <script th:src="@{/scripts/ckeditor.js}">
+        
+        $(function (){		// ckeditor config
+            CKEDITOR.replace('content', {
+                filebrowserUploadUrl: '/mine/imageUpload.do?' + "board=" + "matching" + "&boardtype=" + boardTypeName 
+                		+ "&sid=" + "[[${session.studentInfo.getSid()}]]" + "&nickname=" + "[[${session.studentInfo.getNickname()}]]"
+            });
+        });
     </script>
 </th:block>
 </html>
