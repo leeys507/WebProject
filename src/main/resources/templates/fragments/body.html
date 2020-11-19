@@ -10,7 +10,7 @@
   			</button>
   			<div class="collapse navbar-collapse" id ="navbar">
     			<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" style="cursor:pointer" id="dropdown" data-toggle="dropdown">
 						매칭
 					</a>
 						<div class="dropdown-menu text-center" aria-labelledby="dropdown">
@@ -23,13 +23,13 @@
       				<li class="nav-item"><a class="nav-link" href = "/yu/schedule/main">시간표</a></li>
       				<li class="nav-item"><a class="nav-link" href = "#">강의평가</a></li>
 
-					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" style="cursor:pointer" id="dropdown" data-toggle="dropdown">
 						게시판
 					</a>
 						<div class="dropdown-menu text-center" aria-labelledby="dropdown">
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=자유게시판">자유게시판</a>
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=중고게시판">중고게시판</a>
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=정보게시판">정보게시판</a>
+							<a class="dropdown-item" href="/yu/board/boardList?boardtype=자유게시판">자유게시판</a>
+							<a class="dropdown-item" href="/yu/board/boardList?boardtype=중고게시판">중고게시판</a>
+							<a class="dropdown-item" href="/yu/board/boardList?boardtype=정보게시판">정보게시판</a>
 						</div>
 					</li>
 
@@ -91,7 +91,7 @@
           			</button>
     			</form>
             	<form th:unless="${session.studentInfo} == null" class="form-signin" style="margin:auto;">
-              		<img th:if="${session.folderName} != null" style="width:70px;height:90px;width:25%" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
+              		<img th:if="${session.folderName} != null" style="width:70px;height:90px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
                     <img th:unless="${session.folderName} != null" style="width:width:70px;height:90px;" src="http://placehold.it/70x90/" class="card-img">
               		<div style="color:black">[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!</div>
               		<button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
