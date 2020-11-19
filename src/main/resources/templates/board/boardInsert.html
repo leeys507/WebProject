@@ -88,12 +88,18 @@
         }
         
         var type="[[${boardtype}]]";
-        $("#"+type).attr("selected","selected");
+        $("#"+ type).attr("selected","selected");
         
         function cancel() {
-        	location.href="/yu/board/boardList?boardtype=" + getParameterByName("boardtype");
+        	location.href="/yu/board/boardList?boardtype=" + type;
         }
+        
+        $(function (){		// ckeditor config
+            CKEDITOR.replace('content', {
+                filebrowserUploadUrl: '/mine/imageUpload.do?' + "board=" + "board" + "&boardtype=" + type 
+                		+ "&sid=" + "[[${studentInfo.getSid()}]]" + "&nickname=" + "[[${studentInfo.getNickname()}]]"
+            });
+        });
     </script>
-    <script th:src="@{/scripts/ckeditor.js}"></script>
 </th:block>
 </html>

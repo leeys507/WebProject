@@ -17,7 +17,9 @@ public class EditorDataController {
     @RequestMapping(value="/mine/imageUpload.do", method = RequestMethod.POST)
     public void imageUpload(HttpServletRequest request,
                             HttpServletResponse response, MultipartHttpServletRequest multiFile
-            , @RequestParam MultipartFile upload) throws Exception{
+            , @RequestParam MultipartFile upload, 
+            @RequestParam(value="board") String board, @RequestParam(value="boardtype") String boardtype,
+            @RequestParam(value="sid") String sid, @RequestParam(value="nickname") String nickname) throws Exception{
         // 랜덤 문자 생성
         UUID uid = UUID.randomUUID();
 
@@ -34,7 +36,10 @@ public class EditorDataController {
             byte[] bytes = upload.getBytes();
 
             //이미지 경로 생성
-            String path = "ckImage/";// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
+            String chgSid = createSubForderName(sid);
+            String forderName = nickname + chgSid;
+            
+            String path = "ckImage/" + board + "/" + boardtype + "/" + forderName + "/";// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
             String ckUploadPath = path + uid + "_" + fileName;
             File folder = new File(path);
 
@@ -53,7 +58,8 @@ public class EditorDataController {
 
             String callback = request.getParameter("CKEditorFuncNum");
             printWriter = response.getWriter();
-            String fileUrl = "/mine/ckImgSubmit.do?uid=" + uid + "&fileName=" + fileName;  // 작성화면
+            String fileUrl = "/mine/ckImgSubmit.do?uid=" + uid + "&fileName=" + fileName + 
+            		"&board=" + board + "&boardtype=" + boardtype + "&forderName=" + forderName;  // 작성화면
 
             // 업로드시 메시지 출력
             printWriter.println("{\"filename\" : \""+fileName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
@@ -75,11 +81,12 @@ public class EditorDataController {
     @RequestMapping(value="/mine/ckImgSubmit.do")
     public void ckSubmit(@RequestParam(value="uid") String uid
             , @RequestParam(value="fileName") String fileName
-            , HttpServletRequest request, HttpServletResponse response)
+            , @RequestParam(value="board") String board, @RequestParam(value="boardtype") String boardtype,
+            @RequestParam(value="forderName") String forderName, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
 
         //서버에 저장된 이미지 경로
-        String path = "ckImage/";
+        String path = "ckImage/" + board + "/" + boardtype + "/" + forderName + "/";
 
         String sDirPath = path + uid + "_" + fileName;
 
@@ -118,5 +125,23 @@ public class EditorDataController {
                 out.close();
             }
         }
+    }
+    
+    private String createSubForderName(String sid) {
+        String chgSid = "";
+        char c;
+        int val = -2;
+        int res;
+        
+        for(int i = 0; i < sid.length(); i++) {
+        	res = ((int)sid.charAt(i) + 60 + (i * (-val) + 3));
+        	if(res > 122) res -= 12;
+        	c = (char)res;
+        	chgSid += c;
+        }
+        chgSid += (char)((int)sid.charAt(3) + (int)sid.charAt(5) + 1);
+        chgSid += (char)((int)sid.charAt(4) + (int)sid.charAt(7) + 1);
+        
+        return chgSid;
     }
 }
