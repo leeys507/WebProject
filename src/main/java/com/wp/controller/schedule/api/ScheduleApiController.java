@@ -38,6 +38,7 @@ public class ScheduleApiController {
 
 
         String title = request.getParameter("title");
+        String part = request.getParameter("part");
         String profname = request.getParameter("profname");
         String placename = request.getParameter("placename");
         String colornum = request.getParameter("colornum");
@@ -51,6 +52,7 @@ public class ScheduleApiController {
         schedule=new Schedule();
 
             schedule.setTitle(title);
+            schedule.setPart(part);
             schedule.setProfname(profname);
             schedule.setPlacename(placename);
             schedule.setColornum(colornum);
@@ -95,7 +97,7 @@ public class ScheduleApiController {
 
         for(int i=0;i<schedule.size();i++) {
             Schedule a = schedule.get(i);
-            all +=a.getTitle()+"*"+ a.getProfname()+"*" + a.getPlacename()+"*" + a.getColornum()+"*" + a.getTopnum()+"*" + a.getHeightnum()+"*" + a.getCoursenum()+"*" + a.getDayid() + "!";
+            all += a.getTitle()+"*"+ a.getPart() + "*" + a.getProfname()+"*" + a.getPlacename()+"*" + a.getColornum()+"*" + a.getTopnum()+"*" + a.getHeightnum()+"*" + a.getCoursenum()+"*" + a.getDayid() + "!";
         }
 
         return all;

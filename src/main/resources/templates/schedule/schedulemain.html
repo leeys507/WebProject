@@ -266,9 +266,9 @@
         </div>
     </div>
     <ul class="floating" style="left:40%;">
-        <li class="button search">저장</li>
-        <li class="button search1" onclick="register();">제거</li>
-        <li class="button custom"><a th:href="@{/schedule/contentSearch}" th:onclick="window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a></li>
+        <li id="create" class="button search">저장</li>
+        <li id="delete" class="button search1">제거</li>
+        <li class="button custom"><a th:href="@{/schedule/contentSearch}" th:onclick="window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a>
         </li>
     </ul>
 
@@ -322,7 +322,7 @@
                 $.ajax({
                     url : "/schedule/delete",
                     type :"get",
-                    data :"sid="+a ,
+                    data :"sid="+a,
                     cache:false}).done(function (aa) {
 
                     for(var i=0;i<list.length;i++){
@@ -330,17 +330,15 @@
                         $.ajax({
                             url : "/schedule/save",
                             type : "get",
-                            data : "title=" + list[i].get("title")+"&profname="+ list[i].get("part")+"&part=" +list[i].get("profname")+"&placename="+list[i].get("placename"+"")+"&colornum=" + list[i].get("colornum").substr(1)+"&topnum="+list[i].get("topnum")+"&heightnum="+list[i].get("heightnum")+"&coursenum="+list[i].get("coursenum")+"&dayid="+list[i].get("dayid"),
+                            data : "title=" + list[i].get("title") + 
+                            "&part=" + list[i].get("part") + "&profname=" + list[i].get("profname") +"&placename="+list[i].get("placename"+"")+"&colornum=" + list[i].get("colornum").substr(1)+"&topnum="+list[i].get("topnum")+"&heightnum="+list[i].get("heightnum")+"&coursenum="+list[i].get("coursenum")+"&dayid="+list[i].get("dayid"),
                             cache:false}).done(function () {
-
                         });
-
                     }
-
                 });
 
             });
-
+            alert("등록 성공");
         });
 
         var clickEle = $('#delete');
