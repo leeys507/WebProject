@@ -72,8 +72,8 @@
       </div>
     </div>
   </div>
-<div class="modal" id="modal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div id="modal5" class="modal fade">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">내 정보 수정하기</h5>
@@ -161,7 +161,7 @@
                 <button type="button" class="btn-red" id="secession">탈퇴하기</button>
               </div>
               <div class="float-right" style="margin-bottom:10px; margin-right:10px;">
-                  <button type="button" class="btn-blue" id="modalbtn5">수정하기</button>
+                  <button type="button" class="btn-blue" data-toggle="modal" data-target="#modal5" data-backdrop ="static">수정하기</button>
               </div>
             </div>
             <div class="tab-pane" id="history">
@@ -375,9 +375,7 @@
     var modal4 = document.getElementById('modal4');
     var btn4 = document.getElementById("modalbtn4");
     var span4 = document.getElementsByClassName("close4")[0];
-    var modal5 = document.getElementById('modal5');
-    var btn5 = document.getElementById("modalbtn5")
-    var span5 = document.getElementsByClassName("close5")[0];
+
 
     btn1.onclick = function() {
       modal1.style.display = "block";
@@ -410,12 +408,7 @@
     span4.onclick = function() {
       modal4.style.display = "none";
     }
-    btn5.onclick = function() {
-      modal5.style.display = "block";
-    }
-    span5.onclick = function() {
-      modal5.style.display = "none";
-    }
+
 
     window.onclick = function(event) {
         if (event.target == modal1) {
@@ -426,8 +419,6 @@
           modal3.style.display = "none";
         }else if (event.target == modal4) {
           modal4.style.display = "none";
-        }else if (event.target == modal5) {
-          modal5.style.display = "none";
         }
      }
     
