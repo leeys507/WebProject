@@ -1,5 +1,6 @@
 package com.wp.controller.editor;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +35,26 @@ public class EditorDataController {
         try{
 
             //파일 이름 가져오기
-            String fileName = upload.getOriginalFilename();
+            String fileName = upload.getOriginalFilename();            
             byte[] bytes = upload.getBytes();
+            
+            if(upload.getSize() > 1024 * 1024) {	// 1MB
+            	PrintWriter pw = response.getWriter();
+            	JSONObject j = new JSONObject();
+            	JSONObject j2 = new JSONObject();
+            	j.put("uploaded", 0);
+            	j.put("error", j2);
+            	j2.put("message", "이미지 용량은 1MB 이하입니다");
+            	pw.println(j.toString());
+            	return;
+            }
 
             //이미지 경로 생성
             YUFunction function = new YUFunction();
             String chgSid = function.createSubFolderName(sid);
             String folderName = nickname + chgSid;
             
-            String path = "ckImage/" + board + "/" + boardtype + "/" + folderName + "/";// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
+            String path = "src/main/resources/static/images/ckImage/" + board + "/" + boardtype + "/" + folderName + "/";// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
             String ckUploadPath = path + uid + "_" + fileName;
             File folder = new File(path);
 
@@ -89,7 +101,7 @@ public class EditorDataController {
             throws ServletException, IOException{
 
         //서버에 저장된 이미지 경로
-        String path = "ckImage/" + board + "/" + boardtype + "/" + folderName + "/";
+        String path = "src/main/resources/static/images/ckImage/" + board + "/" + boardtype + "/" + folderName + "/";
 
         String sDirPath = path + uid + "_" + fileName;
 
