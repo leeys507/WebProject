@@ -267,7 +267,8 @@
     </div>
     <ul class="floating" style="left:40%;">
         <li id="create" class="button search">저장</li>
-        <li id="delete" class="button search1">제거</li>
+        <li id="delete" class="button search1">전체 제거</li>
+        <li id="selectDelete" class="button search1" onClick="selectDeleteFunction();">선택 제거</li>
         <li class="button custom"><a th:href="@{/schedule/contentSearch}" th:onclick="window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a>
         </li>
     </ul>
@@ -277,7 +278,9 @@
 
 <th:block layout:fragment="script">
     <script type="text/javascript">
-
+    	
+    	var selectDelete = false;
+    	
         $(document).ready(function() {
             $.ajax({
                 url : "/schedule/load",
@@ -285,9 +288,8 @@
                 data :"date=a" ,
                 cache:false}).done(function (a) {
 
-
+				var cnt = 0;
                 var temp=a.split("!");
-
                 for(i=0;i<temp.length-1;i++)
                 {
 
@@ -303,11 +305,10 @@
                     $("#coursenum").text(itemp[7]);
                     $("#dayid").text(itemp[8]);
                     createobject();
-
                 }
             });});
 
-        var list= new Array();
+        var list = new Array();
         var clickEle = $('#create');
         clickEle.click(function () {
 
@@ -375,6 +376,7 @@
 
         });
 
+        var idCnt=0;
         function createobject() {
 
             let max = new Map();
@@ -390,15 +392,29 @@
             max.set("dayid", $('#dayid').text());
             list.push(max);
 
-            var str = "<div class='mysubject'style='" +"position:absolute;z-index:10;border:1px solid black;width:19%;background-color:"+$('#colornum').text()+
+            idCnt++;
+            var str = "<div name=" + $('#dayid').text() + " id=" + idCnt + " class='mysubject' onClick='removeByID(" + idCnt + ")' style='" +"cursor:pointer;position:absolute;z-index:10;border:1px solid black;width:19%;background-color:"+$('#colornum').text()+
                 ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;'>"+$('#title').text() +$('#part').text()  +$('#profname').text()+$('#placename').text()+"</div>";
 
-
             var distinguish ='#'+$('#dayid').text();
-
             $(distinguish).append(str);
         }
-
+        
+        function removeByID(id) {
+        	if(selectDelete == true)
+        		$("#" + id).remove();
+        }
+        
+        function selectDeleteFunction() {
+        	if(selectDelete) {
+        		selectDelete = false;
+        		$("#selectDelete").text("선택 제거");
+        	}
+        	else {
+        		selectDelete = true;
+        		$("#selectDelete").text("선택 취소");
+        	}
+        }
     </script>
 </th:block>
 </html>

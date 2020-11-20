@@ -75,7 +75,6 @@ public class ScheduleApiController {
 
         String sid=request.getParameter("sid");
 
-        System.out.println(sid);
         ScheduleRepository.deleteBySid(sid);
         return "ok";
     }
