@@ -231,16 +231,18 @@
                         </caption>
                       <thead>
                         <tr>
-                          <th style="text-align:center">제목</th>
-                          <th style="text-align:center">작성일</th>
-                          <th style="text-align:center">위치</th>
+                        	<th style="text-align:center; width:55%">제목</th>
+              				<th style="text-align:center; width:15%">작성일</th>
+              				<th style="text-align:center; width:15%">위치</th>
+             				<th style="text-align:center; width:15%">세부위치</th>
                         </tr>
                       </thead>
                       <tbody id="myBoardTbody">
                         <tr th:each="board :${myBoardList}">
-                          <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
-                          <td style="width:15%; text-align:center" th:text="${board.getRegister_date()}"></td>
-                          <td style="width:25%; text-align:center" th:text="${board.getBoardtype()}"></td>
+                          <td><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
+                          <td style="text-align:center" th:text="${board.getRegister_date()}"></td>
+                          <td style="text-align:center" th:text="${board.getType()}"></td>
+                          <td style="text-align:center" th:text="${board.getBoardtype()}"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -254,16 +256,18 @@
                         </caption>
                       <thead>
                         <tr>
-                          <th style="text-align:center">내용</th>
-                          <th style="text-align:center">작성일</th>
-                          <th style="text-align:center">위치</th>
+                        	<th style="text-align:center; width:55%">제목</th>
+              				<th style="text-align:center; width:15%">작성일</th>
+              				<th style="text-align:center; width:15%">위치</th>
+             				<th style="text-align:center; width:15%">세부위치</th>
                         </tr>
                       </thead>
                       <tbody id="myCommentTbody">
                         <tr th:each="comment :${myCommentList}">
-                          <td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
-                          <td style="width:15%; text-align:center" th:text="${comment.getRegister_date()}"></td>
-                          <td style="width:25%; text-align:center" th:text="${comment.getBoardtype()}"></td>
+                          <td><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
+                          <td style="text-align:center" th:text="${comment.getRegister_date()}"></td>
+                          <td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
+                          <td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -345,7 +349,7 @@
 		var tr = document.createElement("tr");
 		var th = document.createElement("th");
 		
-		th.colSpan = 3;
+		th.colSpan = 4;
 		th.style.fontSize = "15px";
 		th.style.textAlign = "center";
 		th.innerHTML = "등록된 글이 없습니다";

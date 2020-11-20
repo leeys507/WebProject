@@ -35,7 +35,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
 		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
-				"select title, bno, register_date, '매칭게시판' as 'type', '매칭게시판' as boardtype from matching " +
+				"select title, bno, register_date, '매칭게시판' as 'type', boardtype from matching " +
 				"where request_sid = ?2 and check_delete = 'F'" +
 				"order by register_date desc limit ?3";
 		

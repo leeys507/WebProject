@@ -14,16 +14,18 @@
         <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
             <tr>
-              <th style="text-align:center">제목</th>
-              <th style="text-align:center">작성일</th>
-              <th style="text-align:center">위치</th>
+              <th style="text-align:center; width:55%">제목</th>
+              <th style="text-align:center; width:15%">작성일</th>
+              <th style="text-align:center; width:15%">위치</th>
+              <th style="text-align:center; width:15%">세부위치</th>
             </tr>
           </thead>
 		<tbody id="tbody">
           <tr th:each="comment :${myCommentList}">
-          	<td style="width:60%"><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
-          	<td style="width:15%; text-align:center" th:text="${comment.getRegister_date()}"></td>
-          	<td style="width:25%; text-align:center" th:text="${comment.getBoardtype()}"></td>
+          	<td><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
+          	<td style="text-align:center" th:text="${comment.getRegister_date()}"></td>
+          	<td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
+          	<td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
           </tr>
         </tbody>
         </table>
