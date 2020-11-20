@@ -424,7 +424,7 @@
                     <div class="card-header bg-light">
                         <div class="row">
                             <div class="form-group">
-                                <label for="nickName" class="col-form-label"><h5>닉네임</h5></label>
+                                <label for="nickName" class="col-form-label"><h5>닉네임 (1달 주기로 변경 가능합니다)</h5></label>
                                 <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required"/>
                             </div>
                         </div>
@@ -521,7 +521,12 @@
             var gen = $("#gen");
             var syear = $("#syear");
 
-            if($("#nickname").val().length < 2 || $("#nickname").val().length > 12) {
+            if($("#department").val() == "") {
+            	alert("학과를 선택해 주세요");
+            	$("#department").focus();
+                return false;
+            }
+            else if($("#nickname").val().length < 2 || $("#nickname").val().length > 12) {
                 alert("닉네임은 2자 이상 12자 이하 입니다");
                 $("#nickname").focus();
                 return false;
