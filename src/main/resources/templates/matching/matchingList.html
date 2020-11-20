@@ -13,26 +13,26 @@
         <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
         	<tr>
-            	<th style="text-align:center">번호</th>
-            	<th style="text-align:center">제목</th>
-            	<th style="text-align:center">금액</th>
-            	<th style="text-align:center">작성자</th>
-           	 	<th style="text-align:center">등록일</th>
-            	<th style="text-align:center">해결여부</th>
-            	<th style="text-align:center">조회수</th>
+            	<th style="text-align:center; width:5%">번호</th>
+            	<th style="text-align:center; width:40%">제목</th>
+            	<th style="text-align:center; width:5%">금액</th>
+            	<th style="text-align:center; width:15%">작성자</th>
+           	 	<th style="text-align:center; width:15%">등록일</th>
+            	<th style="text-align:center; width:5%">해결여부</th>
+            	<th style="text-align:center; width:5%">조회수</th>
         	</tr>
           </thead>
         <tbody id="tbody">
         <tr th:each="matching :${matchingList}">
-            <td style="width:5%; text-align:center" th:text="${matching.getBno()}"></td>
-            <td style="width:40%;"> <a th:href="@{'/yu/matching/matchingView/'+${matching.getBno()}}" th:text="${matching.getTitle()}"></a></td>
-            <td style="width:5%; text-align:center" th:text="${matching.getMoney()}"></td>
-            <td style="width:15%; text-align:center" th:text="${matching.getRequest_nickname()}"></td>
-            <td style="width:15%; text-align:center" th:text="${matching.getRegister_date()}"></td>
-            <td style="width:5%; text-align:center" th:if="${matching.getCheck_success()} == F">NO</td>
-            <td style="width:5%; text-align:center" th:if="${matching.getCheck_success()} == I">진행중</td>
-            <td style="width:5%; text-align:center" th:if="${matching.getCheck_success()} == T">YES</td>
-            <td style="width:5%; text-align:center" th:text="${matching.getRead_count()}"></td>
+            <td style="text-align:center" th:text="${matching.getBno()}"></td>
+            <td> <a th:href="@{'/yu/matching/matchingView/'+${matching.getBno()}}" th:text="${matching.getTitle()}"></a></td>
+            <td style="text-align:center" th:text="${matching.getMoney()}"></td>
+            <td style="text-align:center" th:text="${matching.getRequest_nickname()}"></td>
+            <td style="text-align:center" th:text="${matching.getRegister_date()}"></td>
+            <td style="text-align:center" th:if="${matching.getCheck_success()} == F">NO</td>
+            <td style="text-align:center" th:if="${matching.getCheck_success()} == I">진행중</td>
+            <td style="text-align:center" th:if="${matching.getCheck_success()} == T">YES</td>
+            <td style="text-align:center" th:text="${matching.getRead_count()}"></td>
         </tr>
         </tbody>
     </table>

@@ -23,15 +23,31 @@ public class SearchViewController {
 	private final MatchingService matchingService;
 	
     @GetMapping("/yu/search/searchAllList")
-    public String searchBoardListView(@RequestParam String text, @RequestParam String date, @RequestParam String option, 
-    		Model model, Pageable pageable) {
-        Page<Board> data = boardService.searchAll(pageable, text, date, option);
+    public String searchAllListView(@RequestParam String text, @RequestParam String date, @RequestParam String type, 
+    		@RequestParam String option, Model model, Pageable pageable) {
+    	
+    	Page<Board> boardList = null;
+    	Page<Matching> matchingList = null;
+    	
         model.addAttribute("text", text);
         model.addAttribute("date", date);
+        model.addAttribute("type", type);
         model.addAttribute("option", option);
-        model.addAttribute("board", data);
-
-        return "search/searchAllList";
+    	
+    	if(type.equals("all")) {
+    		return "search/searchAllList";
+    	}
+    	else if(type.equals("board")) {
+    		boardList = boardService.searchAll(pageable, text, date, option);
+    		model.addAttribute("board", boardList);
+    		return "search/searchAllBoardList";
+    	}
+    	else if(type.equals("matching")) {
+    		matchingList = matchingService.searchAll(pageable, text, date, option);
+    		model.addAttribute("matchingList", matchingList);
+    		return "search/searchAllMatchingList";
+    	}
+    	return "errors/errorPage";
     }
     
     @GetMapping("/yu/search/searchBoardList")

@@ -14,7 +14,7 @@
         <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
             <tr>
-              <th style="text-align:center; width:55%">제목</th>
+              <th style="text-align:center; width:55%">내용</th>
               <th style="text-align:center; width:15%">작성일</th>
               <th style="text-align:center; width:15%">위치</th>
               <th style="text-align:center; width:15%">세부위치</th>
@@ -24,7 +24,7 @@
           <tr th:each="comment :${myCommentList}">
           	<td>
           		<a th:if="${comment.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
-          		<a th:if="${comment.getType()} == '매칭게시판'" th:href="@{'/yu/matching/matchingView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
+          		<a th:if="${comment.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
           	</td>
           	<td style="text-align:center" th:text="${comment.getRegister_date()}"></td>
           	<td style="text-align:center" th:text="${comment.getType()}"></td>

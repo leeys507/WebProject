@@ -73,10 +73,31 @@
     			<a th:unless="${session.studentInfo} == null" href="/yu/login"><img th:src="@{/images/영대마크.png}"></a>
   			</div>
   			<div class="col-7 item">
-    			<form class="input-group">
-      				<input id="totalSearchBox" class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
-      				<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
-    			</form>
+    			<div class="search-wrap clear">
+              		<div class="search-option-wrap fl">
+                		<select id="totalSearchDate" class="search-date">
+                  			<option value="all">전체기간</option>
+                  			<option value="1week">1주</option>
+                  			<option value="1month">1개월</option>
+                  			<option value="6month">6개월</option>
+                		</select>
+                		<select id="totalSearchType">
+                  			<option value="all">전체유형</option>
+                  			<option value="board">게시판</option>
+                  			<option value="matching">매칭</option>
+                		</select>
+                		<select id="totalSearchOption" class="search-option">
+                  			<option value="all">제목+내용</option>
+                  			<option value="title">제목</option>
+                  			<option value="writer">글작성자</option>
+                  			<option value="commentContent">댓글내용</option>
+                		</select>
+              		</div>
+              		<div class="search-input-wrap fl">
+      					<input id="totalSearchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
+      				</div>
+      				<button class="btn glass" type="button" onClick = "return searchTotal()"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+    			</div>
   			</div>
   			<div class="col-3 item">
     			<form th:if="${session.studentInfo} == null" class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
@@ -164,6 +185,29 @@
     	<script th:src="@{/ckeditor/ckeditor.js}"></script>
     	<script th:src="@{/js/bootstrap.js}"></script>
     	
+    	<script>
+        	function searchTotal() {
+        		var text = $("#totalSearchBox");
+        		var date = $("#totalSearchDate option:selected");
+        		var type = $("#totalSearchType option:selected");
+        		var option = $("#totalSearchOption option:selected");
+        	
+        		if(text.val().trim() == "") {
+        			alert("검색어를 입력하세요");
+        			return false;
+        		}
+        		else if(text.val().length < 2) {
+        			alert("검색어는 2글자 이상이어야 합니다");
+        			return false;
+        		}
+        	
+        		var chgText = text.val().replace(/%/gi, '%25');
+        		chgText = chgText.replace(/\\/gi, '%5C');
+        	
+        		location.href = "/yu/search/searchAllList?text=" + 
+        			chgText + "&date=" + date.val() + "&type=" + type.val() + "&option=" + option.val();
+        	}
+    	</script>
 		<th:block layout:fragment="script"></th:block>
 	</body>
 </html>

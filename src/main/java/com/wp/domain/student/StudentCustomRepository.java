@@ -36,7 +36,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
 		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
-				"select title, bno, register_date, '매칭게시판' as 'type', boardtype from matching " +
+				"select title, bno, register_date, '매칭' as 'type', boardtype from matching " +
 				"where request_sid = ?2 and check_delete = 'F'" +
 				"order by register_date desc limit ?3";
 		
@@ -56,7 +56,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable) {
 		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
-				"select title, bno, register_date, '매칭게시판' as 'type', boardtype from matching " +
+				"select title, bno, register_date, '매칭' as 'type', boardtype from matching " +
 				"where request_sid = ?2 and check_delete = 'F'" +
 				"order by register_date desc";
 	    Query query = null;
@@ -101,7 +101,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc " +
 				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
 				"union " +
-				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭게시판' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
+				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
 				"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' " +
 				"order by register_date desc limit ?3";
 		
@@ -122,7 +122,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc " +
 				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
 				"union " +
-				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭게시판' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
+				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
 				"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' " +
 				"order by register_date desc";
 	    Query query = null;

@@ -1,5 +1,6 @@
 package com.wp.service.matching;
 
+import com.wp.domain.board.Board;
 import com.wp.domain.matching.ChatRoomRepository;
 import com.wp.domain.matching.dto.MatchingInsertDTO;
 import com.wp.domain.matching.dto.MatchingUpdateDTO;
@@ -167,23 +168,23 @@ public class MatchingServiceImpl implements MatchingService {
 */
     }
     
-    public Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option) {
+    public Page<Matching> searchAll(Pageable pageable, String text, String date, String option){
     	String addQuery = "";
     	int dateNum = 0;
     	
     	if(date.equals("all") && option.equals("all")) {
-    		return matchingRepository.searchMatchingBoardType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
+    		return matchingRepository.searchMatchingAll(text, PageRequest.of(pageable.getPageNumber(), 10));
     	}
     	else {
     		if(!option.equals("all")) {
         		if(option.equals("title"))
-        			addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+        			addQuery = "match(title) against(?1 in boolean mode)";
         		else if(option.equals("writer")) {
-        			addQuery = "boardtype = '" + boardtype + "' and request_nickname like ?1";
+        			addQuery = "nickname like ?1";
         			text = "%" + text + "%";
         		}
         		else if(option.equals("commentContent"))
-        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+        			addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode))";
         		
         		if(date.equals("all"))
         			return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
@@ -197,7 +198,43 @@ public class MatchingServiceImpl implements MatchingService {
         			dateNum = 180;
         		
         		if(option.equals("all"))
-        			return matchingRepository.searchMatchingBoardTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        			return matchingRepository.searchMatchingAllDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    		}
+    	}
+    	return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    }
+    
+    public Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option) {
+    	String addQuery = "";
+    	int dateNum = 0;
+    	
+    	if(date.equals("all") && option.equals("all")) {
+    		return matchingRepository.searchMatchingType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
+    	}
+    	else {
+    		if(!option.equals("all")) {
+        		if(option.equals("title"))
+        			addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+        		else if(option.equals("writer")) {
+        			addQuery = "boardtype = '" + boardtype + "' and request_nickname like ?1";
+        			text = "%" + text + "%";
+        		}
+        		else if(option.equals("commentContent"))
+        			addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+        		
+        		if(date.equals("all"))
+        			return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+    		}
+    		if(!date.equals("all")) {
+        		if(date.equals("1week"))
+        			dateNum = 7;
+        		else if(date.equals("1month"))
+        			dateNum = 30;
+        		else if(date.equals("6month"))
+        			dateNum = 180;
+        		
+        		if(option.equals("all"))
+        			return matchingRepository.searchMatchingTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     	}
     	return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));

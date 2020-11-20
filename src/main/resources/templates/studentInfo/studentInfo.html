@@ -241,7 +241,7 @@
                         <tr th:each="board :${myBoardList}">
                           <td>
                           	<a th:if="${board.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
-                          	<a th:if="${board.getType()} == '매칭게시판'" th:href="@{'/yu/matching/matchingView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+                          	<a th:if="${board.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
                           </td>
                           <td style="text-align:center" th:text="${board.getRegister_date()}"></td>
                           <td style="text-align:center" th:text="${board.getType()}"></td>
@@ -259,7 +259,7 @@
                         </caption>
                       <thead>
                         <tr>
-                        	<th style="text-align:center; width:55%">제목</th>
+                        	<th style="text-align:center; width:55%">내용</th>
               				<th style="text-align:center; width:15%">작성일</th>
               				<th style="text-align:center; width:15%">위치</th>
              				<th style="text-align:center; width:15%">세부위치</th>
@@ -269,7 +269,7 @@
                         <tr th:each="comment :${myCommentList}">
                           <td>
                           	<a th:if="${comment.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
-                          	<a th:if="${comment.getType()} == '매칭게시판'" th:href="@{'/yu/matching/matchingView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
+                          	<a th:if="${comment.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
                           </td>
                           <td style="text-align:center" th:text="${comment.getRegister_date()}"></td>
                           <td style="text-align:center" th:text="${comment.getType()}"></td>

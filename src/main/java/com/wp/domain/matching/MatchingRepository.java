@@ -22,13 +22,20 @@ public interface MatchingRepository extends JpaRepository<Matching, Long>, Pagin
 	@Query(value = "UPDATE matching SET read_count = :read_count WHERE bno = :bno", nativeQuery = true)
 	int updateReadCount(@Param("bno") long bno, @Param("read_count") int read_count);
 
+    @Query(value = "select * from matching where match(title, content) against(:text in boolean mode) and check_delete = 'F'", nativeQuery = true)
+    Page<Matching> searchMatchingAll(@Param("text")String text, Pageable pageable);
+    
+    @Query(value = "select * from matching where match(title, content) against(:text in boolean mode) "
+    		+ "and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY) and check_delete = 'F'", nativeQuery = true)
+    Page<Matching> searchMatchingAllDates(@Param("text")String text, @Param("date")int date, Pageable pageable);
+    
     @Query(value = "select * from matching where match(title, content) against(:text in boolean mode)"
     		+ " and boardtype = :boardtype and check_delete = 'F'", nativeQuery = true)
-    Page<Matching> searchMatchingBoardType(@Param("boardtype")String boardtype, @Param("text")String text, Pageable pageable);
+    Page<Matching> searchMatchingType(@Param("boardtype")String boardtype, @Param("text")String text, Pageable pageable);
     
     @Query(value = "select * from matching where match(title, content) against(:text in boolean mode) "
     		+ "and boardtype = :boardtype and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY) and check_delete = 'F'", nativeQuery = true)
-    Page<Matching> searchMatchingBoardTypeDates(@Param("boardtype")String boardtype, @Param("text")String text, @Param("date")int date, Pageable pageable);
+    Page<Matching> searchMatchingTypeDates(@Param("boardtype")String boardtype, @Param("text")String text, @Param("date")int date, Pageable pageable);
     
 	@Query(value = "SELECT MAX(m.bno) FROM matching m", nativeQuery = true)
 	Long MaxBno();

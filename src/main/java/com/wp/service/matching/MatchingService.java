@@ -34,6 +34,7 @@ public interface MatchingService {
     long UpdateMatching(long bno, MatchingUpdateDTO dto);
     
 	Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option);
+	Page<Matching> searchAll(Pageable pageable, String text, String date, String option);
 
     long MaxBno();
 
