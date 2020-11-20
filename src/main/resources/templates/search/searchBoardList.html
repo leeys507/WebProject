@@ -16,7 +16,7 @@
             <tr>
               <th style="text-align:center; width:5%;">번호</th>
               <th style="text-align:center; width:50%;">제목</th>
-              <th style="text-align:center; width:20%;">글쓴이</th>
+              <th style="text-align:center; width:20%;">작성자</th>
               <th style="text-align:center; width:15%;">작성일</th>
               <th style="text-align:center; width:5%;">조회수</th>
               <th style="text-align:center; width:5%;">좋아요</th>
@@ -110,6 +110,7 @@
     	if([[${board.getTotalElements()}]] == 0) {
     		var tr = document.createElement("tr");
     		var th = document.createElement("th");
+    		
     		th.style.textAlign= "center";
     		th.colSpan = 6;
     		th.style.fontSize = "15px";
