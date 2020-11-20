@@ -180,7 +180,7 @@ public class MatchingServiceImpl implements MatchingService {
         		if(option.equals("title"))
         			addQuery = "match(title) against(?1 in boolean mode)";
         		else if(option.equals("writer")) {
-        			addQuery = "nickname like ?1";
+        			addQuery = "request_nickname like ?1";
         			text = "%" + text + "%";
         		}
         		else if(option.equals("commentContent"))
