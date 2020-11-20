@@ -32,10 +32,10 @@ public interface MatchingService {
     boolean DeleteMatching(long bno);
 
     long UpdateMatching(long bno, MatchingUpdateDTO dto);
+    
+	Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option);
 
     long MaxBno();
-    
-    Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option);
 
     void updateViewCnt(long bno, int readcount, HttpServletRequest request, HttpServletResponse response, HttpSession session);
 

@@ -1,5 +1,6 @@
 package com.wp.domain.student;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -55,7 +56,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable) {
 		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
-				"select title, bno, register_date, '매칭게시판' as 'type', '매칭게시판' as boardtype from matching " +
+				"select title, bno, register_date, '매칭게시판' as 'type', boardtype from matching " +
 				"where request_sid = ?2 and check_delete = 'F'" +
 				"order by register_date desc";
 	    Query query = null;
@@ -85,7 +86,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		List<StudentGetMyBoardDTO> list = query.getResultList();
 	    
 	    String countSql = "select sum(c) from " +
-	    		"(select count(*) as c from board where sid = ?1 and check_delete = 'F'" +
+	    		"(select count(*) as c from board where sid = ?1 and check_delete = 'F' " +
 	    		"union " +
 	    		"select count(*) as c from matching where request_sid = ?2 and check_delete = 'F') as t";
 	    
@@ -97,14 +98,19 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit) {
-		String sql = "select bc.content, b.bno, bc.register_date, b.boardtype from board b, boardcomment bc " +
-				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' order by bc.register_date desc limit ?2";
+		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc " +
+				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
+				"union " +
+				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭게시판' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
+				"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' " +
+				"order by register_date desc limit ?3";
 		
 	    Query query = null;
 
 	    query = entityManager.createNativeQuery(sql, "StudentGetMyCommentDTOMapping");
 	    query.setParameter(1, sid);
-	    query.setParameter(2, limit);
+	    query.setParameter(2, sid);
+	    query.setParameter(3, limit);
 	    
 	    @SuppressWarnings("unchecked")
 		List<StudentGetMyCommentDTO> list = query.getResultList();
@@ -113,38 +119,48 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable) {
-		String sql = "select bc.content, b.bno, bc.register_date, b.boardtype from board b, boardcomment bc " +
-				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' order by bc.register_date desc";
+		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc " +
+				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
+				"union " +
+				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭게시판' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
+				"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' " +
+				"order by register_date desc";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
 
 	    if(pageNumber == 0) {
-	    	sql += " limit ?2";
+	    	sql += " limit ?3";
 	    }
 	    else {
-	    	sql += " limit ?2, ?3";
+	    	sql += " limit ?3, ?4";
 	    }
 
 	    query = entityManager.createNativeQuery(sql, "StudentGetMyCommentDTOMapping");
 	    query.setParameter(1, sid);
+	    query.setParameter(2, sid);
 	    
 	    if(pageNumber == 0) {
-	    	query.setParameter(2, pageable.getPageSize());
+	    	query.setParameter(3, pageable.getPageSize());
 	    }
 	    else {
-	    	query.setParameter(2, pageable.getOffset());
-	    	query.setParameter(3, pageable.getPageSize());
+	    	query.setParameter(3, pageable.getOffset());
+	    	query.setParameter(4, pageable.getPageSize());
 	    }
 	    
 	    @SuppressWarnings("unchecked")
 		List<StudentGetMyCommentDTO> list = query.getResultList();
 	    
-	    String countSql = "select count(*) from board b, boardcomment bc" +
-	    		" where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F'";
+	    String countSql = "select sum(c) from " +
+	    		"(select count(*) as c from board b, boardcomment bc " +
+	    		"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
+	    		"union " +
+	    		"select count(*) as c from matching m, matchingcomment mc " +
+	    		"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F') as t";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
     	countQuery.setParameter(1, sid);
+    	countQuery.setParameter(2, sid);
 	    
     	return createMyCommentPage(list, pageable, countQuery);
 	}
@@ -172,14 +188,14 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		int pageNumber = pageable.getPageNumber();
 		
 	    if(pageNumber == 0 && list.size() != 0 && list.size() >= pageable.getPageSize()) {
-	    	totalCount = ((BigInteger)countQuery.getSingleResult()).longValue();
+	    	totalCount = ((BigDecimal)countQuery.getSingleResult()).longValue();
 	    }
 	    else if(pageNumber != 0 && list.size() == 0) {	// page over
-	    	totalCount = ((BigInteger)countQuery.getSingleResult()).longValue();
+	    	totalCount = ((BigDecimal)countQuery.getSingleResult()).longValue();
 	    }
 	    
 	    Page<StudentGetMyCommentDTO> pages = new PageImpl<StudentGetMyCommentDTO>(list, pageable, totalCount);
-	    totalCount = BigInteger.valueOf(0).longValue();
+	    totalCount = BigDecimal.valueOf(0).longValue();
 	    return pages;
 	}
 }

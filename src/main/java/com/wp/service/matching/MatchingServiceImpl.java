@@ -49,10 +49,12 @@ public class MatchingServiceImpl implements MatchingService {
         return matchingRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
         		new Sort(Sort.Direction.DESC, "bno")));
     }
+    
     @Transactional
     public String InsertMatching(MatchingInsertDTO data) {
         return matchingRepository.save(data.toEntity()).getStudentForeignkey_request().getSid();
     }
+    
     @Transactional
     public boolean ProceedMatching(long bno, long cno) {
         Matching entity = matchingRepository.findByBno(bno);
@@ -170,7 +172,7 @@ public class MatchingServiceImpl implements MatchingService {
     	int dateNum = 0;
     	
     	if(date.equals("all") && option.equals("all")) {
-    		return matchingRepository.searchBoardType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
+    		return matchingRepository.searchMatchingBoardType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
     	}
     	else {
     		if(!option.equals("all")) {
@@ -195,7 +197,7 @@ public class MatchingServiceImpl implements MatchingService {
         			dateNum = 180;
         		
         		if(option.equals("all"))
-        			return matchingRepository.searchBoardTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        			return matchingRepository.searchMatchingBoardTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     	}
     	return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));

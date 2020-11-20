@@ -71,7 +71,22 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
         		new Sort(Sort.Direction.DESC, "bno")));
     }
-    
+
+    @Transactional
+    public boolean deleteBoard(long bno) {
+        Board entity = boardRepository.findByBno(bno);
+        if(entity == null) return false;
+        entity.delete();
+        return true;
+    }
+
+	public String updateBoardOpen(String boardSid, String studentSid) {
+		if(!boardSid.equals(studentSid)){
+			return "errors/errorPage";
+		}
+		return "board/boardUpdate";
+	}
+	
     public Page<Board> searchAll(Pageable pageable, String text, String date, String option){
     	String addQuery = "";
     	int dateNum = 0;
@@ -143,19 +158,4 @@ public class BoardServiceImpl implements BoardService {
     	}
     	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
-
-    @Transactional
-    public boolean deleteBoard(long bno) {
-        Board entity = boardRepository.findByBno(bno);
-        if(entity == null) return false;
-        entity.delete();
-        return true;
-    }
-
-	public String updateBoardOpen(String boardSid, String studentSid) {
-		if(!boardSid.equals(studentSid)){
-			return "errors/errorPage";
-		}
-		return "board/boardUpdate";
-	}
 }

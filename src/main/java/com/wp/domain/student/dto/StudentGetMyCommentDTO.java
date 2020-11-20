@@ -14,6 +14,7 @@ public class StudentGetMyCommentDTO {
 	String content;
 	long bno;
 	LocalDateTime register_date;
+	String type;
 	String boardtype;
 	
 	public String getRegister_date() {

@@ -144,8 +144,8 @@
             if(pageNum + nextOrPrev < 0) return false;
             else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
 
-            location.href = "/yu/search/searchBoardList?boardtype=" + [[${boardtype}]] + "&text=" + [[${text}]] + "&date=" 
-            		+ [[${date}]] + "&option=" + [[${option}]] + "&page=" + (pageNum + nextOrPrev);
+            location.href = "/yu/search/searchBoardList?boardtype=" + "[[${boardtype}]]" + "&text=" + "[[${text}]]" + "&date=" 
+            		+ "[[${date}]]" + "&option=" + "[[${option}]]" + "&page=" + (pageNum + nextOrPrev);
             return true;
         }
         

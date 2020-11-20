@@ -22,9 +22,12 @@
           </thead>
 		<tbody id="tbody">
           <tr th:each="comment :${myCommentList}">
-          	<td><a th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a></td>
+          	<td>
+          		<a th:if="${comment.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
+          		<a th:if="${comment.getType()} == '매칭게시판'" th:href="@{'/yu/matching/matchingView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
+          	</td>
           	<td style="text-align:center" th:text="${comment.getRegister_date()}"></td>
-          	<td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
+          	<td style="text-align:center" th:text="${comment.getType()}"></td>
           	<td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
           </tr>
         </tbody>

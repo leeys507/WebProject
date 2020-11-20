@@ -22,9 +22,12 @@
           </thead>
 		<tbody id="tbody">
            <tr th:each="board :${myBoardList}">
-           <td ><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
+           <td >
+           		<a th:if="${board.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+           		<a th:if="${board.getType()} == '매칭게시판'" th:href="@{'/yu/matching/matchingView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+           	</td>
            <td style="text-align:center" th:text="${board.getRegister_date()}"></td>
-           <td style="text-align:center" th:text="${board.getBoardtype()}"></td>
+           <td style="text-align:center" th:text="${board.getType()}"></td>
            <td style="text-align:center" th:text="${board.getBoardtype()}"></td>
         </tr>
         </tbody>
