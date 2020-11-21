@@ -72,8 +72,14 @@ public class MatchingViewController {
     @GetMapping("/yu/matching/matchingUpdate/{bno}")
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         MatchingGetDTO dto = matchingService.findById(bno);
+        if(dto==null){
+            return "errors/errorPage";
+        }
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         model.addAttribute("matching", dto);
-        return matchingService.updateBoardOpen(dto.getRequest_sid(),data.getSid());
+        if(!dto.getRequest_sid().equals(data.getSid())){
+            return "errors/errorPage";
+        }
+        return "matching/matchingUpdate";
     }
 }

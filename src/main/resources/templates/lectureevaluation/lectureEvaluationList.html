@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+
+<th:block layout:fragment="title">
+  <title>YU LectureEvaluation List</title>
+</th:block>
+
+<th:block layout:fragment="article">
+      <div class="container-fluid">
+        <div class="card bg-light mt-3">
+          <div class="card-header bg-light">
+            <h2>수강중인 과목</h2><br><button th:if="${lectureList.size()}==0" id="lectureInsert" type="button" class="btn-blue" onClick="lectureInsert()">과목 불러오기</button>
+          </div>
+          <div class="card-header bg-light" th:each="lecture :${lectureList}">
+            <div class="row">
+              <div class="col-8 text-left">
+                <span th:text="${lecture.getLecturenum()}"></span> /
+                <span th:text="${lecture.getLecturename()}"></span> /
+                <small th:text="${lecture.getProfessor()}">   </small>
+                <button th:if="${lecture.getStar()}==0" id="lectureUpdate" type="button" class="btn-blue" th:onClick="|lectureEval(${lecture.getLno()})|">평가하기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="card bg-light mt-3">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item"><a class="nav-link active" href="#home" data-toggle="tab">최근 강의평</a></li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="home">
+              <div class="card-header bg-light">
+                <div class="row">
+                  <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>수정중/&nbsp;<small>조행래</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--여기까지-->
+        <div class="search-form-wrap">
+          <form id="search-form"  method="get">
+            <fieldset>
+              <div class="search-wrap clear">
+                <!-- 옵션 -->
+                <div class="search-option-wrap fl">
+                  <select id="searchDate" class="search-date">
+                    <option value="all">전체기간</option>
+                    <option value="1week">1주</option>
+                    <option value="1month">1개월</option>
+                    <option value="6month">6개월</option>
+                  </select>
+                  <select id="searchOption" class="search-option">
+                    <option value="all">제목+내용</option>
+                    <option value="title">제목</option>
+                    <option value="writer">글작성자</option>
+                    <option value="commentContent">댓글내용</option>
+                  </select>
+                </div>
+                <!-- 검색어 입력창 -->
+                <div class="search-input-wrap fl">
+                  <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요.">
+                </div>
+                <button class="btn glass" type="submit"><img src="images/돋보기.png" class="button-image"></button>
+              </fieldset>
+          </form>
+        </div>
+      </div>
+</th:block>
+<th:block layout:fragment="script">
+  <script>
+    function lectureEval(lno){
+      location.href = "/yu/lectureevaluation/EvalLecture?lno=" + lno;
+    }
+    function lectureInsert(){
+      $('#lectureInsert').hide();
+      alert("4~8초 정도 기다려주세요.");
+      $.ajax({
+        type: "POST",
+        url: "/yu/lectureevaluation/insertLectureEvaluation",
+        success: function (data) {
+          if (data) {
+            alert("불러오기 성공");
+            location.href = location.href;
+          } else
+            alert("불러오기 실패");
+        }, error: function () {
+          alert("불러오기 실패");
+          return false;
+        }
+      });
+      return false;
+    }
+    $('a[data-toggle="tab"]').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+      var id = $(e.target).attr("href");
+      localStorage.setItem('selectedTab', id)
+    });
+
+    var selectedTab = localStorage.getItem('selectedTab');
+    if (selectedTab != null) {
+      $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+    }
+  </script>
+</th:block>
+</html>

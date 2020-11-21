@@ -65,8 +65,14 @@ public class BoardViewController {
     @GetMapping("/yu/board/boardUpdate/{bno}")
     public String openBoardUpdate(@PathVariable long bno, Model model) {
         BoardGetDTO dto = boardService.findById(bno);
+        if(dto==null) {
+            return "errors/errorPage";
+        }
         StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         model.addAttribute("board", dto);
-        return boardService.updateBoardOpen(dto.getSid(),data.getSid());
+        if(!dto.getSid().equals(data.getSid())){
+            return "errors/errorPage";
+        }
+        return "board/boardUpdate";
     }
 }

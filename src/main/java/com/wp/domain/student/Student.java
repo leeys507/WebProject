@@ -10,6 +10,7 @@ import javax.persistence.*;
 import com.wp.domain.board.Board;
 import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.boardlike.BoardLike;
+import com.wp.domain.lectureevaluation.LectureEvaluation;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
@@ -39,7 +40,6 @@ import lombok.Setter;
                         @ColumnResult(name="content", type = String.class),
                         @ColumnResult(name="bno", type = Long.class),
                         @ColumnResult(name="register_date", type = LocalDateTime.class),
-                        @ColumnResult(name="type", type = String.class),
                         @ColumnResult(name="boardtype", type = String.class),
                 })
 )
@@ -97,7 +97,9 @@ public class Student {
    
    @OneToMany(mappedBy = "studentForeignkey", targetEntity = BoardLike.class)
    private List<BoardLike> boardLikeList = new ArrayList<BoardLike>();
-   
+
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity = LectureEvaluation.class)
+   private List<LectureEvaluation> LectureList = new ArrayList<LectureEvaluation>();
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
    		return formatter.format(this.first_login);

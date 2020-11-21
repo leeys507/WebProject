@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+
+<th:block layout:fragment="title">
+  <title>YU LectureEvaluation Insert</title>
+</th:block>
+
+<th:block layout:fragment="article">
+      <div class="container-fluid">
+        <div class="card bg-light mt-3">
+          <div class="card-header bg-light">
+            <h2 th:text="${lecture.getLecturename()}"></h2>
+            <br>
+            <div class="row">
+              <div class="col-8 text-left"><h5 th:text="'담당교수 : '+ ${lecture.getProfessor()}"></h5></div>
+            </div>
+          </div>
+        </div><!--윗대가리-->
+
+      <!--<div class="col-sm-auto article-header">
+        <h2>강의평가 등록</h2>
+      </div>
+      <br>
+    -->
+        <div class="col-sm-auto">
+            <div class="form-group">
+              <span class="star star_left"></span>
+              <span class="star star_right"></span>
+
+              <span class="star star_left"></span>
+              <span class="star star_right"></span>
+
+              <span class="star star_left"></span>
+              <span class="star star_right"></span>
+
+              <span class="star star_left"></span>
+              <span class="star star_right"></span>
+
+              <span class="star star_left"></span>
+              <span class="star star_right"></span>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control nonesize" id="content" name="content"  placeholder="내용을 입력하시오"></textarea>
+            </div>
+                    <div id="button_group" class="btn-form">
+                      <button type="button" class="btn btn-primary" onclick="lectureUpdate()" style="margin-right:5px;">등록</button>
+                      <button type="button" class="btn btn-secondary" onclick="location.href='/yu/lectureevaluation/lectureevaluationList'">취소</button>
+                    </div>
+        </div>
+      </div>
+      <br>
+</th:block>
+<th:block layout:fragment="script">
+  <script type="text/javascript">
+    $(".star").eq(0).addClass("on");
+    $(".star").eq(1).addClass("on");
+
+
+    function lectureUpdate(){
+      var content=$('#content');
+      var star=$(".on").length/2;
+      var lno = [[${lecture.getLno()}]];
+
+      if(content.val() == "") {
+        alert("내용 입력");
+        return false;
+      }
+
+      $.ajax({
+        type: "PUT",
+        url : "/yu/lectureEvaluationUpdate/",
+        data : {
+          lno:lno,
+          content:content.val(),
+          star:star
+                },
+        success : function(data){
+          if(data) {
+            alert("등록 성공");
+            location.href='/yu/lectureevaluation/lectureevaluationList';
+          }
+          else
+            alert("등록 실패");
+        },error : function(){
+          alert("에러");
+          return false;
+        }
+      });
+      return false;
+    }
+    $(".star").on('click',function(){
+        var idx = $(this).index();
+      if(idx%2==0){
+        idx=idx+1;
+      }
+      $(".star").removeClass("on");
+      for(var i=0; i<=idx; i++){
+        $(".star").eq(i).addClass("on");
+      }
+    });
+  </script>
+</th:block>
+</html>

@@ -32,30 +32,30 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Service
 public class MatchingServiceImpl implements MatchingService {
-	private final MatchingRepository matchingRepository;
-	private final StudentRepository studentRepository;
-	private final ChatRoomRepository chatRoomRepository;
-	private final MatchingCommentRepository matchingCommentRepository;
-	
+    private final MatchingRepository matchingRepository;
+    private final StudentRepository studentRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final MatchingCommentRepository matchingCommentRepository;
+
     public MatchingGetDTO findById(long id){
         Matching entity = matchingRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         return new MatchingGetDTO(entity);
     }
-    
+
     public Page<Matching> findMatchingList(Pageable pageable, String boardtype){
         if(boardtype == null){
             boardtype = "심부름";
         }
-        return matchingRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10, 
-        		new Sort(Sort.Direction.DESC, "bno")));
+        return matchingRepository.findAllByBoardtype(boardtype, PageRequest.of(pageable.getPageNumber(), 10,
+                new Sort(Sort.Direction.DESC, "bno")));
     }
-    
+
     @Transactional
     public String InsertMatching(MatchingInsertDTO data) {
         return matchingRepository.save(data.toEntity()).getStudentForeignkey_request().getSid();
     }
-    
+
     @Transactional
     public boolean ProceedMatching(long bno, long cno) {
         Matching entity = matchingRepository.findByBno(bno);
@@ -66,7 +66,7 @@ public class MatchingServiceImpl implements MatchingService {
         SendMsg(entity.getStudentForeignkey_request().getSid());
         return true;
     }
-    
+
     @Transactional
     public String ProceedPage(String sid, long bno){
         Matching entity=matchingRepository.findByBno(bno);
@@ -111,12 +111,6 @@ public class MatchingServiceImpl implements MatchingService {
         entity.setUpdate_date(LocalDateTime.now());
         entity.setBoardtype(dto.getBoardtype());
         return bno;
-    }
-    public String updateBoardOpen(String boardSid, String studentSid) {
-        if(!boardSid.equals(studentSid)){
-            return "errors/errorPage";
-        }
-        return "matching/matchingUpdate";
     }
     @Transactional
     public void updateViewCnt(long bno, int presentReadCount, HttpServletRequest request, HttpServletResponse response, HttpSession session){
@@ -167,76 +161,76 @@ public class MatchingServiceImpl implements MatchingService {
 		}
 */
     }
-    
+
     public Page<Matching> searchAll(Pageable pageable, String text, String date, String option){
-    	String addQuery = "";
-    	int dateNum = 0;
-    	
-    	if(date.equals("all") && option.equals("all")) {
-    		return matchingRepository.searchMatchingAll(text, PageRequest.of(pageable.getPageNumber(), 10));
-    	}
-    	else {
-    		if(!option.equals("all")) {
-        		if(option.equals("title"))
-        			addQuery = "match(title) against(?1 in boolean mode)";
-        		else if(option.equals("writer")) {
-        			addQuery = "request_nickname like ?1";
-        			text = "%" + text + "%";
-        		}
-        		else if(option.equals("commentContent"))
-        			addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode))";
-        		
-        		if(date.equals("all"))
-        			return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
-    		}
-    		if(!date.equals("all")) {
-        		if(date.equals("1week"))
-        			dateNum = 7;
-        		else if(date.equals("1month"))
-        			dateNum = 30;
-        		else if(date.equals("6month"))
-        			dateNum = 180;
-        		
-        		if(option.equals("all"))
-        			return matchingRepository.searchMatchingAllDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
-    		}
-    	}
-    	return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        String addQuery = "";
+        int dateNum = 0;
+
+        if(date.equals("all") && option.equals("all")) {
+            return matchingRepository.searchMatchingAll(text, PageRequest.of(pageable.getPageNumber(), 10));
+        }
+        else {
+            if(!option.equals("all")) {
+                if(option.equals("title"))
+                    addQuery = "match(title) against(?1 in boolean mode)";
+                else if(option.equals("writer")) {
+                    addQuery = "request_nickname like ?1";
+                    text = "%" + text + "%";
+                }
+                else if(option.equals("commentContent"))
+                    addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode))";
+
+                if(date.equals("all"))
+                    return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+            }
+            if(!date.equals("all")) {
+                if(date.equals("1week"))
+                    dateNum = 7;
+                else if(date.equals("1month"))
+                    dateNum = 30;
+                else if(date.equals("6month"))
+                    dateNum = 180;
+
+                if(option.equals("all"))
+                    return matchingRepository.searchMatchingAllDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+            }
+        }
+        return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
-    
+
     public Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option) {
-    	String addQuery = "";
-    	int dateNum = 0;
-    	
-    	if(date.equals("all") && option.equals("all")) {
-    		return matchingRepository.searchMatchingType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
-    	}
-    	else {
-    		if(!option.equals("all")) {
-        		if(option.equals("title"))
-        			addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
-        		else if(option.equals("writer")) {
-        			addQuery = "boardtype = '" + boardtype + "' and request_nickname like ?1";
-        			text = "%" + text + "%";
-        		}
-        		else if(option.equals("commentContent"))
-        			addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
-        		
-        		if(date.equals("all"))
-        			return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
-    		}
-    		if(!date.equals("all")) {
-        		if(date.equals("1week"))
-        			dateNum = 7;
-        		else if(date.equals("1month"))
-        			dateNum = 30;
-        		else if(date.equals("6month"))
-        			dateNum = 180;
-        		
-        		if(option.equals("all"))
-        			return matchingRepository.searchMatchingTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
-    		}
-    	}
-    	return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        String addQuery = "";
+        int dateNum = 0;
+
+        if(date.equals("all") && option.equals("all")) {
+            return matchingRepository.searchMatchingType(boardtype, text, PageRequest.of(pageable.getPageNumber(), 10));
+        }
+        else {
+            if(!option.equals("all")) {
+                if(option.equals("title"))
+                    addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+                else if(option.equals("writer")) {
+                    addQuery = "boardtype = '" + boardtype + "' and request_nickname like ?1";
+                    text = "%" + text + "%";
+                }
+                else if(option.equals("commentContent"))
+                    addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+
+                if(date.equals("all"))
+                    return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+            }
+            if(!date.equals("all")) {
+                if(date.equals("1week"))
+                    dateNum = 7;
+                else if(date.equals("1month"))
+                    dateNum = 30;
+                else if(date.equals("6month"))
+                    dateNum = 180;
+
+                if(option.equals("all"))
+                    return matchingRepository.searchMatchingTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+            }
+        }
+        return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 }
