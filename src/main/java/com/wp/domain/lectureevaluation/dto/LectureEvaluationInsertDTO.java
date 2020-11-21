@@ -26,7 +26,6 @@ public class LectureEvaluationInsertDTO {
         leData.setLecturename(lecturename);
         leData.setLecturenum(lecturenum);
         leData.setProfessor(professor);
-        leData.setRegister_date(LocalDateTime.now());
         leData.setCheck_delete("F");
         leData.setStar(0);
         return leData;
