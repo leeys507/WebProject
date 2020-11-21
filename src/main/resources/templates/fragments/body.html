@@ -1,169 +1,213 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-	<body th:fragment="main-body">
-	
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
-  			<a class="navbar-brand" th:if="${session.studentInfo} == null" href="/yu/index">나만 따라 YU</a>
-  			<a class="navbar-brand" th:unless="${session.studentInfo} == null" href="/yu/login">나만 따라 YU</a>
-  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-    			<span class="navbar-toggler-icon"></span>
-  			</button>
-  			<div class="collapse navbar-collapse" id ="navbar">
-    			<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" style="cursor:pointer" id="dropdown" data-toggle="dropdown">
-						매칭
-					</a>
-						<div class="dropdown-menu text-center" aria-labelledby="dropdown">
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=청소">청소</a>
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=배달">배달</a>
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=역할대행">역할대행</a>
-							<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=심부름">심부름</a>
-						</div>
-					</li>
-      				<li class="nav-item"><a class="nav-link" href = "/yu/schedule/main">시간표</a></li>
-      				<li class="nav-item"><a class="nav-link" href = "/yu/lectureevaluation/lectureevaluationList">강의평가</a></li>
+<body th:fragment="main-body">
 
-					<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" style="cursor:pointer" id="dropdown" data-toggle="dropdown">
-						게시판
-					</a>
-						<div class="dropdown-menu text-center" aria-labelledby="dropdown">
-							<a class="dropdown-item" href="/yu/board/boardList?boardtype=자유게시판">자유게시판</a>
-							<a class="dropdown-item" href="/yu/board/boardList?boardtype=중고게시판">중고게시판</a>
-							<a class="dropdown-item" href="/yu/board/boardList?boardtype=정보게시판">정보게시판</a>
-						</div>
-					</li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+	<a class="navbar-brand" th:if="${session.studentInfo} == null" href="/yu/index">나만 따라 YU</a>
+	<a class="navbar-brand" th:unless="${session.studentInfo} == null" href="/yu/login">나만 따라 YU</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id ="navbar">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" style="cursor:pointer" id="dropdown" data-toggle="dropdown">
+				매칭
+			</a>
+				<div class="dropdown-menu text-center" aria-labelledby="dropdown">
+					<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=청소">청소</a>
+					<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=배달">배달</a>
+					<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=역할대행">역할대행</a>
+					<a class="dropdown-item" href="/yu/matching/matchingList?boardtype=심부름">심부름</a>
+				</div>
+			</li>
+			<li class="nav-item"><a class="nav-link" href = "/yu/schedule/main">시간표</a></li>
+			<li class="nav-item"><a class="nav-link" href = "/yu/lectureevaluation/lectureevaluationList">강의평가</a></li>
 
-					<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
-      				<li>
-        				<form class="input-group">
-          					<input id="totalSearchBoxM" class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">
-          					<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
-        				</form>
-      				</li>
-      				<li th:if="${session.studentInfo} == null">
-        				<form class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
-          					<label for="username" class="sr-only">Student Number</label>
-          					<input type="text" name="username" id="usernameM" class="form-control" placeholder="학번을 입력해주세요" required autofocus>
-         					<label for="password" class="sr-only">Password</label>
-          					<input type="password" name="password" id="passwordM" class="form-control" placeholder="비밀번호를 입력해주세요" required>
-          					<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
-          					<button class="btn btn-sm btn-block btn btn-secondary" type="button" 
-          					onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
-          					비밀번호 찾기
-          					</button>
-        				</form>
-      				</li>
-      				<li th:unless="${session.studentInfo} == null">
-            			<form class="form-signin" style="margin:auto;">
-              				<img th:if="${session.folderName} != null" style="width:70px;height:90px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
-                    		<img th:unless="${session.folderName} != null" style="width:70px;height:90px;" src="http://placehold.it/70x90/" class="card-img">
-              				<div style="color: white">[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!</div>
-              				<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
-              				<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
-            			</form>
-          			</li>
-   				</ul>
-  			</div>
-		</nav>
-		<!-- /.fixed-navbar -->
-		
-		<div class="row flex">
-  			<div class="col-2 item">
-    			<a th:if="${session.studentInfo} == null" href="/yu/index"><img th:src="@{/images/영대마크.png}"></a>
-    			<a th:unless="${session.studentInfo} == null" href="/yu/login"><img th:src="@{/images/영대마크.png}"></a>
-  			</div>
-  			<div class="col-7 item">
-    			<form class="input-group">
-      				<input id="totalSearchBox" class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
-      				<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
-    			</form>
-  			</div>
-  			<div class="col-3 item">
-    			<form th:if="${session.studentInfo} == null" class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
-      				<label for="username" class="sr-only">Student Number</label>
-      				<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요." required autofocus>
-      				<label for="password" class="sr-only">Password</label>
-      				<input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요." required>
-      				<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
-      				<button class="btn btn-sm btn-block btn btn-secondary" type="button" 
-      				onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
-          			비밀번호 찾기
-          			</button>
-    			</form>
-            	<form th:unless="${session.studentInfo} == null" class="form-signin" style="margin:auto;">
-              		<img th:if="${session.folderName} != null" style="height:90px;width:25%; " th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
-                    <img th:unless="${session.folderName} != null" style="height:90px; width:25%;" src="http://placehold.it/70x90/" class="card-img">
-              		[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!
-              		<button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
-              		<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
-            	</form>
-  			</div>
+			<li class="nav-item dropdown dropdown-mobile"><a class="nav-link dropdown-toggle" style="cursor:pointer" id="dropdown" data-toggle="dropdown">
+				게시판
+			</a>
+				<div class="dropdown-menu text-center" aria-labelledby="dropdown">
+					<a class="dropdown-item" href="/yu/board/boardList?boardtype=자유게시판">자유게시판</a>
+					<a class="dropdown-item" href="/yu/board/boardList?boardtype=중고게시판">중고게시판</a>
+					<a class="dropdown-item" href="/yu/board/boardList?boardtype=정보게시판">정보게시판</a>
+				</div>
+			</li>
+
+			<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
+			<li>
+				<form class="input-group">
+					<input id="totalSearchBoxM" class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">
+					<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+				</form>
+			</li>
+			<li th:if="${session.studentInfo} == null">
+				<form class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
+					<label for="username" class="sr-only">Student Number</label>
+					<input type="text" name="username" id="usernameM" class="form-control" placeholder="학번을 입력해주세요" required autofocus>
+					<label for="password" class="sr-only">Password</label>
+					<input type="password" name="password" id="passwordM" class="form-control" placeholder="비밀번호를 입력해주세요" required>
+					<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
+					<button class="btn btn-sm btn-block btn btn-secondary" type="button"
+							onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
+						비밀번호 찾기
+					</button>
+				</form>
+			</li>
+			<li th:unless="${session.studentInfo} == null">
+				<form class="form-signin" style="margin:auto;">
+					<img th:if="${session.folderName} != null" style="width:70px;height:90px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
+					<img th:unless="${session.folderName} != null" style="width:70px;height:90px;" src="http://placehold.it/70x90/" class="card-img">
+					<div style="color: white">[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!</div>
+					<button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
+					<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
+				</form>
+			</li>
+		</ul>
+	</div>
+</nav>
+<!-- /.fixed-navbar -->
+
+<div class="row flex">
+	<div class="col-2 item">
+		<a th:if="${session.studentInfo} == null" href="/yu/index"><img th:src="@{/images/영대마크.png}"></a>
+		<a th:unless="${session.studentInfo} == null" href="/yu/login"><img th:src="@{/images/영대마크.png}"></a>
+	</div>
+	<div class="col-7 item">
+		<div class="search-wrap clear">
+			<div class="search-option-wrap fl">
+				<select id="totalSearchDate" class="search-date">
+					<option value="all">전체기간</option>
+					<option value="1week">1주</option>
+					<option value="1month">1개월</option>
+					<option value="6month">6개월</option>
+				</select>
+				<select id="totalSearchType">
+					<option value="all">전체유형</option>
+					<option value="board">게시판</option>
+					<option value="matching">매칭</option>
+				</select>
+				<select id="totalSearchOption" class="search-option">
+					<option value="all">제목+내용</option>
+					<option value="title">제목</option>
+					<option value="writer">글작성자</option>
+					<option value="commentContent">댓글내용</option>
+				</select>
+			</div>
+			<div class="search-input-wrap fl">
+				<input id="totalSearchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
+			</div>
+			<button class="btn glass" type="button" onClick = "return searchTotal()"><img th:src="@{/images/돋보기.png}" width="100%"></button>
 		</div>
-		
-	<th:block layout:fragment="middle"></th:block>
-	
-	<div id="grid">
-    	<div id="menubar">
-      		<ul class="nav flex-column">
-        		<li class="dropdown dropright">
-          			<a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
-            		매칭
-          			</a>
-          		<div id="demo" class="collapse">
-            		<a href="/yu/matching/matchingList?boardtype=청소">청소</a><br>
-            		<a href="/yu/matching/matchingList?boardtype=배달">배달</a><br>
-            		<a href="/yu/matching/matchingList?boardtype=역할대행">역할대행</a><br>
-            		<a href="/yu/matching/matchingList?boardtype=심부름">심부름</a>
-          		</div>
-        		</li>
+	</div>
+	<div class="col-3 item">
+		<form th:if="${session.studentInfo} == null" class="form-signin" method="post" action="/loginProcess" style="margin:auto;">
+			<label for="username" class="sr-only">Student Number</label>
+			<input type="text" name="username" id="username" class="form-control" placeholder="학번을 입력해주세요." required autofocus>
+			<label for="password" class="sr-only">Password</label>
+			<input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요." required>
+			<button class="btn btn-sm btn-block" type="submit" style="background:#0D3F7A; color:white;">로그인</button>
+			<button class="btn btn-sm btn-block btn btn-secondary" type="button"
+					onclick="var win = window.open('http://portal.yu.ac.kr/sso/login.jsp?type=home&cReturn_Url=http%3A%2F%2Fwww.yu.ac.kr%2Findex.php', '_blank');win.focus();">
+				비밀번호 찾기
+			</button>
+		</form>
+		<form th:unless="${session.studentInfo} == null" class="form-signin" style="margin:auto;">
+			<img th:if="${session.folderName} != null" style="height:90px;width:25%; " th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
+			<img th:unless="${session.folderName} != null" style="height:90px; width:25%;" src="http://placehold.it/70x90/" class="card-img">
+			[[${session.studentInfo.getNickname()}]] 님 환영합니다!!!
+			<button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
+			<button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
+		</form>
+	</div>
+</div>
 
-        		<li class="nav-item">
-          			<a class="nav-link" tabindex="-1" aria-disabled="true" href="/yu/schedule/main">시간표</a>
-        		</li>
-        		<li class="nav-item">
-        			<a class="nav-link" tabindex="-1" aria-disabled="true" href="/yu/lectureevaluation/lectureevaluationList">강의평가</a>
-       			</li>
-        		<li class="dropdown dropright">
-          			<a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo2">
-           	 		게시판
-          			</a>
-          			<div id="demo2" class="collapse">
-            			<a href="/yu/board/boardList?boardtype=자유게시판">자유게시판</a><br>
-            			<a href="/yu/board/boardList?boardtype=중고게시판">중고게시판</a><br>
-            			<a href="/yu/board/boardList?boardtype=정보게시판">정보게시판</a><br>
-          			</div>
-        		</li>
-        		<li class="nav-item">
-          			<a class="nav-link" tabindex="-1" aria-disabled="true">통계 그래프</a>
-        		</li>
-      		</ul>
-    	</div>
-    	<br>
-    	<div id="article">
-    		<th:block layout:fragment="article">
-    		</th:block>
-    	</div>
-    </div>
+<th:block layout:fragment="middle"></th:block>
 
-    	<br>
-    
-    	<footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
-			<div class="row">
-                <div class="col-3"><a href="/yu/home/footer1">이용약관</a></div>
-                <div class="col-3"><a href="/yu/home/footer2">개인정보처리방침</a></div>
-                <div class="col-3"><a href="/yu/home/footer3">커뮤니티이용규칙</a></div>
-                <div class="col-3"><a href="/yu/login">(주)나만따라YU</a></div>
-             </div>
-		</footer>
+<div id="grid">
+	<div id="menubar">
+		<ul class="nav flex-column">
+			<li class="dropdown dropright">
+				<a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo">
+					매칭
+				</a>
+				<div id="demo" class="collapse">
+					<a href="/yu/matching/matchingList?boardtype=청소">청소</a><br>
+					<a href="/yu/matching/matchingList?boardtype=배달">배달</a><br>
+					<a href="/yu/matching/matchingList?boardtype=역할대행">역할대행</a><br>
+					<a href="/yu/matching/matchingList?boardtype=심부름">심부름</a>
+				</div>
+			</li>
 
-		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-		<!--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
-    	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
-    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<!--<script th:src="@{/scripts/jquery.min.js}"></script> -->
-    	<script th:src="@{/ckeditor/ckeditor.js}"></script>
-    	<script th:src="@{/js/bootstrap.js}"></script>
-    	
-		<th:block layout:fragment="script"></th:block>
-	</body>
+			<li class="nav-item">
+				<a class="nav-link" tabindex="-1" aria-disabled="true" href="/yu/schedule/main">시간표</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" tabindex="-1" aria-disabled="true" href="/yu/lectureevaluation/lectureevaluationList">강의평가</a>
+			</li>
+			<li class="dropdown dropright">
+				<a class="nav-link" href="#" id="navbarDroprightMenuLink" role="button" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="true" data-target="#demo2">
+					게시판
+				</a>
+				<div id="demo2" class="collapse">
+					<a href="/yu/board/boardList?boardtype=자유게시판">자유게시판</a><br>
+					<a href="/yu/board/boardList?boardtype=중고게시판">중고게시판</a><br>
+					<a href="/yu/board/boardList?boardtype=정보게시판">정보게시판</a><br>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" tabindex="-1" aria-disabled="true">통계 그래프</a>
+			</li>
+		</ul>
+	</div>
+	<br>
+	<div id="article">
+		<th:block layout:fragment="article">
+		</th:block>
+	</div>
+</div>
+
+<br>
+
+<footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
+	<div class="row">
+		<div class="col-3"><a href="/yu/home/footer1">이용약관</a></div>
+		<div class="col-3"><a href="/yu/home/footer2">개인정보처리방침</a></div>
+		<div class="col-3"><a href="/yu/home/footer3">커뮤니티이용규칙</a></div>
+		<div class="col-3"><a href="/yu/login">(주)나만따라YU</a></div>
+	</div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--<script th:src="@{/scripts/jquery.min.js}"></script> -->
+<script th:src="@{/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+
+<script>
+	function searchTotal() {
+		var text = $("#totalSearchBox");
+		var date = $("#totalSearchDate option:selected");
+		var type = $("#totalSearchType option:selected");
+		var option = $("#totalSearchOption option:selected");
+
+		if(text.val().trim() == "") {
+			alert("검색어를 입력하세요");
+			return false;
+		}
+		else if(text.val().length < 2) {
+			alert("검색어는 2글자 이상이어야 합니다");
+			return false;
+		}
+
+		var chgText = text.val().replace(/%/gi, '%25');
+		chgText = chgText.replace(/\\/gi, '%5C');
+
+		location.href = "/yu/search/searchAllList?text=" +
+				chgText + "&date=" + date.val() + "&type=" + type.val() + "&option=" + option.val();
+	}
+</script>
+<th:block layout:fragment="script"></th:block>
+</body>
 </html>
