@@ -27,16 +27,18 @@ class SearchWordCustomRepositoryImpl implements SearchWordCustomRepository {
 				"from ( " +
 				 "select row_number() over (order by count(word) desc) as rownum, word, count(word) " +
 				 "from searchword " + 
-				 "where TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) <= 1 " +
+				 "where TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) < 1 " +
 				 "GROUP BY word " +
+				 "HAVING count(word) >= 5 " +
 				 "ORDER BY count(word) desc limit ?1 " +
 				 ") as thistime " +
 				 "left outer join" +
 				 "( " +
 				 "select row_number() over (order by count(word) desc) as rownum, word, count(word) " +
 				 "from searchword " +
-				 "where TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) <= 3 and TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) >= 2 " +
+				 "where TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) < 2 and TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) >= 1 " +
 				 "GROUP BY word " +
+				 "HAVING count(word) >= 5 " +
 				 "ORDER BY count(word) desc limit ?2 " +
 				 ") as prevtime " +
 				 "on thistime.word = prevtime.word";
