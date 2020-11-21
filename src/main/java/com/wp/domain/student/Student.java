@@ -101,10 +101,10 @@ public class Student {
    private List<BoardLike> boardLikeList = new ArrayList<BoardLike>();
 
    @OneToMany(mappedBy = "studentForeignkey", targetEntity = LectureEvaluation.class)
-   private List<LectureEvaluation> LectureEvaluationList = new ArrayList<LectureEvaluation>();
+   private List<LectureEvaluation> lectureEvaluationList = new ArrayList<LectureEvaluation>();
 
    @OneToMany(mappedBy = "studentForeignkey", targetEntity = Lecture.class)
-   private List<Lecture> LectureList = new ArrayList<Lecture>();
+   private List<Lecture> lectureList = new ArrayList<Lecture>();
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
    		return formatter.format(this.first_login);
