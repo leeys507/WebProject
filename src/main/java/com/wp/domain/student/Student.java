@@ -10,6 +10,7 @@ import javax.persistence.*;
 import com.wp.domain.board.Board;
 import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.boardlike.BoardLike;
+import com.wp.domain.lecture.Lecture;
 import com.wp.domain.lectureevaluation.LectureEvaluation;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
@@ -100,7 +101,10 @@ public class Student {
    private List<BoardLike> boardLikeList = new ArrayList<BoardLike>();
 
    @OneToMany(mappedBy = "studentForeignkey", targetEntity = LectureEvaluation.class)
-   private List<LectureEvaluation> LectureList = new ArrayList<LectureEvaluation>();
+   private List<LectureEvaluation> LectureEvaluationList = new ArrayList<LectureEvaluation>();
+
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity = Lecture.class)
+   private List<Lecture> LectureList = new ArrayList<Lecture>();
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
    		return formatter.format(this.first_login);
