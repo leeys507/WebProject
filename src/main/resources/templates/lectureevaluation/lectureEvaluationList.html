@@ -18,7 +18,7 @@
                 <span th:text="${lecture.getLecturenum()}"></span> /
                 <span th:text="${lecture.getLecturename()}"></span> /
                 <small th:text="${lecture.getProfessor()}">   </small>
-                <button th:if="${lecture.getStar()}==0" id="lectureUpdate" type="button" class="btn-blue" th:onClick="|lectureEval(${lecture.getLno()})|">평가하기</button>
+                <button th:if="${lecture.getCheck_evaluation()}=='F'" id="lectureUpdate" type="button" class="btn-blue" th:onClick="|lectureEval(${lecture.getLno()})|">평가하기</button>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@
       alert("4~8초 정도 기다려주세요.");
       $.ajax({
         type: "POST",
-        url: "/yu/lectureevaluation/insertLectureEvaluation",
+        url: "/yu/lecture/insertLecture",
         success: function (data) {
           if (data) {
             alert("불러오기 성공");

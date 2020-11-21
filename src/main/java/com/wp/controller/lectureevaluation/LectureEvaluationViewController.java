@@ -1,8 +1,11 @@
 package com.wp.controller.lectureevaluation;
 
+import com.wp.domain.lecture.Lecture;
+import com.wp.domain.lecture.dto.LectureGetDTO;
 import com.wp.domain.lectureevaluation.LectureEvaluation;
 import com.wp.domain.lectureevaluation.dto.LectureEvaluationGetDTO;
 import com.wp.domain.student.dto.StudentGetDTO;
+import com.wp.service.lecture.LectureService;
 import com.wp.service.lectureevaluation.LectureEvaluationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -17,20 +20,21 @@ import java.util.List;
 @Controller
 public class LectureEvaluationViewController {
     private final LectureEvaluationService lectureEvaluationService;
+    private final LectureService lectureService;
     private final HttpSession httpSession;
     @GetMapping("/yu/lectureevaluation/lectureevaluationList")
     public String openLectureEvaluationListView(Model model, Pageable pageable) {
         StudentGetDTO sdata = (StudentGetDTO)httpSession.getAttribute("studentInfo");
-        List<LectureEvaluation> leList = lectureEvaluationService.getLectureEvaluationList(sdata.getSid());
-        model.addAttribute("lectureList",leList);
+        List<Lecture> lList = lectureService.getLectureList(sdata.getSid());
+        model.addAttribute("lectureList",lList);
         return "lectureevaluation/LectureEvaluationList";
     }
     @GetMapping("/yu/lectureevaluation/EvalLecture")
     public String openLectureEvaluationInsertView(int lno,Model model) {
         StudentGetDTO sdata = (StudentGetDTO)httpSession.getAttribute("studentInfo");
-        LectureEvaluationGetDTO le = lectureEvaluationService.getLectureEvaluation(sdata.getSid(),lno);
+        LectureGetDTO le = lectureService.getLecture(sdata.getSid(),lno);
         model.addAttribute("lecture",le);
-        if(le.getSid()==null&&le.getStar()!=0){
+        if(le.getCheck_evaluation()=="T"&&le==null){
             return "errors/errorPage";
         }
         return "lectureevaluation/lectureEvaluationInsert";

@@ -37,6 +37,7 @@ import lombok.Setter;
         classes = @ConstructorResult(
                 targetClass = StudentGetMyCommentDTO.class,
                 columns = {
+                        @ColumnResult(name="type", type = String.class),
                         @ColumnResult(name="content", type = String.class),
                         @ColumnResult(name="bno", type = Long.class),
                         @ColumnResult(name="register_date", type = LocalDateTime.class),

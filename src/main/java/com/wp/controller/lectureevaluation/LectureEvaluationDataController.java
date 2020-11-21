@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LectureEvaluationDataController {
     private final LectureEvaluationService lectureEvaluationService;
 
-    @PostMapping("/yu/lectureevaluation/insertLectureEvaluation")    // view
-    public boolean registerLectureEvaluation() throws InterruptedException {
-        return lectureEvaluationService.insertLectureEvaluation();
-    }
-    @PutMapping("/yu/lectureEvaluationUpdate/")
-    public boolean updateLectureEvaluation(long lno, String content, int star) {
-        return lectureEvaluationService.updateLectureEvaluation(lno,content,star);
+
+    @PostMapping("/yu/lectureEvaluationInsert/")
+    public boolean insertLectureEvaluation(int lecturenum, String content, int star) {
+        return lectureEvaluationService.insertLectureEvaluation(lecturenum,content,star);
     }
 }

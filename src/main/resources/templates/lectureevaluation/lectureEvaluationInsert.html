@@ -60,7 +60,7 @@
     function lectureUpdate(){
       var content=$('#content');
       var star=$(".on").length/2;
-      var lno = [[${lecture.getLno()}]];
+      var lecturenum = [[${lecture.getLecturenum()}]];
 
       if(content.val() == "") {
         alert("내용 입력");
@@ -68,10 +68,10 @@
       }
 
       $.ajax({
-        type: "PUT",
-        url : "/yu/lectureEvaluationUpdate/",
+        type: "POST",
+        url : "/yu/lectureEvaluationInsert/",
         data : {
-          lno:lno,
+          lecturenum:lecturenum,
           content:content.val(),
           star:star
                 },

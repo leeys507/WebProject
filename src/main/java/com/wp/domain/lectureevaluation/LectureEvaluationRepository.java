@@ -12,11 +12,10 @@ public interface LectureEvaluationRepository extends JpaRepository<LectureEvalua
     @Query(value = "SELECT * FROM lectureevaluation le WHERE le.sid= :sid", nativeQuery = true)
     List<LectureEvaluation> findBySid(@Param("sid")String sid);
 
-    @Query(value = "SELECT EXISTS (SELECT * FROM lectureevaluation le WHERE le.sid = :sid)", nativeQuery = true)
-    int existsBySid(@Param("sid") String sid);
-    @Query(value = "SELECT * FROM lectureevaluation le WHERE le.sid= :sid AND le.lno= :lno", nativeQuery = true)
-    LectureEvaluation findBySidAndlno(@Param("sid")String sid,@Param("lno") int lno);
 
     @Query(value = "SELECT * FROM lectureevaluation le WHERE le.lno= :lno", nativeQuery = true)
     LectureEvaluation findByLno(@Param("lno") long lno);
+
+    @Query(value = "SELECT EXISTS (SELECT * FROM lectureevaluation le WHERE le.sid = :sid AND le.lecturenum=:ln)", nativeQuery = true)
+    int existsBySidAndLecturenum(@Param("sid") String sid,@Param("ln") int lecturenum);
 }
