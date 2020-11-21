@@ -6,7 +6,6 @@ import com.wp.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 @RequiredArgsConstructor
 @RestController
 public class MatchingDataController {

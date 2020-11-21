@@ -1,6 +1,5 @@
 package com.wp.domain.matchingcomment;
 
-import com.wp.domain.boardcomment.BoardComment;
 import com.wp.domain.matching.Matching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

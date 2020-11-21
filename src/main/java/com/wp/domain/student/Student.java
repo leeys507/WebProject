@@ -13,6 +13,7 @@ import com.wp.domain.boardlike.BoardLike;
 import com.wp.domain.lecture.Lecture;
 import com.wp.domain.lectureevaluation.LectureEvaluation;
 import com.wp.domain.matching.Matching;
+import com.wp.domain.searchword.SearchWord;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 
@@ -105,6 +106,9 @@ public class Student {
 
    @OneToMany(mappedBy = "studentForeignkey", targetEntity = Lecture.class)
    private List<Lecture> lectureList = new ArrayList<Lecture>();
+   
+   @OneToMany(mappedBy = "studentForeignkey", targetEntity = SearchWord.class)
+   private List<SearchWord> searchWordList = new ArrayList<SearchWord>();
    
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");

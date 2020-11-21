@@ -185,6 +185,7 @@
 <script th:src="@{/ckeditor/ckeditor.js}"></script>
 <script th:src="@{/js/bootstrap.js}"></script>
 
+<th:block th:if="${session.studentInfo} != null">
 <script>
 	function searchTotal() {
 		var text = $("#totalSearchBox");
@@ -201,13 +202,32 @@
 			return false;
 		}
 
-		var chgText = text.val().replace(/%/gi, '%25');
+		var chgText = text.val().trim();
+		chgText = chgText.replace(/ +/g, " ");
+		chgText = chgText.replace(/%/gi, '%25');
 		chgText = chgText.replace(/\\/gi, '%5C');
+		
+		var searchData = {
+				sid: "[[${session.studentInfo.getSid()}]]",
+				word: chgText
+		};
+		
+    	$.ajax ({
+    		type: "POST",
+    		url: "/yu/searchWordInsert",
+            data: searchData,
+            success: function (data) {
+            }, error: function () {
+                alert("error");
+            }
+    	});
 
 		location.href = "/yu/search/searchAllList?text=" +
 				chgText + "&date=" + date.val() + "&type=" + type.val() + "&option=" + option.val();
 	}
 </script>
+
+</th:block>
 <th:block layout:fragment="script"></th:block>
 </body>
 </html>

@@ -33,7 +33,7 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     }
     
     @Transactional
-    public boolean registerBoardComment(BoardCommentInsertDTO data) {
+    public boolean insertBoardComment(BoardCommentInsertDTO data) {
     	return boardCommentRepository.save(data.toEntity()) != null;
     }
     

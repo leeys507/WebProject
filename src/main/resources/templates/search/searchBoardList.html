@@ -188,9 +188,26 @@
         		alert("검색어는 2글자 이상이어야 합니다");
         		return false;
         	}
-        	
-        	var chgText = text.val().replace(/%/gi, '%25');
-        	chgText = chgText.replace(/\\/gi, '%5C');
+
+    		var chgText = text.val().trim();
+    		chgText = chgText.replace(/ +/g, " ");
+    		chgText = chgText.replace(/%/gi, '%25');
+    		chgText = chgText.replace(/\\/gi, '%5C');
+    		
+    		var searchData = {
+    				sid: "[[${session.studentInfo.getSid()}]]",
+    				word: chgText
+    		};
+    		
+        	$.ajax ({
+        		type: "POST",
+        		url: "/yu/searchWordInsert",
+                data: searchData,
+                success: function (data) {
+                }, error: function () {
+                    alert("error");
+                }
+        	});
         	
         	location.href = "/yu/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();

@@ -25,7 +25,7 @@ public class BoardCommentDataController {
     		data.setGroup_id(commentInfo.getGroup_id());
     	}
     	else data.setGroup_id(boardCommentService.nextGroupID());
-    	return boardCommentService.registerBoardComment(data);
+    	return boardCommentService.insertBoardComment(data);
     }
     
 	@PostMapping("/yu/boardComment/getBoardCommentInfo")

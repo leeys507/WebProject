@@ -1,6 +1,5 @@
 package com.wp.domain.matchingcomment.dto;
 
-import com.wp.domain.board.Board;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.matchingcomment.MatchingComment;
 import com.wp.domain.student.Student;
@@ -18,6 +17,7 @@ public class MatchingCommentInsertDTO {
     private String sid;
     private String nickname;
     private String content;
+    
     public MatchingComment toEntity() {
         MatchingComment mcData = new MatchingComment();
         Matching mData = new Matching();

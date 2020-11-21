@@ -11,6 +11,7 @@ import com.wp.domain.board.Board;
 import com.wp.domain.matching.Matching;
 import com.wp.service.board.BoardService;
 import com.wp.service.matching.MatchingService;
+import com.wp.service.searchword.SearchWordService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,8 @@ public class SearchViewController {
     	
     	Page<Board> boardList = null;
     	Page<Matching> matchingList = null;
+    	
+    	text = text.trim().replaceAll(" +", " ");	// remove multiple whitespace
     	
         model.addAttribute("text", text);
         model.addAttribute("date", date);
@@ -55,6 +58,8 @@ public class SearchViewController {
     		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
         Page<Board> data = boardService.searchBoard(pageable, boardtype, text, date, option);
         
+        text = text.trim().replaceAll(" +", " ");
+        
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("text", text);
         model.addAttribute("date", date);
@@ -68,6 +73,8 @@ public class SearchViewController {
     public String searchMatchingListView(@RequestParam String boardtype, @RequestParam String text, 
     		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
         Page<Matching> data = matchingService.searchMatching(pageable, boardtype, text, date, option);
+        
+        text = text.trim().replaceAll(" +", " ");
         
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("text", text);

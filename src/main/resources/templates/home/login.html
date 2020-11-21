@@ -142,23 +142,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
+            <tr th:each="word, num: ${searchRankingList}" th:if="${num.count} < 7">
+              <th scope="row">[[${num.count}]] [[${word.getWord()}]]
+               <b th:if="${word.getRankingchange()} == 20">NEW</b>
+               <b th:unless="${word.getRankingchange()} == 20">[[${word.getRankingchange()}]]</b>
+              </th>
             </tr>
             </tbody>
           </table>
@@ -225,81 +213,4 @@
       </div>
     </div>
 </th:block>
-
-<th:block layout:fragment="script">
-<script type="text/javascript">
-	function foo(){
-		alert('서브밋!');
-	}
-	
-	function dataSend() {
-		//var gender = $(":input:radio[name=gen]:checked").val();
-		var queryString = $("form[name=infoForm]").serialize();
-		//JSON.stringify($("form[name=infoForm]").serializeObject());
-   	 /*var messageDTO={
-       	 result:data
-   	};*/
-   	//alert(queryString);
-		if(!$('#CertifiedNumber').prop("readonly")){
-			alert("휴대폰 인증을해주세요");
-			return false;
-		}
-    	$.ajax({
-    	    type: "POST",
-    	    url : "/yu/studentInfo/studentRegistration",
-    	    /*data : { sid : $("#sid").val(),
-    	             department : $("#department").val(),
-    	             syear : $("#syear").val(),
-    	             nickname : $("#nickname").val(),
-    	             email : $("#email").val(),
-    	             gen : gender
-    	    },*/
-    	    data : queryString,
-    	    //contentType:'application/json; charset=utf-8',
-    	    //contentType:'application/x-www-form-urlencoded; charset=utf-8',
-    	    //datatype : 'json',
-    	    success : function(data){
-    	    	if(data == true) {
-    	        	alert("등록 성공, 재로그인 해주세요.");
-    	        	location.href='/yu/index';
-    	    	}
-    	    	else
-    	    		alert("등록 실패");
-    	    },error : function(){
-    	        alert("Error");
-    	        return false;
-    	    }
-    	});
-   		return false;
-	}
-	$('#sendPhoneNumber').click(function(){
-		let phoneNumber = $('#phonenum').val();
-		var regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
-		if(!regPhone.test(phoneNumber)){
-			alert("휴대폰번호를 입력해주세요");
-			return false;
-		}
-		alert("인증번호 요청완료");
-
-		$.ajax({
-			type: "GET",
-			url: "/check/sendSMS",
-			data: {
-				"phoneNumber" : phoneNumber
-			},
-			success: function(res){
-				$('#checkBtn').click(function(){
-					if(res ==$('#CertifiedNumber').val()){
-						alert("인증성공");
-						$('#CertifiedNumber').attr("readonly",true);
-						$('#phonenum').attr("readonly",true);
-					}else{
-						alert("인증실패");
-					}
-				})
-			}
-		})
-	});
-</script>
- </th:block>
 </html>

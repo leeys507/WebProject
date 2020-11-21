@@ -1,23 +1,35 @@
 package com.wp.controller.home;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.wp.domain.searchword.dto.SearchWordGetDTO;
+import com.wp.service.searchword.SearchWordService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
 public class HomeViewController {
+	private final SearchWordService searchWordService;
 	
     @GetMapping("/yu/index")    // view
     public String openHomeIndexView(Model model) {
+    	List<SearchWordGetDTO> data = searchWordService.getWordRanking(10);
+    	
+    	model.addAttribute("searchRankingList", data);
         return "home/index";
     }
     
 	@GetMapping("/yu/login")
 	public String openHomeLoginView(Model model) {
+    	List<SearchWordGetDTO> data = searchWordService.getWordRanking(10);
+    	
+    	model.addAttribute("searchRankingList", data);
 		return "home/login";
 	}
 	

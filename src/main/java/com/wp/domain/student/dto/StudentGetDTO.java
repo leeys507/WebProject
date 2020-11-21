@@ -24,7 +24,6 @@ public class StudentGetDTO {
 	private LocalDateTime update_dateLocal;
 	
 	public StudentGetDTO(Student entity) {
-		
 		this.sid = entity.getSid();
 		this.nickname = entity.getNickname();
 		this.phonenum = entity.getPhonenum();
