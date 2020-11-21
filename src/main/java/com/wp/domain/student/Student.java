@@ -38,10 +38,10 @@ import lombok.Setter;
         classes = @ConstructorResult(
                 targetClass = StudentGetMyCommentDTO.class,
                 columns = {
-                        @ColumnResult(name="type", type = String.class),
                         @ColumnResult(name="content", type = String.class),
                         @ColumnResult(name="bno", type = Long.class),
                         @ColumnResult(name="register_date", type = LocalDateTime.class),
+                        @ColumnResult(name="type", type = String.class),
                         @ColumnResult(name="boardtype", type = String.class),
                 })
 )
@@ -105,6 +105,7 @@ public class Student {
 
    @OneToMany(mappedBy = "studentForeignkey", targetEntity = Lecture.class)
    private List<Lecture> lectureList = new ArrayList<Lecture>();
+   
    public String getFirst_login() {
    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
    		return formatter.format(this.first_login);
