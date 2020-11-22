@@ -92,7 +92,7 @@ public class AuthProvider implements AuthenticationProvider {
                 .timeout(3000)
                 .execute();
         Map<String, String> loginTryCookie = loginPageResponse.cookies();
-        Document loginPageDocument = loginPageResponse.parse();
+        Document loginPageDocument = loginPageResponse. parse();
         Elements e= loginPageDocument.select("fieldset.field_wrap input");
         String p = e.get(4).val();
 

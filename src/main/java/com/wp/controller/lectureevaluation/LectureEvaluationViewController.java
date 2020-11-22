@@ -3,7 +3,6 @@ package com.wp.controller.lectureevaluation;
 import com.wp.domain.lecture.Lecture;
 import com.wp.domain.lecture.dto.LectureGetDTO;
 import com.wp.domain.lectureevaluation.LectureEvaluation;
-import com.wp.domain.lectureevaluation.dto.LectureEvaluationGetDTO;
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.service.lecture.LectureService;
 import com.wp.service.lectureevaluation.LectureEvaluationService;
@@ -26,7 +25,9 @@ public class LectureEvaluationViewController {
     public String openLectureEvaluationListView(Model model, Pageable pageable) {
         StudentGetDTO sdata = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         List<Lecture> lList = lectureService.getLectureList(sdata.getSid());
+        List<LectureEvaluation> leList=lectureEvaluationService.getLectureEvaluationList();
         model.addAttribute("lectureList",lList);
+        model.addAttribute("lectureEvaluationList",leList);
         return "lectureevaluation/LectureEvaluationList";
     }
     @GetMapping("/yu/lectureevaluation/EvalLecture")

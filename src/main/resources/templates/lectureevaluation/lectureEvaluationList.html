@@ -32,9 +32,17 @@
           </div>
           <div class="tab-content">
             <div class="tab-pane active" id="home">
-              <div class="card-header bg-light">
+              <div class="card-header bg-light" th:each="lectureEvaluation: ${lectureEvaluationList} ">
                 <div class="row">
-                  <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>수정중/&nbsp;<small>조행래</small></div>
+                  <div class="col-8 text-left">
+                    <a href="#" th:text="${lectureEvaluation.getLecturename()}"></a>
+                    <th:block th:each="num:${#numbers.sequence(1,5)}">
+                      <span th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
+                      <span th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
+                    </th:block>
+                    /<small th:text=" ${lectureEvaluation.getProfessor()}"></small>
+                    /<span th:text=" ${lectureEvaluation.getRegister_date()}"></span>
+                  </div>
                 </div>
               </div>
             </div>

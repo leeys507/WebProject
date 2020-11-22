@@ -292,9 +292,7 @@
                 var temp=a.split("!");
                 for(i=0;i<temp.length-1;i++)
                 {
-
                     var itemp=temp[i].split("*");
-
                     $("#title").text(itemp[0]);
                     $("#part").text(itemp[1]);
                     $("#profname").text(itemp[2]);
@@ -304,7 +302,7 @@
                     $("#heightnum").text(itemp[6]);
                     $("#coursenum").text(itemp[7]);
                     $("#dayid").text(itemp[8]);
-                    createobject();
+                    createobject(itemp[7].charAt(itemp[7].length-1));
                 }
             });});
 
@@ -317,27 +315,34 @@
             $.ajax({
                 url : "/schedule/deleteload",
                 type :"get",
+                async: true,
                 data :"date=a" ,
                 cache:false}).done(function (a) {
 
                 $.ajax({
                     url : "/schedule/delete",
                     type :"get",
+                    async: true,
                     data :"sid="+a,
                     cache:false}).done(function (aa) {
-
                     for(var i=0;i<list.length;i++){
-
                         $.ajax({
                             url : "/schedule/save",
                             type : "get",
                             data : "title=" + list[i].get("title") + 
-                            "&part=" + list[i].get("part") + "&profname=" + list[i].get("profname") +"&placename="+list[i].get("placename"+"")+"&colornum=" + list[i].get("colornum").substr(1)+"&topnum="+list[i].get("topnum")+"&heightnum="+list[i].get("heightnum")+"&coursenum="+list[i].get("coursenum")+"&dayid="+list[i].get("dayid"),
-                            cache:false}).done(function () {
+                            "&part=" + list[i].get("part") +
+                                "&profname=" + list[i].get("profname") +
+                                "&placename="+list[i].get("placename")+
+                                "&colornum=" + list[i].get("colornum").substr(1)+
+                                "&topnum="+list[i].get("topnum")+
+                                "&heightnum="+list[i].get("heightnum")+
+                                "&coursenum="+list[i].get("coursenum")+
+                                "&dayid="+list[i].get("dayid")
+                            }).done(function () {
                         });
+
                     }
                 });
-
             });
             alert("등록 성공");
         });
@@ -352,8 +357,6 @@
                 type :"get",
                 data :"date=a" ,
                 cache:false}).done(function (a) {
-
-
 
                 $.ajax({
                     url : "/schedule/delete",
@@ -376,11 +379,33 @@
 
         });
 
-        var idCnt=0;
-        function createobject() {
+        function createobject(courseid) {
 
             let max = new Map();
+            if($('#coursenum').text().charAt($('#coursenum').text().length-1)=="a"
+                ||$('#coursenum').text().charAt($('#coursenum').text().length-1)=="b"){
+                max.set("coursenum", $('#coursenum').text());
+            }
+            else {
+                var a=$('#coursenum').text($('#coursenum').text()+courseid);
+                max.set("coursenum",$('#coursenum').text());
+            }for(var i=0;i<list.length;i++){
+                if(list[i].get("dayid")==$('#dayid').text()) {
+                    if ((Number(list[i].get("topnum")) <= Number($('#topnum').text())
+                        && Number($('#topnum').text()) < Number(list[i].get("topnum"))
+                            + Number((list[i].get("heightnum"))))
+                        || ( Number($('#topnum').text()) <=Number(list[i].get("topnum"))
+                            &&Number(list[i].get("topnum"))<Number($('#topnum').text())
+                                +Number($('#heightnum').text()))) {
+                        if (courseid == "b") {
+                            list.pop();
+                            $("#" + $('#coursenum').text().slice(0,-1)+"a").remove();
+                        }
 
+                        return false;
+                    }
+                }
+            }
             max.set("title", $('#title').text());
             max.set("part", $('#part').text());
             max.set("profname", $('#profname').text());
@@ -388,21 +413,32 @@
             max.set("colornum", $('#colornum').text());
             max.set("topnum", $('#topnum').text());
             max.set("heightnum", $('#heightnum').text());
-            max.set("coursenum", $('#coursenum').text());
             max.set("dayid", $('#dayid').text());
             list.push(max);
-
-            idCnt++;
-            var str = "<div name=" + $('#dayid').text() + " id=" + idCnt + " class='mysubject' onClick='removeByID(" + idCnt + ")' style='" +"cursor:pointer;position:absolute;z-index:10;border:1px solid black;width:19%;background-color:"+$('#colornum').text()+
+            var con = $('#coursenum').text().slice(0,-1);
+            var str = "<div name=" + $('#dayid').text() + " id=" + $('#coursenum').text() +"  class='mysubject' onClick='removeByID("+con+")' style='" +"cursor:pointer;position:absolute;z-index:10;border:1px solid black;width:19%;background-color:"+$('#colornum').text()+
                 ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;'>"+$('#title').text() +$('#part').text()  +$('#profname').text()+$('#placename').text()+"</div>";
 
             var distinguish ='#'+$('#dayid').text();
             $(distinguish).append(str);
+            return true;
         }
         
         function removeByID(id) {
-        	if(selectDelete == true)
-        		$("#" + id).remove();
+        	if(selectDelete == true) {
+                for(var i=0;i<list.length;i++){
+                    if(id==list[i].get("coursenum").slice(0,-1)){
+                        list.splice(i, 1); break;
+                    }
+                }
+                for(var i=0;i<list.length;i++){
+                    if(id==list[i].get("coursenum").slice(0,-1)){
+                        list.splice(i , 1); break;
+                    }
+                }
+                $("#" + id+"a").remove();
+                $("#" + id+"b").remove();
+            }
         }
         
         function selectDeleteFunction() {

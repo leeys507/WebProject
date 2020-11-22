@@ -211,6 +211,7 @@
 
 
 
+
             opener.document.getElementById("part").innerText=$(this).children('td:eq(1)').text();
             opener.document.getElementById("title").innerText=$(this).children('td:eq(3)').text();
             opener.document.getElementById("profname").innerText=$(this).children('td:eq(5)').text();
@@ -221,8 +222,10 @@
             opener.document.getElementById("coursenum").innerText=$(this).children('td:eq(2)').text();
             opener.document.getElementById("dayid").innerText=max.get(temp[0].charAt(0));
 
-
-            opener.parent.createobject();
+            if(!opener.parent.createobject("a")){
+                alert("시간이 겹칩니다.");
+                return false;
+            }
 
 
 
@@ -267,7 +270,10 @@
 
 
             //alert(str);
-            opener.parent.createobject();
+            if(!opener.parent.createobject("b")){
+                alert("시간이 겹칩니다.");
+            return false;
+        }
 
 
 //"<div class='subjecta' style='position:absolute;z-index:10;border:1px solid black;height:50px;width:100px; background-color: #00aeff; top:300px; '>과학 202호 이명진</div>"

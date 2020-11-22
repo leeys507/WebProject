@@ -1,6 +1,5 @@
 package com.wp.domain.lectureevaluation;
 
-import com.wp.domain.lectureevaluation.dto.LectureEvaluationGetDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -18,4 +17,7 @@ public interface LectureEvaluationRepository extends JpaRepository<LectureEvalua
 
     @Query(value = "SELECT EXISTS (SELECT * FROM lectureevaluation le WHERE le.sid = :sid AND le.lecturenum=:ln)", nativeQuery = true)
     int existsBySidAndLecturenum(@Param("sid") String sid,@Param("ln") int lecturenum);
+
+    @Query(value = "SELECT * FROM lectureevaluation le ORDER BY le.register_date DESC limit 10", nativeQuery = true)
+    List<LectureEvaluation> findByList();
 }
