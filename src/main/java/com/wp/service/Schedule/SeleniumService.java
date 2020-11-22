@@ -46,6 +46,7 @@ public class SeleniumService {
         options.setCapability("ignoreProtectedModeSettings", true);
         options.addArguments("--headless");
         options.addArguments("--no-sandbox");
+
         driver = new ChromeDriver(options);
 
         base_url = "https://std.yu.ac.kr/std/std_login.jsp";

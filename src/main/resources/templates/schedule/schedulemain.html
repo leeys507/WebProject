@@ -416,8 +416,10 @@
             max.set("dayid", $('#dayid').text());
             list.push(max);
             var con = $('#coursenum').text().slice(0,-1);
+
             var str = "<div name=" + $('#dayid').text() + " id=" + $('#coursenum').text() +"  class='mysubject' onClick='removeByID("+con+")' style='" +"cursor:pointer;position:absolute;z-index:10;border:1px;width:17%;background-color:"+$('#colornum').text()+
                 ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;bordercolor:rgba(213, 213, 213, 0.5);'>"+$('#title').text() +" "+$('#part').text() +"<br>"+$('#profname').text()+" "+$('#placename').text()+"</div>";
+
 
             var distinguish ='#'+$('#dayid').text();
             $(distinguish).append(str);

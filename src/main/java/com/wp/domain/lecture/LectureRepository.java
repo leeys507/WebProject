@@ -1,5 +1,6 @@
 package com.wp.domain.lecture;
 
+import com.wp.domain.lectureevaluation.LectureEvaluation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,6 @@ public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
     @Query(value = "SELECT * FROM lecture l WHERE l.sid= :sid AND l.lno=:lno", nativeQuery = true)
     Lecture findBySidAndlno(@Param("sid")String sid, @Param("lno")int lno);
+
+
 }

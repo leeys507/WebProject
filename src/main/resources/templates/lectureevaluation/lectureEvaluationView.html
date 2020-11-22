@@ -7,63 +7,56 @@
 </th:block>
 
 <th:block layout:fragment="article">
-      <div class="container-fluid">
-
-        <div class="card bg-light mt-3">
-          <div class="card-header bg-light">
-            <h2>데이터베이스</h2>
-            <br>
-            <div class="row">
-              <div class="col-8 text-left">
-                <h5>담당교수 :&nbsp;조행래</h5>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-8 text-left">
-                <h5>학년/학점 :&nbsp; 3/3</h5>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-8 text-left">
-                <h5>전공 :&nbsp;컴퓨터공학과</h5>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-8 text-left">
-                <h5>이수 구분 :&nbsp;전공</h5>
-              </div>
-            </div>
+  <div class="container-fluid">
+    <div class="card bg-light mt-3">
+      <div class="card-header bg-light text-left">
+        <h2 th:text="${lectureEvaluation.getLecturename()}"></h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-3 text-left">
+            <h5 th:text="'교수이름 : '+${lectureEvaluation.getProfessor()}"></h5>
           </div>
-
         </div>
-        <br>
+        <div class="row">
+          <div class="col-3 text-left">
+            <h5 th:text="'과목번호 : '+${lectureEvaluation.getLecturenum()}"></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 text-left">
+            <h5>별점 : <th:block th:each="num:${#numbers.sequence(1,5)}">
+            <span th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
+              <span th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
+            </th:block></h5>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <div class="card bg-light mt-3">
-          <div class="card-header bg-light">
-            <div class="row">
-              <div class="col-8 text-left">
-                <h4>과목 강의평가</h4>
-              </div>
-              <div class="col-4 text-right"><button type="button" class="btn-blue" onclick="location.href='class-write.html'">강의평가 등록</button></div>
-            </div>
-            <div class="row">
-              <div class="col-4 text-left">평균 :&nbsp;<small><span style="color: yellow;">★★★★★</span></small></div>
-            </div>
+    <br>
+    <div class="card bg-light mt-3">
+      <div class="card-header bg-light">
+        <div class="row">
+          <div class="col-9 text-left">
+            강의평
+          </div>
+          <div class="col-3 text-right">
+            <h7><span th:text="${lectureEvaluation.getNickname()}+' | '"></span><span th:text="${lectureEvaluation.getRegister_date()}"></span></h7>
           </div>
         </div>
 
-            <div class="tab-pane fade" id="row">
-              <!--인기 로우 순-->
-              <div class="card-header bg-light">
-                <div class="row">
-                  <div class="col-8 text-left"><a class="nav-link" href="subject.html"></a>전체 과목/&nbsp;<small>조행래</small></div>
-                </div>
-              </div>
-            </div>
+      </div>
+      <div class="card-body bg-light">
+        <div class="row">
+          <div class="col-9 text-left">
+          <span th:text="${lectureEvaluation.getContent()}"></span>
           </div>
-        <button type="button" class="btn-blue float-right" style="margin-top : 10px;" onclick="location.href='class.html'">목록으로</button>
-
-
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn-blue float-right" style="margin-top : 10px;" onclick="location.href=history.back()">목록으로</button>
+  </div>
 </th:block>
 <th:block layout:fragment="script">
   <script>

@@ -4,6 +4,7 @@ import com.wp.domain.lecture.Lecture;
 import com.wp.domain.lecture.LectureRepository;
 import com.wp.domain.lectureevaluation.LectureEvaluation;
 import com.wp.domain.lectureevaluation.LectureEvaluationRepository;
+import com.wp.domain.lectureevaluation.dto.LectureEvaluationGetDTO;
 import com.wp.domain.lectureevaluation.dto.LectureEvaluationInsertDTO;
 import com.wp.domain.student.dto.StudentGetDTO;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +71,20 @@ public class LectureEvaluationServiceImpl implements LectureEvaluationService {
         }
         return lectureEvaluationRepository.searchLectureEvaluationOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
+
+    public LectureEvaluationGetDTO findByLno(long lno) {
+        LectureEvaluation entity = lectureEvaluationRepository.findByLno(lno);
+        if(entity==null){
+            return null;
+        }
+        return new LectureEvaluationGetDTO(entity);
+    }
+
+    public Page<LectureEvaluation> findLectureEvaluations(Pageable pageable) {
+        return lectureEvaluationRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,
+                new Sort(Sort.Direction.DESC, "lno")));
+    }
+
     public List<LectureEvaluation> getLectureEvaluationList() {
             return lectureEvaluationRepository.findByList();
     }
