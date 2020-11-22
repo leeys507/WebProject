@@ -14,8 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 
+import com.wp.domain.searchtotal.dto.SearchTotalGetDTO;
 import com.wp.domain.searchword.dto.SearchWordGetDTO;
 import com.wp.domain.student.Student;
+import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,20 @@ import lombok.Setter;
                 columns = {
                 		@ColumnResult(name="word", type = String.class),
                         @ColumnResult(name="rankingchange", type = Long.class),
+                })
+)
+
+@SqlResultSetMapping(
+        name="SearchTotalGetDTOMapping",
+        classes = @ConstructorResult(
+                targetClass = SearchTotalGetDTO.class,
+                columns = {
+                        @ColumnResult(name="title", type = String.class),
+                        @ColumnResult(name="nickname", type = String.class),
+                        @ColumnResult(name="bno", type = Long.class),
+                        @ColumnResult(name="register_date", type = LocalDateTime.class),
+                        @ColumnResult(name="type", type = String.class),
+                        @ColumnResult(name="boardtype", type = String.class),
                 })
 )
 

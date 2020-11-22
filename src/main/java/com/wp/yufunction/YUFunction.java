@@ -30,6 +30,8 @@ public class YUFunction {
 			return true;
 		case "정보게시판":
 			return true;
+		case "질문게시판":
+			return true;
 		default:
 			return false;
 		}
