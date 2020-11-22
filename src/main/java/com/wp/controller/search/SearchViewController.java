@@ -8,22 +8,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wp.domain.board.Board;
+import com.wp.domain.lectureevaluation.LectureEvaluation;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.searchtotal.dto.SearchTotalGetDTO;
 import com.wp.service.board.BoardService;
+import com.wp.service.lectureevaluation.LectureEvaluationService;
 import com.wp.service.matching.MatchingService;
 import com.wp.service.searchtotal.SearchTotalService;
-import com.wp.service.searchword.SearchWordService;
 
 import lombok.RequiredArgsConstructor;
-
-import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @Controller
 public class SearchViewController {
 	private final BoardService boardService;
 	private final MatchingService matchingService;
+	private final LectureEvaluationService lectureEvaluationService;
 	private final SearchTotalService searchTotalService;
 	
     @GetMapping("/yu/search/searchAllList")
@@ -61,9 +61,10 @@ public class SearchViewController {
     @GetMapping("/yu/search/searchBoardList")
     public String searchBoardListView(@RequestParam String boardtype, @RequestParam String text, 
     		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
-        Page<Board> data = boardService.searchBoard(pageable, boardtype, text, date, option);
         
         text = text.trim().replaceAll(" +", " ");
+        
+        Page<Board> data = boardService.searchBoard(pageable, boardtype, text, date, option);
         
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("text", text);
@@ -77,9 +78,10 @@ public class SearchViewController {
     @GetMapping("/yu/search/searchMatchingList")
     public String searchMatchingListView(@RequestParam String boardtype, @RequestParam String text, 
     		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
-        Page<Matching> data = matchingService.searchMatching(pageable, boardtype, text, date, option);
         
         text = text.trim().replaceAll(" +", " ");
+        
+        Page<Matching> data = matchingService.searchMatching(pageable, boardtype, text, date, option);
         
         model.addAttribute("boardtype", boardtype);
         model.addAttribute("text", text);
@@ -88,5 +90,21 @@ public class SearchViewController {
         model.addAttribute("matchingList", data);
 
         return "search/searchMatchingList";
+    }
+    
+    @GetMapping("/yu/search/searchLectureEvaluationList")
+    public String searchLectureEvaluationListView(@RequestParam String text, 
+    		@RequestParam String date, @RequestParam String option, Model model, Pageable pageable) {
+        
+        text = text.trim().replaceAll(" +", " ");
+        
+        Page<LectureEvaluation> data = lectureEvaluationService.searchLectureEvaluation(pageable, text, date, option);
+        
+        model.addAttribute("text", text);
+        model.addAttribute("date", date);
+        model.addAttribute("option", option);
+        model.addAttribute("lectureEvaluationList", data);
+
+        return "search/searchLectureEvaluationList";
     }
 }

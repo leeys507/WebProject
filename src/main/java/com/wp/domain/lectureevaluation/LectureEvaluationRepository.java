@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface LectureEvaluationRepository extends JpaRepository<LectureEvaluation, Long>, PagingAndSortingRepository<LectureEvaluation, Long> {
+public interface LectureEvaluationRepository extends JpaRepository<LectureEvaluation, Long>, PagingAndSortingRepository<LectureEvaluation, Long>, LectureEvaluationCustomRepository {
     @Query(value = "SELECT * FROM lectureevaluation le WHERE le.sid= :sid", nativeQuery = true)
     List<LectureEvaluation> findBySid(@Param("sid")String sid);
 
