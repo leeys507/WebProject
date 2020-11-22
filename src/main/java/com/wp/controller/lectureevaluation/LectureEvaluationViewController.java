@@ -35,7 +35,7 @@ public class LectureEvaluationViewController {
         StudentGetDTO sdata = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         LectureGetDTO le = lectureService.getLecture(sdata.getSid(),lno);
         model.addAttribute("lecture",le);
-        if(le.getCheck_evaluation()=="T"&&le==null){
+        if(le.getCheck_evaluation()=="T" && le==null){
             return "errors/errorPage";
         }
         return "lectureevaluation/lectureEvaluationInsert";
