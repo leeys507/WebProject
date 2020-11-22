@@ -11095,4 +11095,9 @@ button.close5 {
   width: 13%;
 }
 
+.lecture-update-btn.btn-blue {
+  width: 90px;
+  height: 45px;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

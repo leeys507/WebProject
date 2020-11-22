@@ -120,46 +120,6 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <script th:src="@{/js/bootstrap.js}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-
-            $.ajax({
-                url : "/schedule/searchload",
-                type : "get",
-                data : "searchname=기초",
-                cache:false}).done(function (result) {
-
-                var a=result.split("!");
-
-
-                for(i=0;i<a.length-1;i++)
-                {
-                    //  alert(a[i]);
-                    var b=a[i].split("*");
-
-                    var num;
-                    /*
-                                        var str="<tr class='things'></tr>"
-                                        $("#id123").append(str);
-                    */
-
-
-
-                    var str="";
-                    for(j=0;j<b.length-1;j++)
-                    {
-                        str +="<td class='thing' style='padding-left:20px;text-align: center;'>"+b[j]+"</td>"
-                    }
-                    num=i+"";
-                    var id="#"+num;
-                    $(id).append(str);
-                }
-
-
-
-
-            });});
-
-
 
         var clickEle = $('.things');
         clickEle.click(function () {
@@ -287,34 +247,9 @@
         }
 
 
-//"<div class='subjecta' style='position:absolute;z-index:10;border:1px solid black;height:50px;width:100px; background-color: #00aeff; top:300px; '>과학 202호 이명진</div>"
-
-
-
-
-
-            /* opener.document.getElementById("con1").innerHTML=$(this).index();
-             opener.document.getElementById("con2").innerHTML=$(this).parent('ul').parent('li').index();
-             opener.document.getElementById("con3").innerHTML=$(this).parent('ul').parent('li').parent('ul').parent('li').index();
-             opener.document.getElementById("con4").innerHTML=$(this).text();
-        */     // window.opener.document.reload();
-
-            //   window.close();
         })
 
         function idcheck() {
-            //alert("idCheck");
-            /*
-            $("#dkahsem").val() --> input 안에 들어있는값
-            $("#dkahsem").text() --> 일반 div안에 들어있는 text값 들고오는것
-
-            아래에서 계속 div에다 대고 val()을 했으니 div는 value값을 취급안하는데 계속 헛지랄한거임.
-            */
-            /*
-                        alert($("#searchname").val());
-                        alert($("#searchnum").val());
-            */
-
 
             $.ajax({
                 url : "/schedule/search",
@@ -323,9 +258,6 @@
                     +"&searchname=" + $("#searchname").val()+"&searchnum="+$("#searchnum").val()+"&grade="+$("#grade").val(),
                 cache:false}).done(function (result) {
 
-
-
-                // alert(result);
                 var cell = document.getElementById("0");
                 while ( cell.hasChildNodes() ) { cell.removeChild( cell.firstChild ); }
 
@@ -379,34 +311,15 @@
                 var cell = document.getElementById("19");
                 while ( cell.hasChildNodes() ) { cell.removeChild( cell.firstChild ); }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                 var a=result.split("!");
 
 
                 for(i=0;i<a.length-1;i++)
                 {
-                    //  alert(a[i]);
+
                     var b=a[i].split("*");
 
                     var num;
-                    /*
-                                        var str="<tr class='things'></tr>"
-                                        $("#id123").append(str);
-                    */
-
-
 
                     var str="";
                     for(j=0;j<b.length-1;j++)
@@ -418,19 +331,7 @@
                     $(id).append(str);
                 }
 
-
-
-
-                /*
-                                    var result=fragment.replace('<tbody id="123">','').replace('</tbody>','');
-
-
-                                    $("#123").html(result);
-                              //  document.getElementById('1234');*/
-
             });
-
-
 
         }
     </script>

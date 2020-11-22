@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <div class="card bg-light mt-3">
           <div class="card-header bg-light">
-            <h2>수강중인 과목</h2><br><button th:if="${lectureList.size()}==0" id="lectureInsert" type="button" class="btn-blue" onClick="lectureInsert()">과목 불러오기</button>
+            <h2>수강중인 과목</h2><br><button th:if="${lectureList.size()}==0" id="lectureInsert" type="button" class="lecture-update-btn btn-blue" onClick="lectureInsert()">과목 불러오기</button>
           </div>
           <div class="card-header bg-light" th:each="lecture :${lectureList}">
             <div class="row">
