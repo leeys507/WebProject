@@ -29,7 +29,7 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 
 	@Override
 	public Page<Matching> searchMatchingOptions(String addQuery, String text, Pageable pageable) {
-		String sql = "select * from matching where " + addQuery;
+		String sql = "select * from matching where " + addQuery + " and check_delete = 'F'";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
