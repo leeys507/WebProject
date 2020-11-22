@@ -67,7 +67,7 @@ public class BoardServiceImpl implements BoardService {
         }
     }
     
-    public Page<Board> findBoards(Pageable pageable, String boardtype){
+    public Page<Board> findBoards(Pageable pageable, String boardtype) {
         if(boardtype == null){
             boardtype = "자유게시판";
         }
@@ -75,7 +75,7 @@ public class BoardServiceImpl implements BoardService {
         		new Sort(Sort.Direction.DESC, "bno")));
     }
     
-    public Page<Board> searchAll(Pageable pageable, String text, String date, String option){
+    public Page<Board> searchAll(Pageable pageable, String text, String date, String option) {
     	String addQuery = "";
     	int dateNum = 0;
     	
@@ -105,13 +105,13 @@ public class BoardServiceImpl implements BoardService {
         			dateNum = 180;
         		
         		if(option.equals("all"))
-        			return boardRepository.searchBoardAllDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        			return boardRepository.searchBoardDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     	}
     	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
     
-    public Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option){
+    public Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option) {
     	String addQuery = "";
     	int dateNum = 0;
     	

@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wp.domain.board.Board;
 import com.wp.domain.matching.Matching;
+import com.wp.domain.searchtotal.dto.SearchTotalGetDTO;
 import com.wp.service.board.BoardService;
 import com.wp.service.matching.MatchingService;
+import com.wp.service.searchtotal.SearchTotalService;
 import com.wp.service.searchword.SearchWordService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +24,11 @@ import javax.servlet.http.HttpSession;
 public class SearchViewController {
 	private final BoardService boardService;
 	private final MatchingService matchingService;
+	private final SearchTotalService searchTotalService;
 	
     @GetMapping("/yu/search/searchAllList")
     public String searchAllListView(@RequestParam String text, @RequestParam String date, @RequestParam String type, 
-    		@RequestParam String option, Model model, Pageable pageable) {
-    	
-    	Page<Board> boardList = null;
-    	Page<Matching> matchingList = null;
+    		@RequestParam String option, Model model, Pageable pageable) {	
     	
     	text = text.trim().replaceAll(" +", " ");	// remove multiple whitespace
     	
@@ -38,14 +38,19 @@ public class SearchViewController {
         model.addAttribute("option", option);
     	
     	if(type.equals("all")) {
+    		Page<SearchTotalGetDTO> searchTotalList = null;
+    		searchTotalList = searchTotalService.searchAll(pageable, text, date, option);
+    		model.addAttribute("searchTotalList", searchTotalList);
     		return "search/searchAllList";
     	}
     	else if(type.equals("board")) {
+    		Page<Board> boardList = null;
     		boardList = boardService.searchAll(pageable, text, date, option);
     		model.addAttribute("board", boardList);
     		return "search/searchAllBoardList";
     	}
     	else if(type.equals("matching")) {
+    		Page<Matching> matchingList = null;
     		matchingList = matchingService.searchAll(pageable, text, date, option);
     		model.addAttribute("matchingList", matchingList);
     		return "search/searchAllMatchingList";

@@ -17,7 +17,6 @@ import javax.persistence.SqlResultSetMapping;
 import com.wp.domain.searchtotal.dto.SearchTotalGetDTO;
 import com.wp.domain.searchword.dto.SearchWordGetDTO;
 import com.wp.domain.student.Student;
-import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

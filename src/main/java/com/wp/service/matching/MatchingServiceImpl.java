@@ -192,7 +192,7 @@ public class MatchingServiceImpl implements MatchingService {
                     dateNum = 180;
 
                 if(option.equals("all"))
-                    return matchingRepository.searchMatchingAllDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+                    return matchingRepository.searchMatchingDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
             }
         }
         return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));

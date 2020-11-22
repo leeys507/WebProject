@@ -34,19 +34,11 @@ public interface BoardRepository extends JpaRepository<Board, Long>, PagingAndSo
     		+ " and boardtype = :boardtype and check_delete = 'F'", nativeQuery = true)
     Page<Board> searchBoardType(@Param("boardtype")String boardtype, @Param("text")String text, Pageable pageable);
     
-//    @Query(value = "select * from board where :addQuery", nativeQuery = true)
-//    Page<Board> searchBoardOptions(@Param("addQuery")String addQuery, Pageable pageable);
-    
     @Query(value = "select * from board where match(title, content) against(:text in boolean mode) "
     		+ "and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY) and check_delete = 'F'", nativeQuery = true)
-    Page<Board> searchBoardAllDates(@Param("text")String text, @Param("date")int date, Pageable pageable);
+    Page<Board> searchBoardDates(@Param("text")String text, @Param("date")int date, Pageable pageable);
     
     @Query(value = "select * from board where match(title, content) against(:text in boolean mode) "
     		+ "and boardtype = :boardtype and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY) and check_delete = 'F'", nativeQuery = true)
     Page<Board> searchBoardTypeDates(@Param("boardtype")String boardtype, @Param("text")String text, @Param("date")int date, Pageable pageable);
-    
-//    @Query(value = "select * from board where :addQuery and register_date >= DATE_SUB(NOW(), INTERVAL :date DAY)", nativeQuery = true)
-//    Page<Board> searchBoardOptionsAndDate(@Param("addQuery")String addQuery, @Param("date")String date, Pageable pageable);
-    
-
 }
