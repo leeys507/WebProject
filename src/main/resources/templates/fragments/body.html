@@ -75,14 +75,15 @@
 	</div>
 	<div class="col-7 item">
 		<div class="search-wrap clear">
-			<div class="search-option-wrap fl">
+			<form class="input-group" onsubmit="return false;">
+			<div class="search-option-wrap1 fl">
 				<select id="totalSearchDate" class="search-date">
 					<option value="all">전체기간</option>
 					<option value="1week">1주</option>
 					<option value="1month">1개월</option>
 					<option value="6month">6개월</option>
 				</select>
-				<select id="totalSearchType">
+				<select id="totalSearchType" class="search-type">
 					<option value="all">전체유형</option>
 					<option value="board">게시판</option>
 					<option value="matching">매칭</option>
@@ -94,10 +95,9 @@
 					<option value="commentContent">댓글내용</option>
 				</select>
 			</div>
-			<div class="search-input-wrap fl">
-				<input id="totalSearchBox" class="form-control mr-sm-2" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
-			</div>
-			<button class="btn glass" type="button" onClick = "return searchTotal()"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+				<input id="totalSearchBox" class="form-control" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search" style="border-radius: 5px; border: 2px solid #4a57a8;">
+				<img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchTotal()">
+			</form>
 		</div>
 	</div>
 	<div class="col-3 item">

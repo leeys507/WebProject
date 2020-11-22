@@ -78,8 +78,9 @@
         </nav>
        </div>
         
-           <div class="search-wrap clear">
+           <div class="search-wrap1 clear">
               <!-- 옵션 -->
+               <form class="input-group" onsubmit="return false;">
               <div class="search-option-wrap fl">
                 <select id="searchDate" class="search-date">
                   <option value="all">전체기간</option>
@@ -95,11 +96,10 @@
                 </select>
               </div>
               <!-- 검색어 입력창 -->
-              <div class="search-input-wrap fl">
-                <input id="searchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요">
-              </div>
-              <button class="btn glass"><img th:src="@{/images/돋보기.png}" onClick="return searchBoard()" class="button-image"></button>
-          </div>
+                <input id="searchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요" style="border-radius: 5px; border: 2px solid #4a57a8;">
+               <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchBoard()">
+               </form>
+           </div>
       </div>
     </div>
 </th:block>

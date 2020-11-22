@@ -3559,6 +3559,7 @@ input[type="button"].btn-block {
   width: 100%;
 }
 
+
 .input-group > .form-control,
 .input-group > .form-control-plaintext,
 .input-group > .custom-select,
@@ -10848,7 +10849,11 @@ textarea {
 
 .search-wrap {
   margin: 4rem auto 0;
-  width: 1000px;
+}
+
+.search-wrap1 {
+  margin: 4rem auto 0;
+  width:1000px;
 }
 
 .search-option-wrap {
@@ -10857,11 +10862,23 @@ textarea {
     border: 1px solid #3c4790;
     background: #4a57a8;
     border-radius:  5px;
-    text-align: center
+    text-align: center;
+  margin-right: 5px;
 }
 
+.search-option-wrap1 {
+  width: 305px;
+  height: 36px;
+  border: 1px solid #3c4790;
+  background: #4a57a8;
+  border-radius:  5px;
+  text-align: center;
+  margin-right: 5px;
+}
+
+
 .search-input-wrap {
-  width: 600px;
+  width:600px;
   height: 36px;
 
 }
@@ -10871,11 +10888,17 @@ textarea {
   vertical-align: center;
 }
 
-.search-option-wrap > .search-option, .search-option-wrap > .search-date {
+.search-option-wrap1 > .search-option, .search-option-wrap1 > .search-date, .search-option-wrap1 > .search-type {
   border-radius: 3px;
+  margin-top: 5px;
 }
 
 .search-option-wrap .fl {
+  position: relative;
+  float: left;
+}
+
+.search-option-wrap1 .fl {
   position: relative;
   float: left;
 }
@@ -11013,4 +11036,63 @@ button.close5 {
   border-color: #ff0000;
   color: #ff0000;
 }
+
+/* subject.html css추가 */
+.category > .parent {
+  font-weight: bold;
+  font-size: 23px;
+
+}
+
+.parent > .folded {
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.filter {
+  background: #4a57a8;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+.filter .subject-wrap {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.filter > div {
+  margin-right: 3px;
+  display:inline-block;
+}
+
+.filter .subject-keyword > input, .filter .subject-number > input{
+  float: none;
+  padding: 3px;
+  width: 60%;
+}
+
+.filter .subject-select {
+  width: 10%;
+  height: 34px;
+}
+
+.filter .subject-select a {
+  color: #fff;
+}
+
+.filter .subject-select a > .subject-select-button {
+  margin-top: 4px;
+}
+
+.filter .subject-keyword, .filter .subject-number {
+  width: 30%;
+}
+
+.filter .subject-grade, .filter .subject-grades {
+  width: 13%;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

@@ -7,6 +7,7 @@
 </th:block>
 
 <th:block layout:fragment="article">
+  <div id="article">
       <div class="container-fluid">
         <div class="card bg-light mt-3">
           <div class="card-header bg-light">
@@ -50,34 +51,30 @@
         </div>
 
         <!--여기까지-->
-        <div class="search-form-wrap">
-          <form id="search-form"  method="get">
-            <fieldset>
-              <div class="search-wrap clear">
-                <!-- 옵션 -->
-                <div class="search-option-wrap fl">
-                  <select id="searchDate" class="search-date">
-                    <option value="all">전체기간</option>
-                    <option value="1week">1주</option>
-                    <option value="1month">1개월</option>
-                    <option value="6month">6개월</option>
-                  </select>
-                  <select id="searchOption" class="search-option">
-                    <option value="title">강의명</option>
-                    <option value="professor">교수명</option>
-                    <option value="content">내용</option>
-                    <option value="writer">글작성자</option>
-                  </select>
-                </div>
-                <!-- 검색어 입력창 -->
-                <div class="search-input-wrap fl">
-                  <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력해 주세요.">
-                </div>
-                <button class="btn glass" type="submit"><img src="images/돋보기.png" class="button-image"></button>
-              </fieldset>
+        <div class="search-wrap1 clear">
+          <!-- 옵션 -->
+          <form class="input-group" onsubmit="return false;">
+            <div class="search-option-wrap fl">
+              <select id="searchDate" class="search-date">
+                <option value="all">전체기간</option>
+                <option value="1week">1주</option>
+                <option value="1month">1개월</option>
+                <option value="6month">6개월</option>
+              </select>
+              <select id="searchOption" class="search-option">
+                <option value="title">강의명</option>
+                <option value="professor">교수명</option>
+                <option value="content">내용</option>
+                <option value="writer">글작성자</option>
+              </select>
+            </div>
+            <!-- 검색어 입력창 -->
+            <input id="searchBox" class="form-control " onKeypress = "if(event.keyCode==13) {return searchMatching()}" placeholder="검색어를 입력해 주세요"  style="border-radius: 5px; border: 2px solid #4a57a8;">
+            <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchMatching()">
           </form>
         </div>
       </div>
+  </div>
 </th:block>
 <th:block layout:fragment="script">
   <script>

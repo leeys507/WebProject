@@ -7,53 +7,61 @@
 
 <th:block layout:fragment="article">
 
-    <div id="subjects" style="display: block;">
+    <div id="subjects">
 
         <div class="filter">
-            <a href="/schedule/subject" onclick="window.open(this.href, '_blank', 'width=400px,height=500px,toolbars=no,scrollbars=yes'); return false;">
-                <span class="key">전공/영역 선택</span>
-                <span id="con1" Style="display:none;">-1</span>
-                <span id="con2" Style="display:none;">-1</span>
-                <span id="con3" Style="display:none;">-1</span>
-                <span id="con4" Style="display:none;"></span>
-                <span class="reset"></span>
-            </a>
+            <div class="subject-wrap">
+                <div class="subject-select fl clear">
+                    <a href="/schedule/subject" onclick="window.open(this.href, '_blank', 'width=400px,height=500px,toolbars=no,scrollbars=yes'); return false;">
+                        <div class="key subject-select-button">전공/영역 선택 </div>
+                        <span id="con1" Style="display:none;">-1</span>
+                        <span id="con2" Style="display:none;">-1</span>
+                        <span id="con3" Style="display:none;">-1</span>
+                        <span id="con4" Style="display:none;"></span>
+                        <span class="reset"></span>
+                    </a>
+                </div>
 
+                <div class="subject-keyword fl clear">
+                    <label for="searchname">검색어:</label>
+                    <input type="search" id="searchname" placeholder="검색어">
+                </div>
 
-            <span>
-        <label for="searchname">검색어:</label>
-        <input type="search" id="searchname" placeholder="검색어">
-        </span>
+                <div class="subject-number fl clear">
+                    <label for="searchnum">수강번호:</label>
+                    <input type="search" id="searchnum" placeholder="수강번호">
+                </div>
 
-            <span>
-        <label for="searchnum">수강번호:</label>
-        <input type="search" id="searchnum" placeholder="수강번호">
-        </span>
+                <div class="subject-grade fl clear">
+                    <form>
+                        <label for="grade">학년</label>
+                        <select name="grade" id="grade" >
+                            <option value="0" selected>0</option>
+                            <option value="1" >1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </form>
+                </div>
 
-            <form>
-                <label for="grade">학년</label>
-                <select name="grade" id="grade" >
-                    <option value="0" selected>0</option>
-                    <option value="1" >1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-
-            </form>
-            <form>
-                <label for="grades">학점</label>
-                <select name="grades" id="grades" >
-                    <option value="0" selected>전체</option>
-                    <option value="1" >1학점</option>
-                    <option value="2" >2학점</option>
-                    <option value="3">3학점</option>
-                    <option value="3">4학점 이상</option>
-                </select>
-            </form>
+                <div class="subject-grades fl clear">
+                    <form>
+                        <label for="grades">학점</label>
+                        <select name="grades" id="grades" >
+                            <option value="0" selected>전체</option>
+                            <option value="1" >1학점</option>
+                            <option value="2" >2학점</option>
+                            <option value="3">3학점</option>
+                            <option value="3">4학점 이상</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <input type="button" id="searchsubject" class="btn-blue" onclick="javascript:idcheck();" value="조회">
+            </div>
         </div>
-
-        <input type="button" id="searchsubject" onclick="javascript:idcheck();" value="조회"  >
 
         <div class="list">
             <div class="thead"></div>
@@ -100,15 +108,18 @@
 
 
 
-                <tfoot><tr><td colspan="12"></td></tr></tfoot></table></div></div>
+                <tfoot><tr><td colspan="12">
+
+                </td></tr></tfoot></table></div></div>
 </th:block>
 
 <th:block layout:fragment="script">
-      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
-       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-       <script th:src="@{/js/bootstrap.js}"></script>
-       <script type="text/javascript">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script type="text/javascript">
         $(document).ready(function() {
 
             $.ajax({
@@ -150,7 +161,7 @@
 
 
 
-            var clickEle = $('.things');
+        var clickEle = $('.things');
         clickEle.click(function () {
 
             let max = new Map();
@@ -314,7 +325,7 @@
 
 
 
-               // alert(result);
+                // alert(result);
                 var cell = document.getElementById("0");
                 while ( cell.hasChildNodes() ) { cell.removeChild( cell.firstChild ); }
 
@@ -386,14 +397,14 @@
 
                 for(i=0;i<a.length-1;i++)
                 {
-                  //  alert(a[i]);
+                    //  alert(a[i]);
                     var b=a[i].split("*");
 
                     var num;
-/*
-                    var str="<tr class='things'></tr>"
-                    $("#id123").append(str);
-*/
+                    /*
+                                        var str="<tr class='things'></tr>"
+                                        $("#id123").append(str);
+                    */
 
 
 
@@ -434,6 +445,7 @@
         }
 
     </style>
+
 
 
 </th:block>

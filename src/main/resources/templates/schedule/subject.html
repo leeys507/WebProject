@@ -21,17 +21,17 @@
        // index.init();
 
     </script>
-
-
 </th:block>
 
-<th:block layout:fragment="title">
+<th:block layout:fragment="article">
 
     <form th:id="subjectCategoryFilter" th:class="modal" th:style="${'display:block; overflow:scroll;'}">
         <a title="닫기" class="close"></a>
-        <h3>전공/영역</h3>
-        <div class="filter">
-            <ul class="category" id="field">
+        <div class="jumbotron text-center bg-dark" style="color: white">
+            <h3>전공 영역 선택</h3>
+        </div>
+        <div>
+            <ul class="category" id="field" >
 
                 <li class="parent folded" onclick="if(select0.style.display=='none'){select0.style.display='';show.innerText='접기'}else{select0.style.display='none';show.innerText='펼치기'}">교양학부
                 <ul class="folded" id="select0" style="display: none;">
@@ -60,11 +60,12 @@
                     <li class="child">일어일문학과</li>
                     <li class="child">영어영문학과</li>
                     <li class="parent folded">유럽언어문화학부
-                    <ul class="folded">
-                        <li class="child">유럽언어문화학부</li>
-                        <li class="child">프랑스어문전공</li>
-                        <li class="child">독일언어문화전공</li>
-                    </ul></li>
+                        <ul class="folded">
+                            <li class="child">유럽언어문화학부</li>
+                            <li class="child">프랑스어문전공</li>
+                            <li class="child">독일언어문화전공</li>
+                        </ul>
+                    </li>
                     <li class="child">철학과</li>
                     <li class="child">역사학과</li>
                     <li class="child">문화인류학과</li>
@@ -81,11 +82,13 @@
                 <li class="child">통계학과</li>
                 <li class="child">물리학과</li>
                 <li class="parent folded">화학생화학부
-                <ul class="folded"><li class="child">화학생화학부</li>
+                <ul class="folded">
+                    <li class="child">화학생화학부</li>
                     <li class="child">화학전공</li>
                     <li class="child">생화학전공</li></ul>
                 </li>
-                <li class="child">생명과학과</li></ul>
+                <li class="child">생명과학과</li>
+            </ul>
 
             </li>
 
