@@ -36,8 +36,8 @@
 			<li class="nav-item"><a class="nav-link" href = "#">통계그래프</a></li>
 			<li>
 				<form class="input-group">
-					<input id="totalSearchBoxM" class="form-control mr-sm-3" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">
-					<button class="btn glass" type="submit"><img th:src="@{/images/돋보기.png}" width="100%"></button>
+					<input id="totalSearchBoxM" class="form-control mr-sm-3"  maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해주세요" aria-label="Search">
+					<button class="btn glass" type="button" onClick = "return searchTotal()"><img th:src="@{/images/돋보기.png}" width="100%"></button>
 				</form>
 			</li>
 			<li th:if="${session.studentInfo} == null">
@@ -94,7 +94,7 @@
 				</select>
 			</div>
 			<div class="search-input-wrap fl">
-				<input id="totalSearchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
+				<input id="totalSearchBox" class="form-control mr-sm-2" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search">
 			</div>
 			<button class="btn glass" type="button" onClick = "return searchTotal()"><img th:src="@{/images/돋보기.png}" width="100%"></button>
 		</div>

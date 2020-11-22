@@ -367,7 +367,7 @@
 		var tr = document.createElement("tr");
 		var th = document.createElement("th");
 		
-		th.colSpan = 3;
+		th.colSpan = 4;
 		th.style.fontSize = "15px";
 		th.style.textAlign = "center";
 		th.innerHTML = "등록된 글이 없습니다";
@@ -540,7 +540,7 @@
             timeout: 5000,
             success: function (data) {
                 if (data == "등록 성공") {
-                    alert(data);
+                    alert(data + " (잠시 후 다시 새로고침을 하면 적용됩니다)");
                     location.href = "/yu/studentInfo/studentInfo";
                 } else
                     alert(data);

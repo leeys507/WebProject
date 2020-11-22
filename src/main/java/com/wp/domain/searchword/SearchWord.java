@@ -45,7 +45,7 @@ public class SearchWord {
 	@JoinColumn(name = "sid", nullable = false)
 	private Student studentForeignkey;
 	
-	@Column(name = "word", nullable = false, length = 250)
+	@Column(name = "word", nullable = false, length = 100)
     private String word;
 	
 	@Column(name = "register_date", nullable = false)
