@@ -425,7 +425,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label for="nickName" class="col-form-label"><h5>닉네임 (1달 주기로 변경 가능합니다)</h5></label>
-                                <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required"/>
+                                <input type="text" id="nickname" name="nickname" class="form-control" maxlength = "12" placeholder="닉네임 입력" required="required"/>
                             </div>
                         </div>
                     </div>
@@ -603,6 +603,14 @@
                     })
                 }
             })
+        });
+        
+        $("#nickname").bind("keyup",function() {
+        	re = /[~!@\#$%^&*\()\-=+_ ']/gi;
+        	var temp=$("#nickname").val();
+        	if(re.test(temp)) {
+        	 	$("#nickname").val(temp.replace(re,"")); 
+        	}
         });
     </script>
 </th:block>

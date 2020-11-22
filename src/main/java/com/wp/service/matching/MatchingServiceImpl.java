@@ -1,13 +1,13 @@
 package com.wp.service.matching;
 
-import com.wp.domain.board.Board;
+
 import com.wp.domain.matching.ChatRoomRepository;
 import com.wp.domain.matching.dto.MatchingInsertDTO;
 import com.wp.domain.matching.dto.MatchingUpdateDTO;
-import com.wp.domain.matchingcomment.MatchingComment;
 import com.wp.domain.matchingcomment.MatchingCommentRepository;
 import com.wp.domain.student.Student;
 import com.wp.domain.student.StudentRepository;
+
 import net.nurigo.java_sdk.api.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

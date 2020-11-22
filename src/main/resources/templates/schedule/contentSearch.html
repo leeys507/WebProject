@@ -132,7 +132,45 @@
             max.set("목", "cols3");
             max.set("금", "cols4");
 
-            var colorcode="#"+Math.round(Math.random()*0xffffff).toString(16);
+            var list = new Array();
+            
+			var red;
+			var green;
+			var blue;
+
+			var rd;
+			var hex;
+			var chk;
+			
+			while(true) {
+	            while(true) {
+	                rd = Math.random();
+	                red = Math.floor( rd * 234 );
+	                rd = Math.random();
+	                green = Math.floor( rd * 234 );
+	                rd = Math.random();
+	                blue = Math.floor( rd * 234 );
+	                	
+	                if(red < 116 && green < 116 && blue < 116) continue;
+	                else break;
+	            }
+
+	            //red = red.toString(16);
+	            //green = green.toString(16);
+	            //blue = blue.toString(16);
+	            
+	            hex = "rgb(" + red + "," + green + "," + blue + ")";
+	            list.push(hex);
+	            
+	            for(var i = 0; i < list.length - 1; i++) {
+	            	if(list[i] == hex) {
+	            		chk = true;
+	            	}
+	            }
+	            if(chk == true) continue;
+	            else break;
+			}
+            var colorcode = hex;
 
 
 
@@ -243,8 +281,8 @@
             //alert(str);
             if(!opener.parent.createobject("b")){
                 alert("시간이 겹칩니다.");
-            return false;
-        }
+            	return false;
+        	}
 
 
         })
@@ -332,6 +370,12 @@
                 }
 
             });
+                /*
+                                    var result=fragment.replace('<tbody id="123">','').replace('</tbody>','');
+
+
+                                    $("#123").html(result);
+                              //  document.getElementById('1234');*/
 
         }
     </script>

@@ -1,10 +1,5 @@
 package com.wp.service.Schedule;
 
-import com.gargoylesoftware.css.parser.Locatable;
-import com.wp.domain.student.dto.StudentGetDTO;
-
-import lombok.RequiredArgsConstructor;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -22,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Null;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
 
 public class SeleniumService {
 
@@ -48,6 +44,7 @@ public class SeleniumService {
         //Driver SetUp
         ChromeOptions options = new ChromeOptions();
         options.setCapability("ignoreProtectedModeSettings", true);
+        options.addArguments("--headless", "--disable-gpu","--blink-settings=imagesEnabled=false");
         driver = new ChromeDriver(options);
 
         base_url = "https://std.yu.ac.kr/std/std_login.jsp";

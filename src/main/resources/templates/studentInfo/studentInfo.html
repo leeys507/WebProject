@@ -549,6 +549,14 @@
             }
     	});
     }
+    
+    $("#updateNickName").bind("keyup",function() {
+    	re = /[~!@\#$%^&*\()\-=+_ ']/gi;
+    	var temp=$("#updateNickName").val();
+    	if(re.test(temp)) {
+    	 	$("#updateNickName").val(temp.replace(re,"")); 
+    	}
+    });
   </script>
 </th:block>
 </html>

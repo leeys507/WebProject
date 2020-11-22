@@ -10370,8 +10370,7 @@ body, html {
 }
 
 .form-signin {
-  width: 100%;
-  max-width: 330px;
+  width: 330px;
   padding: 15px;
   margin: 0;
   border: 1px solid gray;
@@ -11103,6 +11102,42 @@ button.close5 {
 .lecture-update-btn.btn-blue {
   width: 90px;
   height: 45px;
+}
+
+.ranking-num {
+  background: #4a57a8;
+  color: #fff;
+  padding: 5px;
+  margin-right: 20px;
+  width: 10%;
+}
+
+.ranking-num-wrap{
+  display: inline-block;
+  float: left;
+  width: 10%;
+}
+
+.ranking-word-wrap {
+  display: inline-block;
+  float: left;
+  width: 60%;
+}
+
+.ranking-change-wrap {
+  display: inline-block;
+  float: left;
+  width: 30%;
+}
+
+.ranking-change-new {
+  color: red;
+}
+
+.ranking-img {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 4px;
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
