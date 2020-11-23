@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn-blue float-right" style="margin-top : 10px;" onclick="location.href=history.back()">목록으로</button>
+    <button type="button" class="btn-blue float-right" style="margin-top : 10px;" onclick="listButtonClick()">목록으로</button>
   </div>
 </th:block>
 <th:block layout:fragment="script">
@@ -73,6 +73,10 @@
     var selectedTab = localStorage.getItem('selectedTab');
     if (selectedTab != null) {
       $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+    }
+    
+    function listButtonClick() {
+    	location.href = "/yu/lectureevaluation/lectureevaluation";
     }
   </script>
 </th:block>

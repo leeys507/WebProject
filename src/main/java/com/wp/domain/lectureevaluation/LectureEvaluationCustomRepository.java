@@ -31,7 +31,7 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	
 	@Override
 	public Page<LectureEvaluation> searchLectureEvaluationOptions(String addQuery, String text, Pageable pageable) {
-		String sql = "select * from lectureEvaluation where " + addQuery + " and check_delete = 'F'";
+		String sql = "select * from lectureevaluation where " + addQuery + " and check_delete = 'F'";
 		
 	    Query query = null;
 	    Query countQuery = null;
@@ -58,7 +58,7 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	    @SuppressWarnings("unchecked")
 		List<Board> list = query.getResultList();
 
-    	countQuery = entityManager.createNativeQuery("select count(*) from lectureEvaluation where " + addQuery + " and check_delete = 'F'");
+    	countQuery = entityManager.createNativeQuery("select count(*) from lectureevaluation where " + addQuery + " and check_delete = 'F'");
     	countQuery.setParameter(1, text);
 
 	    return createPage(list, pageable, countQuery);
@@ -66,7 +66,7 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	
 	@Override
 	public Page<LectureEvaluation> searchLectureEvaluationOptionsAndDate(String addQuery, String text, int dateNum, Pageable pageable) {
-		String sql = "select * from lectureEvaluation where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'";
+		String sql = "select * from lectureevaluation where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'";
 		
 	    Query query = null;
 	    Query countQuery = null;
@@ -94,7 +94,7 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	    @SuppressWarnings("unchecked")
 		List<Board> list = query.getResultList();
 
-    	countQuery = entityManager.createNativeQuery("select count(*) from lectureEvaluation where " + addQuery + 
+    	countQuery = entityManager.createNativeQuery("select count(*) from lectureevaluation where " + addQuery + 
     			" and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
     	countQuery.setParameter(1, text);
     	countQuery.setParameter(2, dateNum);

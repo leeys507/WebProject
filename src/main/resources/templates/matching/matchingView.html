@@ -140,7 +140,7 @@
             <!-- 수정, 삭제, 목록 버튼 -->
             <div class="bottom-button-wrap clear">
                 <div class="fl">
-                    <button type="button" class="btn-blue">목록</button>
+                    <button type="button" class="btn-blue" onClick="listButtonClick()">목록</button>
                 </div>
                 <div class="fr">
                     <!-- 내가 쓴글이면 수정, 삭제 기능을 할수있게 만들어주세요 -->
@@ -315,6 +315,7 @@
             }
         });
     }
+    
     function showUpdateCommentForm(cno) {
         clickCommentCno = cno;
 
@@ -336,11 +337,16 @@
         }
         if($("#toComment").html() != "") $("#toComment").html("");
     }
+    
     function cancelMatchingForm(part) {
         document.getElementById(part + "matchingForm").style.display = "none";
         document.getElementById(part + "bankname").value = "";
         document.getElementById(part + "account").value = "";
         document.getElementById(part + "accountname").value = "";
+    }
+    
+    function listButtonClick() {
+    	location.href = "/yu/matching/matchingList?boardtype=" + "[[${matching.getBoardtype()}]]";
     }
 </script>
 </th:block>

@@ -83,7 +83,7 @@
                     <div style="display: inline-flex;">
                     	<img th:if="${session.folderName} != null" style="width:70px;height:90px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'">
                     	<img th:unless="${session.folderName} != null" style="width:70px;height:90px;" src="http://placehold.it/70x90/">
-                        <div style="text-align: center; width:100%; padding-top:15px; color: white;">[[${session.studentInfo.getNickname()}]] 님 <br>환영합니다!!!</div>
+                        <div style="text-align: center; width:100%; padding-top:15px; color: white;"><b>[[${session.studentInfo.getNickname()}]]</b> 님 <br>환영합니다!!!</div>
                     </div>
                     <button class="btn btn-sm btn-block btn-outline-light" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
                     <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>
@@ -143,7 +143,7 @@
             <div style="display: inline-flex;">
             	<img th:if="${session.folderName} != null" style="height:90px;width:25%; " th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'">
             	<img th:unless="${session.folderName} != null" style="height:90px; width:25%;" src="http://placehold.it/70x90/">
-                <div style="text-align: center; width:100%; padding-top:15px;">[[${session.studentInfo.getNickname()}]] 님 <br>환영합니다!!!</div>
+                <div style="text-align: center; width:100%; padding-top:15px;"><b>[[${session.studentInfo.getNickname()}]]</b> 님 <br>환영합니다!!!</div>
             </div>
             <button class="btn btn-sm btn-block btn-outline-dark" type="button" onclick="location.href='/yu/studentInfo/studentInfo'">내정보</button>
             <button class="btn btn-sm btn-block btn-danger" type="button" onclick="location.href='/yu/logout'">로그아웃</button>

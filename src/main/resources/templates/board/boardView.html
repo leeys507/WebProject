@@ -171,7 +171,7 @@
             <!-- 수정, 삭제, 목록 버튼 -->
             <div class="bottom-button-wrap clear">
                 <div class="fl">
-                    <button type="button" class="btn-blue" onClick="history.go(-1)">목록</button>
+                    <button type="button" class="btn-blue" onClick="listButtonClick()">목록</button>
                 </div>
                 <div class="fr">         	
                 	<button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${board.getSid()}" onClick="updateButtonClick()">수정</button>
@@ -445,6 +445,10 @@
         
         function updateButtonClick() {
         	location.href = "/yu/board/boardUpdate/" + [[${board.getBno()}]];
+        }
+        
+        function listButtonClick() {
+        	location.href = "/yu/board/boardList?boardtype=" + "[[${board.getBoardtype()}]]";
         }
     </script>
 </th:block>

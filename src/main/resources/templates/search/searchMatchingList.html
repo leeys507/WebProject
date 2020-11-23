@@ -9,7 +9,7 @@
 	<div id="article">
       <div class="container-fluid">
         <div class="col-sm-auto article-header">
-          <h2 style="color:red" th:text=${boardtype}></h2>
+          <h2 style="color:red">게시판 - [[${boardtype}]] [검색 결과]</h2>
         </div>
         <table class="col-sm-auto table table-hover" style="margin:0">
           <thead>
@@ -157,27 +157,6 @@
             location.href = "/yu/search/searchMatchingList?boardtype=" + "[[${boardtype}]]" + "&text=" + "[[${text}]]" + "&date=" 
     			+ "[[${date}]]" + "&option=" + "[[${option}]]" + "&page=" + (pageNum + nextOrPrev);
     		return true;
-        }
-        
-        function searchTotalList() {
-        	var text = $("#totalSearchBox");
-        	var date = $("#totalSearchDate option:selected");
-        	var option = $("#totalSearchOption option:selected");
-        	
-        	if(text.val().trim() == "") {
-        		alert("검색어를 입력하세요");
-        		return false;
-        	}
-        	else if(text.val().length < 2) {
-        		alert("검색어는 2글자 이상이어야 합니다");
-        		return false;
-        	}
-        	
-        	var chgText = text.val().replace(/%/gi, '%25');
-        	chgText = chgText.replace(/\\/gi, '%5C');
-        	
-        	location.href = "/yu/search/searchAllList?text=" + 
-        			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
         
         function searchMatching() {

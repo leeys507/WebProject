@@ -71,8 +71,8 @@
               </select>
             </div>
             <!-- 검색어 입력창 -->
-            <input id="searchBox" class="form-control " onKeypress = "if(event.keyCode==13) {return searchMatching()}" placeholder="검색어를 입력해 주세요"  style="border-radius: 5px; border: 2px solid #4a57a8;">
-            <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchMatching()">
+            <input id="searchBox" class="form-control " onKeypress = "if(event.keyCode==13) {return searchLectureEvaluation()}" placeholder="검색어를 입력해 주세요"  style="border-radius: 5px; border: 2px solid #4a57a8;">
+            <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="searchLectureEvaluation()">
           </form>
         </div>
       </div>
@@ -115,6 +115,44 @@
     var selectedTab = localStorage.getItem('selectedTab');
     if (selectedTab != null) {
       $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+    }
+    
+    function searchLectureEvaluation() {
+    	var text = $("#searchBox");
+    	var date = $("#searchDate option:selected");
+    	var option = $("#searchOption option:selected");
+    	
+    	if(text.val().trim() == "") {
+    		alert("검색어를 입력하세요");
+    		return false;
+    	}
+    	else if(text.val().length < 2) {
+    		alert("검색어는 2글자 이상이어야 합니다");
+    		return false;
+    	}
+
+    	var chgText = text.val().trim();
+		chgText = chgText.replace(/ +/g, " ");
+		chgText = chgText.replace(/%/gi, '%25');
+		chgText = chgText.replace(/\\/gi, '%5C');
+		
+		var searchData = {
+				sid: "[[${session.studentInfo.getSid()}]]",
+				word: chgText
+		};
+		
+    	$.ajax ({
+    		type: "POST",
+    		url: "/yu/searchWordInsert",
+            data: searchData,
+            success: function (data) {
+            }, error: function () {
+                alert("error");
+            }
+    	});
+
+    	location.href = "/yu/search/searchLectureEvaluationList?text=" +
+    			chgText + "&date=" + date.val() + "&option=" + option.val();
     }
   </script>
 </th:block>
