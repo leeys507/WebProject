@@ -25,21 +25,21 @@ class SearchWordCustomRepositoryImpl implements SearchWordCustomRepository {
 	public List<SearchWordGetDTO> getWordRanking(int limit) {
 		String sql = "select thistime.word as word, ifnull(cast(prevtime.rownum as signed)-cast(thistime.rownum as signed), 20) as rankingchange " +
 				"from ( " +
-				 "select row_number() over (order by count(word) desc) as rownum, word, count(word) " +
+				 "select row_number() over (order by count(*) desc) as rownum, word " +
 				 "from searchword " + 
-				 "where TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) < 1 " +
-				 "GROUP BY word " +
-				 "HAVING count(word) >= 5 " +
-				 "ORDER BY count(word) desc limit ?1 " +
+				 "where register_date > date_sub(now(), interval 1 hour) " +
+				 "group by word " +
+				 "having count(*) >= 5 " +
+				 "limit ?1 " +
 				 ") as thistime " +
 				 "left outer join" +
 				 "( " +
-				 "select row_number() over (order by count(word) desc) as rownum, word, count(word) " +
+				 "select row_number() over (order by count(*) desc) as rownum, word " +
 				 "from searchword " +
-				 "where TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) < 2 and TIMESTAMPDIFF(HOUR, register_date, SYSDATE()) >= 1 " +
-				 "GROUP BY word " +
-				 "HAVING count(word) >= 5 " +
-				 "ORDER BY count(word) desc limit ?2 " +
+				 "where register_date > date_sub(now(), interval 2 hour) and register_date <= date_sub(now(), interval 1 hour) " +
+				 "group by word " +
+				 "having count(*) >= 5 " +
+				 "limit ?2 " +
 				 ") as prevtime " +
 				 "on thistime.word = prevtime.word";
 		

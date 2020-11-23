@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface BoardService {
     BoardGetDTO findById(long id);
-    String InsertBoard(BoardInsertDTO data);
+    String insertBoard(BoardInsertDTO data);
     List<BoardListGetDTO> findAllDesc();
 
     long update(long Bno, BoardUpdateDTO data);

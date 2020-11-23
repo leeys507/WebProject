@@ -2,9 +2,10 @@ package com.wp.controller.schedule.api;
 
 import com.wp.domain.schedule.Schedule;
 import com.wp.domain.schedule.dto.ResponseDto;
+import com.wp.service.schedule.ScheduleService;
+import com.wp.service.schedule.SeleniumService;
 import com.wp.domain.schedule.ScheduleRepository;
-import com.wp.service.Schedule.ScheduleService;
-import com.wp.service.Schedule.SeleniumService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;

@@ -2,12 +2,7 @@ package com.wp.domain.schedule;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;

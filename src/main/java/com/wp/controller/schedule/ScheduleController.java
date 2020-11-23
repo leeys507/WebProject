@@ -3,11 +3,11 @@ package com.wp.controller.schedule;
 import com.wp.domain.schedule.Schedule;
 import com.wp.domain.schedule.ScheduleRepository;
 import com.wp.domain.student.StudentRepository;
-import com.wp.service.Schedule.ScheduleService;
-import com.wp.service.Schedule.SeleniumService;
 import com.wp.service.board.BoardService;
 import com.wp.service.boardcomment.BoardCommentService;
 import com.wp.service.boardlike.BoardLikeService;
+import com.wp.service.schedule.ScheduleService;
+import com.wp.service.schedule.SeleniumService;
 
 import lombok.RequiredArgsConstructor;
 

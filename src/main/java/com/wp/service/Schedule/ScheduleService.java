@@ -1,4 +1,4 @@
-package com.wp.service.Schedule;
+package com.wp.service.schedule;
 
 import com.wp.domain.schedule.Schedule;
 import com.wp.domain.schedule.ScheduleRepository;

@@ -1,4 +1,4 @@
-package com.wp.service.Schedule;
+package com.wp.service.schedule;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;

@@ -32,7 +32,7 @@ public class BoardServiceImpl implements BoardService {
     }
     
     @Transactional
-    public String InsertBoard(BoardInsertDTO data) {
+    public String insertBoard(BoardInsertDTO data) {
         return boardRepository.save(data.toEntity()).getStudentForeignkey().getSid();
     }
 

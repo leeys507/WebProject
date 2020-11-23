@@ -14,7 +14,7 @@ public class BoardDataController {
 
     @PostMapping("/yu/boardInsert")
     public String InsertBoard(@ModelAttribute BoardInsertDTO data) throws Exception {
-        return boardService.InsertBoard(data);
+        return boardService.insertBoard(data);
     }
 
     @PutMapping("/yu/boardUpdate/{Bno}")
