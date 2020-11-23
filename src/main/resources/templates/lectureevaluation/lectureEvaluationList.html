@@ -17,7 +17,9 @@
                             <th scope="col">과목이름</th>
                             <th scope="col">별점</th>
                             <th scope="col">교수이름</th>
-                            <th scope="col">등록날짜</th>
+                            <th scope="col">작성자</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">신고</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,13 +32,19 @@
                                     <span th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
                                 </th:block>
                             </td>
-                        <td th:text="${lectureEvaluation.getProfessor()}"></td>
-                        <td th:text="${lectureEvaluation.getRegister_date()}"></td>
+                            <td th:text="${lectureEvaluation.getProfessor()}"></td>
+                            <td th:text="${lectureEvaluation.getNickname()}"></td>
+                            <td th:text="${lectureEvaluation.getRegister_date()}"></td>
+                            <td>
+                                <div class="declare-btn-form fl">
+                                    <button type="button" class="btn-declare"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
+                                </div>
+                            </td>
                         </tr>
                         <tr class="hide-table-padding">
                             <td colspan="1">
                                 <div th:id="'collapse'+${num.count}" class="collapse in p-3">
-                                    강의평
+                                    강의평:
                                 </div>
                             </td>
                             <td colspan="2">
