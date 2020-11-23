@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ReportServiceImpl implements ReportService {
-	ReportRepository reportRepository;
+	private final ReportRepository reportRepository;
 	
 	public boolean exsistMyReportThisType(String sid, String typename, long typenumber) {
-		return reportRepository.exsistMyReportThisType(sid, typename, typenumber) == 0 ? true : false;
+		return reportRepository.exsistMyReportThisType(sid, typename, typenumber) == 1 ? true : false;
 	}
 	
 	public boolean insertReport(ReportInsertDTO data) {

@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReportInsertDTO {
     private String sid;
+    private String reported_title;
     private String typename;
     private long typenumber;
     private String reason;
@@ -26,6 +27,7 @@ public class ReportInsertDTO {
         sData.setSid(sid);
         
         rData.setStudentForeignkey(sData);
+        rData.setReported_title(reported_title);
         rData.setTypename(typename);
         rData.setTypenumber(typenumber);
         rData.setReason(reason);

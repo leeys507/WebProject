@@ -33,7 +33,7 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 	
 	public Page<SearchTotalGetDTO> searchTotalAll(String text, Pageable pageable) {
 		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype from board " +
-				"where match(title, content) against(?1 in boolean mode) and check_delete = 'F' " +
+				"where match(title, content) against(?1 in boolean mode) and check_delete = 'F'" +
 				"union " +
 				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype from matching " +
 				"where match(title, content) against(?2 in boolean mode) and check_delete = 'F'";

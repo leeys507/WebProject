@@ -106,6 +106,10 @@
 
 <th:block layout:fragment="script">
     <script type="text/javascript">
+        
+        var pages = getParameterByName("page");
+        var boardtype=getParameterByName("boardtype");
+
         if([[${board.getTotalElements()}]] == 0) {
             var tr = document.createElement("tr");
             var th = document.createElement("th");
@@ -117,9 +121,7 @@
             tr.appendChild(th);
             $("#tbody").append(tr);
         }
-        var pages = getParameterByName("page");
-        var boardtype=getParameterByName("boardtype");
-
+        
         if(pages == ""){
             pages=0;
         }

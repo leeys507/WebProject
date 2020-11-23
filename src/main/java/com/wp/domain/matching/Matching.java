@@ -49,7 +49,7 @@ public class Matching {
     @Column(name = "boardtype", nullable = false, length = 12)
     private String boardtype;
 
-    @Column(name = "title", nullable = false, length = 150)
+    @Column(name = "title", nullable = false, length = 100)
     private String title;
 
     @Column(name = "money", nullable = false)

@@ -23,6 +23,9 @@ public class Report  {
     @JoinColumn(name = "sid", nullable = false)
     private Student studentForeignkey;
 
+    @Column(name = "reported_title", nullable = false, length = 100)
+    private String reported_title;
+    
     @Column(name = "typename", nullable = false, length = 15)
     private String typename;
     

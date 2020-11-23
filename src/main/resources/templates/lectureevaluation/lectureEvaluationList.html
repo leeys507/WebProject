@@ -5,27 +5,26 @@
     <title>YU 강의평 전체보기</title>
 </th:block>
 
-
 <th:block layout:fragment="middle">
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reportModalLabel">신고하기</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" id="closeModalButton" class="close" data-dismiss="modal" aria-label="Close" onClick="clearReport()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <textarea class="form-control nonesize" id="content" name="content"  placeholder="내용을 입력하시오"></textarea>
+                            <textarea class="form-control nonesize" id="reportContent" name="reportContent" maxlength="100" placeholder="내용을 입력하세요"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="float-right" style="margin-bottom:10px; margin-right:10px;">
-                        <button type="button" class="btn-blue" data-toggle ="modal" data-target="#reportModal" data-backdrop ="static">수정하기</button>
+                        <button type="button" onClick = "return sendReport()" class="btn-blue" data-toggle ="modal" data-target="#reportModal" data-backdrop ="static">접수</button>
                     </div>
                 </div>
             </div>
@@ -49,10 +48,10 @@
                             <th scope="col">신고</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                     <th:block th:each="lectureEvaluation,num :${lectureList}">
                         <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
-                            <td class="expand-button" th:text="${lectureEvaluation.getLecturename()}"></td>
+                            <td th:id="lec_title+${lectureEvaluation.getLno()}" class="expand-button" th:text="${lectureEvaluation.getLecturename()}"></td>
                             <td>
                                 <th:block th:each="num:${#numbers.sequence(1,5)}">
                                     <span th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
@@ -64,7 +63,7 @@
                             <td th:text="${lectureEvaluation.getRegister_date()}"></td>
                             <td>
                                 <div class="declare-btn-form fl">
-                                    <button type="button" class="btn-declare" data-toggle = "modal" data-target="#reportModal" data-backdrop="static"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
+                                    <button type="button" class="btn-declare" th:onclick="|reportButtonClick(${lectureEvaluation.getLno()})|" data-toggle = "modal" data-target="#reportModal" data-backdrop="static"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
                                 </div>
                             </td>
                         </tr>
@@ -152,6 +151,20 @@
 <th:block layout:fragment="script">
     <script>
         var pages = getParameterByName("page");
+        var lno;
+        var reported_title;
+        
+        if([[${lectureList.getTotalElements()}]] == 0) {
+            var tr = document.createElement("tr");
+            var th = document.createElement("th");
+
+            th.colSpan = 6;
+            th.style.fontSize = "15px";
+            th.style.textAlign = "center";
+            th.innerHTML = "등록된 글이 없습니다";
+            tr.appendChild(th);
+            $("#tbody").append(tr);
+        }
 
         if(pages == "") {
             pages=0;
@@ -214,6 +227,47 @@
 
         	location.href = "/yu/search/searchLectureEvaluationList?text=" +
         			chgText + "&date=" + date.val() + "&option=" + option.val();
+        }
+        
+        function reportButtonClick(id) {
+        	lno = id;
+        	reported_title = $("#lec_title" + id).text();
+        }
+        
+        function clearReport() {
+        	$("#reportContent").val("");
+        }
+        
+        function sendReport() {
+        	if($("#reportContent").val() == "") {
+        		alert("내용을 입력하세요");
+        		return false;
+        	}
+        	
+        	if(confirm("입력하신 내용으로 신고를 접수 하시겠습니까?\r\n접수된 내용은 취소할 수 없습니다")) {
+        		var reportData = {
+        				sid: "[[${session.studentInfo.getSid()}]]",
+        				reported_title: reported_title,
+        				typename: "강의평가",
+        				typenumber: lno,
+        				reason: $("#reportContent").val()
+        		};
+        		
+            	$.ajax ({
+            		type: "POST",
+            		url: "/yu/reportInsert",
+                    data: reportData,
+                    success: function (data) {
+                    	alert(data);
+                    	clearReport();
+                    	return true;
+                    }, error: function () {
+                        alert("error");
+                        return false;
+                    }
+            	});
+        	}
+        	return true;
         }
     </script>
 </th:block>

@@ -1,7 +1,6 @@
 package com.wp.domain.student;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -38,14 +37,18 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 				"union " +
 				"select title, bno, register_date, '매칭' as 'type', boardtype from matching " +
 				"where request_sid = ?2 and check_delete = 'F'" +
-				"order by register_date desc limit ?3";
+				"union " +
+				"select lecturename as title, lno as bno, register_date, '강의평가' as 'type', '강의평가' as 'boardtype' from lectureevaluation " +
+				"where sid = ?3 and check_delete = 'F' " +
+				"order by register_date desc limit ?4";
 		
 	    Query query = null;
 
 	    query = entityManager.createNativeQuery(sql, "StudentGetMyBoardDTOMapping");
 	    query.setParameter(1, sid);
 	    query.setParameter(2, sid);
-	    query.setParameter(3, limit);
+	    query.setParameter(3, sid);
+	    query.setParameter(4, limit);
 	    
 	    @SuppressWarnings("unchecked")
 		List<StudentGetMyBoardDTO> list = query.getResultList();
@@ -57,29 +60,34 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
 				"union " +
 				"select title, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where request_sid = ?2 and check_delete = 'F'" +
+				"where request_sid = ?2 and check_delete = 'F' " +
+				"union " +
+				"select lecturename as title, lno as bno, register_date, '강의평가' as 'type', '강의평가' as 'boardtype' from lectureevaluation " +
+				"where sid = ?3 and check_delete = 'F' " +
 				"order by register_date desc";
+		
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
 
 	    if(pageNumber == 0) {
-	    	sql += " limit ?3";
+	    	sql += " limit ?4";
 	    }
 	    else {
-	    	sql += " limit ?3, ?4";
+	    	sql += " limit ?4, ?5";
 	    }
 
 	    query = entityManager.createNativeQuery(sql, "StudentGetMyBoardDTOMapping");
 	    query.setParameter(1, sid);
 	    query.setParameter(2, sid);
+	    query.setParameter(3, sid);
 	    
 	    if(pageNumber == 0) {
-	    	query.setParameter(3, pageable.getPageSize());
+	    	query.setParameter(4, pageable.getPageSize());
 	    }
 	    else {
-	    	query.setParameter(3, pageable.getOffset());
-	    	query.setParameter(4, pageable.getPageSize());
+	    	query.setParameter(4, pageable.getOffset());
+	    	query.setParameter(5, pageable.getPageSize());
 	    }
 	    
 	    @SuppressWarnings("unchecked")
@@ -88,11 +96,14 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	    String countSql = "select sum(c) from " +
 	    		"(select count(*) as c from board where sid = ?1 and check_delete = 'F' " +
 	    		"union " +
-	    		"select count(*) as c from matching where request_sid = ?2 and check_delete = 'F') as t";
+	    		"select count(*) as c from matching where request_sid = ?2 and check_delete = 'F'" +
+	    		"union " +
+	    		"select count(*) as c from lectureevaluation where sid = ?3 and check_delete = 'F') as t";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
     	countQuery.setParameter(1, sid);
     	countQuery.setParameter(2, sid);
+    	countQuery.setParameter(3, sid);
 	    
     	return createMyBoardPage(list, pageable, countQuery);
 	}
@@ -171,14 +182,14 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 		int pageNumber = pageable.getPageNumber();
 		
 	    if(pageNumber == 0 && list.size() != 0 && list.size() >= pageable.getPageSize()) {
-	    	totalCount = ((BigInteger)countQuery.getSingleResult()).longValue();
+	    	totalCount = ((BigDecimal)countQuery.getSingleResult()).longValue();
 	    }
 	    else if(pageNumber != 0 && list.size() == 0) {	// page over
-	    	totalCount = ((BigInteger)countQuery.getSingleResult()).longValue();
+	    	totalCount = ((BigDecimal)countQuery.getSingleResult()).longValue();
 	    }
 	    
 	    Page<StudentGetMyBoardDTO> pages = new PageImpl<StudentGetMyBoardDTO>(list, pageable, totalCount);
-	    totalCount = BigInteger.valueOf(0).longValue();
+	    totalCount = BigDecimal.valueOf(0).longValue();
 	    return pages;
 	}
 	

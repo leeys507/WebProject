@@ -10,20 +10,20 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reportModalLabel">신고하기</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" id="closeModalButton" class="close" data-dismiss="modal" aria-label="Close" onClick="clearReport()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <textarea class="form-control nonesize" id="content" name="content"  placeholder="내용을 입력하시오"></textarea>
+                            <textarea class="form-control nonesize" id="reportContent" name="reportContent" maxlength="100" placeholder="내용을 입력하세요"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="float-right" style="margin-bottom:10px; margin-right:10px;">
-                        <button type="button" class="btn-blue" data-toggle ="modal" data-target="#reportModal" data-backdrop ="static">수정하기</button>
+                        <button type="button" onClick = "return sendReport()" class="btn-blue" data-toggle ="modal" data-target="#reportModal" data-backdrop ="static">접수</button>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
 						<h5 class="title" style="font-size:10pt" th:text="${board.getBoardtype()}"></h5>
                         <!-- 글 제목 -->
                         <h3 class="title">
-                            <span th:text="${board.getTitle()}"></span>
+                            <span th:id="board_title+${board.bno}" th:text="${board.getTitle()}"></span>
                         </h3>
                         <!-- 작성자, 글쓴이, 작성일,  조회, 좋아요 수 -->
                         <div class="article-info">
@@ -69,7 +69,7 @@
                             <!-- 신고 -->
                             <div class="declare-btn-form fl">
                                 <span>신고</span>
-                                <button type="button" class="btn-declare" data-toggle="modal" data-target="#reportModal" data-backdrop="static"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
+                                <button type="button" class="btn-declare" th:onclick="|reportButtonClick(${board.getBno()})|" data-toggle="modal" data-target="#reportModal" data-backdrop="static"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
                             </div>
                         </div>
                     </div>
@@ -211,6 +211,9 @@
         var clickCommentCno;
         var likecheck = "[[${boardlike}]]";
         var toNickname;
+        
+        var bno;
+        var reported_title;
         
         if(pages == ""){
             pages=0;
@@ -474,6 +477,47 @@
         
         function listButtonClick() {
         	location.href = "/yu/board/boardList?boardtype=" + "[[${board.getBoardtype()}]]";
+        }
+        
+        function reportButtonClick(id) {
+        	bno = id;
+        	reported_title = $("#lec_title" + id).text();
+        }
+        
+        function clearReport() {
+        	$("#reportContent").val("");
+        }
+        
+        function sendReport() {
+        	if($("#reportContent").val() == "") {
+        		alert("내용을 입력하세요");
+        		return false;
+        	}
+        	
+        	if(confirm("입력하신 내용으로 신고를 접수 하시겠습니까?\r\n접수된 내용은 취소할 수 없습니다")) {
+        		var reportData = {
+        				sid: "[[${session.studentInfo.getSid()}]]",
+        				reported_title: reported_title,
+        				typename: "[[${board.getBoardtype()}]]",
+        				typenumber: bno,
+        				reason: $("#reportContent").val()
+        		};
+        		
+            	$.ajax ({
+            		type: "POST",
+            		url: "/yu/reportInsert",
+                    data: reportData,
+                    success: function (data) {
+                    	alert(data);
+                    	clearReport();
+                    	return true;
+                    }, error: function () {
+                        alert("error");
+                        return false;
+                    }
+            	});
+        	}
+        	return true;
         }
     </script>
 </th:block>
