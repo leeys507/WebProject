@@ -36,14 +36,14 @@
             <div class="tab-pane active" id="home">
               <div class="card-header bg-light" th:each="lectureEvaluation: ${lectureEvaluationList}">
                 <div class="row">
-                  <div class="col-8 text-left">
-                    <a th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
+                  <div class="col-12 text-left">
+                    <a class="col-4" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
                     <th:block th:each="num:${#numbers.sequence(1,5)}">
-                      <span th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
-                      <span th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
+                      <span  th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
+                      <span  th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
                     </th:block>
-                    /<small th:text=" ${lectureEvaluation.getProfessor()}"></small>
-                    /<span th:text=" ${lectureEvaluation.getRegister_date()}"></span>
+                    <small class="col-4" th:text=" ${lectureEvaluation.getProfessor()}"></small>
+                    <span class="col-4" th:text=" ${lectureEvaluation.getRegister_date()}"></span>
                   </div>
                 </div>
               </div>
