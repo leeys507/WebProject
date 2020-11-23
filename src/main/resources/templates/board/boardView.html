@@ -261,7 +261,7 @@
                     success : function(data){
                         if(data == true) {
                             alert("게시글 삭제 성공");
-                            location.href = '/yu/board/boardList?boardtype=자유게시판';
+                            location.href = '/yu/board/boardList?boardtype=' + "[[${board.getBoardtype()}]]";
                         }
                         else
                             alert("게시글 삭제 실패");
