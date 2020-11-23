@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+	<title>YU Total List</title>
+</th:block>
+
+<th:block layout:fragment="article">
+     <div class="container-fluid">
+        <div class="col-sm-auto article-header">
+          <h2 style="color:blue">전체 게시판 [검색 결과]</h2>
+        </div>
+        <table class="col-sm-auto table table-hover" style="margin:0">
+          <thead>
+            <tr>
+              <th style="text-align:center; width:5%;">번호</th>
+              <th style="text-align:center; width:50%;">제목</th>
+              <th style="text-align:center; width:20%;">작성자</th>
+              <th style="text-align:center; width:15%;">작성일</th>
+              <th style="text-align:center; width:10%;">세부위치</th>
+            </tr>
+          </thead>
+		<tbody id="tbody">
+        <tr th:each="boardlist :${board}">
+            <td style="width:5%; text-align:center" th:text="${boardlist.getBno()}"></td>
+            <td> <a th:href="@{'/yu/board/boardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
+            <td style="width:20%; text-align:center" th:text="${boardlist.getNickname()}"></td>
+            <td style="text-align:center" th:text="${boardlist.getRegister_date()}"></td>
+            <td style="text-align:center" th:text="${boardlist.getBoardtype()}"></td>
+        </tr>
+        </tbody>
+        </table>
+        <hr style="margin:0"/><br>
+        
+       	<div class="clear">
+        	<div class="float-right">
+        		Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
+        	</div>
+        </div>
+
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li id="pagefirst">
+            	<a th:href="'?text=' + ${text}  + '&date=' + ${date} + '&type=' + ${type} + '&option=' + ${option} + '&page=0'">
+					<span class="page-link">«</span>
+				</a>
+			</li>
+			<li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+				<a th:onClick="|return pageMove('prev');|">
+					<span class="page-link">&lt;</span>
+				</a>
+			</li>
+			<li class="page-item" style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
+				<a th:if="${board.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&type=' + ${type} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+				<a th:unless="${board.getNumber()} == ${num}" class="page-link" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&type=' + ${type} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+			</li>
+			<li id="pageNext">
+				<a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+					<span class="page-link">&gt;</span>
+				</a>
+			</li>
+			<li>
+            	<a th:if="${board.getTotalPages()}>0" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&type=' + ${type} + '&option=' + ${option} + '&page=' + ${board.getTotalPages()-1}">
+                	<span class="page-link">»</span>
+            	</a>
+            	<a th:if="${board.getTotalPages()}==0" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&type=' + ${type} + '&option=' + ${option} + '&page=' + ${board.getTotalPages()}">
+					<span class="page-link">»</span>
+				</a>
+			</li>
+          </ul>
+        </nav>
+      </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        var pages = getParameterByName("page");
+        
+    	if([[${board.getTotalElements()}]] == 0) {
+    		var tr = document.createElement("tr");
+    		var th = document.createElement("th");
+    		
+    		th.colSpan = 5;
+    		th.style.fontSize = "15px";
+    		th.style.textAlign = "center";
+    		th.innerHTML = "검색 결과가 없습니다";
+    		tr.appendChild(th);
+    		$("#tbody").append(tr);
+    	}
+
+        $("#totalSearchBox").val("[[${text}]]");
+        $("#totalSearchBox").focus();
+        $("#totalSearchDate").val("[[${date}]]").prop("selected", true);
+        $("#totalSearchType").val("[[${type}]]").prop("selected", true);
+        $("#totalSearchOption").val("[[${option}]]").prop("selected", true);
+        
+        if(pages == "") {
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
+        
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        function pageMove(param) {
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
+
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
+
+            location.href = "/yu/search/searchAllList?text=" + "[[${text}]]" + "&date=" 
+            		+ "[[${date}]]" + "&type=" + "[[${type}]]" + "&option=" + "[[${option}]]" + "&page=" + (pageNum + nextOrPrev);
+            return true;
+        }
+    </script>
+</th:block>
+</html>

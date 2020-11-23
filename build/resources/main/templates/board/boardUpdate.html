@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+    <title>YU Board Update</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div class="col-sm-auto article-header">
+        <h2>게시글 수정</h2>
+      </div>
+      <br>
+      <!-- 게시판 향후 수정 -->
+      <div class="col-sm-auto">
+        <form id="infoForm" name="infoForm">
+        <div class="form-group">
+            <select name="boardtype" id="boardtype" class="boardselect">
+              <option id="자유게시판">자유게시판</option>
+              <option id="중고게시판">중고게시판</option>
+              <option id="정보게시판">정보게시판</option>
+            </select>
+        </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="title" name="title" th:value="${board.getTitle()}" placeholder="제목을 입력하세요" required>
+          </div>
+          <br>
+          <br>
+          <div class="form-group">
+            <textarea class="form-control" id="content" name="content" th:utext="${board.getContent()}" placeholder="내용을 입력하세요" required="required"></textarea>
+          </div>
+          <div id="button_group" class="btn-form">
+            <button type="submit" class="btn btn-primary" style="margin-right:5px;" onclick="dataSend()">수정</button>
+            <button type="button" class="btn btn-secondary" onclick="cancel()">취소</button>
+          </div>
+          <div class="form-group">
+              <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${session.studentInfo.getSid()}" required="required" readonly/>
+          </div>
+          <div class="form-group">
+              <input type="hidden" name = "nickname" id = "nickname" class="form-control" th:value="${session.studentInfo.getNickname()}" required="required" readonly/>
+          </div>
+        </form>
+      </div>
+    <!-- /.card-content -->
+</th:block>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        function dataSend() {
+            var content=$('#content').val(CKEDITOR.instances.content.getData());
+            let queryString = $('#infoForm').serialize() ;
+            var bno=[[${board.getBno()}]];
+            var boardtype=$('#boardtype').val();
+            var title=$('#title');
+            
+            if(title.val() == "") {
+                alert("제목 입력");
+                title.focus();
+                return false;
+            }
+            if(content.val() == "") {
+                alert("내용 입력");
+                return false;
+            }
+            $.ajax({
+                type: "PUT",
+                url : "/yu/boardUpdate/"+bno,
+                data : queryString,
+                // data : queryString,
+                // contentType:'application/json; charset=utf-8',
+                // datatype : 'json',
+                success : function(data){
+                    if(data == bno) {
+                        alert("수정 성공");
+                        location.href='/yu/board/boardView/'+bno;
+                    }
+                    else
+                        alert("수정 실패");
+                },error : function(){
+                	alert("Error");
+                    return false;
+                }
+            });
+            return false;
+        }
+        
+        var type = "[[${board.getBoardtype()}]]";
+        $("#" + type).attr("selected","selected");
+        
+        function cancel() {
+        	location.href="/yu/board/boardList?boardtype=" + type;
+        }
+        
+        $(function (){		// ckeditor config
+            CKEDITOR.replace('content', {
+                filebrowserUploadUrl: '/mine/imageUpload.do?' + "board=" + "board" + "&boardtype=" + type 
+                		+ "&sid=" + "[[${session.studentInfo.getSid()}]]" + "&nickname=" + "[[${session.studentInfo.getNickname()}]]"
+            });
+        });
+    </script>
+</th:block>
+</html>

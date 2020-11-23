@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+	<title>YU My Information</title>
+</th:block>
+
+<th:block layout:fragment="middle">
+<div class="modal" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close1" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)아이디/비밀번호가 생각나지 않아요.</h5><br>
+          <h5>A)나만따라YU는 개인정보처리방침과 개인정보보호법에 따라 개인정보를 개인에게 직접 알려드릴 수 없습니다.</h5><br>
+          <h5>아이디의 경우 자신의 학번, 비밀번호의 경우 영남대 홈페이지에서 로그인시 사용하는 비밀번호와 같습니다.</h5><br>
+          <h5>영남대 홈페이지 비밀번호도 생각나지 않는다면 영남대 홈페이지에서 찾아주셔야 합니다. 감사합니다.</h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close2" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)아이디를 여러개 만들 수는 없나요?</h5><br>
+          <h5>A)나만따라YU는 1인 1계정 원칙에 따라, 영남대 홈페이지에 로그인 가능한 정보만 사용 가능합니다. 감사합니다. </h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close3" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)영남대 학생이 아닌데 이용할 수 있나요?</h5><br>
+          <h5>A)나만따라YU는 영남대학교 학생을 위한 서비스입니다. 영남대학교의 재학생 및 졸업생이 아닐 경우, 이용이 불가능합니다. 감사합니다. </h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">답변</h5>
+          <button type="button" class="close4" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Q)매칭 결제는 어떤것이 가능한가요?</h5><br>
+          <h5>A)나만따라YU는 현재 개발중인 서비스로서, 현재는 <u>카카오페이</u>만 지원하고 있습니다. 빠른 시일내에 다양한 결제방법을 추가하도록 하겠습니다. 감사합니다.  </h5><br>
+        </div>
+      </div>
+    </div>
+  </div>
+<div id="modal5" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">내 정보 수정하기</h5>
+          <button type="button" class="close5" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>닉네임, 이메일만 수정가능합니다.</h5><br>
+          <form>
+            <div class="form-group">
+              <label for="nickName" class="col-form-label"><h5>닉네임</h5><b>(닉네임은 1개월 주기로 변경이 가능합니다.)</b>
+              <br>마지막 변경일: <b th:if="${session.studentInfo.getUpdate_date()} == null">없음</b>
+              <b th:unless="${session.studentInfo.getUpdate_date()} == null">[[${session.studentInfo.getUpdate_date()}]]</b>
+              </label>
+              <input type="text" class="form-control" id="updateNickName" placeholder="수정할 닉네임을 입력해주세요" onKeyPress="if(event.keyCode==13) {return updateNickNameOrEmail();}">
+            </div>
+            <div class="form-group">
+              <label for="yourEmail" class="col-form-label"><h5>이메일</h5></label>
+              <input type="text" class="form-control" id="updateEmail" placeholder="수정할 이메일을 입력해주세요" onKeyPress="if(event.keyCode==13) {return updateNickNameOrEmail();}">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+            <div class="float-right">
+              <button type="button" class="btn-blue" onClick="return updateNickNameOrEmail();">수정하기</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+<th:block layout:fragment="article">
+      <div class="container-fluid">
+        <div class="card text-center mb-3">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#myInfo" data-toggle="tab">내정보</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#history" data-toggle="tab">활동기록</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#myArticle" data-toggle="tab">내 글 보기</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#center" data-toggle="tab">고객센터</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="myInfo">
+              <!--내정보-->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                  	<div class="row row-cols-1">
+                  		<div class="col">
+                    		<img th:if="${session.folderName} != null" style="width:180px;height:240px;" th:src="@{/images/profiles/} + ${session.folderName} + '/'  + 'profileImage.png'" class="card-img">
+                    		<img th:unless="${session.folderName} != null" style="width:180px;height:240px;" src="http://placehold.it/180x240/" class="card-img">
+                    	</div>
+                    	 <div class="col">
+							<form id="imageForm" method="post" enctype="multipart/form-data">
+								<br>
+								<label for="image" style="background-color:#61DBF0;">프로필 이미지</label><br>
+								<input id = "imageFile" name="imageFile" type="file" accept=".jpg, .jpeg, .png, .gif" onChange = "imageCheck(imageFile)"> <br>
+								<a style="font-size:13px">(512KB 이하 / 미등록 가능)<br>(이미지 이름 25자 이내)</a><br>
+							</form>
+							<button class="btn-blue" style="width:70px; height:30px; display:none" id="uploadBtn" onClick="imageUpload()">업로드</button>
+			 			</div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <p class="card-text text-left">Lv.7 (640/700)</p>
+                    <p class="card-text text-left">닉네임: [[${session.studentInfo.getNickname()}]]</p>
+                    <p class="card-text text-left">학년: [[${session.studentInfo.getSyear()}]]</p>
+                    <p class="card-text text-left">학과: [[${session.studentInfo.getDepartment()}]]</p>
+                    <p class="card-text text-left">이메일: [[${session.studentInfo.getEmail()}]]</p>
+                    <p class="card-text text-left">포인트: [[${session.studentInfo.getPoint()}]]</p>
+                    <p class="card-text text-left">비밀번호 변경: <a style="text-decoration:underline" href="https://adm.yu.ac.kr/com/com/port/plet/findPortPwdInitFormN_L_S.do">yu.ac.kr//PasswordChange</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="float-left" style="margin-bottom:10px; margin-left:10px;">
+                <button type="button" class="btn-red" id="secession">탈퇴하기</button>
+              </div>
+              <div class="float-right" style="margin-bottom:10px; margin-right:10px;">
+                  <button type="button" class="btn-blue" data-toggle="modal" data-target="#modal5" data-backdrop ="static">수정하기</button>
+              </div>
+            </div>
+            <div class="tab-pane" id="history">
+              <!--활동기록-->
+              <div class="card-body text-left">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="card-text">최초 로그인: [[${session.studentInfo.getFirst_login()}]]</p>
+                    <p class="card-text">최초 게시글: 2020.06.14 17:30:47</p>
+                    <p class="card-text">최초 댓글: 2020.06.14 17:45:12</p>
+                    <p class="card-text">최근 로그인 기록: 2020.06.17 22:15:14</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="card-text">좋아요 받은 수: 564</p>
+                    <p class="card-text">내 댓글 수: 12</p>
+                    <p class="card-text">내 게시글 수: [[${myBoardCount}]]</p>
+                    <p class="card-text">로그인 횟수: 7</p>
+                  </div>
+                </div>
+                <br><br>
+                <div class="row row-cols-1">
+                  <p>
+                  <div class="col">
+                    <p class="card-text text-left h4">검색기록</p>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col"><a href="#" class="text-secondary"><u>영남대</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>휴강</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>중간고사</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>코로나</u></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </p>
+
+                  <p>
+                  <div class="col">
+                    <p class="card-text text-left h4">내가 즐겨찾는 게시판</p>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col"><a href="#" class="text-secondary"><u>자유게시판</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>중고게시판</u></a></div>
+                          <div class="col"><a href="#" class="text-secondary"><u>게임게시판</u></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="myArticle">
+              <!--내 글보기-->
+              <div class="card-body text-left">
+                <div class="row row-cols-1">
+                  <div class="col">
+                    <table class="table table-hover">
+                      <caption class="myArticleTableCaption h4">내가 작성한 게시물
+                          <div class="float-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn-blue" onclick="location.href='/yu/studentInfo/studentMyBoardList'">전체보기</button>
+                          </div>
+                        </caption>
+                      <thead>
+                        <tr>
+                        	<th style="text-align:center; width:55%">제목</th>
+              				<th style="text-align:center; width:15%">작성일</th>
+              				<th style="text-align:center; width:15%">위치</th>
+             				<th style="text-align:center; width:15%">세부위치</th>
+                        </tr>
+                      </thead>
+                      <tbody id="myBoardTbody">
+                        <tr th:each="board :${myBoardList}">
+                          <td>
+                          	<a th:if="${board.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+                          	<a th:if="${board.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+                          </td>
+                          <td style="text-align:center" th:text="${board.getRegister_date()}"></td>
+                          <td style="text-align:center" th:text="${board.getType()}"></td>
+                          <td style="text-align:center" th:text="${board.getBoardtype()}"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col">
+                    <table class="table table-hover">
+                        <caption class="myArticleTableCaption h4">내가 작성한 댓글
+                          <div class="float-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn-blue" onclick="location.href='/yu/studentInfo/studentMyCommentList'">전체보기</button>
+                          </div>
+                        </caption>
+                      <thead>
+                        <tr>
+                        	<th style="text-align:center; width:55%">내용</th>
+              				<th style="text-align:center; width:15%">작성일</th>
+              				<th style="text-align:center; width:15%">위치</th>
+             				<th style="text-align:center; width:15%">세부위치</th>
+                        </tr>
+                      </thead>
+                      <tbody id="myCommentTbody">
+                        <tr th:each="comment :${myCommentList}">
+                          <td>
+                          	<a th:if="${comment.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
+                          	<a th:if="${comment.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${comment.getBno()}}" th:text="${comment.getContent()}"></a>
+                          </td>
+                          <td style="text-align:center" th:text="${comment.getRegister_date()}"></td>
+                          <td style="text-align:center" th:text="${comment.getType()}"></td>
+                          <td style="text-align:center" th:text="${comment.getBoardtype()}"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="center">
+              <!--고객센터-->
+              <div class="card-body text-left">
+                <div class="row row-cols-1">
+                  <div class="col">
+                    <table class="table table-hover">
+                      <caption class="myArticleTableCaption h4">자주 묻는 질문</caption>
+                      <tbody>
+                        <tr>
+                          <td><a type='button' id="modalbtn1">아이디/비밀번호가 생각나지 않아요.</a></td>
+                        </tr>
+                        <tr>
+                          <td><a type='button' id="modalbtn2">아이디를 여러개 만들 수는 없나요?</a></td>
+                        </tr>
+                        <tr>
+                          <td><a type='button' id="modalbtn3">영남대 학생이 아닌데 이용할 수 있나요?</a></td>
+                        </tr>
+                        <tr>
+                          <td><a type='button' id="modalbtn4">매칭 결제는 어떤것이 가능한가요?</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <br><br>
+                <h4>문의하기</h4>
+                <br>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="card-text">문의 이메일: <a href="mailto:qwer@asdf.zxc"><u>qwer@asdf.zxc</u></a></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="card-text">문의 번호: 010-1234-1234</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</th:block>
+
+  <footer class="bg-dark mt-3 p-3 text-center" style="color: #FFFFFF;">
+    <div class="row">
+      <div class="col-2"><a href="#"></a>이용약관</div>
+      <div class="col-2"><a href="#"></a>개인정보처리방침</div>
+      <div class="col-2"><a href="#"></a>커뮤니티이용규칙</div>
+      <div class="col-2"><a href="#"></a>공지사항</div>
+      <div class="col-2"><a href="#"></a>문의하기</div>
+      <div class="col-2">(주)나만따라YU</div>
+    </div>
+  </footer>
+
+<th:block layout:fragment="script">
+  <script>
+    $('a[data-toggle="tab"]').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+      var id = $(e.target).attr("href");
+      localStorage.setItem('selectedTab', id)
+    });
+
+    var selectedTab = localStorage.getItem('selectedTab');
+    if (selectedTab != null) {
+      $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+    }
+    
+	if([[${myBoardList.size()}]] == 0) {
+		var tr = document.createElement("tr");
+		var th = document.createElement("th");
+		
+		th.colSpan = 4;
+		th.style.fontSize = "15px";
+		th.style.textAlign = "center";
+		th.innerHTML = "등록된 글이 없습니다";
+		tr.appendChild(th);
+		$("#myBoardTbody").append(tr);
+	}
+	
+	if([[${myCommentList.size()}]] == 0) {
+		var tr = document.createElement("tr");
+		var th = document.createElement("th");
+		
+		th.colSpan = 4;
+		th.style.fontSize = "15px";
+		th.style.textAlign = "center";
+		th.innerHTML = "등록된 글이 없습니다";
+		tr.appendChild(th);
+		$("#myCommentTbody").append(tr);
+	}
+    
+    var modal1 = document.getElementById('modal1');
+    var btn1 = document.getElementById("modalbtn1");
+    var span1 = document.getElementsByClassName("close1")[0];
+    var modal2 = document.getElementById('modal2');
+    var btn2 = document.getElementById("modalbtn2");
+    var span2 = document.getElementsByClassName("close2")[0];
+    var modal3 = document.getElementById('modal3');
+    var btn3 = document.getElementById("modalbtn3");
+    var span3 = document.getElementsByClassName("close3")[0];
+    var modal4 = document.getElementById('modal4');
+    var btn4 = document.getElementById("modalbtn4");
+    var span4 = document.getElementsByClassName("close4")[0];
+
+
+    btn1.onclick = function() {
+      modal1.style.display = "block";
+    }
+
+    span1.onclick = function() {
+      modal1.style.display = "none";
+    }
+
+    btn2.onclick = function() {
+      modal2.style.display = "block";
+    }
+
+    span2.onclick = function() {
+      modal2.style.display = "none";
+    }
+
+    btn3.onclick = function() {
+      modal3.style.display = "block";
+    }
+
+    span3.onclick = function() {
+      modal3.style.display = "none";
+    }
+
+    btn4.onclick = function() {
+      modal4.style.display = "block";
+    }
+
+    span4.onclick = function() {
+      modal4.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal1) {
+          modal1.style.display = "none";
+        } else if (event.target == modal2) {
+          modal2.style.display = "none";
+        } else if (event.target == modal3) {
+          modal3.style.display = "none";
+        }else if (event.target == modal4) {
+          modal4.style.display = "none";
+        }
+     }
+  
+    function updateNickNameOrEmail() {
+    	var nickname = $("#updateNickName");
+    	var email = $("#updateEmail");
+    	
+    	if(nickname.val() == "" && email.val() == "") {
+    		alert("변경할 정보를 입력해 주세요");
+    		nickname.focus();
+    		return false;
+    	}
+    	else if(nickname.val() != "" && (nickname.val().length < 2 || nickname.val().length > 12)) {
+    		alert("닉네임은 2자 이상 12자 이하입니다");
+    		nickname.focus();
+    		return false;
+    	}
+    	
+    	if(nickname.val() != "") {
+        	$.ajax ({
+        		type: "PUT",
+        		url: "/yu/studentInfo/updateStudentNickname",
+                data: {
+                	sid: [[${session.studentInfo.getSid()}]],
+                	nickname: nickname.val()
+                },
+                success: function (data) {
+                    if (data == "닉네임 변경 완료") {
+                        alert(data);
+                        location.href = "/yu/studentInfo/studentInfo";
+                    } else
+                        alert(data);
+                }, error: function () {
+                    alert(queryString);
+                    return false;
+                }
+        	});
+    	}
+    	if(email.val() != "") {
+        	$.ajax ({
+        		type: "PUT",
+        		url: "/yu/studentInfo/updateStudentEmail",
+                data: {
+                	sid: [[${session.studentInfo.getSid()}]],
+                	email: email.val()
+                },
+                success: function (data) {
+                    if (data == "이메일 변경 완료") {
+                        alert(data);
+                        location.href = "/yu/studentInfo/studentInfo";
+                    } else {
+                        alert(data);
+                    }
+                }, error: function () {
+                    alert(queryString);
+                    return false;
+                }
+        	});
+    	}
+    }
+    
+    function imageCheck(image) {		// 이미지 용량, 확장자 확인
+    	var fileNameCheck = image.value.split(".");
+    	var fileExtension = fileNameCheck[fileNameCheck.length-1].toLowerCase();
+        var fileSize = image.files[0].size;
+        var maxSize = 1024 * 512;		// 1MB
+        
+    	if(image.value.length != 0) {
+    		imagePath = image.value.split("\\");
+    		imageName = imagePath[imagePath.length-1];
+    		
+    		if(imageName.length > 25) {
+    			alert("이미지의 이름을 25자 이내로 설정하세요");
+            	image.files[0] = null;
+            	image.value = "";
+            	$("#uploadBtn").css("display", "none");
+    			return false;
+    		}
+    	}
+        if(fileExtension != "gif" && fileExtension != "png" && fileExtension != "jpg" && fileExtension != "jpeg") {
+        	alert("지원하지 않는 확장자 입니다");
+        	image.files[0] = null;
+        	image.value = "";
+        	$("#uploadBtn").css("display", "none");
+        	return false;
+        }
+        if(fileSize > maxSize) {
+        	alert("이미지 크기는 512KB 이하입니다");
+        	image.files[0] = null;
+        	image.value = "";
+        	$("#uploadBtn").css("display", "none");
+           	return false;
+        }
+        $("#uploadBtn").css("display", "inline-block");
+       	return true;
+    }
+    
+    function imageUpload() {
+    	var imageFormData = new FormData($("#imageForm")[0]);
+    	
+    	$.ajax ({
+    		type: "POST",
+    		enctype: 'multipart/form-data',
+    		url: "/yu/studentInfo/studentProfileImageUpload",
+            data: imageFormData,
+            processData: false,
+            contentType: false,
+            timeout: 5000,
+            success: function (data) {
+                if (data == "등록 성공") {
+                    alert(data + " (잠시 후 다시 새로고침을 하면 적용됩니다)");
+                    location.href = "/yu/studentInfo/studentInfo";
+                } else
+                    alert(data);
+            }, error: function () {
+                return false;
+            }
+    	});
+    }
+    
+    $("#updateNickName").bind("keyup",function() {
+    	re = /[~!@\#$%^&*\()\-=+_ ']/gi;
+    	var temp=$("#updateNickName").val();
+    	if(re.test(temp)) {
+    	 	$("#updateNickName").val(temp.replace(re,"")); 
+    	}
+    });
+  </script>
+</th:block>
+</html>

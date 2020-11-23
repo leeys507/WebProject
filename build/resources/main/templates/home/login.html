@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}" dir="ltr">
+
+<th:block layout:fragment="title">
+	<title>YU Main</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">최근 등록된 매칭</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">실시간 검색어</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="word, num: ${searchRankingList}" th:if="${num.count} < 7">
+              <th scope="row">
+              	<div class="ranking-num-wrap">
+                  <span class="ranking-num">[[${num.count}]]</span>
+                </div>
+                <div class="ranking-word-wrap">
+                  <span class="ranking-word">[[${word.getWord()}]]</span>
+                </div>
+                <div class="ranking-change-wrap" th:switch="${word.getRankingchange()}">
+                  <b class="ranking-change ranking-change-new" th:case="20">NEW</b>
+                  <b class="ranking-change ranking-change-old" th:case="0">-</b>
+                  <div class="ranking-change" th:case="*">
+                    <b class="ranking-change" th:if="${word.getRankingchange()} > 0"><img class="ranking-img" th:src="@{/images/rankingup.png}">[[${word.getRankingchange()}]]</b>
+                    <b class="ranking-change" th:unless="${word.getRankingchange()} > 0"><img class="ranking-img" th:src="@{/images/rankingdown.png}">[[${-word.getRankingchange()}]]</b>
+                  </div>
+               </div>
+              </th>
+            </tr>
+            <tr th:if="${searchRankingList.size()} == 0">
+            	<th>실시간 검색어가 없습니다</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">Hot 게시물</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col" style="color:#0D3F7A">학과 강의평가</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</th:block>
+</html>

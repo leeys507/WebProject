@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+    <title>YU Student Schedule</title>
+
+    <style>
+
+        .grid{
+            border:1px solid grey;
+            height:50px;
+            z-inde:0;
+        }
+        .month{
+            border: 1px solid grey;
+            background-color: #3c4790;
+            height:50px;
+            line-height: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+        }
+        .mysubject{
+            position:absolute;
+            z-index:10;
+            border:1px solid black;
+            width:14%;
+            background-color: #00aeff;
+        }
+
+        .schedule-header-form {
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        .schedule-header-form .month:first-child {
+            width: 10%;
+        }
+
+        .schedule-header-form .month {
+            width: 14%;
+        }
+
+        .schedule-content-form th {
+            padding: 0;
+            margin: 0;
+            width: 10%;
+        }
+
+        .schedule-content-form td {
+            padding: 0;
+            margin: 0;
+            width: 14%;
+        }
+        .schedule-content-form .time {
+            height:50px;
+            border: 1px solid grey;
+            text-align: center;
+            line-height: 50px;
+            font-size: 1vw;
+        }
+        ul.floating {
+            position: fixed;
+            z-index: 80;
+            bottom: 50px;
+        }
+        ul, li {
+            list-style: none;
+        }
+        ul {
+            display: block;
+            list-style-type: disc;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+        }
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+        ul.floating > li.button {
+            float: left;
+            margin: 0 1px;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #0D3F7A;
+        }
+         ul.floating > li.button.custom {
+            padding: 0 20px 0 20px;
+            border-radius: 0 20px 20px 0;
+        }
+        ul.floating > li.button.custom > a{
+            color: #fff;
+        }
+        ul.floating > li.button.search1 {
+            padding: 0 20px 0 20px;
+            border-radius: 0 0 0 0;
+        }
+        ul.floating > li.button.search {
+            padding: 0 20px 0 20px;
+            border-radius: 20px 0 0 20px;
+        }
+
+    </style>
+</th:block>
+
+<th:block layout:fragment="article">
+
+    <div id="data" style="display:none;">
+        <div id="title"></div>
+        <div id="part"></div>
+        <div id="profname"></div>
+        <div id="placename"></div>
+        <div id="colornum"></div>
+        <div id="topnum"></div>
+        <div id="heightnum"></div>
+        <div id="coursenum"></div>
+        <div id="dayid"></div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="col-sm-auto">
+            <table class="schedule-header-form table">
+                <tbody>
+                <tr>
+                    <td class="month"></td>
+                    <td class="month">월</td>
+                    <td class="month">화</td>
+                    <td class="month">수</td>
+                    <td class="month">목</td>
+                    <td class="month">금</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-sm-auto">
+            <table class="schedule-content-form table">
+                <tbody>
+                <tr>
+                    <th>
+                        <div class="times">
+                            <div class="time">오전 9시</div>
+                            <div class="time">오전 10시</div>
+                            <div class="time">오전 11시</div>
+                            <div class="time">오후 12시</div>
+                            <div class="time">오후 1시</div>
+                            <div class="time">오후 2시</div>
+                            <div class="time">오후 3시</div>
+                            <div class="time">오후 4시</div>
+                            <div class="time">오후 5시</div>
+                            <div class="time">오후 6시</div>
+                            <div class="time">오후 7시</div>
+                            <div class="time">오후 8시</div>
+                            <div class="time">오후 9시</div>
+                            <div class="time">오후 10시</div>
+                        </div>
+                    </th>
+
+                    <td>
+                        <div class="cols" id="cols0"></div>
+                        <div class="grids"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                    </td>
+
+                    <td>
+                        <div class="cols" id="cols1"></div>
+                        <div class="grids"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                    </td>
+
+                    <td>
+                        <div class="cols" id="cols2"></div>
+                        <div class="grids"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                    </td>
+
+                    <td>
+                        <div class="cols" id="cols3"></div>
+                        <div class="grids"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                    </td>
+
+                    <td>
+                        <div class="cols" id="cols4"></div>
+                        <div class="grids"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                        <div class="grid"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="nontimes"></div>
+        </div>
+    </div>
+    <ul class="floating" style="left:40%;">
+        <li id="create" class="button search">저장</li>
+        <li id="delete" class="button search1">전체 제거</li>
+        <li id="selectDelete" class="button search1" onClick="selectDeleteFunction();">선택 제거</li>
+        <li class="button custom"><a th:href="@{/schedule/contentSearch}" th:onclick="window.open(this.href, '_blank', 'width=1300px,height=500px,toolbars=no,scrollbars=yes');  return false;">수업 목록에서 검색</a>
+        </li>
+    </ul>
+
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+    	
+    	var selectDelete = false;
+    	
+        $(document).ready(function() {
+            $.ajax({
+                url : "/schedule/load",
+                type :"get",
+                data :"date=a" ,
+                cache:false}).done(function (a) {
+
+				var cnt = 0;
+                var temp=a.split("!");
+                for(i=0;i<temp.length-1;i++)
+                {
+                    var itemp=temp[i].split("*");
+                    $("#title").text(itemp[0]);
+                    $("#part").text(itemp[1]);
+                    $("#profname").text(itemp[2]);
+                    $("#placename").text(itemp[3]);
+                    $("#colornum").text("#"+itemp[4]);
+                    $("#topnum").text(itemp[5]);
+                    $("#heightnum").text(itemp[6]);
+                    $("#coursenum").text(itemp[7]);
+                    $("#dayid").text(itemp[8]);
+                    createobject(itemp[7].charAt(itemp[7].length-1));
+                }
+            });});
+
+        var list = new Array();
+        var clickEle = $('#create');
+        clickEle.click(function () {
+
+
+            var sid;
+            $.ajax({
+                url : "/schedule/deleteload",
+                type :"get",
+                async: true,
+                data :"date=a" ,
+                cache:false}).done(function (a) {
+
+                $.ajax({
+                    url : "/schedule/delete",
+                    type :"get",
+                    async: true,
+                    data :"sid="+a,
+                    cache:false}).done(function (aa) {
+                    for(var i=0;i<list.length;i++){
+                        $.ajax({
+                            url : "/schedule/save",
+                            type : "get",
+                            data : "title=" + list[i].get("title") + 
+                            "&part=" + list[i].get("part") +
+                                "&profname=" + list[i].get("profname") +
+                                "&placename="+list[i].get("placename")+
+                                "&colornum=" + list[i].get("colornum").substr(1)+
+                                "&topnum="+list[i].get("topnum")+
+                                "&heightnum="+list[i].get("heightnum")+
+                                "&coursenum="+list[i].get("coursenum")+
+                                "&dayid="+list[i].get("dayid")
+                            }).done(function () {
+                        });
+
+                    }
+                });
+            });
+            alert("등록 성공");
+        });
+
+        var clickEle = $('#delete');
+        clickEle.click(function () {
+
+
+            var sid;
+            $.ajax({
+                url : "/schedule/deleteload",
+                type :"get",
+                data :"date=a" ,
+                cache:false}).done(function (a) {
+
+                $.ajax({
+                    url : "/schedule/delete",
+                    type :"get",
+                    data :"sid="+a ,
+                    cache:false}).done(function (aa) {
+
+                });
+
+                //alert(sid);
+            });
+
+            list=[];
+
+            $('#cols0').children('div').remove();
+            $('#cols1').children('div').remove();
+            $('#cols2').children('div').remove();
+            $('#cols3').children('div').remove();
+            $('#cols4').children('div').remove();
+
+        });
+
+        function createobject(courseid) {
+
+            let max = new Map();
+            if($('#coursenum').text().charAt($('#coursenum').text().length-1)=="a"
+                ||$('#coursenum').text().charAt($('#coursenum').text().length-1)=="b"){
+                max.set("coursenum", $('#coursenum').text());
+            }
+            else {
+                var a=$('#coursenum').text($('#coursenum').text()+courseid);
+                max.set("coursenum",$('#coursenum').text());
+            }for(var i=0;i<list.length;i++){
+                if(list[i].get("dayid")==$('#dayid').text()) {
+                    if ((Number(list[i].get("topnum")) <= Number($('#topnum').text())
+                        && Number($('#topnum').text()) < Number(list[i].get("topnum"))
+                            + Number((list[i].get("heightnum"))))
+                        || ( Number($('#topnum').text()) <=Number(list[i].get("topnum"))
+                            &&Number(list[i].get("topnum"))<Number($('#topnum').text())
+                                +Number($('#heightnum').text()))) {
+                        if (courseid == "b") {
+                            list.pop();
+                            $("#" + $('#coursenum').text().slice(0,-1)+"a").remove();
+                        }
+
+                        return false;
+                    }
+                }
+            }
+            max.set("title", $('#title').text());
+            max.set("part", $('#part').text());
+            max.set("profname", $('#profname').text());
+            max.set("placename", $('#placename').text());
+            max.set("colornum", $('#colornum').text());
+            max.set("topnum", $('#topnum').text());
+            max.set("heightnum", $('#heightnum').text());
+            max.set("dayid", $('#dayid').text());
+            list.push(max);
+            var con = $('#coursenum').text().slice(0,-1);
+
+            var str = "<div name=" + $('#dayid').text() + " id=" + $('#coursenum').text() +"  class='mysubject' onClick='removeByID("+con+")' style='" +"cursor:pointer;position:absolute;z-index:10;border:1px;width:17%;background-color:"+$('#colornum').text()+
+                ";top:"+$('#topnum').text() +"px;"+"height:"+$('#heightnum').text()+"px;bordercolor:rgba(213, 213, 213, 0.5);'>"+$('#title').text() +" "+$('#part').text() +"<br>"+$('#profname').text()+" "+$('#placename').text()+"</div>";
+
+
+            var distinguish ='#'+$('#dayid').text();
+            $(distinguish).append(str);
+            return true;
+        }
+        
+        function removeByID(id) {
+        	if(selectDelete == true) {
+                for(var i=0;i<list.length;i++){
+                    if(id==list[i].get("coursenum").slice(0,-1)){
+                        list.splice(i, 1); break;
+                    }
+                }
+                for(var i=0;i<list.length;i++){
+                    if(id==list[i].get("coursenum").slice(0,-1)){
+                        list.splice(i , 1); break;
+                    }
+                }
+                $("#" + id+"a").remove();
+                $("#" + id+"b").remove();
+            }
+        }
+        
+        function selectDeleteFunction() {
+        	if(selectDelete) {
+        		selectDelete = false;
+        		$("#selectDelete").text("선택 제거");
+        	}
+        	else {
+        		selectDelete = true;
+        		$("#selectDelete").text("선택 취소");
+        	}
+        }
+    </script>
+</th:block>
+</html>

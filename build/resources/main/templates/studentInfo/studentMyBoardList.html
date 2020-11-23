@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+	<title>YU My Board List</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div id="article">
+      <div class="container-fluid">
+        <div class="col-sm-auto article-header">
+          <h2 style="color:green">내가 작성한 게시물 (전체)</h2>
+        </div>
+        <table class="col-sm-auto table table-hover" style="margin:0">
+          <thead>
+            <tr>
+              <th style="text-align:center; width:5%">번호</th>
+              <th style="text-align:center; width:50%">제목</th>
+              <th style="text-align:center; width:15%">작성일</th>
+              <th style="text-align:center; width:15%">위치</th>
+              <th style="text-align:center; width:15%">세부위치</th>
+            </tr>
+          </thead>
+		<tbody id="tbody">
+           <tr th:each="board :${myBoardList}">
+           <td style="text-align:center" th:text="${board.getBno()}"></td>
+           <td>
+           		<a th:if="${board.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+           		<a th:if="${board.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+           </td>
+           <td style="text-align:center" th:text="${board.getRegister_date()}"></td>
+           <td style="text-align:center" th:text="${board.getType()}"></td>
+           <td style="text-align:center" th:text="${board.getBoardtype()}"></td>
+        </tr>
+        </tbody>
+        </table>
+        <hr style="margin:0"/><br>
+        
+        <div class="clear">
+        	<div class="float-right">
+        		Total <b style="color:red">[[${myBoardList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${myBoardList.getTotalElements()}]]</b> Elements
+        	</div>
+        </div>
+
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li id="pagefirst">
+				<a th:href="'?page=0'">
+					<span class="page-link">«</span>
+				</a>
+			</li>
+			<li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+				<a th:onClick="|return pageMove('prev');|">
+					<span class="page-link">&lt;</span>
+				</a>
+			</li>
+			<li class="page-item" style="cursor:pointer" th:if="${myBoardList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,myBoardList.getTotalPages()-1)}">
+				<a th:if="${myBoardList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+				<a th:unless="${myBoardList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+			</li>
+			<li id="pageNext">
+				<a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+					<span class="page-link">&gt;</span>
+				</a>
+			</li>
+			<li>
+				<a th:if="${myBoardList.getTotalPages()}>0" th:href="'?page=' + ${myBoardList.getTotalPages()-1}">
+					<span class="page-link">»</span>
+				</a>
+				<a th:if="${myBoardList.getTotalPages()}==0" th:href="'?page=' + ${myBoardList.getTotalPages()}">
+					<span class="page-link">»</span>
+				</a>
+			</li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        var pages = getParameterByName("page");
+
+        if(pages == ""){
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
+        
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        function pageMove(param) {
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
+
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${myBoardList.getTotalPages()}]] - 1) return false;
+
+            location.href = "/yu/studentInfo/studentMyBoardList?" + "page=" + (pageNum + nextOrPrev);
+            return true;
+        }
+        
+    	if([[${myBoardList.getTotalElements()}]] == 0) {
+    		var tr = document.createElement("tr");
+    		var th = document.createElement("th");
+    		
+    		th.colSpan = 4;
+    		th.style.fontSize = "15px";
+    		th.style.textAlign = "center";
+    		th.innerHTML = "등록된 글이 없습니다";
+    		tr.appendChild(th);
+    		$("#tbody").append(tr);
+    	}
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<header th:fragment="main-head">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width" , initial-scale="1">
+		
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+		
+		<th:block layout:fragment="title"></th:block>
+
+		<th:block layout:fragment="add-css"></th:block>
+	</header>
+</html>

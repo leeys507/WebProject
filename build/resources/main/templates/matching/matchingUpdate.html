@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+    <title>YU Matching Update</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div id="article">
+        <div class="container-fluid">
+            <div class="col-sm-auto article-header">
+                <h2>글 수정</h2>
+            </div>
+            <br>
+            <div class="col-sm-auto">
+                <form id="infoForm" name="infoForm" role="infoForm">
+                    <!-- 매칭 게시판 선택 -->
+                    <div class="matching-select-wrap">
+                        <select class="form-control" id="boardtype" name="boardtype">
+                            <option id="청소">청소</option>
+                            <option id="배달">배달</option>
+                            <option id="역할대행">역할대행</option>
+                            <option id="심부름">심부름</option>
+                        </select>
+                    </div>
+
+                    <!-- 제목 -->
+                    <div class="matching-title-wrap">
+                        <input type="text" class="form-control" id="title" name="title" th:value="${matching.getTitle()}" placeholder="제목을 입력해 주세요" required>
+                    </div>
+                    <!-- 내용 -->
+                    <div class="matching-content-wrap">
+                        <textarea class="form-control nonesize" id="content" name="content" th:utext="${matching.getContent()}" placeholder="장소와 시간을 꼭 입력해 주세요" required></textarea>
+                    </div>
+                </form>
+                <div class="bottom-button-wrap clear">
+                    <div class="fr">
+                        <!--수정-->
+                        <button type="button" class="btn-grey" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'">취소</button>
+                        <button type="button" class="btn-blue" onClick="dataSend()">수정</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        function dataSend() {
+            var content=$('#content').val(CKEDITOR.instances.content.getData());
+            let queryString = $('#infoForm').serialize() ;
+            var bno=[[${matching.getBno()}]];
+            var title=$('#title');
+            if(title.val() == "") {
+                alert("제목 입력");
+                title.focus();
+                return false;
+            }
+            if(content == "") {
+                alert("내용 입력");
+                return false;
+            }
+            $.ajax({
+                type: "PUT",
+                url : "/yu/matchingUpdate/"+bno,
+                data : queryString,
+                success : function(data){
+                    if(data == bno) {
+                        alert("수정 성공");
+                        location.href='/yu/matching/matchingView/'+bno;
+                    }
+                    else
+                        alert("수정 실패");
+                },error : function(){
+                    alert(queryString);
+                    return false;
+                }
+            });
+            return false;
+        }
+        var boardTypeName = "[[${matching.getBoardtype()}]]";
+        $("#" + boardTypeName).attr("selected","selected");
+
+        $(function (){		// ckeditor config
+            CKEDITOR.replace('content', {
+                filebrowserUploadUrl: '/mine/imageUpload.do?' + "board=" + "matching" + "&boardtype=" + boardTypeName 
+                		+ "&sid=" + "[[${session.studentInfo.getSid()}]]" + "&nickname=" + "[[${session.studentInfo.getNickname()}]]"
+            });
+        });
+    </script>
+</th:block>
+</html>
