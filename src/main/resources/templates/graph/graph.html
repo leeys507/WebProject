@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+
+<th:block layout:fragment="title">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<title>YU Graph</title>
+</th:block>
+
+<th:block layout:fragment="article">
+      <div class="container-fluid">
+        <div class="card text-center mb-3">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#all" data-toggle="tab">인기강의</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#matching" data-toggle="tab">학년별 이용수</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#eval" data-toggle="tab">게시판 통계</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#board" data-toggle="tab">학년별 게시판 이용현황</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="all">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <br>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade" type="radio" value="1" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        1학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade" type="radio" value="2" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        2학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade" type="radio" value="3" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        3학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade" type="radio" value="4" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        4학년
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <canvas id="myChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="matching">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <br>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        1학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        2학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        3학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        4학년
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <canvas id="myChart1"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="eval">
+              <!--내 글보기-->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <br>
+                    <div class="form-check">
+                      <input class="form-check-input" name="check1" type="checkbox" value="1" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        게시글 수
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="check2" type="checkbox" value="1" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        작성자 수
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="check3" type="checkbox" value="1" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        좋아요 수
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="check4" type="checkbox" value="1" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        댓글 수
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <canvas id="myChart2"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="board">
+              <!--고객센터-->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <br>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade6" type="radio" value="1" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        1학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade6" type="radio" value="2" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        2학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade6" type="radio" value="3" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        3학년
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" name="grade6" type="radio" value="4" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        4학년
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <canvas id="myChart3"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</th:block>
+
+<th:block layout:fragment="script">
+  <script>
+    $('a[data-toggle="tab"]').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+      var id = $(e.target).attr("href");
+      localStorage.setItem('selectedTab', id)
+    });
+
+    var selectedTab = localStorage.getItem('selectedTab');
+    if (selectedTab != null) {
+      $('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
+    }
+  </script>
+
+  <script type="text/javascript">
+    Chart.plugins.register({
+      afterDatasetsDraw: function(chart) {
+        var ctx = chart.ctx;
+        chart.data.datasets.forEach(function(dataset, i) {
+          var meta = chart.getDatasetMeta(i);
+          if (!meta.hidden) {
+            meta.data.forEach(function(element, index) {
+              // Draw the text in black, with the specified font
+              ctx.fillStyle = '#3f3f3f';
+              var fontSize = 15;
+              var fontStyle = 'normal';
+              var fontFamily = 'Helvetica Neue';
+              ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+              // Just naively convert to string for now
+              var dataString = dataset.data[index].toString();
+              // Make sure alignment settings are correct
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              var padding = 5;
+              var position = element.tooltipPosition();
+              ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+            });
+          }
+        });
+      }
+    });
+  </script>
+
+  <script>
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+          label: ['asfasf'],
+          data: [0, 0, 0, 0, 0, 0],
+          backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+          borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
+    var reData = {
+      "data": [20, 8, 5, 2, 4, 1],
+      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+      "borderWidth": 1
+    };
+    var reData1 = {
+      "data": [2, 1, 3, 24, 10, 15],
+      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+      "borderWidth": 1
+    };
+    var reData2 = {
+      "data": [20, 5, 7, 21, 7, 12],
+      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+      "borderWidth": 1
+    };
+    var reData3 = {
+      "data": [5, 18, 21, 12, 4, 7],
+      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+      "borderWidth": 1
+    };
+
+    function changeData(chart, data) {
+      var new_data = data.data;
+      var new_back = data.backgroundColor;
+      var new_border = data.borderColor;
+      var new_width = data.borderWidth;
+      chart.data.datasets.push({
+        data: new_data,
+        backgroundColor: new_back,
+        borderColor: new_border,
+        borderWidth: new_width
+      });
+      chart.update();
+    }
+
+    function removeData(chart, data) {
+      chart.data.datasets.pop({
+        data: data
+      });
+      chart.update();
+    }
+
+    $("input[name=grade]").change(function() {
+      var radioValue = $(this).val();
+      if (radioValue == "1") {
+        removeData(myChart)
+        changeData(myChart, reData)
+      } else if (radioValue == "2") {
+        removeData(myChart)
+        changeData(myChart, reData1)
+      } else if (radioValue == "3") {
+        removeData(myChart)
+        changeData(myChart, reData2)
+      } else if (radioValue == "4") {
+        removeData(myChart)
+        changeData(myChart, reData3)
+      }
+    });
+
+    $(document).on('click', '#btn', function() {
+      removeData(myChart);
+      changeData(myChart, reData)
+    });
+  </script>
+  <script>
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var chart1 = new Chart(ctx, {
+      // 챠트 종류를 선택
+      type: 'line',
+      // 챠트를 그릴 데이타
+      data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+          label: 'My First dataset',
+          backgroundColor: 'transparent',
+          borderColor: 'red',
+          data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+      }, // 옵션
+      options: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: '라인차트 제목'
+        }
+      }
+    });
+  </script>
+  <script>
+    const colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'];
+    var chBar = document.getElementById("myChart2");
+    var abcd = {
+      labels: ["전체", "자유게시판", "중고게시판", "정보게시판"],
+      datasets: [{
+        data: [0, 0, 0, 0],
+        backgroundColor: colors[0],
+        borderColor: colors[0],
+        borderWidth: 1
+      }, {
+        data: [0, 0, 0, 0],
+        backgroundColor: colors[1],
+        borderColor: colors[1],
+        borderWidth: 1
+      }, {
+        data: [0, 0, 0, 0],
+        backgroundColor: colors[2],
+        borderColor: colors[2],
+        borderWidth: 1
+      }, {
+        data: [0, 0, 0, 0],
+        backgroundColor: colors[3],
+        borderColor: colors[3],
+        borderWidth: 1
+      }]
+    };
+
+
+    var myChart2 = new Chart(chBar, {
+      type: 'bar',
+      data: abcd,
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    $(document).ready(function() {
+      $("input[name=check1]").change(function() {
+        if ($("input[name=check1]").is(":checked")) {
+          var newDataset = {
+            data: [589, 445, 483, 503],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 0.2)',
+            borderWidth: 1,
+          }
+          myChart2.data.datasets[0].data = newDataset.data;
+          myChart2.update();
+        } else {
+          myChart2.data.datasets[0].data = 0;
+          myChart2.update(); //차트 업데이트
+        }
+      });
+    });
+    $(document).ready(function() {
+      $("input[name=check2]").change(function() {
+        if ($("input[name=check2]").is(":checked")) {
+          var newDataset = {
+            data: [209, 245, 383, 403],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 0.5)',
+            borderWidth: 1,
+          }
+          myChart2.data.datasets[1].data = newDataset.data;
+          myChart2.update();
+        } else {
+          myChart2.data.datasets[1].data = 0;
+          myChart2.update(); //차트 업데이트
+        }
+      });
+    });
+    $(document).ready(function() {
+      $("input[name=check3]").change(function() {
+        if ($("input[name=check3]").is(":checked")) {
+          var newDataset = {
+            data: [589, 445, 483, 503, ],
+            backgroundColor: 'rgba(255, 206, 86, 0.5)',
+            borderColor: 'rgba(255, 206, 86, 0.5)',
+            borderWidth: 1,
+          }
+          myChart2.data.datasets[2].data = newDataset.data;
+          myChart2.update();
+        } else {
+          myChart2.data.datasets[2].data = 0;
+          myChart2.update(); //차트 업데이트
+        }
+      });
+    });
+    $(document).ready(function() {
+      $("input[name=check4]").change(function() {
+        if ($("input[name=check4]").is(":checked")) {
+          var newDataset = {
+            data: [589, 445, 483, 503, ],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192, 0.5)',
+            borderWidth: 1,
+          }
+          myChart2.data.datasets[3].data = newDataset.data;
+          myChart2.update();
+        } else {
+          myChart2.data.datasets[3].data = 0;
+          myChart2.update(); //차트 업데이트
+        }
+      });
+    });
+  </script>
+  <script>
+    var chDonut1 = document.getElementById("myChart3");
+    var myChart3 = new Chart(chDonut1, {
+      label: ['자유게시판', '중고게시판', '정보게시판'],
+      type: 'pie',
+      data: {
+        labels: ['자유게시판', '중고게시판', '정보게시판'],
+        datasets: [{
+          data: [0, 0, 0],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'
+          ],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        cutoutPercentage: 30, //도넛두께 : 값이 클수록 얇아짐
+        legend: {
+          position: 'bottom',
+          padding: 5,
+          labels: {
+            pointStyle: 'circle',
+            usePointStyle: true
+          }
+        }
+      }
+    });
+
+    var chDonutData1 = {
+      "data": [1, 2, 3],
+      "backgroundColor": [
+        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
+      ],
+      "borderWidth": 0
+    };
+    var chDonutData2 = {
+      "data": [3, 2, 13],
+      "backgroundColor": [
+        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
+      ],
+      "borderWidth": 0
+    };
+    var chDonutData3 = {
+      "data": [12, 42, 13],
+      "backgroundColor": [
+        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
+      ],
+      "borderWidth": 0
+    };
+    var chDonutData4 = {
+      "data": [16, 52, 32],
+      "backgroundColor": [
+        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
+      ],
+      "borderWidth": 0
+    };
+
+    function changeData1(chart, data) {
+      var new_data1 = data.data;
+      var new_back1 = data.backgroundColor;
+      var new_width1 = data.borderWidth;
+
+      chart.data.datasets.push({
+        data: new_data1,
+        backgroundColor: new_back1,
+        borderWidth: new_width1
+      });
+      chart.update();
+    }
+
+    function removeData1(chart, data) {
+      chart.data.datasets.pop({
+        data: data
+      });
+      chart.update();
+    }
+
+    $("input[name=grade6]").change(function() {
+      var radioValue = $(this).val();
+      if (radioValue == "1") {
+        removeData1(myChart3)
+        changeData1(myChart3, chDonutData1)
+      } else if (radioValue == "2") {
+        removeData1(myChart3)
+        changeData1(myChart3, chDonutData2)
+      } else if (radioValue == "3") {
+        removeData1(myChart3)
+        changeData1(myChart3, chDonutData3)
+      } else if (radioValue == "4") {
+        removeData1(myChart3)
+        changeData1(myChart3, chDonutData4)
+      }
+    });
+  </script>
+</th:block>
+</html>
