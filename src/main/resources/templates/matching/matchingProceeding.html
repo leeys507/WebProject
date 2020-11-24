@@ -108,7 +108,7 @@
         var webSocket;
         var nickname="[[${session.studentInfo.getNickname()}]]";
         var roomId = "[[${chatRoom.roomId}]]";
-        webSocket = new WebSocket("ws://localhost:8080/chat");
+        webSocket = new WebSocket("ws://ec2-15-164-84-183.ap-northeast-2.compute.amazonaws.com/:8080/chat");
         webSocket.onopen = onOpen;
         webSocket.onmessage = onMessage;
         window.onbeforeunload = function(){

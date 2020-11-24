@@ -7,13 +7,12 @@
 </th:block>
 
 <th:block layout:fragment="article">
-  <div id="article">
       <div class="container-fluid">
         <div class="card bg-light mt-3">
           <div class="card-header bg-light">
-            <h2>수강중인 과목</h2><br><button th:if="${lectureList.size()}==0" id="lectureInsert" type="button" class="lecture-update-btn btn-blue" onClick="lectureInsert()">과목 불러오기</button>
+            <h2>수강중인 과목</h2><br><button th:if="${lList.size()}==0" id="lectureInsert" type="button" class="lecture-update-btn btn-blue" onClick="lectureInsert()">과목 불러오기</button>
           </div>
-          <div class="card-header bg-light" th:each="lecture :${lectureList}">
+          <div class="card-header bg-light" th:each="lecture :${lList}">
             <div class="row">
               <div class="col-8 text-left">
                 <span th:text="${lecture.getLecturenum()}"></span> /
@@ -34,7 +33,7 @@
           </div>
           <div class="tab-content">
             <div class="tab-pane active" id="home">
-              <div class="card-header bg-light" th:each="lectureEvaluation: ${lectureEvaluationList}">
+              <div class="card-header bg-light" th:each="lectureEvaluation: ${lEList}">
                 <div class="row">
                   <div class="col-12 text-left">
                     <a class="col-4" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
@@ -49,7 +48,7 @@
               </div>
             </div>
           </div>
-          <button type="button" class="btn-blue float-right" style="margin-top : 10px;" onclick="location.href='/yu/lectureevaluation/lectureevaluationList'">전체보기</button>
+          <button type="button" class="btn-blue float-right" style="margin-top : 10px;" onclick="location.href='/yu/lecture/lectureList'">전체보기</button>
         </div>
 
         <!--여기까지-->
@@ -76,12 +75,11 @@
           </form>
         </div>
       </div>
-  </div>
 </th:block>
 <th:block layout:fragment="script">
   <script>
     function lectureEval(lno){
-      location.href = "/yu/lectureevaluation/EvalLecture?lno=" + lno;
+      location.href = "/yu/lecture/EvalLecture?lno=" + lno;
     }
     function lectureInsert(){
       $('#lectureInsert').hide();

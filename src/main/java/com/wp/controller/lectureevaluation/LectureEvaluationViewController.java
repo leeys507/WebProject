@@ -26,24 +26,24 @@ public class LectureEvaluationViewController {
     private final LectureService lectureService;
     private final HttpSession httpSession;
 
-    @GetMapping("/yu/lectureevaluation/lectureevaluationList")
+    @GetMapping("/yu/lecture/lectureList")
     public String openLectureEvaluationListView(Model model, Pageable pageable) {
         Page<LectureEvaluation> page = lectureEvaluationService.findLectureEvaluations(pageable);
         model.addAttribute("lectureList", page);
-        return "lectureevaluation/LectureEvaluationList";
+        return "lecture/lectureList";
     }
 
-    @GetMapping("/yu/lectureevaluation/lectureevaluation")
+    @GetMapping("/yu/lecture/lecture")
     public String openLectureEvaluation(Model model) {
         StudentGetDTO sdata = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         List<Lecture> lList = lectureService.getLectureList(sdata.getSid());
         List<LectureEvaluation> leList=lectureEvaluationService.getLectureEvaluationList();
-        model.addAttribute("lectureList",lList);
-        model.addAttribute("lectureEvaluationList",leList);
-        return "lectureevaluation/LectureEvaluation";
+        model.addAttribute("lList",lList);
+        model.addAttribute("lEList",leList);
+        return "lecture/lecture";
     }
 
-    @GetMapping("/yu/lectureevaluation/EvalLecture")
+    @GetMapping("/yu/lecture/EvalLecture")
     public String openLectureEvaluationInsertView(int lno,Model model) {
         StudentGetDTO sdata = (StudentGetDTO)httpSession.getAttribute("studentInfo");
         LectureGetDTO ldata = lectureService.getLecture(sdata.getSid(),lno);
@@ -51,13 +51,13 @@ public class LectureEvaluationViewController {
         if(ldata.getCheck_evaluation()=="T" && ldata==null){
             return "errors/errorPage";
         }
-        return "lectureevaluation/lectureEvaluationInsert";
+        return "lecture/lectureInsert";
     }
-    @GetMapping("/yu/lectureevaluation/ViewLectureEvaluation/{lno}")
+    @GetMapping("/yu/lecture/ViewLectureEvaluation/{lno}")
     public String openLectureEvaluationView(@PathVariable long lno, Model model) {
         LectureEvaluationGetDTO ledata=lectureEvaluationService.findByLno(lno);
         model.addAttribute("lectureEvaluation",ledata);
-        return "lectureevaluation/lectureEvaluationView";
+        return "lecture/lectureView";
     }
 }
 

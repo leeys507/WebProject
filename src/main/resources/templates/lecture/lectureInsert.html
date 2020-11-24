@@ -45,7 +45,7 @@
             </div>
                     <div id="button_group" class="btn-form">
                       <button type="button" class="btn btn-primary" onclick="lectureUpdate()" style="margin-right:5px;">등록</button>
-                      <button type="button" class="btn btn-secondary" onclick="location.href='/yu/lectureevaluation/lectureevaluation'">취소</button>
+                      <button type="button" class="btn btn-secondary" onclick="location.href='/yu/lecture/lecture'">취소</button>
                     </div>
         </div>
       </div>
@@ -78,7 +78,7 @@
         success : function(data){
           if(data) {
             alert("등록 성공");
-            location.href='/yu/lectureevaluation/lectureevaluationList';
+            location.href='/yu/lecture/lecture';
           }
           else
             alert("등록 실패");
