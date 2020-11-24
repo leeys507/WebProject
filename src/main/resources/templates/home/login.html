@@ -103,13 +103,15 @@
           <table class="table table-hover">
             <thead>
             <tr>
-              <th scope="col" style="color:#0D3F7A">학과 강의평가</th>
+              <th scope="col" style="color:#0D3F7A">최근 학과 강의평가</th>
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="lectureEvaluation: ${lectureEvaluationList}">
+            <th:block th:each="lectureEvaluation, num: ${lectureEvaluationList}" th:if="${num.count} < 6">
             <tr>
-              <th scope="row"><a class="col-4" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
+              <th scope="row">
+              <b>[[${num.count}]]</b>
+              <a class="col-4" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
                 <th:block th:each="num:${#numbers.sequence(1,5)}">
                   <span  th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
                   <span  th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>

@@ -85,23 +85,48 @@ class GraphCustomRepositoryImpl implements GraphCustomRepository {
 		case "likeCount":
 			sql = "select sum(like_count) from board where check_delete = 'F'";
 			query = entityManager.createNativeQuery(sql);
-			data.setTotal_count(((BigDecimal)query.getSingleResult()).longValue());
+			if(query.getSingleResult() != null) {
+				data.setTotal_count(((BigDecimal)query.getSingleResult()).longValue());
+			}
+			else {
+				data.setTotal_count(0);
+			}
 			
 			sql = "select sum(like_count) from board where boardtype = '자유게시판' and check_delete = 'F'";
 			query = entityManager.createNativeQuery(sql);
-			data.setFree_count(((BigDecimal)query.getSingleResult()).longValue());
+			if(query.getSingleResult() != null) {
+				data.setFree_count(((BigDecimal)query.getSingleResult()).longValue());
+			}
+			else {
+				data.setFree_count(0);
+			}
 			
 			sql = "select sum(like_count) from board where boardtype = '중고게시판' and check_delete = 'F'";
 			query = entityManager.createNativeQuery(sql);
-			data.setUsed_count(((BigDecimal)query.getSingleResult()).longValue());
+			if(query.getSingleResult() != null) {
+				data.setUsed_count(((BigDecimal)query.getSingleResult()).longValue());
+			}
+			else {
+				data.setUsed_count(0);
+			}
 			
 			sql = "select sum(like_count) from board where boardtype = '정보게시판' and check_delete = 'F'";
 			query = entityManager.createNativeQuery(sql);
-			data.setKnowledge_count(((BigDecimal)query.getSingleResult()).longValue());
+			if(query.getSingleResult() != null) {
+				data.setKnowledge_count(((BigDecimal)query.getSingleResult()).longValue());
+			}
+			else {
+				data.setKnowledge_count(0);
+			}
 			
 			sql = "select sum(like_count) from board where boardtype = '질문게시판' and check_delete = 'F'";
 			query = entityManager.createNativeQuery(sql);
-			data.setQuestion_count(((BigDecimal)query.getSingleResult()).longValue());
+			if(query.getSingleResult() != null) {
+				data.setQuestion_count(((BigDecimal)query.getSingleResult()).longValue());
+			}
+			else {
+				data.setQuestion_count(0);
+			}
 			
 			return data;
 			

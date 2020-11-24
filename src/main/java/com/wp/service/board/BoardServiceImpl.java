@@ -75,6 +75,10 @@ public class BoardServiceImpl implements BoardService {
         		new Sort(Sort.Direction.DESC, "bno")));
     }
     
+    public List<Board> getRecentlyPopularBoard() {
+    	return boardRepository.getRecentlyPopularBoard();
+    }
+    
     public Page<Board> searchAll(Pageable pageable, String text, String date, String option) {
     	String addQuery = null;
     	String orderQuery = null;

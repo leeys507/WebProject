@@ -25,6 +25,8 @@ public interface BoardService {
 
     Page<Board> searchAll(Pageable pageable, String text, String date, String option);
     Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option);
+    
+    List<Board> getRecentlyPopularBoard();
 
     boolean deleteBoard(long bno);
 }
