@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
+
+<th:block layout:fragment="title">
+	<title>YU Matching View</title>
+</th:block>
+
+<th:block layout:fragment="article">
+	<input type = "hidden" th:id="${matching.bno}" name="matchingNumber">
+        <!-- 오른쪽 컨텐츠 -->
+        <div id="article" class="col-sm-auto article-wrap">
+            <div id="article-container">
+                <header>
+                    <div class="clear article-head">
+                        <!-- 글 제목 -->
+                        <h3 class="title">
+                            <span th:text="${matching.getTitle()}"></span>
+                        </h3>
+                        <!-- 작성자, 조회수, 작성일  -->
+                        <div class="article-info">
+                            <div class="fr">
+                                <span th:text="${matching.request_nickname}"></span>
+                                <span th:text="${matching.readcount}"></span>
+                                <span th:text="${matching.register_date}"></span>
+                                <span th:if="${matching.getCheck_success()} == 'F'">해결여부: NO</span>
+                                <span th:if="${matching.getCheck_success()} == 'I'">해결여부: 진행중</span>
+                                <span th:if="${matching.getCheck_success()} == 'T'">해결여부: YES</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- 글 내용 -->
+                <div class="article-contents">
+                    <div class="article-inner clear">
+                        <!-- 수행 비용 -->
+                        <div>
+                            <span class="cost-title">수행 비용 :</span>
+                            <span class="cost-content" th:text="${matching.money} + '원'"></span>
+                        </div>
+                        <!-- 글 내용 -->
+                        <div th:utext="${matching.content}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 참여 -->
+            <div class="comment-wrap">
+                <!-- 참여 헤더 -->
+                <div class="comment-title">
+                    <div class="comment-title-font">참여 목록</div>
+                </div>
+                <!-- 참여 내용 -->
+                <div class="comment-box">
+                    <ul class="comment-list">
+                        <!-- 반복 -->
+                         <li class="up-content">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer" style="font-weight:bold">닉네임</span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear" ><p style="font-weight:bold">내용</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time" style="font-weight:bold">날짜</span></div>
+                                <!-- 댓글쓰기, 수정, 삭제 : 지금 로그인 유저정보가 있으면 수정, 삭제 보이게하고 아니면 댓글쓰기만 해주세요 -->
+                                <div class="comment-option-button"><a style="font-weight:bold">···</a></div>
+                            </div>
+                        </li>
+                        <li class="up-content" th:each="matchingComment :${matchingCommentList}">
+                            <div class="comment-info clear">
+                                <!-- 댓글작성 닉네임 -->
+                                <div class="comment-nick"><span class="comment-writer" th:text="${matchingComment.getNickname()}"></span></div>
+                                <!-- 댓글 내용 -->
+                                <div class="comment-content clear" th:if="${matchingComment.getCheck_delete()} == 'F'"><p th:text="${matchingComment.getContent()}"></p></div>
+                                <div class="comment-written-at" th:unless="${matchingComment.getCheck_delete()} == 'F'"><p>삭제된 댓글입니다</p></div>
+                                <!-- 댓글 날짜 -->
+                                <div class="comment-written-at"><span class="date-time" th:text="${matchingComment.getRegister_date()}"></span></div>
+                                <!-- 본인이 참여자 : 수정, 삭제 버튼 보이게 해주시고 / 본인이 글 작성자 : 선택하기 버튼  -->
+                                <div class="comment-option-button" th:if="${matchingComment.getCheck_delete()} == 'F'">
+                                    <div class="fr">
+                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${matchingComment.getCno()});|" class="comment-modify">수정</button>
+                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()} AND ${matching.getCheck_success()}!='I'" th:onClick="|return deleteComment(${matchingComment.getCno()});|" class="comment-cancel">삭제</button>
+                                        <button type="button" class="comment-select"  th:if="${session.studentInfo.getSid()} == ${matching.getRequest_sid()} AND ${matching.getCheck_success()}=='F' AND ${matchingComment.getStudentForeignkey().getSid()}!=${session.studentInfo.getSid()}" th:onClick="|return proceedMatching(${matchingComment.getCno()});|">선택</button>
+                                        <button type="button" th:if="(${session.studentInfo.getSid()} == ${matching.request_sid} || ${session.studentInfo.getSid()} == ${matching.accept_sid}) AND ${matching.getCheck_success()}=='I'" class="comment-chatting"  th:onClick="|return openChating(${matching.getBno()});|">채팅방 들어가기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <nav aria-label="Page navigation" th:if="${matchingCommentList.getTotalPages()} != 0">
+                <ul class="pagination justify-content-center">
+                    <li id="pagefirst">
+                        <a href="?page=0">
+                            <span class="page-link">«</span>
+                        </a>
+                    </li>
+                    <li style="cursor:pointer" id="pagePrev">
+                        <a th:onClick="|return pageMove('prev');|">
+                            <span class="page-link">&lt;</span>
+                        </a>
+                    </li>
+                    <li style="cursor:pointer" th:if="${matchingCommentList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,matchingCommentList.getTotalPages()-1)}">
+                        <a th:if="${matchingCommentList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+                        <a th:unless="${matchingCommentList.getNumber()} == ${num}" class="page-link" th:href="'?'+page+'='+${num}" th:text="${num+1}"></a>
+                    </li>
+                    <li id="pageNext">
+                        <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                            <span class="page-link">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:if="${matchingCommentList.getTotalPages()}>0" th:href="'?'+page+'='+${matchingCommentList.getTotalPages()-1}">
+                            <span class="page-link">»</span>
+                        </a>
+                        <a th:if="${matchingCommentList.getTotalPages()}==0" th:href="'?'+page+'='+${matchingCommentList.getTotalPages()}">
+                            <span class="page-link">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <br><br>
+            <!-- 댓글 입력창 -->
+            <div class="comment-write-wrap clear">
+                <div class="comment-write-form">
+                    <!-- 댓글 입력폼 -->
+                    <div class="comment-write">
+                        <textarea maxlength="400" id="cTextArea" placeholder="내용을 입력하세요."></textarea>
+                    </div>
+                    <!-- 댓글 입력버튼 -->
+                    <div class="comment-button clear">
+                        <div class="fr">
+                            <button id="commentCancel" type="button" class="btn-blue" style="display:none" onClick="cancelCommentForm('');">취소</button>
+                            <button id="commentRegisterButton" type="button" class="btn-blue" onClick="return registerComment();">등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 수정, 삭제, 목록 버튼 -->
+            <div class="bottom-button-wrap clear">
+                <div class="fl">
+                    <button type="button" class="btn-blue" onClick="listButtonClick()">목록</button>
+                </div>
+                <div class="fr">
+                    <!-- 내가 쓴글이면 수정, 삭제 기능을 할수있게 만들어주세요 -->
+                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${matching.request_sid}" onclick="updateButtonClick()">수정</button>
+                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${matching.request_sid}" th:onClick="|return deleteMatching(${matching.getBno()});|" >삭제</button>
+                </div>
+            </div>
+        </div>
+        <!-- 채팅 -->
+        <div id="aside" class="col-sm-auto chatting-wrap">
+
+        </div>
+</th:block>
+
+<th:block layout:fragment="script">
+<script type="text/javascript">
+    function proceedMatching(cno){
+    if(confirm("선택하시겠습니까?")) {
+        var bno = [[${matching.bno}]];
+        $.ajax({
+            type: "PUT",
+            url : "/yu/matchingProceed",
+            data : {
+                bno : bno,
+                cno : cno
+            },
+            success : function(data){
+                if(data == true) {
+                    alert("요청 성공, 채팅방으로 이동합니다.");
+                    location.href = '/yu/matching/matchingProceeding/'+bno;
+                }
+                else
+                    alert("요청 실패");
+            },error : function(){
+                alert("Error");
+                return false;
+            }
+        });
+    }
+    else return false;
+    }
+    function openChating(bno){
+        location.href = '/yu/matching/matchingProceeding/'+bno;
+    }
+    function updateButtonClick() {
+        var check="[[${matching.check_success}]]";
+        if(check=="I"){
+            alert("진행중인 매칭입니다.");
+            return false;
+        }
+        location.href = '/yu/matching/matchingUpdate/'+[[${matching.getBno()}]] ;
+    }
+    function deleteMatching(bno) {
+        var check="[[${matching.check_success}]]";
+        if(check=="I"){
+            alert("진행중인 매칭입니다.");
+            return false;
+        }
+        if(confirm("게시글을 삭제하시겠습니까?")) {
+            $.ajax({
+                type: "PUT",
+                url : "/yu/matchingDelete",
+                data : {
+                    bno : bno
+                },
+                success : function(data){
+                    if(data == true) {
+                        alert("게시글 삭제 성공");
+                        location.href = '/yu/matching/matchingList?boardtype=' + "[[${matching.getBoardtype()}]]";
+                    }
+                    else
+                        alert("게시글 삭제 실패");
+                },error : function(){
+                    alert("Error");
+                    return false;
+                }
+            });
+        }
+        else return false;
+    }
+    function deleteComment(cno) {
+        if(confirm("선택된 댓글을 삭제하시겠습니까?")) {
+
+            $.ajax({
+                type: "PUT",
+                url : "/yu/matchingComment/deleteMatchingComment",
+                data : {
+                    cno : cno
+                },
+                success : function(data){
+                    if(data == true) {
+                        alert("댓글 삭제 성공");
+                        location.href = location.href;
+                    }
+                    else
+                        alert("댓글 삭제 실패");
+                },error : function(){
+                    alert("Error");
+                    return false;
+                }
+            });
+        }
+        else return false;
+    }
+    function registerComment() {
+        var MatchingNumber = document.getElementsByName("matchingNumber")[0].id;
+        var sid = "[[${session.studentInfo.getSid()}]]";
+        var nickname = "[[${session.studentInfo.getNickname()}]]";
+        var content = $("#cTextArea");
+
+        if(content.val() == "") {
+            alert("내용 입력");
+            content.focus();
+            return false;
+        }
+
+
+        var data = { "bno" : MatchingNumber,
+                "sid" : sid,
+                "nickname" : nickname,
+                "content" : content.val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url : "/yu/matchingComment/insertMatchingComment",
+            data : data,
+            success : function(data){
+                if(data == true) {
+                    alert("댓글 등록 성공");
+                    cancelCommentForm('');
+                    location.href = location.href;
+                }
+                else
+                    alert("댓글 등록 실패");
+            },error : function(){
+                alert("Error");
+                return false;
+            }
+        });
+    }
+    function updateComment(cno) {
+        var matchingNumber = document.getElementsByName("matchingNumber")[0].id;
+        var sid = "[[${session.studentInfo.getSid()}]]";
+        var nickname = "[[${session.studentInfo.getNickname()}]]";
+        var content = $("#cTextArea");
+
+        if(content.val() == "") {
+            alert("내용 입력");
+            content.focus();
+            return false;
+        }
+
+        $.ajax({
+            type: "PUT",
+            url : "/yu/matchingComment/updateMatchingComment",
+            data : {
+                bno : matchingNumber,
+                cno : clickCommentCno,
+                content : content.val()
+            },
+            success : function(data){
+                if(data == true) {
+                    alert("댓글 수정 성공");
+                    location.href = location.href;
+                }
+                else
+                    alert("댓글 수정 실패");
+            },error : function(){
+                alert("Error");
+                return false;
+            }
+        });
+    }
+    
+    function showUpdateCommentForm(cno) {
+        clickCommentCno = cno;
+
+        if($("#toComment").html() != "") $("#toComment").html("");
+        $("#cTextArea").attr("placeholder", "수정될 댓글을 입력하세요");
+        $("#commentRegisterButton").html("수정");
+        $("#commentRegisterButton").attr("onClick", "return updateComment('" + cno + "')");
+        $("#commentCancel").attr("onClick", "cancelCommentForm('u');");
+        $("#commentCancel").css("display", "inline-block");
+    }
+
+    function cancelCommentForm(part) {
+        $("#cTextArea").val("");
+        $("#cTextArea").attr("placeholder", "댓글을 입력하세요");
+        $("#commentCancel").css("display", "none");
+
+        if(part == "u") {
+            $("#commentRegisterButton").html("등록");
+        }
+        if($("#toComment").html() != "") $("#toComment").html("");
+    }
+    
+    function cancelMatchingForm(part) {
+        document.getElementById(part + "matchingForm").style.display = "none";
+        document.getElementById(part + "bankname").value = "";
+        document.getElementById(part + "account").value = "";
+        document.getElementById(part + "accountname").value = "";
+    }
+    
+    function listButtonClick() {
+    	location.href = "/yu/matching/matchingList?boardtype=" + "[[${matching.getBoardtype()}]]";
+    }
+</script>
+</th:block>
+</html>

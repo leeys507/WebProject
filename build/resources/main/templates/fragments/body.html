@@ -38,18 +38,18 @@
 			<li>
 				<form class="input-group" onsubmit="return false;">
 					<div class="search-option-wrap1 fl" style="margin: 0px auto;">
-						<select id="totalSearchDate" class="search-date">
+						<select id="totalMobileSearchDate" class="search-date">
 							<option value="all">전체기간</option>
 							<option value="1week">1주</option>
 							<option value="1month">1개월</option>
 							<option value="6month">6개월</option>
 						</select>
-						<select id="totalSearchType" class="search-type">
+						<select id="totalMobileSearchType" class="search-type">
 							<option value="all">전체유형</option>
 							<option value="board">게시판</option>
 							<option value="matching">매칭</option>
 						</select>
-						<select id="totalSearchOption" class="search-option">
+						<select id="totalMobileSearchOption" class="search-option">
 							<option value="all">제목+내용</option>
 							<option value="title">제목</option>
 							<option value="writer">글작성자</option>
@@ -60,9 +60,8 @@
 			</li>
 			<li>
 				<form class="input-group" onsubmit="return false;">
-					<input id="totalSearchBox" class="form-control" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search" style="border-radius: 5px; border: 2px solid #4a57a8;">
-					<img th:if="${session.studentInfo} == null" th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button">
-					<img th:unless="${session.studentInfo} == null" th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchTotal()">
+					<input id="totalMobileSearchBox" class="form-control" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal(true)}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search" style="border-radius: 5px; border: 2px solid #4a57a8;">
+					<img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchTotal(false)">
 				</form>
 			</li>
 			<li th:if="${session.studentInfo} == null">
@@ -121,9 +120,8 @@
 					<option value="commentContent">댓글내용</option>
 				</select>
 			</div>
-				<input id="totalSearchBox" class="form-control" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal()}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search" style="border-radius: 5px; border: 2px solid #4a57a8;">
-				<img th:if="${session.studentInfo} == null" th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button">
-				<img th:unless="${session.studentInfo} == null" th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchTotal()">
+				<input id="totalSearchBox" class="form-control" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchTotal(false)}" type="search" placeholder="검색어를 입력해 주세요" aria-label="Search" style="border-radius: 5px; border: 2px solid #4a57a8;">
+				<img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchTotal(false)">
 			</form>
 		</div>
 	</div>
@@ -218,11 +216,24 @@
 
 <th:block th:if="${session.studentInfo} != null">
 <script>
-	function searchTotal() {
-		var text = $("#totalSearchBox");
-		var date = $("#totalSearchDate option:selected");
-		var type = $("#totalSearchType option:selected");
-		var option = $("#totalSearchOption option:selected");
+	function searchTotal(mobile) {
+		var text;
+		var date;
+		var type;
+		var option;
+		
+		if(mobile == true) {
+			text = $("#totalMobileSearchBox");
+			date = $("#totalMobileSearchDate option:selected");
+			type = $("#totalMobileSearchType option:selected");
+			option = $("#totalMobileSearchOption option:selected");
+		}
+		else {
+			text = $("#totalSearchBox");
+			date = $("#totalSearchDate option:selected");
+			type = $("#totalSearchType option:selected");
+			option = $("#totalSearchOption option:selected");
+		}
 
 		if(text.val().trim() == "") {
 			alert("검색어를 입력하세요");
@@ -256,6 +267,47 @@
 		location.href = "/yu/search/searchAllList?text=" +
 				chgText + "&date=" + date.val() + "&type=" + type.val() + "&option=" + option.val();
 	}
+</script>
+</th:block>
+<th:block>
+<script>
+	function printClock() {
+	    
+	    var clock = document.getElementById("clock");            // 출력할 장소 선택
+	    var currentDate = new Date();                                     // 현재시간
+	    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
+	    var amPm = 'AM'; // 초기값 AM
+	    var currentHours = addZeros(currentDate.getHours(),2); 
+	    var currentMinute = addZeros(currentDate.getMinutes() ,2);
+	    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+	    
+	    if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+	    	amPm = 'PM';
+	    	currentHours = addZeros(currentHours - 12,2);
+	    }
+	    clock.innerHTML = calendar +" "+currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:30px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+	    
+	    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+	}
+
+	function addZeros(num, digit) { // 자릿수 맞춰주기
+		  var zero = '';
+		  num = num.toString();
+		  if (num.length < digit) {
+		    for (i = 0; i < digit - num.length; i++) {
+		      zero += '0';
+		    }
+		  }
+		  return zero + num;
+	}
+</script>
+</th:block>
+<th:block th:if="${session.studentInfo} == null">
+<script>
+function searchTotal(mobile) {
+	alert("로그인이 필요합니다");
+	return false;
+}
 </script>
 </th:block>
 <th:block layout:fragment="script"></th:block>

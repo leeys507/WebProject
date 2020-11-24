@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
+
+<th:block layout:fragment="title">
+    <title>YU 강의평 전체보기</title>
+</th:block>
+
+<th:block layout:fragment="article">
+        <div class="container-fluid">
+            <div class="col-sm-auto article-header">
+                <h2>강의평 전체보기</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">과목이름</th>
+                            <th scope="col">별점</th>
+                            <th scope="col">교수이름</th>
+                            <th scope="col">작성자</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">신고</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="lectureEvaluation,num :${lectureList}">
+                        <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
+                            <td class="expand-button" th:text="${lectureEvaluation.getLecturename()}"></td>
+                            <td>
+                                <th:block th:each="num:${#numbers.sequence(1,5)}">
+                                    <span th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
+                                    <span th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
+                                </th:block>
+                            </td>
+                            <td th:text="${lectureEvaluation.getProfessor()}"></td>
+                            <td th:text="${lectureEvaluation.getNickname()}"></td>
+                            <td th:text="${lectureEvaluation.getRegister_date()}"></td>
+                            <td>
+                                <div class="declare-btn-form fl">
+                                    <button type="button" class="btn-declare"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hide-table-padding">
+                            <td colspan="1">
+                                <div th:id="'collapse'+${num.count}" class="collapse in p-3">
+                                    강의평
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div th:id="'collapse'+${num.count}" class="collapse in p-3" th:text="${lectureEvaluation.getContent()}">
+                                </div>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <hr style="margin:0"/><br>
+
+
+            <div class="clear">
+                <div class="float-right">
+                    Total <b style="color:red">[[${lectureList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${lectureList.getTotalElements()}]]</b> Elements
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li id="pagefirst">
+                        <a th:href=" '?page=0'">
+                            <span class="page-link">«</span>
+                        </a>
+                    </li>
+                    <li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+                        <a th:onClick="|return pageMove('prev');|">
+                            <span class="page-link">&lt;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" style="cursor:pointer" th:if="${lectureList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,lectureList.getTotalPages()-1)}">
+                        <a th:if="${lectureList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                        <a th:unless="${lectureList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                    </li>
+                    <li id="pageNext">
+                        <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                            <span class="page-link">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:if="${lectureList.getTotalPages()}>0" th:href=" '?page=' + ${lectureList.getTotalPages()-1}">
+                            <span class="page-link">»</span>
+                        </a>
+                        <a th:if="${lectureList.getTotalPages()}==0" th:href="'?page=' + ${lectureList.getTotalPages()}">
+                            <span class="page-link">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="search-wrap1 clear">
+                <!-- 옵션 -->
+                <form class="input-group" onsubmit="return false;">
+                    <div class="search-option-wrap fl">
+                        <select id="searchDate" class="search-date">
+                            <option value="all">전체기간</option>
+                            <option value="1week">1주</option>
+                            <option value="1month">1개월</option>
+                            <option value="6month">6개월</option>
+                        </select>
+                        <select id="searchOption" class="search-option">
+                            <option value="title">강의명</option>
+                            <option value="professor">교수명</option>
+                            <option value="content">내용</option>
+                            <option value="writer">글작성자</option>
+                        </select>
+                    </div>
+                    <!-- 검색어 입력창 -->
+                    <input id="searchBox" class="form-control " maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchLectureEvaluation()}" placeholder="검색어를 입력해 주세요"  style="border-radius: 5px; border: 2px solid #4a57a8;">
+                    <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchLectureEvaluation()">
+                    </form>
+                </div>
+            </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        var pages = getParameterByName("page");
+
+        if(pages == "") {
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function pageMove(param) {
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
+
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${lectureList.getTotalPages()}]] - 1) return false;
+
+            location.href = "?page=" + (pageNum + nextOrPrev);
+            return true;
+        }
+        
+        function searchLectureEvaluation() {
+        	var text = $("#searchBox");
+        	var date = $("#searchDate option:selected");
+        	var option = $("#searchOption option:selected");
+        	
+        	if(text.val().trim() == "") {
+        		alert("검색어를 입력하세요");
+        		return false;
+        	}
+        	else if(text.val().length < 2) {
+        		alert("검색어는 2글자 이상이어야 합니다");
+        		return false;
+        	}
+
+        	var chgText = text.val().trim();
+    		chgText = chgText.replace(/ +/g, " ");
+    		chgText = chgText.replace(/%/gi, '%25');
+    		chgText = chgText.replace(/\\/gi, '%5C');
+    		
+    		var searchData = {
+    				sid: "[[${session.studentInfo.getSid()}]]",
+    				word: chgText
+    		};
+    		
+        	$.ajax ({
+        		type: "POST",
+        		url: "/yu/searchWordInsert",
+                data: searchData,
+                success: function (data) {
+                }, error: function () {
+                    alert("error");
+                }
+        	});
+
+        	location.href = "/yu/search/searchLectureEvaluationList?text=" +
+        			chgText + "&date=" + date.val() + "&option=" + option.val();
+        }
+    </script>
+</th:block>
+</html>

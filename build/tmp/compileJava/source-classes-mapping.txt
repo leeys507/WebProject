@@ -47,6 +47,8 @@ com/wp/domain/searchword/dto/SearchWordInsertDTO.java
  com.wp.domain.searchword.dto.SearchWordInsertDTO
 com/wp/domain/searchword/SearchWordRepository.java
  com.wp.domain.searchword.SearchWordRepository
+com/wp/controller/admin/AdminViewController.java
+ com.wp.controller.admin.AdminViewController
 com/wp/controller/matching/MatchingViewController.java
  com.wp.controller.matching.MatchingViewController
 com/wp/domain/searchword/dto/SearchWordGetDTO.java
@@ -56,6 +58,8 @@ com/wp/controller/matchingcancel/MatchingCancelDataController.java
 com/wp/domain/student/StudentCustomRepository.java
  com.wp.domain.student.StudentCustomRepository
  com.wp.domain.student.StudentCustomRepositoryImpl
+com/wp/controller/admin/AdminBoardViewController.java
+ com.wp.controller.admin.AdminBoardViewController
 com/wp/domain/lectureevaluation/LectureEvaluationRepository.java
  com.wp.domain.lectureevaluation.LectureEvaluationRepository
 com/wp/domain/student/StudentRepository.java
@@ -64,6 +68,8 @@ com/wp/yufunction/YUFunction.java
  com.wp.yufunction.YUFunction
 com/wp/service/searchword/SearchWordService.java
  com.wp.service.searchword.SearchWordService
+com/wp/domain/report/ReportRepository.java
+ com.wp.domain.report.ReportRepository
 com/wp/domain/lectureevaluation/dto/LectureEvaluationGetDTO.java
  com.wp.domain.lectureevaluation.dto.LectureEvaluationGetDTO
 com/wp/service/board/BoardServiceImpl.java
@@ -78,6 +84,8 @@ com/wp/domain/board/dto/BoardListGetDTO.java
  com.wp.domain.board.dto.BoardListGetDTO
 com/wp/controller/editor/EditorDataController.java
  com.wp.controller.editor.EditorDataController
+com/wp/controller/report/ReportDataController.java
+ com.wp.controller.report.ReportDataController
 com/wp/domain/matching/Matching.java
  com.wp.domain.matching.Matching
 com/wp/domain/lecture/dto/LectureGetDTO.java
@@ -117,8 +125,12 @@ com/wp/service/lectureevaluation/LectureEvaluationServiceImpl.java
 com/wp/domain/searchword/SearchWordCustomRepository.java
  com.wp.domain.searchword.SearchWordCustomRepository
  com.wp.domain.searchword.SearchWordCustomRepositoryImpl
+com/wp/domain/report/Report.java
+ com.wp.domain.report.Report
 com/wp/controller/board/BoardViewController.java
  com.wp.controller.board.BoardViewController
+com/wp/service/report/ReportService.java
+ com.wp.service.report.ReportService
 com/wp/service/searchtotal/SearchTotalService.java
  com.wp.service.searchtotal.SearchTotalService
 com/wp/domain/board/dto/BoardGetDTO.java
@@ -144,8 +156,10 @@ com/wp/service/matchingcomment/MatchingCommentService.java
 com/wp/domain/board/BoardCustomRepository.java
  com.wp.domain.board.BoardCustomRepository
  com.wp.domain.board.BoardCustomRepositoryImpl
+com/wp/service/report/ReportServiceImpl.java
+ com.wp.service.report.ReportServiceImpl
 com/wp/service/Schedule/SeleniumService.java
- com.wp.service.Schedule.SeleniumService
+ com.wp.service.schedule.SeleniumService
 com/wp/controller/boardcomment/BoardCommentDataController.java
  com.wp.controller.boardcomment.BoardCommentDataController
 com/wp/domain/boardlike/BoardLikeRepository.java
@@ -191,7 +205,7 @@ com/wp/domain/matching/ChatMessage.java
  com.wp.domain.matching.ChatMessage
  com.wp.domain.matching.MessageType
 com/wp/service/Schedule/ScheduleService.java
- com.wp.service.Schedule.ScheduleService
+ com.wp.service.schedule.ScheduleService
 com/wp/controller/lectureevaluation/LectureEvaluationViewController.java
  com.wp.controller.lectureevaluation.LectureEvaluationViewController
 com/wp/service/matching/MatchingServiceImpl.java
@@ -216,6 +230,8 @@ com/wp/service/security/CusAccessDeniedHandler.java
 com/wp/domain/matching/MatchingCustomRepository.java
  com.wp.domain.matching.MatchingCustomRepository
  com.wp.domain.matching.MatchingCustomRepositoryImpl
+com/wp/domain/report/dto/ReportInsertDTO.java
+ com.wp.domain.report.dto.ReportInsertDTO
 com/wp/domain/matching/ChatRoomRepository.java
  com.wp.domain.matching.ChatRoomRepository
 com/wp/service/boardcomment/BoardCommentServiceImpl.java
