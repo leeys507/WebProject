@@ -52,7 +52,6 @@ public class AuthProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         if(id.equals("admin")&&password.equals("admin")){
-            System.out.println("hi admin");
             grantedAuthorityList.add(new SimpleGrantedAuthority("ADMIN"));
             grantedAuthorityList.add(new SimpleGrantedAuthority("USER"));
             return new UsernamePasswordAuthenticationToken(id, password, grantedAuthorityList);

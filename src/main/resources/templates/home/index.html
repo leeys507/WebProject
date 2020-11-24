@@ -107,24 +107,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
-            </tr>
+            <th:block th:each="lectureEvaluation: ${lectureEvaluationList}">
+              <tr>
+                <th scope="row"><a class="col-4" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
+                  <th:block th:each="num:${#numbers.sequence(1,5)}">
+                    <span  th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
+                    <span  th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
+                  </th:block>
+                  <small class="col-4" th:text=" ${lectureEvaluation.getProfessor()}"></small>
+                  <span class="col-4" th:text=" ${lectureEvaluation.getRegister_date()}"></span></th>
+              </tr>
+            </th:block>
             </tbody>
           </table>
         </div>
