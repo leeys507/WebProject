@@ -86,7 +86,7 @@ public class LectureEvaluationServiceImpl implements LectureEvaluationService {
         else if (option.equals("content")) {
             addQuery = "match(content) against(?1 in boolean mode)";
             selectQuery = ", match(content) against(?1 in boolean mode) as score";
-            orderQuery = "order by score desc, register date desc";
+            orderQuery = "order by score desc, register_date desc";
         }
         else if (option.equals("writer")) {
             addQuery = "nickname like ?1";

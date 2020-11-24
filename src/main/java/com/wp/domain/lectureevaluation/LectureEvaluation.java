@@ -1,6 +1,8 @@
 package com.wp.domain.lectureevaluation;
 
+import com.wp.domain.graph.dto.GraphPopularLectureGetDTO;
 import com.wp.domain.student.Student;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +10,16 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+@SqlResultSetMapping(
+        name="GraphPopularLectureGetDTOMapping",
+        classes = @ConstructorResult(
+                targetClass = GraphPopularLectureGetDTO.class,
+                columns = {
+                        @ColumnResult(name="lecturename", type = String.class),
+                        @ColumnResult(name="avgstar", type = Double.class),
+                })
+)
 
 @Getter
 @Setter

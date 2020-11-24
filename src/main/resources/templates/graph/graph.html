@@ -3,7 +3,7 @@
 
 <th:block layout:fragment="title">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-	<title>YU Graph</title>
+   <title>YU Graph</title>
 </th:block>
 
 <th:block layout:fragment="article">
@@ -15,7 +15,7 @@
                 <a class="nav-link active" href="#all" data-toggle="tab">인기강의</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#matching" data-toggle="tab">학년별 이용수</a>
+                <a class="nav-link" href="#matching" data-toggle="tab">매칭 통계</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#eval" data-toggle="tab">게시판 통계</a>
@@ -62,42 +62,36 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" id="matching">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-3">
-                    <br>
-                    <div class="form-check">
-                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
-                      <label class="form-check-label" for="defaultCheck1">
-                        1학년
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
-                      <label class="form-check-label" for="defaultCheck1">
-                        2학년
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
-                      <label class="form-check-label" for="defaultCheck1">
-                        3학년
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" name="grade5" type="radio" value="" id="defaultCheck1">
-                      <label class="form-check-label" for="defaultCheck1">
-                        4학년
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-md-9">
-                    <canvas id="myChart1"></canvas>
-                  </div>
+		<div class="tab-pane" id="matching">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <br>
+                <div class="form-check">
+                  <input class="form-check-input" name="check11" type="checkbox" value="1" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    	평균금액
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" name="check22" type="checkbox" value="1" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    	성사율
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" name="check33" type="checkbox" value="1" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    	최근 일주일 등록 매칭
+                  </label>
                 </div>
               </div>
+              <div class="col-md-9">
+                <canvas id="myChart1"></canvas>
+              </div>
             </div>
+          </div>
+        </div>
             <div class="tab-pane" id="eval">
               <!--내 글보기-->
               <div class="card-body">
@@ -224,15 +218,19 @@
     });
   </script>
 
-  <script>
+ <script>
+ 	var syearOne = null, syearTwo = null, syearThree = null, syearFour = null;
+ 	var limit = 5;
     var ctx = document.getElementById('myChart');
+    
+    
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['1위과목 이름', '2위과목 이름', '3위과목 이름', '4위과목 이름', '5위과목 이름'],
         datasets: [{
           label: ['asfasf'],
-          data: [0, 0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0],
           backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
           borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
           borderWidth: 1
@@ -252,122 +250,480 @@
       }
     });
 
-    var reData = {
-      "data": [20, 8, 5, 2, 4, 1],
-      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
-      "borderWidth": 1
-    };
-    var reData1 = {
-      "data": [2, 1, 3, 24, 10, 15],
-      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
-      "borderWidth": 1
-    };
-    var reData2 = {
-      "data": [20, 5, 7, 21, 7, 12],
-      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
-      "borderWidth": 1
-    };
-    var reData3 = {
-      "data": [5, 18, 21, 12, 4, 7],
-      "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-      "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
-      "borderWidth": 1
-    };
-
     function changeData(chart, data) {
-      var new_data = data.data;
-      var new_back = data.backgroundColor;
-      var new_border = data.borderColor;
-      var new_width = data.borderWidth;
-      chart.data.datasets.push({
-        data: new_data,
-        backgroundColor: new_back,
-        borderColor: new_border,
-        borderWidth: new_width
-      });
-      chart.update();
-    }
+        var new_data = data.datasets.data;
+        var new_back = data.datasets.backgroundColor;
+        var new_border = data.datasets.borderColor;
+        var new_width = data.datasets.borderWidth;
+        var new_label = data.labels;
 
-    function removeData(chart, data) {
-      chart.data.datasets.pop({
-        data: data
-      });
-      chart.update();
-    }
+        chart.data.datasets.push({
+          data: new_data,
+          backgroundColor: new_back,
+          borderColor: new_border,
+          borderWidth: new_width,
+        });
+        chart.data.labels= new_label;
+        chart.update();
+      }
+
+      function removeData(chart, data) {
+        chart.data.datasets.pop({
+          data: data
+        });
+        chart.update();
+      }
 
     $("input[name=grade]").change(function() {
       var radioValue = $(this).val();
       if (radioValue == "1") {
-        removeData(myChart)
-        changeData(myChart, reData)
+    	  var reData;
+    	if (syearOne == null) {
+    		$.ajax ({
+        		type: "POST",
+        		url: "/yu/getPopularLectureList",
+                data: {
+                	syear: 1,
+                	limit: limit
+                },
+                success: function (result) {
+                if (result.length != 0) {
+                	var data = [0, 0, 0, 0, 0];
+                	var labels = ['정보 없음', '정보 없음', '정보 없음', '정보 없음', '정보 없음'];
+                	
+                	data[0] = result[0].avgstar;
+                	labels[0] = result[0].lecturename;
+                  	if(result[1] != null) {
+                  		data[1] = result[1].avgstar;
+                  		labels[1] = result[1].lecturename;
+                  	}
+                  	if (result[2] != null) {
+                  		data[2] = result[2].avgstar;
+                  		labels[2] = result[2].lecturename;
+                  	}
+                  	if (result[3] != null) {
+                  		data[3] = result[3].avgstar;
+                  		labels[3] = result[3].lecturename;
+                  	}
+                  	if (result[4] != null) {
+                  		data[4] = result[4].avgstar;
+                  		labels[4] = result[4].lecturename;
+                  	}
+                    reData = {
+                    	"labels": labels,
+                  		 "datasets":{
+                  			 	"data": data,
+                  	           "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                  	           "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                  	           "borderWidth": 1
+                  		 }
+                    };
+                    syearOne = reData;
+                    removeData(myChart);
+                    changeData(myChart, reData);
+                }
+                else {
+                	removeData(myChart);
+                   alert("데이터가 없습니다");
+                }
+            }, error: function () {
+                    alert("error");
+                }
+        	});
+    	}
+    	else {
+    		reData = syearOne;
+            removeData(myChart);
+            changeData(myChart, reData);
+    	}
       } else if (radioValue == "2") {
-        removeData(myChart)
-        changeData(myChart, reData1)
+    	  var reData;
+      	if (syearTwo == null) {
+      		$.ajax ({
+          		type: "POST",
+          		url: "/yu/getPopularLectureList",
+                  data: {
+                  	syear: 2,
+                  	limit: limit
+                  },
+                  success: function (result) {
+                	  console.log(result);
+                  if (result.length != 0) {
+                  	var data = [0, 0, 0, 0, 0];
+                  	var labels = ['정보 없음', '정보 없음', '정보 없음', '정보 없음', '정보 없음'];
+                  	
+                  	data[0] = result[0].avgstar;
+                  	labels[0] = result[0].lecturename;
+                  	if(result[1] != null) {
+                  		data[1] = result[1].avgstar;
+                  		labels[1] = result[1].lecturename;
+                  	}
+                  	if (result[2] != null) {
+                  		data[2] = result[2].avgstar;
+                  		labels[2] = result[2].lecturename;
+                  	}
+                  	if (result[3] != null) {
+                  		data[3] = result[3].avgstar;
+                  		labels[3] = result[3].lecturename;
+                  	}
+                  	if (result[4] != null) {
+                  		data[4] = result[4].avgstar;
+                  		labels[4] = result[4].lecturename;
+                  	}
+                      reData = {
+                      	"labels": labels,
+                    		 "datasets":{
+                    			 	"data": data,
+                    	           "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                    	           "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                    	           "borderWidth": 1
+                    		 }
+                      };
+                      syearTwo = reData;
+                      removeData(myChart);
+                      changeData(myChart, reData);
+                  }
+                  else {
+                	  removeData(myChart);
+                     alert("데이터가 없습니다");
+                  }
+              }, error: function () {
+                      alert("error");
+                  }
+          	});
+      	}
+      	else {
+      		reData = syearTwo;
+              removeData(myChart);
+              changeData(myChart, reData);
+      	}
       } else if (radioValue == "3") {
-        removeData(myChart)
-        changeData(myChart, reData2)
+    	  var reData;
+        	if (syearThree == null) {
+        		$.ajax ({
+            		type: "POST",
+            		url: "/yu/getPopularLectureList",
+                    data: {
+                    	syear: 3,
+                    	limit: limit
+                    },
+                    success: function (result) {
+                    if (result.length != 0) {
+                    	var data = [0, 0, 0, 0, 0];
+                    	var labels = ['정보 없음', '정보 없음', '정보 없음', '정보 없음', '정보 없음'];
+                    	
+                    	data[0] = result[0].avgstar;
+                    	labels[0] = result[0].lecturename;
+                      	if(result[1] != null) {
+                      		data[1] = result[1].avgstar;
+                      		labels[1] = result[1].lecturename;
+                      	}
+                      	if (result[2] != null) {
+                      		data[2] = result[2].avgstar;
+                      		labels[2] = result[2].lecturename;
+                      	}
+                      	if (result[3] != null) {
+                      		data[3] = result[3].avgstar;
+                      		labels[3] = result[3].lecturename;
+                      	}
+                      	if (result[4] != null) {
+                      		data[4] = result[4].avgstar;
+                      		labels[4] = result[4].lecturename;
+                      	}
+                        reData = {
+                        	"labels": labels,
+                      		 "datasets":{
+                      			 	"data": data,
+                      	           "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                      	           "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                      	           "borderWidth": 1
+                      		 }
+                        };
+                        syearThree = reData;
+                        removeData(myChart);
+                        changeData(myChart, reData);
+                    }
+                    else {
+                    	removeData(myChart);
+                       alert("데이터가 없습니다");
+                    }
+                }, error: function () {
+                        alert("error");
+                    }
+            	});
+        	}
+        	else {
+        		reData = syearThree;
+                removeData(myChart);
+                changeData(myChart, reData);
+        	}
       } else if (radioValue == "4") {
-        removeData(myChart)
-        changeData(myChart, reData3)
+    	  var reData;
+        	if (syearFour == null) {
+        		$.ajax ({
+            		type: "POST",
+            		url: "/yu/getPopularLectureList",
+                    data: {
+                    	syear: 4,
+                    	limit: limit
+                    },
+                    success: function (result) {
+                    if (result.length != 0) {
+                    	var data = [0, 0, 0, 0, 0];
+                    	var labels = ['정보 없음', '정보 없음', '정보 없음', '정보 없음', '정보 없음'];
+                    	
+                    	data[0] = result[0].avgstar;
+                    	labels[0] = result[0].lecturename;
+                      	if(result[1] != null) {
+                      		data[1] = result[1].avgstar;
+                      		labels[1] = result[1].lecturename;
+                      	}
+                      	if (result[2] != null) {
+                      		data[2] = result[2].avgstar;
+                      		labels[2] = result[2].lecturename;
+                      	}
+                      	if (result[3] != null) {
+                      		data[3] = result[3].avgstar;
+                      		labels[3] = result[3].lecturename;
+                      	}
+                      	if (result[4] != null) {
+                      		data[4] = result[4].avgstar;
+                      		labels[4] = result[4].lecturename;
+                      	}
+                        reData = {
+                        	"labels": labels,
+                      		 "datasets":{
+                      			 	"data": data,
+                      	           "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                      	           "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                      	           "borderWidth": 1
+                      		 }
+                        };
+                        syearFour = reData;
+                        removeData(myChart)
+                        changeData(myChart, reData)
+                    }
+                    else {
+                    	removeData(myChart);
+                       alert("데이터가 없습니다");
+                    }
+                }, error: function () {
+                        alert("error");
+                    }
+            	});
+        	}
+        	else {
+        		reData = syearFour;
+                removeData(myChart);
+                changeData(myChart, reData);
+        	}
       }
     });
 
     $(document).on('click', '#btn', function() {
       removeData(myChart);
-      changeData(myChart, reData)
+      changeData(myChart, reData);
     });
   </script>
-  <script>
-    var ctx = document.getElementById('myChart1').getContext('2d');
-    var chart1 = new Chart(ctx, {
-      // 챠트 종류를 선택
-      type: 'line',
-      // 챠트를 그릴 데이타
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-          label: 'My First dataset',
-          backgroundColor: 'transparent',
-          borderColor: 'red',
-          data: [0, 10, 5, 2, 20, 30, 45]
-        }]
-      }, // 옵션
+  
+<script>
+    var avgMoneyTotal = null;
+    var successTotal = null;
+    var registerTotal = null;
+
+    const colors1 = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'];
+    var chBar = document.getElementById("myChart1");
+    var abcd1 = {
+      labels: ["전체", "청소", "배달", "역할대행", "심부름"],
+      datasets: [{
+        data: [0, 0, 0, 0,0],
+        backgroundColor: colors1[0],
+        borderColor: colors1[0],
+        borderWidth: 1
+      }, {
+        data: [0, 0, 0, 0,0],
+        backgroundColor: colors1[1],
+        borderColor: colors1[1],
+        borderWidth: 1
+      }, {
+        data: [0, 0, 0, 0,0],
+        backgroundColor: colors1[2],
+        borderColor: colors1[2],
+        borderWidth: 1
+      }]
+    };
+
+
+    var myChart1 = new Chart(chBar, {
+      type: 'bar',
+      data: abcd1,
       options: {
         legend: {
           display: false
         },
-        title: {
-          display: true,
-          text: '라인차트 제목'
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
         }
       }
     });
+    $(document).ready(function() {
+      $("input[name=check11]").change(function() {
+        if ($("input[name=check11]").is(":checked")) {
+          var newDataset;
+
+          if(avgMoneyTotal == null) {
+            $.ajax ({
+              type: "POST",
+              url: "/yu/getMatchingStatistics",
+              data: {
+                type: "avgMoney"
+              },
+              success: function (result) {
+                if (result != "") {
+                  newDataset = {
+                    data: [result.total_count, result.cleaning_count, result.delivery_count, result.role_count, result.errand_count],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 1,
+                  };
+                  myChart1.data.datasets[0].data = newDataset.data;
+                  myChart1.update();
+                  avgMoneyTotal = newDataset.data;
+                }
+                else {
+                  alert("차트 불러오기 실패");
+                }
+              }, error: function () {
+                alert("error");
+              }
+            });
+          }
+          else {
+            myChart1.data.datasets[0].data = avgMoneyTotal;
+            myChart1.update();
+          }
+        } else {
+          myChart1.data.datasets[0].data = 0;
+          myChart1.update(); //차트 업데이트
+        }
+      });
+    });
+    $(document).ready(function() {
+      $("input[name=check22]").change(function() {
+        if ($("input[name=check22]").is(":checked")) {
+          var newDataset;
+
+          if(successTotal == null) {
+            $.ajax ({
+              type: "POST",
+              url: "/yu/getMatchingStatistics",
+              data: {
+                type: "successPercentage"
+              },
+              success: function (result) {
+                if (result != "") {
+                  newDataset = {
+                    data: [result.total_count, result.cleaning_count, result.delivery_count, result.role_count, result.errand_count],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 0.5)',
+                    borderWidth: 1,
+                  };
+                  myChart1.data.datasets[1].data = newDataset.data;
+                  myChart1.update();
+                  successTotal = newDataset.data;
+                }
+                else {
+                  alert("차트 불러오기 실패");
+                }
+              }, error: function () {
+                alert("error");
+              }
+            });
+          }
+          else {
+            myChart1.data.datasets[1].data = successTotal;
+            myChart1.update();
+          }
+        } else {
+          myChart1.data.datasets[1].data = 0;
+          myChart1.update(); //차트 업데이트
+        }
+      });
+    });
+    $(document).ready(function() {
+      $("input[name=check33]").change(function() {
+        if ($("input[name=check33]").is(":checked")) {
+          var newDataset;
+
+          if(registerTotal == null) {
+            $.ajax ({
+              type: "POST",
+              url: "/yu/getMatchingStatistics",
+              data: {
+                type: "recentlyRegistered"
+              },
+              success: function (result) {
+                if (result != "") {
+                  newDataset = {
+                    data: [result.total_count, result.cleaning_count, result.delivery_count, result.role_count, result.errand_count],
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                    borderColor: 'rgba(255, 206, 86, 0.5)',
+                    borderWidth: 1,
+                  };
+                  myChart1.data.datasets[2].data = newDataset.data;
+                  myChart1.update();
+                  registerTotal = newDataset.data;
+                }
+                else {
+                  alert("차트 불러오기 실패");
+                }
+              }, error: function () {
+                alert("error");
+              }
+            });
+          }
+          else {
+            myChart1.data.datasets[2].data = registerTotal;
+            myChart1.update();
+          }
+        } else {
+          myChart1.data.datasets[2].data = 0;
+          myChart1.update(); //차트 업데이트
+        }
+      });
+    });
   </script>
   <script>
+  var boardTotal = null;
+  var writerTotal = null;
+  var likeTotal = null;
+  var commentTotal = null;
+  
     const colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'];
     var chBar = document.getElementById("myChart2");
     var abcd = {
-      labels: ["전체", "자유게시판", "중고게시판", "정보게시판"],
+      labels: ["전체", "자유게시판", "중고게시판", "정보게시판", "질문게시판"],
       datasets: [{
-        data: [0, 0, 0, 0],
+        data: [0, 0, 0, 0,0],
         backgroundColor: colors[0],
         borderColor: colors[0],
         borderWidth: 1
       }, {
-        data: [0, 0, 0, 0],
+        data: [0, 0, 0, 0,0],
         backgroundColor: colors[1],
         borderColor: colors[1],
         borderWidth: 1
       }, {
-        data: [0, 0, 0, 0],
+        data: [0, 0, 0, 0,0],
         backgroundColor: colors[2],
         borderColor: colors[2],
         borderWidth: 1
       }, {
-        data: [0, 0, 0, 0],
+        data: [0, 0, 0, 0,0],
         backgroundColor: colors[3],
         borderColor: colors[3],
         borderWidth: 1
@@ -394,14 +750,39 @@
     $(document).ready(function() {
       $("input[name=check1]").change(function() {
         if ($("input[name=check1]").is(":checked")) {
-          var newDataset = {
-            data: [589, 445, 483, 503],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
-            borderWidth: 1,
-          }
-          myChart2.data.datasets[0].data = newDataset.data;
-          myChart2.update();
+        	var newDataset;
+        	
+        	if(boardTotal == null) {
+        		$.ajax ({
+            		type: "POST",
+            		url: "/yu/getBoardStatistics",
+                    data: {
+                    	type: "boardCount"
+                    },
+                    success: function (result) {
+                    if (result != "") {
+                    	newDataset = {
+                                data: [result.total_count, result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 0.2)',
+                                borderWidth: 1,
+                        };
+                        myChart2.data.datasets[0].data = newDataset.data;
+                        myChart2.update();
+                        boardTotal = newDataset.data;
+                    }
+                    else {
+                       alert("차트 불러오기 실패");
+                    }
+                }, error: function () {
+                        alert("error");
+                    }
+            	});
+        	}
+        	else {
+                myChart2.data.datasets[0].data = boardTotal;
+                myChart2.update();
+        	}
         } else {
           myChart2.data.datasets[0].data = 0;
           myChart2.update(); //차트 업데이트
@@ -411,14 +792,39 @@
     $(document).ready(function() {
       $("input[name=check2]").change(function() {
         if ($("input[name=check2]").is(":checked")) {
-          var newDataset = {
-            data: [209, 245, 383, 403],
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: 'rgba(54, 162, 235, 0.5)',
-            borderWidth: 1,
+          var newDataset;
+          
+          if(writerTotal == null) {
+      		$.ajax ({
+        		type: "POST",
+        		url: "/yu/getBoardStatistics",
+                data: {
+                	type: "writerCount"
+                },
+                success: function (result) {
+                if (result != "") {
+                	newDataset = {
+                            data: [result.total_count, result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 0.5)',
+                            borderWidth: 1,
+                    };
+                    myChart2.data.datasets[1].data = newDataset.data;
+                    myChart2.update();
+                    writerTotal = newDataset.data;
+                }
+                else {
+                   alert("차트 불러오기 실패");
+                }
+            }, error: function () {
+                    alert("error");
+                }
+        	});
           }
-          myChart2.data.datasets[1].data = newDataset.data;
-          myChart2.update();
+          else {
+              myChart2.data.datasets[1].data = writerTotal;
+              myChart2.update();
+          }
         } else {
           myChart2.data.datasets[1].data = 0;
           myChart2.update(); //차트 업데이트
@@ -428,14 +834,39 @@
     $(document).ready(function() {
       $("input[name=check3]").change(function() {
         if ($("input[name=check3]").is(":checked")) {
-          var newDataset = {
-            data: [589, 445, 483, 503, ],
-            backgroundColor: 'rgba(255, 206, 86, 0.5)',
-            borderColor: 'rgba(255, 206, 86, 0.5)',
-            borderWidth: 1,
+          var newDataset;
+          
+          if(likeTotal == null) {
+        	  $.ajax ({
+          		type: "POST",
+          		url: "/yu/getBoardStatistics",
+                  data: {
+                  	type: "likeCount"
+                  },
+                  success: function (result) {
+                  if (result != "") {
+                  	newDataset = {
+                              data: [result.total_count, result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                              backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                              borderColor: 'rgba(255, 206, 86, 0.5)',
+                              borderWidth: 1,
+                      };
+                      myChart2.data.datasets[2].data = newDataset.data;
+                      myChart2.update();
+                      likeTotal = newDataset.data;
+                  }
+                  else {
+                     alert("차트 불러오기 실패");
+                  }
+              }, error: function () {
+                      alert("error");
+                  }
+          	});
           }
-          myChart2.data.datasets[2].data = newDataset.data;
-          myChart2.update();
+          else {
+              myChart2.data.datasets[2].data = likeTotal;
+              myChart2.update();
+          }
         } else {
           myChart2.data.datasets[2].data = 0;
           myChart2.update(); //차트 업데이트
@@ -445,14 +876,39 @@
     $(document).ready(function() {
       $("input[name=check4]").change(function() {
         if ($("input[name=check4]").is(":checked")) {
-          var newDataset = {
-            data: [589, 445, 483, 503, ],
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-            borderColor: 'rgba(75, 192, 192, 0.5)',
-            borderWidth: 1,
+          var newDataset;
+          
+          if(commentTotal == null) {
+        	  $.ajax ({
+            		type: "POST",
+            		url: "/yu/getBoardStatistics",
+                    data: {
+                    	type: "commentCount"
+                    },
+                    success: function (result) {
+                    if (result != "") {
+                    	newDataset = {
+                                data: [result.total_count, result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                                borderColor: 'rgba(75, 192, 192, 0.5)',
+                                borderWidth: 1,
+                        };
+                        myChart2.data.datasets[3].data = newDataset.data;
+                        myChart2.update();
+                        commentTotal = newDataset.data;
+                    }
+                    else {
+                       alert("차트 불러오기 실패");
+                    }
+                }, error: function () {
+                        alert("error");
+                    }
+            	});
           }
-          myChart2.data.datasets[3].data = newDataset.data;
-          myChart2.update();
+          else {
+              myChart2.data.datasets[3].data = commentTotal;
+              myChart2.update();
+          }
         } else {
           myChart2.data.datasets[3].data = 0;
           myChart2.update(); //차트 업데이트
@@ -460,17 +916,19 @@
       });
     });
   </script>
-  <script>
+  
+<script>
+	var syearDOne = null, syearDTwo = null, syearDThree = null, syearDFour = null;
     var chDonut1 = document.getElementById("myChart3");
     var myChart3 = new Chart(chDonut1, {
-      label: ['자유게시판', '중고게시판', '정보게시판'],
+      label: ['자유게시판', '중고게시판', '정보게시판','질문게시판'],
       type: 'pie',
       data: {
-        labels: ['자유게시판', '중고게시판', '정보게시판'],
+        labels: ['자유게시판', '중고게시판', '정보게시판','질문게시판'],
         datasets: [{
-          data: [0, 0, 0],
+          data: [0, 0, 0,0 ],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'
+            'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'
           ],
           borderWidth: 0,
         }]
@@ -487,35 +945,6 @@
         }
       }
     });
-
-    var chDonutData1 = {
-      "data": [1, 2, 3],
-      "backgroundColor": [
-        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
-      ],
-      "borderWidth": 0
-    };
-    var chDonutData2 = {
-      "data": [3, 2, 13],
-      "backgroundColor": [
-        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
-      ],
-      "borderWidth": 0
-    };
-    var chDonutData3 = {
-      "data": [12, 42, 13],
-      "backgroundColor": [
-        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
-      ],
-      "borderWidth": 0
-    };
-    var chDonutData4 = {
-      "data": [16, 52, 32],
-      "backgroundColor": [
-        'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'
-      ],
-      "borderWidth": 0
-    };
 
     function changeData1(chart, data) {
       var new_data1 = data.data;
@@ -540,17 +969,149 @@
     $("input[name=grade6]").change(function() {
       var radioValue = $(this).val();
       if (radioValue == "1") {
-        removeData1(myChart3)
-        changeData1(myChart3, chDonutData1)
+        var chDonutData;
+        
+        if(syearDOne == null) {
+      		$.ajax ({
+        		type: "POST",
+        		url: "/yu/getBoardUsageStatus",
+                data: {
+                	syear: 1
+                },
+                success: function (result) {
+                if (result != "") {
+                	chDonutData = {
+                	          "data": [result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                	          "backgroundColor": [
+                	            'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.2)'
+                	          ],
+                	          "borderWidth": 0
+                	};
+                	removeData1(myChart3);
+                    changeData1(myChart3, chDonutData);
+                   	syearDOne = chDonutData;
+                }
+                else {
+                   alert("차트 불러오기 실패");
+                }
+            }, error: function () {
+                    alert("error");
+                }
+        	});
+          }
+          else {
+              chDonutData = syearDOne;
+              removeData1(myChart3);
+              changeData1(myChart3, chDonutData);
+          }
       } else if (radioValue == "2") {
-        removeData1(myChart3)
-        changeData1(myChart3, chDonutData2)
+          var chDonutData;
+          
+          if(syearDTwo == null) {
+        		$.ajax ({
+          		type: "POST",
+          		url: "/yu/getBoardUsageStatus",
+                  data: {
+                  	syear: 2
+                  },
+                  success: function (result) {
+                  if (result != "") {
+                  	chDonutData = {
+                  	          "data": [result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                  	          "backgroundColor": [
+                  	            'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.2)'
+                  	          ],
+                  	          "borderWidth": 0
+                  	};
+                  	removeData1(myChart3);
+                      changeData1(myChart3, chDonutData);
+                     	syearDTwo = chDonutData;
+                  }
+                  else {
+                     alert("차트 불러오기 실패");
+                  }
+              }, error: function () {
+                      alert("error");
+                  }
+          	});
+            }
+            else {
+                chDonutData = syearDTwo;
+                removeData1(myChart3);
+                changeData1(myChart3, chDonutData);
+            }
       } else if (radioValue == "3") {
-        removeData1(myChart3)
-        changeData1(myChart3, chDonutData3)
+          var chDonutData;
+          
+          if(syearDThree == null) {
+        		$.ajax ({
+          		type: "POST",
+          		url: "/yu/getBoardUsageStatus",
+                  data: {
+                  	syear: 3
+                  },
+                  success: function (result) {
+                  if (result != "") {
+                  	chDonutData = {
+                  	          "data": [result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                  	          "backgroundColor": [
+                  	            'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.2)'
+                  	          ],
+                  	          "borderWidth": 0
+                  	};
+                  	removeData1(myChart3);
+                      changeData1(myChart3, chDonutData);
+                     	syearDThree = chDonutData;
+                  }
+                  else {
+                     alert("차트 불러오기 실패");
+                  }
+              }, error: function () {
+                      alert("error");
+                  }
+          	});
+            }
+            else {
+                chDonutData = syearDThree;
+                removeData1(myChart3);
+                changeData1(myChart3, chDonutData);
+            }
       } else if (radioValue == "4") {
-        removeData1(myChart3)
-        changeData1(myChart3, chDonutData4)
+          var chDonutData;
+          
+          if(syearDFour == null) {
+        		$.ajax ({
+          		type: "POST",
+          		url: "/yu/getBoardUsageStatus",
+                  data: {
+                  	syear: 4
+                  },
+                  success: function (result) {
+                  if (result != "") {
+                  	chDonutData = {
+                  	          "data": [result.free_count, result.used_count, result.knowledge_count, result.question_count],
+                  	          "backgroundColor": [
+                  	            'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.2)'
+                  	          ],
+                  	          "borderWidth": 0
+                  	};
+                  	removeData1(myChart3);
+                      changeData1(myChart3, chDonutData);
+                      syearDFour = chDonutData;
+                  }
+                  else {
+                     alert("차트 불러오기 실패");
+                  }
+              }, error: function () {
+                      alert("error");
+                  }
+          	});
+            }
+            else {
+                chDonutData = syearDFour;
+                removeData1(myChart3);
+                changeData1(myChart3, chDonutData);
+            }
       }
     });
   </script>
