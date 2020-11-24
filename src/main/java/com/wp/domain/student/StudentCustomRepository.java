@@ -33,14 +33,14 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	Long totalCount = (long) 0;
 	
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
-		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
-				"union " +
-				"select title, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where request_sid = ?2 and check_delete = 'F'" +
-				"union " +
-				"select lecturename as title, lno as bno, register_date, '강의평가' as 'type', '강의평가' as 'boardtype' from lectureevaluation " +
-				"where sid = ?3 and check_delete = 'F' " +
-				"order by register_date desc limit ?4";
+		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' "
+				+ "union all "
+				+ "select title, bno, register_date, '매칭' as 'type', boardtype from matching "
+				+ "where request_sid = ?2 and check_delete = 'F'"
+				+ "union all "
+				+ "select lecturename as title, lno as bno, register_date, '강의평가' as 'type', '강의평가' as 'boardtype' from lectureevaluation "
+				+ "where sid = ?3 and check_delete = 'F' "
+				+ "order by register_date desc limit ?4";
 		
 	    Query query = null;
 
@@ -57,14 +57,14 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable) {
-		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' " +
-				"union " +
-				"select title, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where request_sid = ?2 and check_delete = 'F' " +
-				"union " +
-				"select lecturename as title, lno as bno, register_date, '강의평가' as 'type', '강의평가' as 'boardtype' from lectureevaluation " +
-				"where sid = ?3 and check_delete = 'F' " +
-				"order by register_date desc";
+		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' "
+				+ "union all "
+				+ "select title, bno, register_date, '매칭' as 'type', boardtype from matching "
+				+ "where request_sid = ?2 and check_delete = 'F' "
+				+ "union all "
+				+ "select lecturename as title, lno as bno, register_date, '강의평가' as 'type', '강의평가' as 'boardtype' from lectureevaluation "
+				+ "where sid = ?3 and check_delete = 'F' "
+				+ "order by register_date desc";
 		
 	    Query query = null;
 	    Query countQuery = null;
@@ -95,9 +95,9 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	    
 	    String countSql = "select sum(c) from " +
 	    		"(select count(*) as c from board where sid = ?1 and check_delete = 'F' " +
-	    		"union " +
+	    		"union all " +
 	    		"select count(*) as c from matching where request_sid = ?2 and check_delete = 'F'" +
-	    		"union " +
+	    		"union all " +
 	    		"select count(*) as c from lectureevaluation where sid = ?3 and check_delete = 'F') as t";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
@@ -109,12 +109,12 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit) {
-		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc " +
-				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
-				"union " +
-				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
-				"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' " +
-				"order by register_date desc limit ?3";
+		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc "
+				+ "where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' "
+				+ "union all "
+				+ "select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭' as type, m.boardtype as boardtype from matching m, matchingcomment mc "
+				+ "where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' "
+				+ "order by register_date desc limit ?3";
 		
 	    Query query = null;
 
@@ -130,12 +130,12 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	}
 	
 	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable) {
-		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc " +
-				"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
-				"union " +
-				"select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭' as type, m.boardtype as boardtype from matching m, matchingcomment mc " +
-				"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' " +
-				"order by register_date desc";
+		String sql = "select bc.content as content, b.bno as bno, bc.register_date as register_date, '게시판' as type, b.boardtype as boardtype from board b, boardcomment bc "
+				+ "where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' "
+				+ "union all "
+				+ "select mc.content as content, m.bno as bno, mc.register_date as register_date, '매칭' as type, m.boardtype as boardtype from matching m, matchingcomment mc "
+				+ "where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F' "
+				+ "order by register_date desc";
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -162,12 +162,12 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	    @SuppressWarnings("unchecked")
 		List<StudentGetMyCommentDTO> list = query.getResultList();
 	    
-	    String countSql = "select sum(c) from " +
-	    		"(select count(*) as c from board b, boardcomment bc " +
-	    		"where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' " +
-	    		"union " +
-	    		"select count(*) as c from matching m, matchingcomment mc " +
-	    		"where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F') as t";
+	    String countSql = "select sum(c) from "
+	    		+ "(select count(*) as c from board b, boardcomment bc "
+	    		+ "where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' "
+	    		+ "union all "
+	    		+ "select count(*) as c from matching m, matchingcomment mc "
+	    		+ "where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F') as t";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
     	countQuery.setParameter(1, sid);

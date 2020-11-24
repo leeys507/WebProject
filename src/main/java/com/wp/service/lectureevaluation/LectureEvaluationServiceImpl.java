@@ -60,27 +60,37 @@ public class LectureEvaluationServiceImpl implements LectureEvaluationService {
     }
     
     public Page<LectureEvaluation> searchLectureEvaluation(Pageable pageable, String text, String date, String option) {
-        String addQuery = "";
+        String addQuery = null;
+        String selectQuery = null;
+        String orderQuery = null;
         int dateNum = 0;
 
         if (option.equals("title")) {
             addQuery = "lecturename like ?1";
+            selectQuery = "";
+            orderQuery = "order by register_date desc";
             text = "%" + text + "%";
         }
         else if (option.equals("professor")) {
             addQuery = "professor like ?1";
+            selectQuery = "";
+            orderQuery = "order by register_date desc";
             text = "%" + text + "%";
         }
         else if (option.equals("content")) {
             addQuery = "match(content) against(?1 in boolean mode)";
+            selectQuery = ", match(content) against(?1 in boolean mode) as score";
+            orderQuery = "order by score desc, register date desc";
         }
         else if (option.equals("writer")) {
             addQuery = "nickname like ?1";
+            selectQuery = "";
+            orderQuery = "order by register_date desc";
             text = "%" + text + "%";
         }
 
         if (date.equals("all")) {
-            return lectureEvaluationRepository.searchLectureEvaluationOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+            return lectureEvaluationRepository.searchLectureEvaluationOptions(addQuery, selectQuery, orderQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
         } 
         else {
             if (date.equals("1week"))
@@ -90,6 +100,6 @@ public class LectureEvaluationServiceImpl implements LectureEvaluationService {
             else if (date.equals("6month"))
                 dateNum = 180;
         }
-        return lectureEvaluationRepository.searchLectureEvaluationOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        return lectureEvaluationRepository.searchLectureEvaluationOptionsAndDate(addQuery, selectQuery, orderQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 }

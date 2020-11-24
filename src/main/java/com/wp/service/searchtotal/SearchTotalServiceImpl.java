@@ -18,7 +18,10 @@ public class SearchTotalServiceImpl implements SearchTotalService {
 	 public Page<SearchTotalGetDTO> searchAll(Pageable pageable, String text, String date, String option) {
 	    	String addQuery = null;
 	    	String addQuery2 = null;
+	    	String selectQuery = null;
+	    	String orderQuery = null;
 	    	int dateNum = 0;
+	    	
 	    	if(date.equals("all") && option.equals("all")) {
 	    		return searchTotalCustomRepository.searchTotalAll(text, PageRequest.of(pageable.getPageNumber(), 10));
 	    	}
@@ -27,19 +30,25 @@ public class SearchTotalServiceImpl implements SearchTotalService {
 	        		if(option.equals("title")) {
 	        			addQuery = "match(title) against(?1 in boolean mode)";
 	        			addQuery2 = "match(title) against(?2 in boolean mode)";
+	        			selectQuery = ", match(title) against(?2 in boolean mode) as score";
+	        			orderQuery = "order by score desc, register_date desc";
 	        		}
 	        		else if(option.equals("writer")) {
 	        			addQuery = "nickname like ?1";
 	        			addQuery2 = "request_nickname like ?2";
+	        			selectQuery = "";
+	        			orderQuery = "order by register_date desc";
 	        			text = "%" + text + "%";
 	        		}
 	        		else if(option.equals("commentContent")) {
-	        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode))";
-	        			addQuery2 = "bno in (select bno from matchingcomment where match(content) against(?2 in boolean mode))";
+	        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode) and check_delete = 'F')";
+	        			addQuery2 = "bno in (select bno from matchingcomment where match(content) against(?2 in boolean mode) and check_delete = 'F')";
+	        			selectQuery = "";
+	        			orderQuery = "order by register_date desc";
 	        		}
 	        		
 	        		if(date.equals("all"))
-	        			return searchTotalCustomRepository.searchTotalOptions(addQuery, addQuery2, text, PageRequest.of(pageable.getPageNumber(), 10));
+	        			return searchTotalCustomRepository.searchTotalOptions(addQuery, addQuery2, selectQuery, orderQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
 	    		}
 	    		if(!date.equals("all")) {
 	        		if(date.equals("1week"))
@@ -53,6 +62,6 @@ public class SearchTotalServiceImpl implements SearchTotalService {
 	        			return searchTotalCustomRepository.searchTotalDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
 	    		}
 	    	}
-	    	return searchTotalCustomRepository.searchTotalOptionsAndDate(addQuery, addQuery2, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+	    	return searchTotalCustomRepository.searchTotalOptionsAndDate(addQuery, addQuery2, selectQuery, orderQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
 	    }
 }

@@ -76,7 +76,8 @@ public class BoardServiceImpl implements BoardService {
     }
     
     public Page<Board> searchAll(Pageable pageable, String text, String date, String option) {
-    	String addQuery = "";
+    	String addQuery = null;
+    	String orderQuery = null;
     	int dateNum = 0;
     	
     	if(date.equals("all") && option.equals("all")) {
@@ -84,17 +85,21 @@ public class BoardServiceImpl implements BoardService {
     	}
     	else {
     		if(!option.equals("all")) {
-        		if(option.equals("title"))
+        		if(option.equals("title")) {
         			addQuery = "match(title) against(?1 in boolean mode)";
+        			orderQuery = "order by match(title) against(?1 in boolean mode) desc, register_date desc";
+        		}
         		else if(option.equals("writer")) {
         			addQuery = "nickname like ?1";
+        			orderQuery = "order by register_date desc";
         			text = "%" + text + "%";
         		}
-        		else if(option.equals("commentContent"))
-        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode))";
-        		
+        		else if(option.equals("commentContent")) {
+        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode) and check_delete = 'F')";
+        			orderQuery = "order by register_date desc";
+        		}
         		if(date.equals("all"))
-        			return boardRepository.searchBoardOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+        			return boardRepository.searchBoardOptions(addQuery, orderQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     		if(!date.equals("all")) {
         		if(date.equals("1week"))
@@ -104,15 +109,18 @@ public class BoardServiceImpl implements BoardService {
         		else if(date.equals("6month"))
         			dateNum = 180;
         		
-        		if(option.equals("all"))
+        		if(option.equals("all")) {
+        			orderQuery = "order by register_date desc";
         			return boardRepository.searchBoardDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        		}
     		}
     	}
-    	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    	return boardRepository.searchBoardOptionsAndDate(addQuery, orderQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
     
     public Page<Board> searchBoard(Pageable pageable, String boardtype, String text, String date, String option) {
-    	String addQuery = "";
+    	String addQuery = null;
+    	String orderQuery = null;
     	int dateNum = 0;
     	
     	if(date.equals("all") && option.equals("all")) {
@@ -120,17 +128,23 @@ public class BoardServiceImpl implements BoardService {
     	}
     	else {
     		if(!option.equals("all")) {
-        		if(option.equals("title"))
+        		if(option.equals("title")) {
         			addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+        			orderQuery = "order by match(title) against(?1 in boolean mode) desc, register_date desc";
+        		}
         		else if(option.equals("writer")) {
         			addQuery = "boardtype = '" + boardtype + "' and nickname like ?1";
+        			orderQuery = "order by register_date desc";
         			text = "%" + text + "%";
         		}
-        		else if(option.equals("commentContent"))
-        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+        		else if(option.equals("commentContent")) {
+        			addQuery = "bno in (select bno from boardcomment where match(content) against(?1 in boolean mode) and check_delete = 'F') "
+        					+ "and boardtype = '" + boardtype + "'";
+        			orderQuery = "order by register_date desc";
+        		}
         		
         		if(date.equals("all"))
-        			return boardRepository.searchBoardOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+        			return boardRepository.searchBoardOptions(addQuery, orderQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
     		}
     		if(!date.equals("all")) {
         		if(date.equals("1week"))
@@ -140,11 +154,13 @@ public class BoardServiceImpl implements BoardService {
         		else if(date.equals("6month"))
         			dateNum = 180;
         		
-        		if(option.equals("all"))
+        		if(option.equals("all")) {
+        			orderQuery = "order by register_date desc";
         			return boardRepository.searchBoardTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        		}
     		}
     	}
-    	return boardRepository.searchBoardOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+    	return boardRepository.searchBoardOptionsAndDate(addQuery, orderQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 
     @Transactional

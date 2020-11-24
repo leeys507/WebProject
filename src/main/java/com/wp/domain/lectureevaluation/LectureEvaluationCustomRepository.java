@@ -17,8 +17,8 @@ import com.wp.domain.board.Board;
 
 
 public interface LectureEvaluationCustomRepository {
-	Page<LectureEvaluation> searchLectureEvaluationOptions(String addQuery, String text, Pageable pageable);
-	Page<LectureEvaluation> searchLectureEvaluationOptionsAndDate(String addQuery, String text, int dateNum, Pageable pageable);
+	Page<LectureEvaluation> searchLectureEvaluationOptions(String addQuery, String selectQuery, String orderQuery, String text, Pageable pageable);
+	Page<LectureEvaluation> searchLectureEvaluationOptionsAndDate(String addQuery, String selectQuery, String orderQuery, String text, int dateNum, Pageable pageable);
 	Page<LectureEvaluation> createPage(@SuppressWarnings("rawtypes") List list, Pageable pageable, Query countQuery);
 }
 
@@ -30,8 +30,8 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	Long totalCount = (long) 0;
 	
 	@Override
-	public Page<LectureEvaluation> searchLectureEvaluationOptions(String addQuery, String text, Pageable pageable) {
-		String sql = "select * from lectureevaluation where " + addQuery + " and check_delete = 'F'";
+	public Page<LectureEvaluation> searchLectureEvaluationOptions(String addQuery, String selectQuery, String orderQuery, String text, Pageable pageable) {
+		String sql = "select *" + selectQuery + " from lectureevaluation where " + addQuery + " and check_delete = 'F' " + orderQuery;
 		
 	    Query query = null;
 	    Query countQuery = null;
@@ -65,8 +65,9 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	}
 	
 	@Override
-	public Page<LectureEvaluation> searchLectureEvaluationOptionsAndDate(String addQuery, String text, int dateNum, Pageable pageable) {
-		String sql = "select * from lectureevaluation where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'";
+	public Page<LectureEvaluation> searchLectureEvaluationOptionsAndDate(String addQuery, String selectQuery, String orderQuery, String text, int dateNum, Pageable pageable) {
+		String sql = "select *" + selectQuery + " from lectureevaluation "
+				+ "where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F' " + orderQuery;
 		
 	    Query query = null;
 	    Query countQuery = null;
@@ -94,8 +95,8 @@ class LectureEvaluationCustomRepositoryImpl implements LectureEvaluationCustomRe
 	    @SuppressWarnings("unchecked")
 		List<Board> list = query.getResultList();
 
-    	countQuery = entityManager.createNativeQuery("select count(*) from lectureevaluation where " + addQuery + 
-    			" and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
+    	countQuery = entityManager.createNativeQuery("select count(*) from lectureevaluation where " + addQuery
+    			+ " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
     	countQuery.setParameter(1, text);
     	countQuery.setParameter(2, dateNum);
 

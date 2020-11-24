@@ -18,8 +18,8 @@ import com.wp.domain.searchtotal.dto.SearchTotalGetDTO;
 public interface SearchTotalCustomRepository {
     public Page<SearchTotalGetDTO> searchTotalAll(String text, Pageable pageable);
     public Page<SearchTotalGetDTO> searchTotalDates(String text, int date, Pageable pageable);
-    public Page<SearchTotalGetDTO> searchTotalOptions(String addQuery, String addQuery2, String text, Pageable pageable);
-    public Page<SearchTotalGetDTO> searchTotalOptionsAndDate(String addQuery, String addQuery2, String text, int date, Pageable pageable);
+    public Page<SearchTotalGetDTO> searchTotalOptions(String addQuery, String addQuery2, String selectQuery, String orderQuery, String text, Pageable pageable);
+    public Page<SearchTotalGetDTO> searchTotalOptionsAndDate(String addQuery, String addQuery2, String selectQuery, String orderQuery, String text, int date, Pageable pageable);
     
     public Page<SearchTotalGetDTO> createPage(@SuppressWarnings("rawtypes") List list, Pageable pageable, Query countQuery);
 }
@@ -32,11 +32,11 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 	Long totalCount = (long) 0;
 	
 	public Page<SearchTotalGetDTO> searchTotalAll(String text, Pageable pageable) {
-		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype from board " +
+		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype, match(title, content) against(?2 in boolean mode) as score from board " +
 				"where match(title, content) against(?1 in boolean mode) and check_delete = 'F'" +
-				"union " +
-				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where match(title, content) against(?2 in boolean mode) and check_delete = 'F'";
+				"union all " +
+				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype, match(title, content) against(?2 in boolean mode) as score from matching " +
+				"where match(title, content) against(?2 in boolean mode) and check_delete = 'F' order by score desc, register_date desc";
 		
 	    Query query = null;
 	    Query countQuery = null;
@@ -66,7 +66,7 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 	    
 	    String countSql = "select sum(c) from " +
 	    		"(select count(*) as c from board where match(title, content) against(?1 in boolean mode) and check_delete = 'F' " +
-	    		"union " +
+	    		"union all " +
 	    		"select count(*) as c from matching where match(title, content) against(?2 in boolean mode) and check_delete = 'F') as t";
 	    
 	    countQuery = entityManager.createNativeQuery(countSql);
@@ -77,11 +77,11 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 	}
 	
 	public Page<SearchTotalGetDTO> searchTotalDates(String text, int date, Pageable pageable) {
-		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype from board " +
+		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype, match(title, content) against(?2 in boolean mode) as score from board " +
 				"where match(title, content) against(?1 in boolean mode) and register_date >= DATE_SUB(NOW(), INTERVAL ?3 DAY) and check_delete = 'F' " +
-				"union " +
-				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where match(title, content) against(?2 in boolean mode) and register_date >= DATE_SUB(NOW(), INTERVAL ?4 DAY) and check_delete = 'F'";
+				"union all " +
+				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype, match(title, content) against(?2 in boolean mode) as score from matching " +
+				"where match(title, content) against(?2 in boolean mode) and register_date >= DATE_SUB(NOW(), INTERVAL ?4 DAY) and check_delete = 'F' order by score desc, register_date desc";
 		
 		Query query = null;
 		Query countQuery = null;
@@ -114,7 +114,7 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 		String countSql = "select sum(c) from " +
 				"(select count(*) as c from board " +
 		    	"where match(title, content) against(?1 in boolean mode) and register_date >= DATE_SUB(NOW(), INTERVAL ?3 DAY) and check_delete = 'F' " +
-		    	"union " +
+		    	"union all " +
 		    	"select count(*) as c from matching " +
 		    	"where match(title, content) against(?2 in boolean mode) and register_date >= DATE_SUB(NOW(), INTERVAL ?4 DAY) and check_delete = 'F') as t";
 		    
@@ -127,12 +127,12 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 	    return createPage(list, pageable, countQuery);
 	}
 	
-	public Page<SearchTotalGetDTO> searchTotalOptions(String addQuery, String addQuery2, String text, Pageable pageable) {
-		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype from board " + 
+	public Page<SearchTotalGetDTO> searchTotalOptions(String addQuery, String addQuery2, String selectQuery, String orderQuery, String text, Pageable pageable) {
+		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype" + selectQuery + " from board " + 
 				"where " + addQuery + " and check_delete = 'F' " +
-				"union " +
-				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where " + addQuery2 + " and check_delete = 'F'";
+				"union all " +
+				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype" + selectQuery + " from matching " +
+				"where " + addQuery2 + " and check_delete = 'F' " + orderQuery;
 		
 		Query query = null;
 		Query countQuery = null;
@@ -163,7 +163,7 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 		String countSql = "select sum(c) from " +
 			   	"(select count(*) as c from board " +
 			    "where " + addQuery + " and check_delete = 'F' " +
-			    "union " +
+			    "union all " +
 			    "select count(*) as c from matching " +
 			    "where " + addQuery2 + " and check_delete = 'F') as t";
 			    
@@ -174,12 +174,12 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 		return createPage(list, pageable, countQuery);
 	}
 	
-	public Page<SearchTotalGetDTO> searchTotalOptionsAndDate(String addQuery, String addQuery2, String text, int date, Pageable pageable) {	
-		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype from board " + 
+	public Page<SearchTotalGetDTO> searchTotalOptionsAndDate(String addQuery, String addQuery2, String selectQuery, String orderQuery, String text, int date, Pageable pageable) {	
+		String sql = "select title, nickname, bno, register_date, '게시판' as 'type', boardtype" + selectQuery + " from board " + 
 				"where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?3 DAY) and check_delete = 'F' " +
-				"union " +
-				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype from matching " +
-				"where " + addQuery2 + " and register_date >= DATE_SUB(NOW(), INTERVAL ?4 DAY) and check_delete = 'F'";
+				"union all " +
+				"select title, request_nickname as nickname, bno, register_date, '매칭' as 'type', boardtype" + selectQuery + " from matching " +
+				"where " + addQuery2 + " and register_date >= DATE_SUB(NOW(), INTERVAL ?4 DAY) and check_delete = 'F' " + orderQuery;
 		
 		Query query = null;
 		Query countQuery = null;
@@ -212,7 +212,7 @@ class SearchTotalCustomRepositoryImpl implements SearchTotalCustomRepository {
 		String countSql = "select sum(c) from " +
 				"(select count(*) as c from board " +
 		    	"where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?3 DAY) and check_delete = 'F' " +
-		    	"union " +
+		    	"union all " +
 		    	"select count(*) as c from matching " +
 		    	"where " + addQuery2 + " and register_date >= DATE_SUB(NOW(), INTERVAL ?4 DAY) and check_delete = 'F') as t";
 		    

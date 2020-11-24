@@ -163,7 +163,8 @@ public class MatchingServiceImpl implements MatchingService {
     }
 
     public Page<Matching> searchAll(Pageable pageable, String text, String date, String option){
-        String addQuery = "";
+        String addQuery = null;
+        String orderQuery = null;
         int dateNum = 0;
 
         if(date.equals("all") && option.equals("all")) {
@@ -171,17 +172,21 @@ public class MatchingServiceImpl implements MatchingService {
         }
         else {
             if(!option.equals("all")) {
-                if(option.equals("title"))
+                if(option.equals("title")) {
                     addQuery = "match(title) against(?1 in boolean mode)";
+                    orderQuery = "order by match(title) against(?1 in boolean mode) desc, register_date desc";
+                }
                 else if(option.equals("writer")) {
                     addQuery = "request_nickname like ?1";
+                    orderQuery = "order by register_date desc";
                     text = "%" + text + "%";
                 }
                 else if(option.equals("commentContent"))
-                    addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode))";
+                    addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode) and check_delete = 'F')";
+                	orderQuery = "order by register_date desc";
 
                 if(date.equals("all"))
-                    return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+                    return matchingRepository.searchMatchingOptions(addQuery, orderQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
             }
             if(!date.equals("all")) {
                 if(date.equals("1week"))
@@ -191,15 +196,18 @@ public class MatchingServiceImpl implements MatchingService {
                 else if(date.equals("6month"))
                     dateNum = 180;
 
-                if(option.equals("all"))
+                if(option.equals("all")) {
+                	orderQuery = "order by register_date desc";
                     return matchingRepository.searchMatchingDates(text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+                }
             }
         }
-        return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        return matchingRepository.searchMatchingOptionsAndDate(addQuery, orderQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 
     public Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option) {
-        String addQuery = "";
+        String addQuery = null;
+        String orderQuery = null;
         int dateNum = 0;
 
         if(date.equals("all") && option.equals("all")) {
@@ -207,17 +215,23 @@ public class MatchingServiceImpl implements MatchingService {
         }
         else {
             if(!option.equals("all")) {
-                if(option.equals("title"))
+                if(option.equals("title")) {
                     addQuery = "match(title) against(?1 in boolean mode) and boardtype = '" + boardtype + "'";
+                    orderQuery = "order by match(title) against(?1 in boolean mode) desc, register_date desc";
+                }
                 else if(option.equals("writer")) {
                     addQuery = "boardtype = '" + boardtype + "' and request_nickname like ?1";
+                    orderQuery = "order by register_date desc";
                     text = "%" + text + "%";
                 }
-                else if(option.equals("commentContent"))
-                    addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode)) and boardtype = '" + boardtype + "'";
+                else if(option.equals("commentContent")) {
+                    addQuery = "bno in (select bno from matchingcomment where match(content) against(?1 in boolean mode) and check_delete = 'F') "
+                    		+ "and boardtype = '" + boardtype + "'";
+                    orderQuery = "order by register_date desc";
+                }
 
                 if(date.equals("all"))
-                    return matchingRepository.searchMatchingOptions(addQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
+                    return matchingRepository.searchMatchingOptions(addQuery, orderQuery, text, PageRequest.of(pageable.getPageNumber(), 10));
             }
             if(!date.equals("all")) {
                 if(date.equals("1week"))
@@ -227,10 +241,12 @@ public class MatchingServiceImpl implements MatchingService {
                 else if(date.equals("6month"))
                     dateNum = 180;
 
-                if(option.equals("all"))
+                if(option.equals("all")) {
+                	orderQuery = "order by register_date desc";
                     return matchingRepository.searchMatchingTypeDates(boardtype, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+                }
             }
         }
-        return matchingRepository.searchMatchingOptionsAndDate(addQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
+        return matchingRepository.searchMatchingOptionsAndDate(addQuery, orderQuery, text, dateNum, PageRequest.of(pageable.getPageNumber(), 10));
     }
 }

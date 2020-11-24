@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 
 
 public interface MatchingCustomRepository {
-	Page<Matching> searchMatchingOptions(String addQuery, String text, Pageable pageable);
-	Page<Matching> searchMatchingOptionsAndDate(String addQuery, String text, int date, Pageable pageable);
+	Page<Matching> searchMatchingOptions(String addQuery, String orderQuery, String text, Pageable pageable);
+	Page<Matching> searchMatchingOptionsAndDate(String addQuery, String orderQuery, String text, int date, Pageable pageable);
 	Page<Matching> createPage(@SuppressWarnings("rawtypes") List list, Pageable pageable, Query countQuery);
 }
 
@@ -28,8 +28,8 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 	Long totalCount = (long) 0;
 
 	@Override
-	public Page<Matching> searchMatchingOptions(String addQuery, String text, Pageable pageable) {
-		String sql = "select * from matching where " + addQuery + " and check_delete = 'F'";
+	public Page<Matching> searchMatchingOptions(String addQuery, String orderQuery, String text, Pageable pageable) {
+		String sql = "select * from matching where " + addQuery + " and check_delete = 'F' " + orderQuery;
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -62,8 +62,8 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 	}
 	
 	@Override
-	public Page<Matching> searchMatchingOptionsAndDate(String addQuery, String text, int dateNum, Pageable pageable) {
-		String sql = "select * from matching where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'";
+	public Page<Matching> searchMatchingOptionsAndDate(String addQuery, String orderQuery, String text, int dateNum, Pageable pageable) {
+		String sql = "select * from matching where " + addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F' " + orderQuery;
 	    Query query = null;
 	    Query countQuery = null;
 	    int pageNumber = pageable.getPageNumber();
@@ -90,8 +90,8 @@ class MatchingCustomRepositoryImpl implements MatchingCustomRepository {
 	    @SuppressWarnings("unchecked")
 		List<Matching> list = query.getResultList();
 	    
-	    countQuery = entityManager.createNativeQuery("select count(*) from matching where " + 
-	    		addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
+	    countQuery = entityManager.createNativeQuery("select count(*) from matching where "
+	    		+ addQuery + " and register_date >= DATE_SUB(NOW(), INTERVAL ?2 DAY) and check_delete = 'F'");
     	countQuery.setParameter(1, text);
     	countQuery.setParameter(2, dateNum);
     	
