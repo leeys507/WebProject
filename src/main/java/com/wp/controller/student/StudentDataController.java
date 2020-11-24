@@ -70,7 +70,14 @@ public class StudentDataController {
 	public boolean registerStudent(@ModelAttribute StudentInsertDTO data) throws Exception {
 		return studentInfoService.registerStudent(data);
 	}
-	
+	@PutMapping("/yu/studentInfo/updateStudentGrade")
+	public String updateStudentGrade(String sid,int syear){
+		StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");
+		String truefalse = studentInfoService.updateStudentGrade(sid,syear);
+		data = studentInfoService.getStudent(sid);
+		httpSession.setAttribute("studentInfo", data);
+		return truefalse;
+	}
 	@PutMapping("/yu/studentInfo/updateStudentNickname")
 	public String updateStudentNickname(String sid, String nickname) throws Exception {
 		StudentGetDTO data = (StudentGetDTO)httpSession.getAttribute("studentInfo");

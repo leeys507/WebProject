@@ -31,4 +31,6 @@ public interface StudentInfoService {
 	public int getStudentCount();
 
 	boolean changeNickname(String nickname, String changeNickname);
+
+    String updateStudentGrade(String sid, int syear);
 }

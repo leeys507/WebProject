@@ -71,6 +71,16 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 		return true;
 	}
 
+	@Transactional
+	public String updateStudentGrade(String sid, int syear) {
+		Student data=studentRepository.findBySid(sid);
+		data.setSyear(syear);
+		if(data==null){
+			return "찾을 수 없는 sid입니다.";
+		}
+		return "학년 변경 성공";
+	}
+
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum) {
 
 		String api_key = "NCSANGRSVWAQTXAU";
