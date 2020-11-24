@@ -16,24 +16,18 @@
             </tr>
             </thead>
             <tbody>
+			<th:block th:each="matching, num: ${matchingList}">
             <tr>
-              <th scope="row">1</th>
+              <th scope="row">
+                <b>[[${num.count}]]</b>
+                <a class="col-4" th:href="@{'/yu/matching/matchingView/'+${matching.getBno()}}" th:text="${matching.getTitle()}"></a>
+                <small class="col-4" th:text="${matching.getBoardtype()}"></small>
+                <span class="col-4" th:text=" ${matching.getRegister_date()}"></span>
+              </th>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
-            </tr>
+            </th:block>
+			<th:block th:if="${matchingList.size()} == 0"><tr><th scope="row">최근에 등록된 매칭이 없습니다.</th></tr>
+			</th:block>
             </tbody>
           </table>
         </div>
@@ -78,24 +72,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
+            <tr th:each="board, num: ${boardList}" th:if="${num.count} < 7 and ${boardList.size()} != 0">
+              <th scope="row">
+                <b>[[${num.count}]]</b>
+                <a class="col-4" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+                <small class="col-4" th:text="${board.getBoardtype()}"></small>
+                <span class="col-4" th:text=" ${board.getRegister_date()}"></span>
+              </th>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
-            </tr>
+            <tr th:unless="${boardList.size()} != 0"><th>인기 게시물이 없습니다</th></tr>
             </tbody>
           </table>
         </div>
@@ -107,7 +92,7 @@
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="lectureEvaluation, num: ${lectureEvaluationList}" th:if="${num.count} < 6">
+            <th:block th:each="lectureEvaluation, num: ${lectureEvaluationList}" th:if="${num.count} < 7">
               <tr>
                 <th scope="row">
                 <b>[[${num.count}]]</b>
@@ -120,6 +105,8 @@
                   <span class="col-4" th:text=" ${lectureEvaluation.getRegister_date()}"></span></th>
               </tr>
             </th:block>
+            <th:block th:if="${lectureEvaluationList.size()} == 0"><tr><th scope="row">최근에 등록된 강의평이 없습니다.</th></tr>
+			</th:block>
             </tbody>
           </table>
         </div>

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 public interface MatchingRepository extends JpaRepository<Matching, Long>, PagingAndSortingRepository<Matching, Long>, MatchingCustomRepository {
@@ -23,6 +25,9 @@ public interface MatchingRepository extends JpaRepository<Matching, Long>, Pagin
 	@Query(value = "UPDATE matching SET read_count = :read_count WHERE bno = :bno", nativeQuery = true)
 	int updateReadCount(@Param("bno") long bno, @Param("read_count") int read_count);
 
+	@Query(value = "SELECT * FROM matching m WHERE m.check_delete='F' and register_date > date_sub(now(), interval 7 day) ORDER BY m.register_date DESC limit 6", nativeQuery = true)
+    List<Matching> findRecentlyMatchingList();
+	
     @Query(value = "select * from matching where match(title, content) against(:text in boolean mode) and check_delete = 'F' "
     		+ "order by match(title, content) against(:text in boolean mode) desc, register_date desc", nativeQuery = true)
     Page<Matching> searchMatchingAll(@Param("text")String text, Pageable pageable);

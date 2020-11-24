@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -165,6 +166,10 @@ public class MatchingServiceImpl implements MatchingService {
 			System.out.println(e.getCode());
 		}
 */
+    }
+    
+    public List<Matching> getMatchingList() {
+        return matchingRepository.findRecentlyMatchingList();
     }
 
     public Page<Matching> searchAll(Pageable pageable, String text, String date, String option){

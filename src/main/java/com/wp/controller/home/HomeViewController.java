@@ -3,8 +3,13 @@ package com.wp.controller.home;
 
 import java.util.List;
 
+import com.wp.domain.board.Board;
 import com.wp.domain.lectureevaluation.LectureEvaluation;
+import com.wp.domain.matching.Matching;
+import com.wp.service.board.BoardService;
 import com.wp.service.lectureevaluation.LectureEvaluationService;
+import com.wp.service.matching.MatchingService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +24,20 @@ import lombok.RequiredArgsConstructor;
 public class HomeViewController {
 	private final SearchWordService searchWordService;
 	private final LectureEvaluationService lectureEvaluationService;
+	private final BoardService boardService;
+	private final MatchingService matchingService;
+	
     @GetMapping("/yu/index")    // view
     public String openHomeIndexView(Model model) {
     	List<SearchWordGetDTO> data = searchWordService.getWordRanking(10);
         List<LectureEvaluation> leList=lectureEvaluationService.getLectureEvaluationList();
+        List<Board> bList = boardService.getRecentlyPopularBoard();
+        List<Matching> mList = matchingService.getMatchingList();
+        
+        model.addAttribute("matchingList",mList);
         model.addAttribute("lectureEvaluationList",leList);
     	model.addAttribute("searchRankingList", data);
+    	model.addAttribute("boardList", bList);
         return "home/index";
     }
     
@@ -32,8 +45,13 @@ public class HomeViewController {
 	public String openHomeLoginView(Model model) {
     	List<SearchWordGetDTO> data = searchWordService.getWordRanking(10);
         List<LectureEvaluation> leList=lectureEvaluationService.getLectureEvaluationList();
+        List<Board> bList = boardService.getRecentlyPopularBoard();
+        List<Matching> mList = matchingService.getMatchingList();
+        
+        model.addAttribute("matchingList",mList);
         model.addAttribute("lectureEvaluationList",leList);
     	model.addAttribute("searchRankingList", data);
+    	model.addAttribute("boardList", bList);
 		return "home/login";
 	}
 	

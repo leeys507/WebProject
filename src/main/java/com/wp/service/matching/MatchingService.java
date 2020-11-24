@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import com.wp.domain.matching.Matching;
 import com.wp.domain.matching.dto.MatchingGetDTO;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,6 +34,8 @@ public interface MatchingService {
     long UpdateMatching(long bno, MatchingUpdateDTO dto);
 
     long MaxBno();
+    
+    List<Matching> getMatchingList();
     
     Page<Matching> searchMatching(Pageable pageable, String boardtype, String text, String date, String option);
 
