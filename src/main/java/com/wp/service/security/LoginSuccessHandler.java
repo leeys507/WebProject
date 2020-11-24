@@ -34,10 +34,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             targetUrl = null;
         }
         boolean user=false;
+        boolean admin=false;
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("USER".equals(auth.getAuthority())){
                 user = true;
             }
+            if ("ADMIN".equals(auth.getAuthority())){
+                admin = true;
+            }
+        }
+        if(admin){
+            out.println("<script>location.href='/yu/admin/index'</script>");
+            return;
         }
         if(user) {
             if(targetUrl==null){

@@ -1,8 +1,13 @@
 package com.wp.service.report;
 
+import com.wp.domain.report.Report;
 import com.wp.domain.report.dto.ReportInsertDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ReportService {
-	boolean exsistMyReportThisType(String sid, String typename, long typenumber);
+	boolean existMyReportThisType(String sid, String typename, long typenumber);
 	boolean insertReport(ReportInsertDTO data);
+
+	Page<Report> findreport(Pageable pageable);
 }

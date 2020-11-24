@@ -160,7 +160,7 @@
                 </div>
               </div>
               <div class="float-left" style="margin-bottom:10px; margin-left:10px;">
-                <button type="button" class="btn-red" id="secession">탈퇴하기</button>
+                <button type="button" class="btn-red" id="secession" onclick="studentDrop()">탈퇴하기</button>
               </div>
               <div class="float-right" style="margin-bottom:10px; margin-right:10px;">
                   <button type="button" class="btn-blue" data-toggle="modal" data-target="#modal5" data-backdrop ="static">수정하기</button>
@@ -557,6 +557,29 @@
     	 	$("#updateNickName").val(temp.replace(re,"")); 
     	}
     });
+    function studentDrop(){
+      if(confirm("관련 정보는 모두 보관되며 탈퇴 후 사용 시 홈페이지 이용이 불가능합니다. 탈퇴하시겠습니까? ")) {
+        alert("다시 홈페이지를 이용 시 이메일 문의 해주세요. 이용해주셔서 감사합니다.");
+
+      $.ajax ({
+        type: "POST",
+        url: "/yu/dropStudent",
+        data: {
+          sid:[[${session.studentInfo.getSid()}]]
+        },
+        success: function (data) {
+          if (data == true) {
+            alert("탈퇴 성공");
+            location.href = "/yu/logout";
+          } else
+            alert(data);
+        }, error: function () {
+          alert("탈퇴 실패");
+          return false;
+        }
+      });
+      }
+    }
   </script>
 </th:block>
 </html>

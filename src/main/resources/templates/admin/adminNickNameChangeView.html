@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
+
+<th:block layout:fragment="title">
+    <title>YU NickName View</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div class="container-fluid">
+        <div class="card bg-light mt-3">
+            <div class="card-header bg-light">
+                <h2>사용자 닉네임 변경</h2>
+                <br>
+            </div>
+                <div class="card-header bg-light">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nickname" class="col-form-label"><h5>현재 닉네임</h5></label>
+                            <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required"/>
+                            <button type="button" id="sendNickname" class="btn btn-primary" onclick="findNickname()">닉네임 확인</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-header bg-light">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="changeNickname" class="col-form-label"><h5>변경 할 닉네임</h5></label>
+                            <input type="text" id="changeNickname" class="form-control" placeholder="닉네임 입력" required="required"/>
+                            <button type="button" class="btn btn-primary" onclick="changeNickname()">변경</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+</th:block>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        function findNickname(){
+            var nickname = $('#nickname').val();
+            $.ajax({
+                type: "GET",
+                url : "/yu/findNickname",
+                data : {
+                    nickname : nickname
+                },
+                success : function(data){
+                    if(data == true) {
+                        alert("닉네임이 존재합니다.");
+                        $('#nickname').attr("readonly",true);
+                    }
+                    else
+                        alert("닉네임 조회 실패");
+                },error : function(){
+                    alert("Error");
+                    return false;
+                }
+            });
+        }
+        function changeNickname(){
+            var nickname = $('#nickname').val();
+            var changeNickname = $('#changeNickname').val();
+            $.ajax({
+                type: "PUT",
+                url : "/yu/changeNickname",
+                data : {
+                    nickname : nickname,
+                    changeNickname : changeNickname
+                },
+                success : function(data){
+                    if(data == true) {
+                        alert("닉네임 변경 완료.");
+                        location.href=location.href;
+                    }
+                    else
+                        alert("같은 닉네임이 존재합니다.");
+                },error : function(){
+                    alert("Error");
+                    return false;
+                }
+            });
+        }
+    </script>
+</th:block>
+</html>

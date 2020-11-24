@@ -77,10 +77,7 @@
                                 <!-- 본인이 참여자 : 수정, 삭제 버튼 보이게 해주시고 / 본인이 글 작성자 : 선택하기 버튼  -->
                                 <div class="comment-option-button" th:if="${matchingComment.getCheck_delete()} == 'F'">
                                     <div class="fr">
-                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()}" th:onClick="|showUpdateCommentForm(${matchingComment.getCno()});|" class="comment-modify">수정</button>
-                                        <button type="button" th:if="${session.studentInfo.getSid()} == ${matchingComment.getStudentForeignkey().getSid()} AND ${matching.getCheck_success()}!='I'" th:onClick="|return deleteComment(${matchingComment.getCno()});|" class="comment-cancel">삭제</button>
-                                        <button type="button" class="comment-select"  th:if="${session.studentInfo.getSid()} == ${matching.getRequest_sid()} AND ${matching.getCheck_success()}=='F' AND ${matchingComment.getStudentForeignkey().getSid()}!=${session.studentInfo.getSid()}" th:onClick="|return proceedMatching(${matchingComment.getCno()});|">선택</button>
-                                        <button type="button" th:if="(${session.studentInfo.getSid()} == ${matching.request_sid} || ${session.studentInfo.getSid()} == ${matching.accept_sid}) AND ${matching.getCheck_success()}=='I'" class="comment-chatting"  th:onClick="|return openChating(${matching.getBno()});|">채팅방 들어가기</button>
+                                        <button type="button"  th:onClick="|return deleteComment(${matchingComment.getCno()});|" class="comment-cancel">삭제</button>
                                     </div>
                                 </div>
                             </div>
@@ -121,22 +118,6 @@
                 </ul>
             </nav>
             <br><br>
-            <!-- 댓글 입력창 -->
-            <div class="comment-write-wrap clear">
-                <div class="comment-write-form">
-                    <!-- 댓글 입력폼 -->
-                    <div class="comment-write">
-                        <textarea maxlength="400" id="cTextArea" placeholder="내용을 입력하세요."></textarea>
-                    </div>
-                    <!-- 댓글 입력버튼 -->
-                    <div class="comment-button clear">
-                        <div class="fr">
-                            <button id="commentCancel" type="button" class="btn-blue" style="display:none" onClick="cancelCommentForm('');">취소</button>
-                            <button id="commentRegisterButton" type="button" class="btn-blue" onClick="return registerComment();">등록</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- 수정, 삭제, 목록 버튼 -->
             <div class="bottom-button-wrap clear">
                 <div class="fl">
@@ -144,8 +125,7 @@
                 </div>
                 <div class="fr">
                     <!-- 내가 쓴글이면 수정, 삭제 기능을 할수있게 만들어주세요 -->
-                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${matching.request_sid}" onclick="updateButtonClick()">수정</button>
-                    <button type="button" class="btn-grey" th:if="${session.studentInfo.getSid()} == ${matching.request_sid}" th:onClick="|return deleteMatching(${matching.getBno()});|" >삭제</button>
+                    <button type="button" class="btn-grey" th:onClick="|return deleteMatching(${matching.getBno()});|" >삭제</button>
                 </div>
             </div>
         </div>
@@ -157,42 +137,8 @@
 
 <th:block layout:fragment="script">
 <script type="text/javascript">
-    function proceedMatching(cno){
-    if(confirm("선택하시겠습니까?")) {
-        var bno = [[${matching.bno}]];
-        $.ajax({
-            type: "PUT",
-            url : "/yu/matchingProceed",
-            data : {
-                bno : bno,
-                cno : cno
-            },
-            success : function(data){
-                if(data == true) {
-                    alert("요청 성공, 채팅방으로 이동합니다.");
-                    location.href = '/yu/matching/matchingProceeding/'+bno;
-                }
-                else
-                    alert("요청 실패");
-            },error : function(){
-                alert("Error");
-                return false;
-            }
-        });
-    }
-    else return false;
-    }
-    function openChating(bno){
-        location.href = '/yu/matching/matchingProceeding/'+bno;
-    }
-    function updateButtonClick() {
-        var check="[[${matching.check_success}]]";
-        if(check=="I"){
-            alert("진행중인 매칭입니다.");
-            return false;
-        }
-        location.href = '/yu/matching/matchingUpdate/'+[[${matching.getBno()}]] ;
-    }
+
+
     function deleteMatching(bno) {
         var check="[[${matching.check_success}]]";
         if(check=="I"){
@@ -209,7 +155,7 @@
                 success : function(data){
                     if(data == true) {
                         alert("게시글 삭제 성공");
-                        location.href = '/yu/matching/matchingList?boardtype=' + "[[${matching.getBoardtype()}]]";
+                        location.href = '/yu/admin/matchingList?boardtype=' + "[[${matching.getBoardtype()}]]";
                     }
                     else
                         alert("게시글 삭제 실패");
@@ -245,108 +191,12 @@
         }
         else return false;
     }
-    function registerComment() {
-        var MatchingNumber = document.getElementsByName("matchingNumber")[0].id;
-        var sid = "[[${session.studentInfo.getSid()}]]";
-        var nickname = "[[${session.studentInfo.getNickname()}]]";
-        var content = $("#cTextArea");
-
-        if(content.val() == "") {
-            alert("내용 입력");
-            content.focus();
-            return false;
-        }
 
 
-        var data = { "bno" : MatchingNumber,
-                "sid" : sid,
-                "nickname" : nickname,
-                "content" : content.val()
-        };
 
-        $.ajax({
-            type: "POST",
-            url : "/yu/matchingComment/insertMatchingComment",
-            data : data,
-            success : function(data){
-                if(data == true) {
-                    alert("댓글 등록 성공");
-                    cancelCommentForm('');
-                    location.href = location.href;
-                }
-                else
-                    alert("댓글 등록 실패");
-            },error : function(){
-                alert("Error");
-                return false;
-            }
-        });
-    }
-    function updateComment(cno) {
-        var matchingNumber = document.getElementsByName("matchingNumber")[0].id;
-        var sid = "[[${session.studentInfo.getSid()}]]";
-        var nickname = "[[${session.studentInfo.getNickname()}]]";
-        var content = $("#cTextArea");
 
-        if(content.val() == "") {
-            alert("내용 입력");
-            content.focus();
-            return false;
-        }
-
-        $.ajax({
-            type: "PUT",
-            url : "/yu/matchingComment/updateMatchingComment",
-            data : {
-                bno : matchingNumber,
-                cno : clickCommentCno,
-                content : content.val()
-            },
-            success : function(data){
-                if(data == true) {
-                    alert("댓글 수정 성공");
-                    location.href = location.href;
-                }
-                else
-                    alert("댓글 수정 실패");
-            },error : function(){
-                alert("Error");
-                return false;
-            }
-        });
-    }
-    
-    function showUpdateCommentForm(cno) {
-        clickCommentCno = cno;
-
-        if($("#toComment").html() != "") $("#toComment").html("");
-        $("#cTextArea").attr("placeholder", "수정될 댓글을 입력하세요");
-        $("#commentRegisterButton").html("수정");
-        $("#commentRegisterButton").attr("onClick", "return updateComment('" + cno + "')");
-        $("#commentCancel").attr("onClick", "cancelCommentForm('u');");
-        $("#commentCancel").css("display", "inline-block");
-    }
-
-    function cancelCommentForm(part) {
-        $("#cTextArea").val("");
-        $("#cTextArea").attr("placeholder", "댓글을 입력하세요");
-        $("#commentCancel").css("display", "none");
-
-        if(part == "u") {
-            $("#commentRegisterButton").html("등록");
-        }
-        if($("#toComment").html() != "") $("#toComment").html("");
-    }
-    
-    function cancelMatchingForm(part) {
-        document.getElementById(part + "matchingForm").style.display = "none";
-        document.getElementById(part + "bankname").value = "";
-        document.getElementById(part + "account").value = "";
-        document.getElementById(part + "accountname").value = "";
-    }
-    
     function listButtonClick() {
-    	location.href = "/yu/matching/matchingList?boardtype=" + "[[${matching.getBoardtype()}]]";
+    	location.href = "/yu/admin/matchingList?boardtype=" + "[[${matching.getBoardtype()}]]";
     }
 </script>
 </th:block>

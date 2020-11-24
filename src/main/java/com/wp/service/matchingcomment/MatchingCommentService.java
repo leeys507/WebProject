@@ -1,5 +1,6 @@
 package com.wp.service.matchingcomment;
 
+import com.wp.domain.matchingcancel.MatchingCancel;
 import com.wp.domain.matchingcomment.MatchingComment;
 import com.wp.domain.matchingcomment.dto.MatchingCommentInsertDTO;
 import org.springframework.data.domain.Page;
@@ -13,4 +14,5 @@ public interface MatchingCommentService {
     boolean updateMatchingComment(long bno, long cno, String content);
 
     boolean deleteMatchingComment(long cno);
+
 }

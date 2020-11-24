@@ -40,4 +40,6 @@ public interface MatchingService {
     void updateViewCnt(long bno, int readcount, HttpServletRequest request, HttpServletResponse response, HttpSession session);
 
     boolean UpdateAccount(long bno, String account);
+
+    Page<Matching> findAllDeleteMatching(Pageable pageable);
 }

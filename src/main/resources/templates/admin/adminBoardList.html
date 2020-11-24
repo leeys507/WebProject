@@ -25,7 +25,7 @@
 		<tbody id="tbody">
         <tr th:each="boardlist :${board}">
             <td style="text-align:center" th:text="${boardlist.getBno()}"></td>
-            <td><a th:href="@{'/yu/adminBoard/adminBoardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
+            <td><a th:href="@{'/yu/admin/boardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
             <td style="text-align:center" th:text="${boardlist.getNickname()}"></td>
             <td style="text-align:center" th:text="${boardlist.getRegister_date()}"></td>
             <td style="text-align:center" th:text="${boardlist.getRead_count()}"></td>
@@ -138,7 +138,7 @@
             if(pageNum + nextOrPrev < 0) return false;
             else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
 
-            location.href = "/yu/board/boardList/?boardtype=" + boardtype + "&page=" + (pageNum + nextOrPrev);
+            location.href = "/yu/admin/boardList/?boardtype=" + boardtype + "&page=" + (pageNum + nextOrPrev);
             return true;
         }
         
@@ -161,7 +161,7 @@
     		chgText = chgText.replace(/%/gi, '%25');
     		chgText = chgText.replace(/\\/gi, '%5C');
 
-        	location.href = "/yu/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
+        	location.href = "/yu/admin/searchBoardList?boardtype=" + boardtype + "&text=" +
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
     </script>

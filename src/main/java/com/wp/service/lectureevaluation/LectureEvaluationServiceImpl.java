@@ -54,6 +54,12 @@ public class LectureEvaluationServiceImpl implements LectureEvaluationService {
         return lectureEvaluationRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,
                 new Sort(Sort.Direction.DESC, "lno")));
     }
+    @Transactional
+    public boolean deleteLectureEvaluation(long lno) {
+        LectureEvaluation data= lectureEvaluationRepository.findByLno(lno);
+        data.setCheck_delete("T");
+        return true;
+    }
 
     public List<LectureEvaluation> getLectureEvaluationList() {
             return lectureEvaluationRepository.findByList();

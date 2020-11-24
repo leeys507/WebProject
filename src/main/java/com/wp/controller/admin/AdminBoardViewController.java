@@ -27,7 +27,7 @@ public class AdminBoardViewController {
     private final BoardService boardService;
     private final BoardCommentService boardCommentService;
 
-    @GetMapping("/yu/adminBoard/adminBoardList")    // view
+    @GetMapping("/yu/admin/boardList")    // view
     public String openAdminBoardListView(@RequestParam String boardtype, Model model, Pageable pageable) {
         YUFunction function = new YUFunction();
         if(!function.boardTypeCheck(boardtype)) boardtype = "자유게시판";
@@ -38,7 +38,7 @@ public class AdminBoardViewController {
         return "admin/adminBoardList";
     }
 
-    @GetMapping("/yu/adminBoard/adminBoardView/{bno}")	// board 1 + comment
+    @GetMapping("/yu/admin/boardView/{bno}")	// board 1 + comment
     public String openAdminBoardView(@PathVariable long bno, Model model, Pageable pageable, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         BoardGetDTO dto = boardService.findById(bno);	// 1
 

@@ -29,7 +29,7 @@ public class LectureEvaluationViewController {
     public String openLectureEvaluationListView(Model model, Pageable pageable) {
         Page<LectureEvaluation> page = lectureEvaluationService.findLectureEvaluations(pageable);
         model.addAttribute("lectureList", page);
-        return "lectureevaluation/LectureEvaluationList";
+        return "lectureevaluation/lectureEvaluationList";
     }
 
     @GetMapping("/yu/lectureevaluation/lectureevaluation")
@@ -39,7 +39,7 @@ public class LectureEvaluationViewController {
         List<LectureEvaluation> leList=lectureEvaluationService.getLectureEvaluationList();
         model.addAttribute("lectureList",lList);
         model.addAttribute("lectureEvaluationList",leList);
-        return "lectureevaluation/LectureEvaluation";
+        return "lectureevaluation/lectureEvaluation";
     }
 
     @GetMapping("/yu/lectureevaluation/EvalLecture")

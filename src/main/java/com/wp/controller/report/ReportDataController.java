@@ -16,7 +16,7 @@ public class ReportDataController {
 	
     @PostMapping("/yu/reportInsert")
     public String InsertReport(@ModelAttribute ReportInsertDTO data) throws Exception {
-    	if(reportService.exsistMyReportThisType(data.getSid(), data.getTypename(), data.getTypenumber())) {
+    	if(reportService.existMyReportThisType(data.getSid(), data.getTypename(), data.getTypenumber())) {
     		return "이미 신고가 접수되었습니다";
     	}
         if(reportService.insertReport(data)) {
@@ -29,6 +29,6 @@ public class ReportDataController {
     
     @PostMapping("/yu/exsistMyReportThisType")
     public boolean ExsistMyReportThisType(String sid, String typename, long typenumber) throws Exception {
-        return reportService.exsistMyReportThisType(sid, typename, typenumber);
+        return reportService.existMyReportThisType(sid, typename, typenumber);
     }
 }

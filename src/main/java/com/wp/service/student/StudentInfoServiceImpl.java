@@ -61,7 +61,16 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	public int getStudentCount() {
 		return (int) studentRepository.count();
 	}
-	
+	@Transactional
+	public boolean changeNickname(String nickname, String changeNickname) {
+		Student data = studentRepository.findByNickname(nickname);
+		if(getEqualNickname(changeNickname)==1){
+			return false;
+		}
+		data.setNickname(changeNickname);
+		return true;
+	}
+
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum) {
 
 		String api_key = "NCSANGRSVWAQTXAU";

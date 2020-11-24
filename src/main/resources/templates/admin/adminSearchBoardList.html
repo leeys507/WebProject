@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
+
+<th:block layout:fragment="title">
+    <title>YU Board List</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div id="article">
+        <div class="container-fluid">
+            <div class="col-sm-auto article-header">
+                <h2 style="color:red">게시판 - [[${boardtype}]] [검색 결과]</h2>
+            </div>
+            <table class="col-sm-auto table table-hover" style="margin:0">
+                <thead>
+                <tr>
+                    <th style="text-align:center; width:5%;">번호</th>
+                    <th style="text-align:center; width:50%;">제목</th>
+                    <th style="text-align:center; width:20%;">작성자</th>
+                    <th style="text-align:center; width:15%;">작성일</th>
+                    <th style="text-align:center; width:5%;">조회수</th>
+                    <th style="text-align:center; width:5%;">좋아요</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="boardlist :${board}">
+                    <td style="text-align:center" th:text="${boardlist.getBno()}"></td>
+                    <td><a th:href="@{'/yu/admin/boardView/'+${boardlist.getBno()}}" th:text="${boardlist.getTitle()}"></a></td>
+                    <td style="text-align:center" th:text="${boardlist.getNickname()}"></td>
+                    <td style="text-align:center" th:text="${boardlist.getRegister_date()}"></td>
+                    <td style="text-align:center" th:text="${boardlist.getRead_count()}"></td>
+                    <td style="text-align:center" th:text="${boardlist.getLike_count()}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <hr style="margin:0"/><br>
+
+            <div class="clear">
+                <div class="float-right">
+                    Total <b style="color:red">[[${board.getTotalPages()}]]</b> Pages / <b style="color:red">[[${board.getTotalElements()}]]</b> Elements
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li id="pagefirst">
+                        <a th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=0'">
+                            <span class="page-link">«</span>
+                        </a>
+                    </li>
+                    <li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+                        <a th:onClick="|return pageMove('prev');|">
+                            <span class="page-link">&lt;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" style="cursor:pointer" th:if="${board.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,board.getTotalPages()-1)}">
+                        <a th:if="${board.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+                        <a th:unless="${board.getNumber()} == ${num}" class="page-link" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+                    </li>
+                    <li id="pageNext">
+                        <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                            <span class="page-link">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:if="${board.getTotalPages()}>0" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${board.getTotalPages()-1}">
+                            <span class="page-link">»</span>
+                        </a>
+                        <a th:if="${board.getTotalPages()}==0" th:href="'?boardtype=' + ${boardtype} + '&text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${board.getTotalPages()}">
+                            <span class="page-link">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="search-wrap1 clear">
+                <!-- 옵션 -->
+                <form class="input-group" onsubmit="return false;">
+                    <div class="search-option-wrap fl">
+                        <select id="searchDate" class="search-date">
+                            <option value="all">전체기간</option>
+                            <option value="1week">1주</option>
+                            <option value="1month">1개월</option>
+                            <option value="6month">6개월</option>
+                        </select>
+                        <select id="searchOption" class="search-option">
+                            <option value="all">제목+내용</option>
+                            <option value="title">제목</option>
+                            <option value="writer">글작성자</option>
+                            <option value="commentContent">댓글내용</option>
+                        </select>
+                    </div>
+                    <!-- 검색어 입력창 -->
+                    <input id="searchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요" style="border-radius: 5px; border: 2px solid #4a57a8;">
+                    <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchBoard()">
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        var pages = getParameterByName("page");
+        var boardtype = "[[${boardtype}]]";
+
+        if([[${board.getTotalElements()}]] == 0) {
+            var tr = document.createElement("tr");
+            var th = document.createElement("th");
+
+            th.style.textAlign= "center";
+            th.colSpan = 6;
+            th.style.fontSize = "15px";
+            th.innerHTML = "검색 결과가 없습니다";
+            tr.appendChild(th);
+            $("#tbody").append(tr);
+        }
+
+        $("#searchBox").val("[[${text}]]");
+        $("#searchBox").focus();
+        $("#searchDate").val("[[${date}]]").prop("selected", true);
+        $("#searchOption").val("[[${option}]]").prop("selected", true);
+
+        if(pages == "") {
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function pageMove(param) {
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
+
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${board.getTotalPages()}]] - 1) return false;
+
+            location.href = "/yu/admin/searchBoardList?boardtype=" + "[[${boardtype}]]" + "&text=" + "[[${text}]]" + "&date="
+                + "[[${date}]]" + "&option=" + "[[${option}]]" + "&page=" + (pageNum + nextOrPrev);
+            return true;
+        }
+
+
+
+        function searchBoard() {
+            var text = $("#searchBox");
+            var date = $("#searchDate option:selected");
+            var option = $("#searchOption option:selected");
+
+            if(text.val().trim() == "") {
+                alert("검색어를 입력하세요");
+                return false;
+            }
+            else if(text.val().length < 2) {
+                alert("검색어는 2글자 이상이어야 합니다");
+                return false;
+            }
+
+            var chgText = text.val().trim();
+            chgText = chgText.replace(/ +/g, " ");
+            chgText = chgText.replace(/%/gi, '%25');
+            chgText = chgText.replace(/\\/gi, '%5C');
+
+            location.href = "/yu/admin/searchBoardList?boardtype=" + boardtype + "&text=" +
+                chgText + "&date=" + date.val() + "&option=" + option.val();
+        }
+    </script>
+</th:block>
+</html>

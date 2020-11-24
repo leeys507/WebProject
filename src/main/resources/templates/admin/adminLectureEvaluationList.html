@@ -19,8 +19,6 @@
                             <th scope="col">교수이름</th>
                             <th scope="col">작성자</th>
                             <th scope="col">작성일</th>
-                            <th scope="col">신고</th>
-                        </tr>
                     </thead>
                     <tbody>
                     <th:block th:each="lectureEvaluation,num :${lectureList}">
@@ -35,11 +33,6 @@
                             <td th:text="${lectureEvaluation.getProfessor()}"></td>
                             <td th:text="${lectureEvaluation.getNickname()}"></td>
                             <td th:text="${lectureEvaluation.getRegister_date()}"></td>
-                            <td>
-                                <div class="declare-btn-form fl">
-                                    <button type="button" class="btn-declare"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
-                                </div>
-                            </td>
                         </tr>
                         <tr class="hide-table-padding">
                             <td colspan="1">
@@ -51,6 +44,8 @@
                                 <div th:id="'collapse'+${num.count}" class="collapse in p-3" th:text="${lectureEvaluation.getContent()}">
                                 </div>
                             </td>
+                            <td>
+                                <button type="button" class="btn btn-grey" th:onClick="|return deleteLecture(${lectureEvaluation.getLno()});|">삭제</button></td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -169,24 +164,32 @@
     		chgText = chgText.replace(/ +/g, " ");
     		chgText = chgText.replace(/%/gi, '%25');
     		chgText = chgText.replace(/\\/gi, '%5C');
-    		
-    		var searchData = {
-    				sid: "[[${session.studentInfo.getSid()}]]",
-    				word: chgText
-    		};
-    		
-        	$.ajax ({
-        		type: "POST",
-        		url: "/yu/searchWordInsert",
-                data: searchData,
-                success: function (data) {
-                }, error: function () {
-                    alert("error");
-                }
-        	});
 
-        	location.href = "/yu/search/searchLectureEvaluationList?text=" +
+        	location.href = "/yu/admin/searchLectureEvaluationList?text=" +
         			chgText + "&date=" + date.val() + "&option=" + option.val();
+        }
+        function deleteLecture(lno){
+                if(confirm("게시글을 삭제하시겠습니까?")) {
+                    $.ajax({
+                        type: "PUT",
+                        url : "/yu/deleteLecture",
+                        data : {
+                            lno : lno
+                        },
+                        success : function(data){
+                            if(data == true) {
+                                alert("게시글 삭제 성공");
+                                location.href = '/yu/admin/lectureevaluationList';
+                            }
+                            else
+                                alert("게시글 삭제 실패");
+                        },error : function(){
+                            alert("Error");
+                            return false;
+                        }
+                    });
+                }
+                else return false;
         }
     </script>
 </th:block>

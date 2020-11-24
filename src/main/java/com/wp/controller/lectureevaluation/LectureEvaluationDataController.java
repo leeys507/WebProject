@@ -18,4 +18,8 @@ public class LectureEvaluationDataController {
     public boolean insertLectureEvaluation(int lecturenum, String content, int star) {
         return lectureEvaluationService.insertLectureEvaluation(lecturenum,content,star);
     }
+    @PutMapping("/yu/deleteLecture")
+    public boolean deleteLecture(long lno){
+        return lectureEvaluationService.deleteLectureEvaluation(lno);
+    }
 }

@@ -54,7 +54,18 @@ public class StudentDataController {
 		System.out.println(data.getFirst_login());
 		return data;
 	}
-	
+	@GetMapping("/yu/findNickname")
+	public boolean findNickname(String nickname){
+		int data = studentInfoService.getEqualNickname(nickname);
+		if (data == 0) {
+			return false;
+		}
+		return true;
+	}
+	@PutMapping("/yu/changeNickname")
+	public boolean changeNickname(String nickname,String changeNickname){
+		return studentInfoService.changeNickname(nickname,changeNickname);
+	}
 	@PostMapping("/yu/studentInfo/studentRegistrationData")
 	public boolean registerStudent(@ModelAttribute StudentInsertDTO data) throws Exception {
 		return studentInfoService.registerStudent(data);
@@ -158,5 +169,9 @@ public class StudentDataController {
 			return "등록 성공";
 		}
 		return "파일을 찾을 수 없습니다";
+	}
+	@GetMapping("/yu/studentGetPhone")
+	public String getPhonenumber(String sid){
+		return studentInfoService.getPhoneNum(sid);
 	}
 }

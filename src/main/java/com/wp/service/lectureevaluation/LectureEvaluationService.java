@@ -19,4 +19,6 @@ public interface LectureEvaluationService {
     LectureEvaluationGetDTO findByLno(long lno);
 
     Page<LectureEvaluation> findLectureEvaluations(Pageable pageable);
+
+    boolean deleteLectureEvaluation(long lno);
 }

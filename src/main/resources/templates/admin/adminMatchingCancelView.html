@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
+
+<th:block layout:fragment="title">
+    <title>YU 매칭 취소 List</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div class="container-fluid">
+        <div class="col-sm-auto article-header">
+            <h2>매칭 취소 전체보기</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">매칭 글 번호</th>
+                    <th scope="col">학번</th>
+                    <th scope="col">휴대폰 번호</th>
+                    <th scope="col">취소 날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="matchingCancel,num :${matchingCancelList}">
+                    <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
+                        <td class="expand-button" th:text="${matchingCancel.getMatchingForeignkey().getBno()}"></td>
+                        <td th:text="${matchingCancel.getStudentForeignkey().getSid()}"></td>
+                        <td><button type="button" class="btn btn-grey" th:onClick="|return findPhoneNum(${matchingCancel.getMatchingForeignkey().getBno()});|">휴대폰 번호 확인</button></td>
+                        <td th:text="${matchingCancel.getRegister_date()}"></td>
+                    </tr>
+                    <tr class="hide-table-padding">
+                        <td colspan="1">
+                            <div th:id="'collapse'+${num.count}" class="collapse in p-3">
+                                취소 사유
+                            </div>
+                        </td>
+                        <td colspan="2">
+                            <div th:id="'collapse'+${num.count}" class="collapse in p-3" th:text="${matchingCancel.getContent()}">
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-grey" th:onClick="|return cancelMatching(${matchingCancel.getMatchingForeignkey().getBno()});|">취소하기</button></td>
+                        <input type="hidden" th:id="'wow'+${matchingCancel.getMatchingForeignkey().getBno()}" th:value="${matchingCancel.getStudentForeignkey().getSid()}">
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <hr style="margin:0"/><br>
+
+
+        <div class="clear">
+            <div class="float-right">
+                Total <b style="color:red">[[${matchingCancelList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${matchingCancelList.getTotalElements()}]]</b> Elements
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li id="pagefirst">
+                    <a th:href=" '?page=0'">
+                        <span class="page-link">«</span>
+                    </a>
+                </li>
+                <li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+                    <a th:onClick="|return pageMove('prev');|">
+                        <span class="page-link">&lt;</span>
+                    </a>
+                </li>
+                <li class="page-item" style="cursor:pointer" th:if="${matchingCancelList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,matchingCancelList.getTotalPages()-1)}">
+                    <a th:if="${matchingCancelList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                    <a th:unless="${matchingCancelList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                </li>
+                <li id="pageNext">
+                    <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                        <span class="page-link">&gt;</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:if="${matchingCancelList.getTotalPages()}>0" th:href=" '?page=' + ${matchingCancelList.getTotalPages()-1}">
+                        <span class="page-link">»</span>
+                    </a>
+                    <a th:if="${matchingCancelList.getTotalPages()}==0" th:href="'?page=' + ${matchingCancelList.getTotalPages()}">
+                        <span class="page-link">»</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        var pages = getParameterByName("page");
+
+        if(pages == "") {
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function pageMove(param) {
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
+
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${matchingCancelList.getTotalPages()}]] - 1) return false;
+
+            location.href = "?page=" + (pageNum + nextOrPrev);
+            return true;
+        }
+        function cancelMatching(bno){
+            if(confirm("취소 하시겠습니까?")) {
+                $.ajax({
+                    type: "PUT",
+                    url : "/yu/matchingCancel",
+                    data : {
+                        bno : bno
+                    },
+                    success : function(data){
+                        if(data == true) {
+                            alert("취소 성공");
+                            $.ajax({
+                                type: "DELETE",
+                                url : "/yu/matchingCancelDelete",
+                                data : {
+                                    bno : bno
+                                },success:function (data) {
+                                location.href = '/yu/admin/matchingCancelList';
+                            },error:function (){
+                                    alert("Error");
+                                    return false;
+                                }});
+                        }
+                        else
+                            alert("취소 실패");
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+                });
+            }
+            else return false;
+        }
+        function findPhoneNum(bno){
+            var sid = $('#'+'wow'+bno).val();
+            $.ajax({
+                type: "GET",
+                url : "/yu/studentGetPhone",
+                data : {
+                   sid : sid
+                },
+                success : function(data) {
+                    alert(data);
+                },error:function (){
+                    alert("Error");
+                    return false;
+                }});
+        }
+    </script>
+</th:block>
+</html>

@@ -29,4 +29,6 @@ public interface StudentInfoService {
 	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable);
 	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable);
 	public int getStudentCount();
+
+	boolean changeNickname(String nickname, String changeNickname);
 }

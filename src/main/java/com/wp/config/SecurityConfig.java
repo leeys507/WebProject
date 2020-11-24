@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 페이지 권한 설정
         		.antMatchers("/yu/studentInfo/studentRegistration","/check/sendSMS","/yu/studentInfo/studentRegistrationData").hasAuthority("GUEST")
-        		.antMatchers("/yu/index","/loginProcess","/indexLogin").permitAll()
+                .antMatchers("/yu/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/yu/index","/loginProcess","/indexLogin").permitAll()
         		.anyRequest().hasAuthority("USER")
                 .and() // 로그인 설정
                 .formLogin()

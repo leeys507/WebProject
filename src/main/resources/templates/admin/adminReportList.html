@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
+
+<th:block layout:fragment="title">
+    <title>YU 신고 List</title>
+</th:block>
+
+<th:block layout:fragment="article">
+    <div class="container-fluid">
+        <div class="col-sm-auto article-header">
+            <h2>신고 전체보기</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">학번</th>
+                    <th scope="col">게시글 제목</th>
+                    <th scope="col">메뉴</th>
+                    <th scope="col">글 번호</th>
+                    <th scope="col">신고 날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="report,num :${reportList}">
+                    <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
+                        <td class="expand-button" th:text="${report.getStudentForeignkey().getSid()}"></td>
+                        <td th:text="${report.getReported_title()}"></td>
+                        <td th:text="${report.getTypename()}"></td>
+                        <td th:text="${report.getTypenumber()}"></td>
+                        <td th:text="${report.getRegister_date()}"></td>
+                    </tr>
+                    <tr class="hide-table-padding">
+                        <td colspan="1">
+                            <div th:id="'collapse'+${num.count}" class="collapse in p-3">
+                                신고 이유
+                            </div>
+                        </td>
+                        <td colspan="2">
+                            <div th:id="'collapse'+${num.count}" class="collapse in p-3" th:text="${report.getReason()}">
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <hr style="margin:0"/><br>
+
+
+        <div class="clear">
+            <div class="float-right">
+                Total <b style="color:red">[[${reportList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${reportList.getTotalElements()}]]</b> Elements
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li id="pagefirst">
+                    <a th:href=" '?page=0'">
+                        <span class="page-link">«</span>
+                    </a>
+                </li>
+                <li style="cursor:pointer" id="pagePrev" class="page-item disabled">
+                    <a th:onClick="|return pageMove('prev');|">
+                        <span class="page-link">&lt;</span>
+                    </a>
+                </li>
+                <li class="page-item" style="cursor:pointer" th:if="${reportList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,reportList.getTotalPages()-1)}">
+                    <a th:if="${reportList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                    <a th:unless="${reportList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                </li>
+                <li id="pageNext">
+                    <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
+                        <span class="page-link">&gt;</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:if="${reportList.getTotalPages()}>0" th:href=" '?page=' + ${reportList.getTotalPages()-1}">
+                        <span class="page-link">»</span>
+                    </a>
+                    <a th:if="${reportList.getTotalPages()}==0" th:href="'?page=' + ${reportList.getTotalPages()}">
+                        <span class="page-link">»</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        var pages = getParameterByName("page");
+
+        if(pages == "") {
+            pages=0;
+        }
+        $("#page"+pages).attr("class","active");
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function pageMove(param) {
+            var pageNum = parseInt(getParameterByName("page"));
+            var nextOrPrev;
+            if(isNaN(pageNum)) pageNum = 0;
+            nextOrPrev = (param == "next") ? 1 : -1;
+
+            if(pageNum + nextOrPrev < 0) return false;
+            else if(pageNum + nextOrPrev > [[${reportList.getTotalPages()}]] - 1) return false;
+
+            location.href = "?page=" + (pageNum + nextOrPrev);
+            return true;
+        }
+    </script>
+</th:block>
+</html>

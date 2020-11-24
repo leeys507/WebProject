@@ -1,6 +1,7 @@
 package com.wp.domain.matching;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -43,4 +44,6 @@ public interface MatchingRepository extends JpaRepository<Matching, Long>, Pagin
     
 	@Query(value = "SELECT MAX(m.bno) FROM matching m", nativeQuery = true)
 	Long MaxBno();
+	@Query(value = "SELECT * FROM matching m WHERE m.check_delete='T'", nativeQuery = true)
+    Page<Matching> findAllByDelete(Pageable pageable);
 }

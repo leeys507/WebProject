@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/basic}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminBasic}">
 
 <th:block layout:fragment="title">
-    <title>YU 강의평 전체보기</title>
+    <title>YU LectureEvaluation List</title>
 </th:block>
 
 <th:block layout:fragment="middle">
@@ -34,7 +34,7 @@
 <th:block layout:fragment="article">
         <div class="container-fluid">
             <div class="col-sm-auto article-header">
-                <h2>강의평 전체보기</h2>
+                <h2 style="color:red">강의평가 [검색 결과]</h2>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -45,11 +45,10 @@
                             <th scope="col">교수이름</th>
                             <th scope="col">작성자</th>
                             <th scope="col">작성일</th>
-                            <th scope="col">신고</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                    <th:block th:each="lectureEvaluation,num :${lectureList}">
+                    <th:block th:each="lectureEvaluation,num :${lectureEvaluationList}">
                         <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
                             <td th:id="lec_title+${lectureEvaluation.getLno()}" class="expand-button" th:text="${lectureEvaluation.getLecturename()}"></td>
                             <td>
@@ -58,14 +57,9 @@
                                     <span th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
                                 </th:block>
                             </td>
-                            <td th:text="${lectureEvaluation.getProfessor()}"></td>
-                            <td th:text="${lectureEvaluation.getNickname()}"></td>
-                            <td th:text="${lectureEvaluation.getRegister_date()}"></td>
-                            <td>
-                                <div class="declare-btn-form fl">
-                                    <button type="button" class="btn-declare" th:onclick="|reportButtonClick(${lectureEvaluation.getLno()})|" data-toggle = "modal" data-target="#reportModal" data-backdrop="static"><img th:src="@{/images/declare_btn.png}" class="declare-btn"></button>
-                                </div>
-                            </td>
+                        	<td th:text="${lectureEvaluation.getProfessor()}"></td>
+                        	<td th:text="${lectureEvaluation.getNickname()}"></td>
+                        	<td th:text="${lectureEvaluation.getRegister_date()}"></td>
                         </tr>
                         <tr class="hide-table-padding">
                             <td colspan="1">
@@ -77,6 +71,7 @@
                                 <div th:id="'collapse'+${num.count}" class="collapse in p-3" th:text="${lectureEvaluation.getContent()}">
                                 </div>
                             </td>
+                            <td> <button type="button" class="btn-grey" th:onClick="|return deleteLecture(${lectureEvaluation.getLno()});|">삭제</button></td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -87,7 +82,7 @@
 
             <div class="clear">
                 <div class="float-right">
-                    Total <b style="color:red">[[${lectureList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${lectureList.getTotalElements()}]]</b> Elements
+                    Total <b style="color:red">[[${lectureEvaluationList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${lectureEvaluationList.getTotalElements()}]]</b> Elements
                 </div>
             </div>
 
@@ -103,9 +98,9 @@
                             <span class="page-link">&lt;</span>
                         </a>
                     </li>
-                    <li class="page-item" style="cursor:pointer" th:if="${lectureList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0,lectureList.getTotalPages()-1)}">
-                        <a th:if="${lectureList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
-                        <a th:unless="${lectureList.getNumber()} == ${num}" class="page-link" th:href="'?page=' + ${num}" th:text="${num+1}"></a>
+                    <li class="page-item" style="cursor:pointer" th:if="${lectureEvaluationList.getTotalPages()}>0" th:id="page+${num}" th:each="num: ${#numbers.sequence(0, lectureEvaluationList.getTotalPages()-1)}">
+                        <a th:if="${lectureEvaluationList.getNumber()} == ${num}" style="color:red; font-weight:bold;" class="page-link" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
+                        <a th:unless="${lectureEvaluationList.getNumber()} == ${num}" class="page-link" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${num}" th:text="${num+1}"></a>
                     </li>
                     <li id="pageNext">
                         <a style="cursor:pointer" th:onClick="|return pageMove('next');|">
@@ -113,10 +108,10 @@
                         </a>
                     </li>
                     <li>
-                        <a th:if="${lectureList.getTotalPages()}>0" th:href=" '?page=' + ${lectureList.getTotalPages()-1}">
+                        <a th:if="${lectureEvaluationList.getTotalPages()}>0" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${lectureEvaluationList.getTotalPages()-1}">
                             <span class="page-link">»</span>
                         </a>
-                        <a th:if="${lectureList.getTotalPages()}==0" th:href="'?page=' + ${lectureList.getTotalPages()}">
+                        <a th:if="${lectureEvaluationList.getTotalPages()}==0" th:href="'?text=' + ${text}  + '&date=' + ${date} + '&option=' + ${option} + '&page=' + ${lectureEvaluationList.getTotalPages()}">
                             <span class="page-link">»</span>
                         </a>
                     </li>
@@ -153,19 +148,25 @@
         var pages = getParameterByName("page");
         var lno;
         var reported_title;
+
+    	if([[${lectureEvaluationList.getTotalElements()}]] == 0) {
+    		var tr = document.createElement("tr");
+    		var th = document.createElement("th");
+    		
+    		th.colSpan = 6;
+    		th.style.fontSize = "15px";
+    		th.style.textAlign = "center";
+    		th.innerHTML = "검색 결과가 없습니다";
+    		tr.appendChild(th);
+    		$("#tbody").append(tr);
+    	}
+
+        $("#searchBox").val("[[${text}]]");
+        $("#searchBox").focus();
+        $("#searchDate").val("[[${date}]]").prop("selected", true);
+        $("#searchType").val("[[${type}]]").prop("selected", true);
+        $("#searchOption").val("[[${option}]]").prop("selected", true);
         
-        if([[${lectureList.getTotalElements()}]] == 0) {
-            var tr = document.createElement("tr");
-            var th = document.createElement("th");
-
-            th.colSpan = 6;
-            th.style.fontSize = "15px";
-            th.style.textAlign = "center";
-            th.innerHTML = "등록된 글이 없습니다";
-            tr.appendChild(th);
-            $("#tbody").append(tr);
-        }
-
         if(pages == "") {
             pages=0;
         }
@@ -185,9 +186,9 @@
             nextOrPrev = (param == "next") ? 1 : -1;
 
             if(pageNum + nextOrPrev < 0) return false;
-            else if(pageNum + nextOrPrev > [[${lectureList.getTotalPages()}]] - 1) return false;
+            else if(pageNum + nextOrPrev > [[${lectureEvaluationList.getTotalPages()}]] - 1) return false;
 
-            location.href = "?page=" + (pageNum + nextOrPrev);
+            location.href = "?text=" + "[[${text}]]"  + "&date=" + "[[${date}]]" + "&option=" + "[[${option}]]" + '&page=' + (pageNum + nextOrPrev);
             return true;
         }
         
@@ -209,65 +210,34 @@
     		chgText = chgText.replace(/ +/g, " ");
     		chgText = chgText.replace(/%/gi, '%25');
     		chgText = chgText.replace(/\\/gi, '%5C');
-    		
-    		var searchData = {
-    				sid: "[[${session.studentInfo.getSid()}]]",
-    				word: chgText
-    		};
-    		
-        	$.ajax ({
-        		type: "POST",
-        		url: "/yu/searchWordInsert",
-                data: searchData,
-                success: function (data) {
-                }, error: function () {
-                    alert("error");
-                }
-        	});
+        	
 
-        	location.href = "/yu/search/searchLectureEvaluationList?text=" +
+
+        	location.href = "/yu/admin/searchLectureEvaluationList?text=" +
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
-        
-        function reportButtonClick(id) {
-        	lno = id;
-        	reported_title = $("#lec_title" + id).text();
-        }
-        
-        function clearReport() {
-        	$("#reportContent").val("");
-        }
-        
-        function sendReport() {
-        	if($("#reportContent").val() == "") {
-        		alert("내용을 입력하세요");
-        		return false;
-        	}
-        	
-        	if(confirm("입력하신 내용으로 신고를 접수 하시겠습니까?\r\n접수된 내용은 취소할 수 없습니다")) {
-        		var reportData = {
-        				sid: "[[${session.studentInfo.getSid()}]]",
-        				reported_title: reported_title,
-        				typename: "강의평가",
-        				typenumber: lno,
-        				reason: $("#reportContent").val()
-        		};
-        		
-            	$.ajax ({
-            		type: "POST",
-            		url: "/yu/reportInsert",
-                    data: reportData,
-                    success: function (data) {
-                    	alert(data);
-                    	clearReport();
-                    	return true;
-                    }, error: function () {
-                        alert("error");
+        function deleteLecture(lno){
+            if(confirm("게시글을 삭제하시겠습니까?")) {
+                $.ajax({
+                    type: "PUT",
+                    url : "/yu/deleteLecture",
+                    data : {
+                        lno : lno
+                    },
+                    success : function(data){
+                        if(data == true) {
+                            alert("게시글 삭제 성공");
+                            location.href = '/yu/admin/lectureEvaluationList';
+                        }
+                        else
+                            alert("게시글 삭제 실패");
+                    },error : function(){
+                        alert("Error");
                         return false;
                     }
-            	});
-        	}
-        	return true;
+                });
+            }
+            else return false;
         }
     </script>
 </th:block>

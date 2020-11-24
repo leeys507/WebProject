@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -32,4 +33,9 @@ public class MatchingCancel {
 
     @Column(name = "register_date", nullable = false)
     private LocalDateTime register_date;
+
+    public String getRegister_date() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+        return formatter.format(this.register_date);
+    }
 }

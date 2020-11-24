@@ -136,6 +136,11 @@ public class MatchingServiceImpl implements MatchingService {
         return true;
     }
 
+    public Page<Matching> findAllDeleteMatching(Pageable pageable) {
+        return matchingRepository.findAllByDelete(PageRequest.of(pageable.getPageNumber(), 10,
+                new Sort(Sort.Direction.DESC, "bno")));
+    }
+
     @Transactional
     public long MaxBno() {
         return matchingRepository.MaxBno()+1;

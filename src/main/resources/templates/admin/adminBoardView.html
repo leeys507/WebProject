@@ -170,7 +170,7 @@
             if(pageNum + nextOrPrev < 0) return false;
             else if(pageNum + nextOrPrev > [[${boardCommentList.getTotalPages()}]] - 1) return false;
 
-            location.href = "/yu/adminBoard/adminBoardView/" + boardNumber + "?page=" + (pageNum + nextOrPrev);
+            location.href = "/yu/admin/boardView/" + boardNumber + "?page=" + (pageNum + nextOrPrev);
             return true;
         }
         
@@ -185,7 +185,7 @@
                     success : function(data){
                         if(data == true) {
                             alert("게시글 삭제 성공");
-                            location.href = '/yu/adminBoard/adminBoardList?boardtype=' + "[[${board.getBoardtype()}]]";
+                            location.href = '/yu/admin/boardList?boardtype=' + "[[${board.getBoardtype()}]]";
                         }
                         else
                             alert("게시글 삭제 실패");
@@ -198,17 +198,7 @@
             else return false;
         }
         
-        function cancelCommentForm(part) {
-        	$("#cTextArea").val("");
-    		$("#cTextArea").attr("placeholder", "댓글을 입력하세요");
-            $("#commentCancel").css("display", "none");
-            
-        	if(part == "u") {
-        		$("#commentRegisterButton").html("등록");
-        	}
-        	if($("#toComment").html() != "") $("#toComment").html("");
-        }
-        
+
         function deleteComment(cno) {
             if (confirm("선택된 댓글을 삭제하시겠습니까?")) {
                 var boardNumber = document.getElementsByName("boardNumber")[0].id;
@@ -234,7 +224,7 @@
         }
         
         function listButtonClick() {
-        	location.href = "/yu/board/boardList?boardtype=" + "[[${board.getBoardtype()}]]";
+        	location.href = "/yu/admin/boardList?boardtype=" + "[[${board.getBoardtype()}]]";
         }
     </script>
 </th:block>
