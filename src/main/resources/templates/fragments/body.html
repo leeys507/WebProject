@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<body th:fragment="main-body">
+<body th:fragment="main-body" onload="printClock()">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
 	<a class="navbar-brand" th:if="${session.studentInfo} == null" href="/yu/index">나만 따라 YU</a>
@@ -99,6 +99,7 @@
 		<a th:unless="${session.studentInfo} == null" href="/yu/login"><img th:src="@{/images/영대마크.png}"></a>
 	</div>
 	<div class="col-7 item">
+		<div id="clock" style="margin-left:5px;"></div>
 		<div class="search-wrap clear">
 			<form class="input-group" onsubmit="return false;">
 			<div class="search-option-wrap1 fl">
@@ -326,7 +327,7 @@
 	    	amPm = 'PM';
 	    	currentHours = addZeros(currentHours - 12,2);
 	    }
-	    clock.innerHTML = calendar +" "+currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:30px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+	    clock.innerHTML = "<span style='font-size:20px;'>"+calendar +" "+currentHours+":"+currentMinute+":"+currentSeconds +" <span>"+ amPm+"</span>"+"</span>"; //날짜를 출력해 줌
 	    
 	    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
 	}
