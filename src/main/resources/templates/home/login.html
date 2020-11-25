@@ -6,111 +6,164 @@
 </th:block>
 
 <th:block layout:fragment="article">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col">
-          <table class="table table-hover">
-            <thead>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover" style="table-layout:fixed">
+          <caption class="myArticleTableCaption h5" style="color:#0D3F7A"><b>최근 등록된 매칭</b></caption>
+          <colgroup>
+            <col width="8%">
+            <col width="50%">
+            <col width="15%">
+            <col width="27%">
+          </colgroup>
+          <thead>
+          <tr>
+            <td>번호</td>
+            <td>제목</td>
+            <td>위치</td>
+            <td>등록시간</td>
+          </tr>
+          </thead>
+          <tbody>
+          <th:block th:each="matching, num: ${matchingList}">
             <tr>
-              <th scope="col" style="color:#0D3F7A">최근 등록된 매칭</th>
+              <td><b>[[${num.count}]]</b></td>
+              <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><a th:href="@{'/yu/matching/matchingView/'+${matching.getBno()}}" th:text="${matching.getTitle()}"></a></td>
+              <td><span th:text="${matching.getBoardtype()}"></span></td>
+              <td><span th:text=" ${matching.getRegister_date()}"></span></td>
             </tr>
-            </thead>
-            <tbody>
-			<th:block th:each="matching, num: ${matchingList}">
-            <tr>
-              <th scope="row">
-                <b>[[${num.count}]]</b>
-                <a class="col-4" th:href="@{'/yu/matching/matchingView/'+${matching.getBno()}}" th:text="${matching.getTitle()}"></a>
-                <small class="col-4" th:text="${matching.getBoardtype()}"></small>
-                <span class="col-4" th:text=" ${matching.getRegister_date()}"></span>
-              </th>
-            </tr>
-            </th:block>
-			<th:block th:if="${matchingList.size()} == 0"><tr><th scope="row">최근에 등록된 매칭이 없습니다.</th></tr>
-			</th:block>
-            </tbody>
-          </table>
-        </div>
-        <div class="col">
-          <table class="table table-hover">
-            <thead>
-            <tr>
-              <th scope="col" style="color:#0D3F7A">실시간 검색어</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="word, num: ${searchRankingList}" th:if="${num.count} < 7">
-              <th scope="row">
-              	<div class="ranking-num-wrap">
-                  <span class="ranking-num">[[${num.count}]]</span>
+          </th:block>
+          <th:block th:if="${matchingList.size()} == 0"><tr>
+            <td></td>
+            <td>등록된 매칭이 없습니다.</td>
+            <td></td>
+            <td></td>
+          </tr>
+          </th:block>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <table class="table table-hover" style="table-layout:fixed">
+          <caption class="myArticleTableCaption h5" style="color:#0D3F7A"><b>실시간 검색어</b></caption>
+          <colgroup>
+            <col width="8%">
+            <col width="77%">
+            <col width="15%">
+          </colgroup>
+          <tbody>
+          <tr th:each="word, num: ${searchRankingList}" th:if="${num.count} < 7">
+            <td>
+              <div class="ranking-num-wrap">
+                <span class="ranking-num">[[${num.count}]]</span>
+              </div></td>
+            <td>
+              <div class="ranking-word-wrap" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
+                <span class="ranking-word">[[${word.getWord()}]]</span>
+              </div>
+            </td>
+            <td>
+              <div class="ranking-change-wrap" th:switch="${word.getRankingchange()}">
+                <b class="ranking-change ranking-change-new" th:case="20">NEW</b>
+                <b class="ranking-change ranking-change-old" th:case="0">-</b>
+                <div class="ranking-change" th:case="*">
+                  <b class="ranking-change" th:if="${word.getRankingchange()} > 0"><img class="ranking-img" th:src="@{/images/rankingup.png}">[[${word.getRankingchange()}]]</b>
+                  <b class="ranking-change" th:unless="${word.getRankingchange()} > 0"><img class="ranking-img" th:src="@{/images/rankingdown.png}">[[${-word.getRankingchange()}]]</b>
                 </div>
-                <div class="ranking-word-wrap">
-                  <span class="ranking-word">[[${word.getWord()}]]</span>
-                </div>
-                <div class="ranking-change-wrap" th:switch="${word.getRankingchange()}">
-                  <b class="ranking-change ranking-change-new" th:case="20">NEW</b>
-                  <b class="ranking-change ranking-change-old" th:case="0">-</b>
-                  <div class="ranking-change" th:case="*">
-                    <b class="ranking-change" th:if="${word.getRankingchange()} > 0"><img class="ranking-img" th:src="@{/images/rankingup.png}">[[${word.getRankingchange()}]]</b>
-                    <b class="ranking-change" th:unless="${word.getRankingchange()} > 0"><img class="ranking-img" th:src="@{/images/rankingdown.png}">[[${-word.getRankingchange()}]]</b>
-                  </div>
-                </div>
-              </th>
-            </tr>
-            <tr th:if="${searchRankingList.size()} == 0">
-            	<th>실시간 검색어가 없습니다</th>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="w-100"></div>
-        <div class="col">
-          <table class="table table-hover">
-            <thead>
+              </div>
+            </td>
+          </tr>
+          <th:block th:if="${searchRankingList.size()} == 0">
             <tr>
-              <th scope="col" style="color:#0D3F7A">Hot 게시물</th>
+              <td></td>
+              <td>실시간 검색어가 없습니다.</td>
+              <td></td>
             </tr>
-            </thead>
-            <tbody>
+          </th:block>
+          </tbody>
+        </table>
+      </div>
+      <div class="w-100"></div>
+      <div class="col">
+        <table class="table table-hover" style="table-layout:fixed">
+          <caption class="myArticleTableCaption h5" style="color:#0D3F7A"><b>Hot 게시물</b></caption>
+          <colgroup>
+            <col width="8%">
+            <col width="50%">
+            <col width="15%">
+            <col width="27%">
+          </colgroup>
+          <thead>
+          <tr>
+            <td>번호</td>
+            <td>제목</td>
+            <td>위치</td>
+            <td>등록시간</td>
+          </tr>
+          </thead>
+          <th:block>
             <tr th:each="board, num: ${boardList}" th:if="${num.count} < 7 and ${boardList.size()} != 0">
-              <th scope="row">
-                <b>[[${num.count}]]</b>
-                <a class="col-4" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
-                <small class="col-4" th:text="${board.getBoardtype()}"></small>
-                <span class="col-4" th:text=" ${board.getRegister_date()}"></span>
-              </th>
+              <td><b>[[${num.count}]]</b></td>
+              <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><a th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a></td>
+              <td><span th:text="${board.getBoardtype()}"></span></td>
+              <td><span th:text=" ${board.getRegister_date()}"></span></td>
             </tr>
-            <tr th:unless="${boardList.size()} != 0"><th>인기 게시물이 없습니다</th></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col">
-          <table class="table table-hover">
-            <thead>
+          </th:block>
+          <th:block th:unless="${boardList.size()} != 0"><tr>
+            <td></td>
+            <td>인기 게시물이 없습니다.</td>
+            <td></td>
+            <td></td>
+          </tr></th:block>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <table class="table table-hover" style="table-layout:fixed">
+          <caption class="myArticleTableCaption h5" style="color:#0D3F7A"><b>최근 등록된 강의평가</b></caption>
+          <colgroup>
+            <col width="8%">
+            <col width="28%">
+            <col width="20%">
+            <col width="17%">
+            <col width="27%">
+          </colgroup>
+          <thead>
+          <tr>
+            <td>번호</td>
+            <td>제목</td>
+            <td>별점</td>
+            <td>교수명</td>
+            <td>등록시간</td>
+          </tr>
+          </thead>
+          <tbody>
+          <th:block th:each="lectureEvaluation, num: ${lectureEvaluationList}" th:if="${num.count} < 7">
             <tr>
-              <th scope="col" style="color:#0D3F7A">최근 학과 강의평가</th>
+              <td><b>[[${num.count}]]</b></td>
+              <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><a th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a></td>
+              <td><th:block th:each="num:${#numbers.sequence(1,5)}">
+                <span  th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
+                <span  th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
+              </th:block>
+              </td>
+              <td><span th:text=" ${lectureEvaluation.getProfessor()}"></span></td>
+              <td><span th:text=" ${lectureEvaluation.getRegister_date()}"></span></td>
             </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="lectureEvaluation, num: ${lectureEvaluationList}" th:if="${num.count} < 7">
-              <tr>
-                <th scope="row">
-                <b>[[${num.count}]]</b>
-                <a class="col-4" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${lectureEvaluation.getLno()}}" th:text="${lectureEvaluation.getLecturename()}"></a>
-                  <th:block th:each="num:${#numbers.sequence(1,5)}">
-                    <span  th:if="${lectureEvaluation.getStar()}>=${num}">★</span>
-                    <span  th:unless="${lectureEvaluation.getStar()}>=${num}">☆</span>
-                  </th:block>
-                  <small class="col-4" th:text=" ${lectureEvaluation.getProfessor()}"></small>
-                  <span class="col-4" th:text=" ${lectureEvaluation.getRegister_date()}"></span></th>
-              </tr>
-            </th:block>
-            <th:block th:if="${lectureEvaluationList.size()} == 0"><tr><th scope="row">최근에 등록된 강의평이 없습니다.</th></tr>
-			</th:block>
-            </tbody>
-          </table>
-        </div>
+          </th:block>
+          <th:block th:if="${lectureEvaluationList.size()} == 0"><tr>
+            <td></td>
+            <td>강의평이 없습니다.</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </th:block>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 </th:block>
 </html>
