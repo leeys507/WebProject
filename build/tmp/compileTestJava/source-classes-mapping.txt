@@ -1,2 +1,0 @@
-com/example/wp/test.java
- com.example.wp.test
