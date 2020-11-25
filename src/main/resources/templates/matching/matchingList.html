@@ -98,7 +98,7 @@
                 </select>
               </div>
               <!-- 검색어 입력창 -->
-                <input id="searchBox" class="form-control " onKeypress = "if(event.keyCode==13) {return searchMatching()}" placeholder="검색어를 입력해 주세요"  style="border-radius: 5px; border: 2px solid #4a57a8;">
+                <input id="searchBox" class="form-control " maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchMatching()}" placeholder="검색어를 입력해 주세요"  style="border-radius: 5px; border: 2px solid #4a57a8;">
                    <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchMatching()">
                </form>
            </div>

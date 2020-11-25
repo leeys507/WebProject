@@ -93,7 +93,10 @@
     		$("#tbody").append(tr);
     	}
 
-        $("#totalSearchBox").val("[[${text}]]");
+    	var text = "[[${text}]]";
+    	text = text.replace(/&amp;/gi, '&');
+    	
+        $("#totalSearchBox").val(text);
         $("#totalSearchBox").focus();
         $("#totalSearchDate").val("[[${date}]]").prop("selected", true);
         $("#totalSearchType").val("[[${type}]]").prop("selected", true);

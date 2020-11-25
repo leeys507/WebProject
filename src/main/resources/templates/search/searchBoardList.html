@@ -94,7 +94,7 @@
                 </select>
               </div>
               <!-- 검색어 입력창 -->
-                <input id="searchBox" class="form-control mr-sm-2" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요" style="border-radius: 5px; border: 2px solid #4a57a8;">
+                <input id="searchBox" class="form-control mr-sm-2" maxlength = "100" onKeypress = "if(event.keyCode==13) {return searchBoard()}" placeholder="검색어를 입력해 주세요" style="border-radius: 5px; border: 2px solid #4a57a8;">
                <img th:src="@{/images/돋보기.png}" width="100%" class="btn glass" type="button" onClick="return searchBoard()">
                </form>
            </div>
@@ -119,7 +119,10 @@
     		$("#tbody").append(tr);
     	}
 
-        $("#searchBox").val("[[${text}]]");
+    	var text = "[[${text}]]";
+    	text = text.replace(/&amp;/gi, '&');
+
+        $("#searchBox").val(text);
         $("#searchBox").focus();
         $("#searchDate").val("[[${date}]]").prop("selected", true);
         $("#searchOption").val("[[${option}]]").prop("selected", true);
@@ -218,6 +221,7 @@
     		str = str.replace(/\}/gi, '%7D');
     		str = str.replace(/\,/gi, '%2C');
     		str = str.replace(/\//gi, '%2F');
+    		str = str.replace(/\;/gi, '%3B');
     		str = str.replace(/\?/gi, '%3F');
     		str = str.replace(/\:/gi, '%3A');
     		str = str.replace(/\'/gi, '%27');
