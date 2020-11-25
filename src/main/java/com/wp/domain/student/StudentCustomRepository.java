@@ -17,10 +17,12 @@ import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 
 public interface StudentCustomRepository {
+	List<String> getMySearchWord(String sid, int intervalDay, int limit);
+	int getMyCommentCount(String sid);
 	List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit);
-	public Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable);
+	Page<StudentGetMyBoardDTO> getMyAllBoard(String sid, Pageable pageable);
 	List<StudentGetMyCommentDTO> getMyComment(String sid, int limit);
-	public Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable);
+	Page<StudentGetMyCommentDTO> getMyAllComment(String sid, Pageable pageable);
 	Page<StudentGetMyBoardDTO> createMyBoardPage(@SuppressWarnings("rawtypes") List list, Pageable pageable, Query countQuery);
 	Page<StudentGetMyCommentDTO> createMyCommentPage(@SuppressWarnings("rawtypes") List list, Pageable pageable, Query countQuery);
 }
@@ -31,6 +33,42 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	Long totalCount = (long) 0;
+	
+	public List<String> getMySearchWord(String sid, int intervalDay, int limit) {
+		String sql = "select distinct word from searchword where sid = ?1 and register_date > date_sub(now(), interval ?2 day) limit ?3";
+		
+	    Query query = null;
+
+	    query = entityManager.createNativeQuery(sql);
+	    query.setParameter(1, sid);
+	    query.setParameter(2, intervalDay);
+	    query.setParameter(3, limit);
+	    
+	    @SuppressWarnings("unchecked")
+		List<String> list = query.getResultList();
+	    
+	    return list;
+	}
+	
+	public int getMyCommentCount(String sid) {
+	    String sql = "select sum(c) from "
+	    		+ "(select count(*) as c from board b, boardcomment bc "
+	    		+ "where b.bno = bc.bno and bc.sid = ?1 and bc.check_delete = 'F' "
+	    		+ "union all "
+	    		+ "select count(*) as c from matching m, matchingcomment mc "
+	    		+ "where m.bno = mc.bno and mc.sid = ?2 and mc.check_delete = 'F') as t";
+	    
+	    
+	    Query query = null;
+
+	    query = entityManager.createNativeQuery(sql);
+	    query.setParameter(1, sid);
+	    query.setParameter(2, sid);
+	    
+		int count = ((BigDecimal)query.getSingleResult()).intValue();
+	    
+	    return count;
+	}
 	
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit) {
 		String sql = "select title, bno, register_date, '게시판' as 'type', boardtype from board where sid = ?1 and check_delete = 'F' "

@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.domain.student.dto.StudentInsertDTO;
+import com.wp.domain.student.dto.StudentMyInfoDataGetDTO;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 
@@ -22,7 +22,7 @@ public interface StudentInfoService {
 	public boolean updateStudentNickName(String sid, String nickname, LocalDateTime date);
 	public String getPhoneNum(String sid);
 	public boolean updateStudentEmail(String sid, String email);
-	public int getMyBoardCount(String sid);
+	public StudentMyInfoDataGetDTO getMyInfoData(String sid);
 	public int getEqualNickname(String nickname);
 	public List<StudentGetMyBoardDTO> getMyBoard(String sid, int limit);
 	public List<StudentGetMyCommentDTO> getMyComment(String sid, int limit);

@@ -35,7 +35,7 @@ public class StudentViewController {
 			commentList = studentInfoService.getMyComment(data.getSid(), limit);
 		}
 
-		model.addAttribute("myBoardCount", studentInfoService.getMyBoardCount(data.getSid()));
+		model.addAttribute("myInfoData", studentInfoService.getMyInfoData(data.getSid()));
 		model.addAttribute("myBoardList", boardList);
 		model.addAttribute("myCommentList", commentList);
 

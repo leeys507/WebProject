@@ -26,6 +26,9 @@ public interface StudentRepository extends JpaRepository<Student, StudentGetDTO>
 			"select count(*) as c from matching where request_sid = :sid) as t;", nativeQuery = true)
 	int getMyBoardCount(@Param("sid") String sid);
 	
+	@Query(value = "select sum(like_count) from board where sid = :sid and check_delete = 'F'")
+	Integer getMyLikeCount(@Param("sid") String sid);
+	
 	@Query(value = "SELECT count(nickname) FROM student where nickname = :nickname", nativeQuery = true)
 	int getEqualNickname(@Param("nickname") String nickname);
 		

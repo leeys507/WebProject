@@ -213,9 +213,9 @@
                     <p class="card-text">최근 로그인 기록: 2020.06.17 22:15:14</p>
                   </div>
                   <div class="col-md-6">
-                    <p class="card-text">좋아요 받은 수: 564</p>
-                    <p class="card-text">내 댓글 수: 12</p>
-                    <p class="card-text">내 게시글 수: [[${myBoardCount}]]</p>
+                    <p class="card-text">좋아요 받은 수: [[${myInfoData.likeCount}]]</p>
+                    <p class="card-text">내 댓글 수: [[${myInfoData.commentCount}]]</p>
+                    <p class="card-text">내 게시글 수: [[${myInfoData.boardCount}]]</p>
                     <p class="card-text">로그인 횟수: 7</p>
                   </div>
                 </div>
@@ -223,14 +223,20 @@
                 <div class="row row-cols-1">
                   <p>
                   <div class="col">
-                    <p class="card-text text-left h4">검색기록</p>
+                    <p class="card-text text-left h4">최근 검색 기록</p>
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col"><a href="#" class="text-secondary"><u>영남대</u></a></div>
-                          <div class="col"><a href="#" class="text-secondary"><u>휴강</u></a></div>
-                          <div class="col"><a href="#" class="text-secondary"><u>중간고사</u></a></div>
-                          <div class="col"><a href="#" class="text-secondary"><u>코로나</u></a></div>
+                          <div th:each="searchWord: ${myInfoData.searchWordList}" th:if="${myInfoData.searchWordList} != null"  class="col">
+                          	<a href="#" class="text-secondary">
+                          		<u th:text="${searchWord}"></u>
+                          	</a>
+                          </div>
+                          <div th:unless="${myInfoData.searchWordList} != null">
+                            <a href="#" class="text-secondary">
+                          		<u>최근 검색 기록이 없습니다</u>
+                          	</a>
+                          </div>
                         </div>
                       </div>
                     </div>

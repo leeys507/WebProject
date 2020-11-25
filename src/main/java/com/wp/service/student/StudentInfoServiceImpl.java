@@ -1,8 +1,6 @@
 package com.wp.service.student;
 
 import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +13,7 @@ import com.wp.domain.student.dto.StudentGetDTO;
 import com.wp.domain.student.dto.StudentGetMyBoardDTO;
 import com.wp.domain.student.dto.StudentGetMyCommentDTO;
 import com.wp.domain.student.dto.StudentInsertDTO;
+import com.wp.domain.student.dto.StudentMyInfoDataGetDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -74,10 +73,12 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	@Transactional
 	public String updateStudentGrade(String sid, int syear) {
 		Student data=studentRepository.findBySid(sid);
-		data.setSyear(syear);
+		
 		if(data==null){
 			return "찾을 수 없는 sid입니다.";
 		}
+		
+		data.setSyear(syear);
 		return "학년 변경 성공";
 	}
 
@@ -105,8 +106,16 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 */
 	}
 	
-	public int getMyBoardCount(String sid) {
-		return studentRepository.getMyBoardCount(sid);
+	public StudentMyInfoDataGetDTO getMyInfoData(String sid) {
+		StudentMyInfoDataGetDTO data = new StudentMyInfoDataGetDTO();
+		
+		Integer likeCount = studentRepository.getMyLikeCount(sid);
+		data.setLikeCount(likeCount != null ? likeCount : 0);
+		data.setBoardCount(studentRepository.getMyBoardCount(sid));
+		data.setCommentCount(studentRepository.getMyCommentCount(sid));
+		data.setSearchWordList(studentRepository.getMySearchWord(sid, 7, 5));
+		
+		return data;
 	}
 	
 	public int getEqualNickname(String nickname) {
