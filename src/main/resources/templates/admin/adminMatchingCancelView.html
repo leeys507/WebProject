@@ -25,7 +25,7 @@
                     <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
                         <td class="expand-button" th:text="${matchingCancel.getMatchingForeignkey().getBno()}"></td>
                         <td th:text="${matchingCancel.getStudentForeignkey().getSid()}"></td>
-                        <td><button type="button" class="btn btn-grey" th:onClick="|return findPhoneNum(${matchingCancel.getMatchingForeignkey().getBno()});|">휴대폰 번호 확인</button></td>
+                        <td><button type="button" class="btn btn-grey"  style="width:150px" th:onClick="|return findPhoneNum(${matchingCancel.getMatchingForeignkey().getBno()});|">휴대폰 번호 확인</button></td>
                         <td th:text="${matchingCancel.getRegister_date()}"></td>
                     </tr>
                     <tr class="hide-table-padding">
@@ -39,7 +39,7 @@
                             </div>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-grey" th:onClick="|return cancelMatching(${matchingCancel.getMatchingForeignkey().getBno()});|">취소하기</button></td>
+                            <button type="button" class="btn btn-grey" style="width:100px" th:onClick="|return cancelMatching(${matchingCancel.getMatchingForeignkey().getBno()});|">취소하기</button></td>
                         <input type="hidden" th:id="'wow'+${matchingCancel.getMatchingForeignkey().getBno()}" th:value="${matchingCancel.getStudentForeignkey().getSid()}">
                     </tr>
                 </th:block>
