@@ -48,13 +48,19 @@
 
 
 <!-- admin 로그인 헤더 -->
-<header class="admin-login-header bg">
-    <div class="admin-head">
-        <h1 class="admin-head-title">
-            나만 따라 YU
-            <span>관리자 페이지</span>
-        </h1>
+<header class="admin-login-header bg" >
+    <div class="row">
+        <div class="col-11 admin-head">
+            <h1 class="admin-head-title">
+                나만 따라 YU
+                <span>관리자 페이지</span>
+            </h1>
+        </div>
+        <div class="col-1 float-right align-self-center">
+            <button type="button" class="btn-red" style="align-self: flex-end" id="secession" onclick="location.href='/yu/logout'">로그아웃</button>
+        </div>
     </div>
+
 </header>
 
 <br>
