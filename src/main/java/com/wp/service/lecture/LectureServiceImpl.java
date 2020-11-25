@@ -56,7 +56,7 @@ public class LectureServiceImpl implements LectureService {
         String path = System.getProperty("user.dir");
         System.setProperty(WEB_DRIVER_ID , path+"\\src\\main\\resources\\drivers\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--disable-gpu","--blink-settings=imagesEnabled=false");
+        //options.addArguments("--headless", "--disable-gpu","--blink-settings=imagesEnabled=false");
         driver = new ChromeDriver(options);
         driver.get(URL);
         WebElement id = driver.findElement(By.id("userId"));

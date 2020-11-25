@@ -36,7 +36,7 @@
                 <div class="bottom-button-wrap clear">
                     <div class="fr">
                         <!--수정-->
-                        <button type="button" class="btn-grey" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'">취소</button>
+                        <button type="button" class="btn-grey" onClick="cancel()">취소</button>
                         <button type="button" class="btn-blue" onClick="dataSend()">수정</button>
                     </div>
                 </div>
@@ -82,6 +82,10 @@
         var boardTypeName = "[[${matching.getBoardtype()}]]";
         $("#" + boardTypeName).attr("selected","selected");
 
+        function cancel() {
+        	location.href="/yu/matching/matchingList?boardtype=" + boardTypeName;
+        }
+        
         $(function (){		// ckeditor config
             CKEDITOR.replace('content', {
                 filebrowserUploadUrl: '/mine/imageUpload.do?' + "board=" + "matching" + "&boardtype=" + boardTypeName 

@@ -43,7 +43,7 @@
           <div class="bottom-button-wrap clear">
              <div class="fr">
                 <!--수정-->
-               <button type="button" class="btn-grey" onClick="location.href='/yu/matching/matchingList?boardtype=심부름'">취소</button>
+               <button type="button" class="btn-grey" onClick="cancel()">취소</button>
                <button type="button" class="btn-blue" onClick="importtest()">등록</button>
              </div>
           </div>
@@ -85,7 +85,7 @@
             var money = $('#money').val();
             IMP.request_pay({
                 pg: 'kakao',
-                merchant_uid: 'merchant_' +new Date().getTime(),
+                merchant_uid: 'merchant_' + new Date().getTime(),
                 name : sid,
                 amount: money,
                 buyer_tel: '[[${session.studentInfo.getPhonenum()}]]',
@@ -132,6 +132,10 @@
                 }
             });
             return false;
+        }
+        
+        function cancel() {
+        	location.href="/yu/matching/matchingList?boardtype=" + boardTypeName;
         }
         
         $(function (){		// ckeditor config

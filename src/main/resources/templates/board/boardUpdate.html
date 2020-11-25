@@ -30,8 +30,8 @@
             <textarea class="form-control" id="content" name="content" th:utext="${board.getContent()}" placeholder="내용을 입력하세요" required="required"></textarea>
           </div>
           <div id="button_group" class="btn-form">
-            <button type="submit" class="btn btn-primary" style="margin-right:5px;" onclick="dataSend()">수정</button>
-            <button type="button" class="btn btn-secondary" onclick="cancel()">취소</button>
+          	<button type="button" class="btn-grey" onclick="cancel()">취소</button>
+            <button type="submit" class="btn-blue" style="margin-right:5px;" onclick="dataSend()">수정</button>
           </div>
           <div class="form-group">
               <input type="hidden" name = "sid" id = "sid" class="form-control" th:value="${session.studentInfo.getSid()}" required="required" readonly/>

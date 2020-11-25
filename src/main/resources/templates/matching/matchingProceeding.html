@@ -70,12 +70,10 @@
                     <h3 class="card-title">채팅방</h3>
                 </div>
             </div>
-            <div class="card-body msg_container_base">
-                <div class="row msg_container base_sent">
-                    <div class="col-sm-11">
-                        <div id="chating" class="messages msg">
-                        </div>
-                    </div>
+			<div class="card-body msg_container_base">
+                <div class="row msg_container" style="overflow:auto;height:500px;">
+                    <div id="chating">
+                     </div>
                 </div>
             </div>
             <div class="card-footer">
@@ -108,7 +106,7 @@
         var webSocket;
         var nickname="[[${session.studentInfo.getNickname()}]]";
         var roomId = "[[${chatRoom.roomId}]]";
-        webSocket = new WebSocket("ws://localhost:8080/chat");
+        webSocket = new WebSocket("ws://39.121.250.95:8080/chat");
         webSocket.onopen = onOpen;
         webSocket.onmessage = onMessage;
         window.onbeforeunload = function(){
@@ -124,9 +122,28 @@
             webSocket.send(JSON.stringify({id : roomId,type:'ENTER',writer:nickname}));
         }
         function onMessage(e){
-            data = e.data;
+        	data = e.data;
             chatroom = document.getElementById("chating");
-            chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
+            var nick = data.indexOf(nickname);
+            if(nick!=-1) {
+                chatroom.innerHTML = chatroom.innerHTML +
+                    "<div class='col-sm-11'>" +
+                    "<div class='messages msg'>" +
+                    "<p>"+ data+"</p>" +
+                    "</div>" +
+                    "</div>" +
+                    "<div class='col-sm-1'>" +
+                    "</div>";
+            }
+            else {
+                chatroom.innerHTML = chatroom.innerHTML +
+                    "<div class='col-sm-1'>" +
+                    "</div>"+"<div class='col-sm-11'>" +
+                    "<div class='messages msg'>" +
+                    "<p>"+ data+"</p>" +
+                    "</div>" +
+                    "</div>";
+            }
         }
         function successMatching(){
             if(confirm("완료 처리할까요?")) {

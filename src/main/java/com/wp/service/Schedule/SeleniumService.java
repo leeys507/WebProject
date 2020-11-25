@@ -44,8 +44,8 @@ public class SeleniumService {
         //Driver SetUp
         ChromeOptions options = new ChromeOptions();
         options.setCapability("ignoreProtectedModeSettings", true);
-        options.addArguments("--headless");
-        options.addArguments("--no-sandbox");
+        //options.addArguments("--headless");
+        //options.addArguments("--no-sandbox");
 
         driver = new ChromeDriver(options);
 
@@ -158,7 +158,6 @@ public class SeleniumService {
 
                     con2+=1;
                     con3+=1;
-                    System.out.println("바뀐후:"+con3);
                     driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
 
                     String uid1="sbSearchUnivCd_itemTable_"+Integer.toString(con3);
