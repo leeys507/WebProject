@@ -222,7 +222,16 @@
  	var syearOne = null, syearTwo = null, syearThree = null, syearFour = null;
  	var limit = 5;
     var ctx = document.getElementById('myChart');
-    
+
+  	var emptyData = {
+         "labels": ['정보 없음', '정보 없음', '정보 없음', '정보 없음', '정보 없음'],
+   		 "datasets":{
+   			 	"data": [0, 0, 0, 0, 0],
+   	           "backgroundColor": ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+   	           "borderColor": ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+   	           "borderWidth": 1
+   		 }
+     };
     
     var myChart = new Chart(ctx, {
       type: 'bar',
@@ -278,7 +287,7 @@
       var radioValue = $(this).val();
       if (radioValue == "1") {
     	  var reData;
-    	if (syearOne == null) {
+    	if (syearOne == null && syearOne != "N") {
     		$.ajax ({
         		type: "POST",
         		url: "/yu/getPopularLectureList",
@@ -323,7 +332,9 @@
                     changeData(myChart, reData);
                 }
                 else {
-                	removeData(myChart);
+                    removeData(myChart);
+                    changeData(myChart, emptyData);
+                	syearOne = "N";
                    alert("데이터가 없습니다");
                 }
             }, error: function () {
@@ -331,14 +342,18 @@
                 }
         	});
     	}
-    	else {
+    	else if (syearOne != "N") {
     		reData = syearOne;
             removeData(myChart);
             changeData(myChart, reData);
     	}
+    	else if (syearOne == "N") {
+            removeData(myChart);
+            changeData(myChart, emptyData);
+    	}
       } else if (radioValue == "2") {
     	  var reData;
-      	if (syearTwo == null) {
+      	if (syearTwo == null && syearTwo != "N") {
       		$.ajax ({
           		type: "POST",
           		url: "/yu/getPopularLectureList",
@@ -384,7 +399,9 @@
                       changeData(myChart, reData);
                   }
                   else {
-                	  removeData(myChart);
+                	  syearTwo = "N";
+                      removeData(myChart);
+                      changeData(myChart, emptyData);
                      alert("데이터가 없습니다");
                   }
               }, error: function () {
@@ -392,14 +409,18 @@
                   }
           	});
       	}
-      	else {
+      	else if (syearTwo != "N") {
       		reData = syearTwo;
               removeData(myChart);
               changeData(myChart, reData);
       	}
+    	else if (syearTwo == "N") {
+            removeData(myChart);
+            changeData(myChart, emptyData);
+    	}
       } else if (radioValue == "3") {
     	  var reData;
-        	if (syearThree == null) {
+        	if (syearThree == null && syearThree != "N") {
         		$.ajax ({
             		type: "POST",
             		url: "/yu/getPopularLectureList",
@@ -444,7 +465,9 @@
                         changeData(myChart, reData);
                     }
                     else {
-                    	removeData(myChart);
+                    	syearThree = "N";
+                        removeData(myChart);
+                        changeData(myChart, emptyData);
                        alert("데이터가 없습니다");
                     }
                 }, error: function () {
@@ -452,14 +475,18 @@
                     }
             	});
         	}
-        	else {
+        	else if (syearThree != "N") {
         		reData = syearThree;
                 removeData(myChart);
                 changeData(myChart, reData);
         	}
+        	else if (syearThree == "N") {
+                removeData(myChart);
+                changeData(myChart, emptyData);
+        	}
       } else if (radioValue == "4") {
     	  var reData;
-        	if (syearFour == null) {
+        	if (syearFour == null && syearFour != "N") {
         		$.ajax ({
             		type: "POST",
             		url: "/yu/getPopularLectureList",
@@ -504,7 +531,9 @@
                         changeData(myChart, reData)
                     }
                     else {
-                    	removeData(myChart);
+                    	syearFour = "N";
+                        removeData(myChart);
+                        changeData(myChart, emptyData);
                        alert("데이터가 없습니다");
                     }
                 }, error: function () {
@@ -512,10 +541,14 @@
                     }
             	});
         	}
-        	else {
+        	else if (syearFour != "N") {
         		reData = syearFour;
                 removeData(myChart);
                 changeData(myChart, reData);
+        	}
+        	else if (syearFour == "N") {
+                removeData(myChart);
+                changeData(myChart, emptyData);
         	}
       }
     });
