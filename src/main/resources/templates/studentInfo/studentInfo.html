@@ -228,12 +228,12 @@
                       <div class="card-body">
                         <div class="row">
                           <div th:each="searchWord: ${myInfoData.searchWordList}" th:if="${myInfoData.searchWordList} != null"  class="col">
-                          	<a href="#" class="text-secondary">
+                          	<a style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" class="text-secondary">
                           		<u th:text="${searchWord}"></u>
                           	</a>
                           </div>
                           <div th:unless="${myInfoData.searchWordList} != null">
-                            <a href="#" class="text-secondary">
+                            <a class="text-secondary">
                           		<u>최근 검색 기록이 없습니다</u>
                           	</a>
                           </div>
@@ -647,6 +647,8 @@
       });
       }
     }
+    
+    
   </script>
 </th:block>
 </html>

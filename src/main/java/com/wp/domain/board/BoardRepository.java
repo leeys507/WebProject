@@ -27,7 +27,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>, PagingAndSo
 	@Query(value = "UPDATE board SET read_count = :read_count WHERE bno = :bno", nativeQuery = true)
 	int updateReadCount(@Param("bno") long bno, @Param("read_count") int read_count);
 	
-	@Query(value = "select * from board where register_date > date_sub(now(), interval 7 day) and check_delete = 'F' and like_count > 5 order by like_count limit 6", nativeQuery = true)
+	@Query(value = "select * from board where register_date > date_sub(now(), interval 7 day) and check_delete = 'F' and like_count >= 5 order by like_count limit 6", nativeQuery = true)
 	List<Board> getRecentlyPopularBoard();
     
     @Query(value = "select * from board where match(title, content) against(:text in boolean mode) and check_delete = 'F' "
