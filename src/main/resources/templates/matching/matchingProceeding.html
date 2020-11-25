@@ -64,16 +64,14 @@
 </th:block>
 <th:block layout:fragment="article">
     <div class="container_fluid">
-        <div class="card">
+        <div class="card" style="width: 50%; margin:0 auto">
             <div class="card-header top-bar">
                 <div class="col-sm-8s">
                     <h3 class="card-title">채팅방</h3>
                 </div>
             </div>
-			<div class="card-body msg_container_base">
-                <div class="row msg_container" style="overflow:auto;height:500px;">
-                    <div id="chating">
-                     </div>
+			<div class="card-body msg_container_base" id="chat_base" style='overflow-y:auto; overflow-x:hidden; height:600px;'>
+                <div id="chating">
                 </div>
             </div>
             <div class="card-footer">
@@ -106,7 +104,7 @@
         var webSocket;
         var nickname="[[${session.studentInfo.getNickname()}]]";
         var roomId = "[[${chatRoom.roomId}]]";
-        webSocket = new WebSocket("ws://39.121.250.95:8080/chat");
+        webSocket = new WebSocket("ws://localhost:8080/chat");
         webSocket.onopen = onOpen;
         webSocket.onmessage = onMessage;
         window.onbeforeunload = function(){
@@ -127,23 +125,27 @@
             var nick = data.indexOf(nickname);
             if(nick!=-1) {
                 chatroom.innerHTML = chatroom.innerHTML +
-                    "<div class='col-sm-11'>" +
+                	"<div class='row msg_container'>" +
+                    "<div style='left:0'>" +
                     "<div class='messages msg'>" +
                     "<p>"+ data+"</p>" +
                     "</div>" +
                     "</div>" +
                     "<div class='col-sm-1'>" +
+                    "</div>" +
                     "</div>";
             }
             else {
                 chatroom.innerHTML = chatroom.innerHTML +
-                    "<div class='col-sm-1'>" +
-                    "</div>"+"<div class='col-sm-11'>" +
+                	"<div class='row msg_container' style='justify-content:flex-end;'>" +
+					"<div>" +
                     "<div class='messages msg'>" +
                     "<p>"+ data+"</p>" +
                     "</div>" +
+                    "</div>" +
                     "</div>";
             }
+            $("#chat_base").scrollTop($("#chat_base")[0].scrollHeight);
         }
         function successMatching(){
             if(confirm("완료 처리할까요?")) {
