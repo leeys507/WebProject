@@ -35,7 +35,7 @@ class StudentCustomRepositoryImpl implements StudentCustomRepository {
 	Long totalCount = (long) 0;
 	
 	public List<String> getMySearchWord(String sid, int intervalDay, int limit) {
-		String sql = "select distinct word from searchword where sid = ?1 and register_date > date_sub(now(), interval ?2 day) limit ?3";
+		String sql = "select distinct word from searchword where sid = ?1 and register_date > date_sub(now(), interval ?2 day) order by register_date desc limit ?3";
 		
 	    Query query = null;
 

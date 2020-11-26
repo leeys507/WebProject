@@ -165,25 +165,27 @@
         		return false;
         	}
 
-    		var chgText = text.val().trim();
-    		chgText = chgText.replace(/ +/g, " ");
-    		chgText = chgText.replace(/%/gi, '%25');
-    		chgText = chgText.replace(/\\/gi, '%5C');
+    		var chgText = text.val();
+    		chgText = searchStringArrange(chgText);
     		
-    		var searchData = {
-    				sid: "[[${session.studentInfo.getSid()}]]",
-    				word: chgText
-    		};
+    		var afterWord = searchStringChange(text.val());
     		
-        	$.ajax ({
-        		type: "POST",
-        		url: "/yu/searchWordInsert",
-                data: searchData,
-                success: function (data) {
-                }, error: function () {
-                    alert("error");
-                }
-        	});
+    		if(afterWord.length != 0 && afterWord.length > 1) {
+    			var searchData = {
+    					sid: "[[${session.studentInfo.getSid()}]]",
+    					word: afterWord
+    			};
+    			
+    	    	$.ajax ({
+    	    		type: "POST",
+    	    		url: "/yu/searchWordInsert",
+    	            data: searchData,
+    	            success: function (data) {
+    	            }, error: function () {
+    	                alert("error");
+    	            }
+    	    	});
+    		}
 
         	location.href = "/yu/search/searchBoardList?boardtype=" + boardtype + "&text=" + 
         			chgText + "&date=" + date.val() + "&option=" + option.val();

@@ -146,27 +146,6 @@
             return true;
         }
         
-        function searchTotalList() {
-        	var text = $("#totalSearchBox");
-        	var date = $("#totalSearchDate option:selected");
-        	var option = $("#totalSearchOption option:selected");
-        	
-        	if(text.val().trim() == "") {
-        		alert("검색어를 입력하세요");
-        		return false;
-        	}
-        	else if(text.val().length < 2) {
-        		alert("검색어는 2글자 이상이어야 합니다");
-        		return false;
-        	}
-        	
-        	var chgText = text.val().replace(/%/gi, '%25');
-        	chgText = chgText.replace(/\\/gi, '%5C');
-        	
-        	location.href = "/yu/search/searchAllList?text=" + 
-        			chgText + "&date=" + date.val() + "&option=" + option.val();
-        }
-        
         function searchMatching() {
         	var text = $("#searchBox");
         	var date = $("#searchDate option:selected");
@@ -187,38 +166,6 @@
         	location.href = "/yu/admin/searchMatchingList?boardtype=" + boardtype + "&text=" +
         			chgText + "&date=" + date.val() + "&option=" + option.val();
         }
-        
-    	function searchStringArrange(str) {
-    		str = str.trim();
-    		str = str.replace(/ +/g, " ");
-    		
-    		str = str.replace(/\%/gi, '%25');
-    		
-    		str = str.replace(/\`/gi, '%60');
-    		str = str.replace(/\!/gi, '%21');
-    		str = str.replace(/\@/gi, '%40');
-    		str = str.replace(/\#/gi, '%23');
-    		str = str.replace(/\$/gi, '%24');
-    		str = str.replace(/\^/gi, '%5E');
-    		str = str.replace(/\&/gi, '%26');
-    		str = str.replace(/\(/gi, '%28');
-    		str = str.replace(/\)/gi, '%29');
-    		str = str.replace(/\=/gi, '%3D');
-    		str = str.replace(/\\/gi, '%5C');
-    		str = str.replace(/\|/gi, '%7C');
-    		str = str.replace(/\[/gi, '%5B');
-    		str = str.replace(/\]/gi, '%5D');
-    		str = str.replace(/\{/gi, '%7B');
-    		str = str.replace(/\}/gi, '%7D');
-    		str = str.replace(/\,/gi, '%2C');
-    		str = str.replace(/\//gi, '%2F');
-    		str = str.replace(/\;/gi, '%3B');
-    		str = str.replace(/\?/gi, '%3F');
-    		str = str.replace(/\:/gi, '%3A');
-    		str = str.replace(/\'/gi, '%27');
-    		
-    		return str;
-    	}
     </script>
 </th:block>
 </html>

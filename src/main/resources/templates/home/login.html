@@ -60,7 +60,7 @@
               </div></td>
             <td>
               <div class="ranking-word-wrap" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
-                <span class="ranking-word">[[${word.getWord()}]]</span>
+                <span class="ranking-word" th:id="word + ${num.count}" style="cursor:pointer;" th:onClick="|wordClick(${num.count})|">[[${word.getWord()}]]</span>
               </div>
             </td>
             <td>
@@ -165,5 +165,28 @@
       </div>
     </div>
   </div>
+</th:block>
+<th:block layout:fragment="script">
+<script>
+	function wordClick(id) {
+		var word = $("#word" + id).text();
+		var searchData = {
+				sid: "[[${session.studentInfo.getSid()}]]",
+				word: word
+		};
+		
+		$.ajax ({
+			type: "POST",
+			url: "/yu/searchWordInsert",
+		    data: searchData,
+		    success: function (data) {
+		    }, error: function () {
+		        alert("error");
+		    }
+		});
+		
+		location.href = "/yu/search/searchAllList?text=" + word + "&date=all&type=all&option=all";
+	}
+</script>
 </th:block>
 </html>

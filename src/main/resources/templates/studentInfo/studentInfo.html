@@ -227,9 +227,9 @@
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div th:each="searchWord: ${myInfoData.searchWordList}" th:if="${myInfoData.searchWordList} != null"  class="col">
+                          <div th:each="searchWord, num: ${myInfoData.searchWordList}" th:if="${myInfoData.searchWordList} != null"  class="col">
                           	<a style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" class="text-secondary">
-                          		<u th:text="${searchWord}"></u>
+                          		<u th:id="word + ${num.count}" style="cursor:pointer;" th:onClick="|wordClick(${num.count})|" th:text="${searchWord}"></u>
                           	</a>
                           </div>
                           <div th:unless="${myInfoData.searchWordList} != null">
@@ -568,6 +568,7 @@
         $("#uploadBtn").css("display", "inline-block");
        	return true;
     }
+    
     function updateGrade(){
       var syear = $("#syear").val();
 
@@ -594,6 +595,7 @@
         }
       });
     }
+    
     function imageUpload() {
     	var imageFormData = new FormData($("#imageForm")[0]);
     	
@@ -624,6 +626,7 @@
     	 	$("#updateNickName").val(temp.replace(re,"")); 
     	}
     });
+    
     function studentDrop(){
       if(confirm("관련 정보는 모두 보관되며 탈퇴 후 사용 시 홈페이지 이용이 불가능합니다. 탈퇴하시겠습니까? ")) {
         alert("다시 홈페이지를 이용 시 이메일 문의 해주세요. 이용해주셔서 감사합니다.");
@@ -648,7 +651,25 @@
       }
     }
     
-    
+	function wordClick(id) {
+		var word = $("#word" + id).text();
+		var searchData = {
+				sid: "[[${session.studentInfo.getSid()}]]",
+				word: word
+		};
+		
+		$.ajax ({
+			type: "POST",
+			url: "/yu/searchWordInsert",
+		    data: searchData,
+		    success: function (data) {
+		    }, error: function () {
+		        alert("error");
+		    }
+		});
+		
+		location.href = "/yu/search/searchAllList?text=" + word + "&date=all&type=all&option=all";
+	}
   </script>
 </th:block>
 </html>

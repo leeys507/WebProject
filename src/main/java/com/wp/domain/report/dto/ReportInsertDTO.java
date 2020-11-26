@@ -18,7 +18,6 @@ public class ReportInsertDTO {
     private String typename;
     private long typenumber;
     private String reason;
-    private LocalDateTime register_date;
     
     public Report toEntity() {
     	Report rData = new Report();
@@ -32,6 +31,7 @@ public class ReportInsertDTO {
         rData.setTypenumber(typenumber);
         rData.setReason(reason);
         rData.setRegister_date(LocalDateTime.now());
+        rData.setCheck_delete("F");
         return rData;
     }
 }
