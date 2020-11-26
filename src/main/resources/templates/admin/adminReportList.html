@@ -14,6 +14,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
+                	<th><input type="checkbox" id="allCheck" onClick="allReportCheck()"></th>
                     <th scope="col">학번</th>
                     <th scope="col">게시글 제목</th>
                     <th scope="col">메뉴</th>
@@ -24,6 +25,7 @@
                 <tbody>
                 <th:block th:each="report,num :${reportList}">
                     <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
+                    	<td><input type="checkbox" th:id="report + ${report.getIdx()}" th:name="report + ${num.count}" th:onClick="|reportCheck(${report.getIdx()})|"></td>
                         <td class="expand-button" th:text="${report.getStudentForeignkey().getSid()}"></td>
                         <td th:text="${report.getReported_title()}"></td>
                         <td th:text="${report.getTypename()}"></td>
@@ -91,6 +93,7 @@
 <th:block layout:fragment="script">
     <script>
         var pages = getParameterByName("page");
+        var deleteList = new Array();
 
         if(pages == "") {
             pages=0;
@@ -115,6 +118,24 @@
 
             location.href = "?page=" + (pageNum + nextOrPrev);
             return true;
+        }
+        
+        function reportCheck(id) {
+        	var checkBox = $("#report"+id);
+        	if(checkBox.is(":checked")) {
+        		deleteList.push(id);
+        		alert("cc");
+        	}
+        	else {
+        		deleteList.splice(deleteList.indexOf(id),1);
+        	}
+        }
+        
+        function allReportCheck() {
+        	var i;
+        	for(i = 0; i < [[${reportList.getTotalElements()}]]; i++) {
+        		$("input[name=report" + i+1 + "]").click();
+        	}
         }
     </script>
 </th:block>
