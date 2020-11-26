@@ -23,8 +23,8 @@
                 </div>
 
                 <div class="subject-keyword fl clear">
-                    <label for="searchname">검색어:</label>
-                    <input type="search" id="searchname" placeholder="검색어">
+                    <label for="searchname">강의명:</label>
+                    <input type="search" id="searchname" placeholder="강의명">
                 </div>
 
                 <div class="subject-number fl clear">
@@ -36,7 +36,7 @@
                     <form>
                         <label for="grade">학년</label>
                         <select name="grade" id="grade" >
-                            <option value="0" selected>0</option>
+                            <option value="0" selected>전체</option>
                             <option value="1" >1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -286,8 +286,8 @@
         })
 
         function idcheck() {
-        	if($("#con1").text() == "-1") {
-        		alert("전공/영역을 선택해주세요");
+        	if($("#con1").text() == "-1" && $("#searchname").val() == "" && $("#searchnum").val() == "") {
+        		alert("전공/영역을 선택하거나 강의명 또는 수강번호를 입력하세요");
         		return false;
         	}
         	
