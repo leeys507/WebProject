@@ -70,19 +70,19 @@
                 <div class="form-check">
                   <input class="form-check-input" name="check11" type="checkbox" value="1" id="defaultCheck1">
                   <label class="form-check-label" for="defaultCheck1">
-                    	평균금액
+                    	평균금액(원)
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" name="check22" type="checkbox" value="1" id="defaultCheck1">
                   <label class="form-check-label" for="defaultCheck1">
-                    	성사율
+                    	성사율(%)
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" name="check33" type="checkbox" value="1" id="defaultCheck1">
                   <label class="form-check-label" for="defaultCheck1">
-                    	최근 일주일 등록 매칭
+                    	최근 일주일 등록 매칭(계)
                   </label>
                 </div>
               </div>
@@ -567,42 +567,59 @@
     const colors1 = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'];
     var chBar = document.getElementById("myChart1");
     var abcd1 = {
-      labels: ["전체", "청소", "배달", "역할대행", "심부름"],
-      datasets: [{
-    	label: '평균 금액',
-        data: [0, 0, 0, 0, 0],
-        backgroundColor: colors1[0],
-        borderColor: colors1[0],
-        borderWidth: 1
-      }, {
-    	label: '성사율',
-        data: [0, 0, 0, 0, 0],
-        backgroundColor: colors1[1],
-        borderColor: colors1[1],
-        borderWidth: 1
-      }, {
-    	label: '최근 일주일 등록 매칭',
-        data: [0, 0, 0, 0, 0],
-        backgroundColor: colors1[2],
-        borderColor: colors1[2],
-        borderWidth: 1
-      }]
-    };
+    	      labels: ["전체", "청소", "배달", "역할대행", "심부름"],
+    	      datasets: [{
+    	       label: '평균 금액(원)',
+    	        data: [0, 0, 0, 0, 0],
+    	        backgroundColor: colors1[0],
+    	        borderColor: colors1[0],
+    	        borderWidth: 1,
+    	        yAxisID:'A'
+    	      }, {
+    	       label: '성사율(%)',
+    	        data: [0, 0, 0, 0, 0],
+    	        backgroundColor: colors1[1],
+    	        borderColor: colors1[1],
+    	        borderWidth: 1,
+    	        yAxisID: 'B'
+    	      }, {
+    	       label: '최근 일주일 등록 매칭(계)',
+    	        data: [0, 0, 0, 0, 0],
+    	        backgroundColor: colors1[2],
+    	        borderColor: colors1[2],
+    	        borderWidth: 1,
+    	        yAxisID: 'B'
+    	      }]
+    	    };
 
 
-    var myChart1 = new Chart(chBar, {
-      type: 'bar',
-      data: abcd1,
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
+    	    var myChart1 = new Chart(chBar, {
+    	      type: 'bar',
+    	      data: abcd1,
+    	      options: {
+    	    	legend:{
+    	           position:'bottom'
+    	        },
+    	        scales: {
+    	          yAxes: [{
+    	            ticks: {
+    	              beginAtZero: true
+    	            },
+    	            id: 'A',
+    	            type: 'linear',
+    	            position: 'left',
+    	          }, {
+    	            id: 'B',
+    	            type: 'linear',
+    	            position: 'right',
+    	            ticks: {
+    	              max: 100,
+    	              min: 0
+    	            }
+    	          }]
+    	        }
+    	      }
+    	    });
     $(document).ready(function() {
       $("input[name=check11]").change(function() {
         if ($("input[name=check11]").is(":checked")) {
@@ -772,6 +789,9 @@
       type: 'bar',
       data: abcd,
       options: {
+	   	legend:{
+ 	      position:'bottom'
+ 	    },
         scales: {
           yAxes: [{
             ticks: {

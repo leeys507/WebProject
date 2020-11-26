@@ -7,7 +7,7 @@
 
 <th:block layout:fragment="article">
 
-    <div id="subjects">
+    <div id="subjects" style="width:1489px;">
 
         <div class="filter">
             <div class="subject-wrap">
@@ -65,22 +65,21 @@
 
         <div class="list">
             <div class="thead"></div>
-            <table>
+            <table class="table-hover" style="width:1489px">
                 <thead><tr>
-                    <th style="padding-left:20px;">학년</th>
-                    <th class="q" style="padding-left:20px;">구분</th>
-                    <th class="q" style="padding-left:20px;">수강번호</th>
-                    <th class="q" style="padding-left:20px;">교과목명</th>
-                    <th class="q" style="padding-left:20px;">수업방법</th>
-                    <th class="q" style="padding-left:20px;">담당교수</th>
-                    <th class="q" style="padding-left:20px;">강의시간</th>
-                    <th class="q" style="padding-left:20px;">강의실</th>
-                    <th class="q" style="padding-left:20px;">학점</th>
-                    <th class="q" style="padding-left:20px;">수강인원</th>
-                    <th class="q" style="padding-left:20px;">자과여석</th>
-                    <th class="q" style="padding-left:20px;">타과여석</th>
-                    <th class="q" style="padding-left:20px;">부복수여석</th>
-
+                    <td style="padding-left:20px;"><b>학년</b></td>
+                    <td class="q" style="padding-left:20px;"><b>구분</b></td>
+                    <td class="q" style="padding-left:20px;"><b>수강번호</b></td>
+                    <td class="q" style="padding-left:20px;"><b>교과목명</b></td>
+                    <td class="q" style="padding-left:20px;"><b>수업방법</b></td>
+                    <td class="q" style="padding-left:20px;"><b>담당교수</b></td>
+                    <td class="q" style="padding-left:20px;"><b>강의시간</b></td>
+                    <td class="q" style="padding-left:20px;"><b>강의실</b></td>
+                    <td class="q" style="padding-left:20px;"><b>학점</b></td>
+                    <td class="q" style="padding-left:20px;"><b>수강인원</b></td>
+                    <td class="q" style="padding-left:20px;"><b>자과여석</b></td>
+                    <td class="q" style="padding-left:20px;"><b>타과여석</b></td>
+                    <td class="q" style="padding-left:20px;"><b>부복수여석</b></td>
                 </tr></thead>
                 <tbody id="123" >
                 <tr class="things" id="0"></tr>
@@ -108,9 +107,8 @@
 
 
 
-                <tfoot><tr><td colspan="12">
 
-                </td></tr></tfoot></table></div></div>
+                </table></div></div>
 </th:block>
 
 <th:block layout:fragment="script">
@@ -134,42 +132,42 @@
 
             var list = new Array();
             
-			var red;
-			var green;
-			var blue;
+         var red;
+         var green;
+         var blue;
 
-			var rd;
-			var hex;
-			var chk;
-			
-			while(true) {
-	            while(true) {
-	                rd = Math.random();
-	                red = Math.floor( rd * 234 );
-	                rd = Math.random();
-	                green = Math.floor( rd * 234 );
-	                rd = Math.random();
-	                blue = Math.floor( rd * 234 );
-	                	
-	                if(red < 116 && green < 116 && blue < 116) continue;
-	                else break;
-	            }
+         var rd;
+         var hex;
+         var chk;
+         
+         while(true) {
+               while(true) {
+                   rd = Math.random();
+                   red = Math.floor( rd * 234 );
+                   rd = Math.random();
+                   green = Math.floor( rd * 234 );
+                   rd = Math.random();
+                   blue = Math.floor( rd * 234 );
+                      
+                   if(red < 116 && green < 116 && blue < 116) continue;
+                   else break;
+               }
 
-	            //red = red.toString(16);
-	            //green = green.toString(16);
-	            //blue = blue.toString(16);
-	            
-	            hex = "rgb(" + red + "," + green + "," + blue + ")";
-	            list.push(hex);
-	            
-	            for(var i = 0; i < list.length - 1; i++) {
-	            	if(list[i] == hex) {
-	            		chk = true;
-	            	}
-	            }
-	            if(chk == true) continue;
-	            else break;
-			}
+               //red = red.toString(16);
+               //green = green.toString(16);
+               //blue = blue.toString(16);
+               
+               hex = "rgb(" + red + "," + green + "," + blue + ")";
+               list.push(hex);
+               
+               for(var i = 0; i < list.length - 1; i++) {
+                  if(list[i] == hex) {
+                     chk = true;
+                  }
+               }
+               if(chk == true) continue;
+               else break;
+         }
             var colorcode = hex;
 
 
@@ -237,7 +235,7 @@
             }
 
 
-			if(temp[1] == null) return false;
+         if(temp[1] == null) return false;
             /////////////////////////////
             var rtimetemp=temp[1].split("-");
 
@@ -281,14 +279,18 @@
             //alert(str);
             if(!opener.parent.createobject("b")){
                 alert("시간이 겹칩니다.");
-            	return false;
-        	}
+               return false;
+           }
 
 
         })
 
         function idcheck() {
-
+        	if($("#con1").text() == "-1") {
+        		alert("전공/영역을 선택해주세요");
+        		return false;
+        	}
+        	
             $.ajax({
                 url : "/schedule/search",
                 type : "get",
@@ -390,8 +392,6 @@
         }
 
     </style>
-
-
 
 </th:block>
 </html>

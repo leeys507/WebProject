@@ -284,6 +284,7 @@
                           <td>
                           	<a th:if="${board.getType()} == '게시판'" th:href="@{'/yu/board/boardView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
                           	<a th:if="${board.getType()} == '매칭'" th:href="@{'/yu/matching/matchingView/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
+                          	<a th:if="${board.getType()} == '강의평가'" th:href="@{'/yu/lectureevaluation/ViewLectureEvaluation/'+${board.getBno()}}" th:text="${board.getTitle()}"></a>
                           </td>
                           <td style="text-align:center" th:text="${board.getRegister_date()}"></td>
                           <td style="text-align:center" th:text="${board.getType()}"></td>
