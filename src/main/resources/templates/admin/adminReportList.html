@@ -23,9 +23,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <th:block th:each="report,num :${reportList}">
+                <th:block th:each="report, num :${reportList}" th:if="${report.getCheck_delete()} != 'T'">
                     <tr class="accordion-toggle collapsed" th:id="'accordion'+${num.count}" data-toggle="collapse" th:data-parent="'#accordion'+${num.count}"  th:href="'#collapse'+${num.count}">
-                    	<td><input type="checkbox" th:id="report + ${report.getIdx()}" th:name="report + ${num.count}" th:onClick="|reportCheck(${report.getIdx()})|"></td>
+                    	<td><input type="checkbox" th:id="report + ${report.getIdx()}" th:name="report + ${num.count}" th:onChange="|reportCheck(${report.getIdx()})|"></td>
                         <td class="expand-button" th:text="${report.getStudentForeignkey().getSid()}"></td>
                         <td th:text="${report.getReported_title()}"></td>
                         <td th:text="${report.getTypename()}"></td>
@@ -44,6 +44,9 @@
                         </td>
                     </tr>
                 </th:block>
+                <tr th:if="${reportList.getTotalElements()} == 0">
+                	<th style="text-align:center" colspan="6">접수된 신고가 없습니다<th>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -51,6 +54,9 @@
 
 
         <div class="clear">
+        	<div class="float-left">
+				<a class="btn btn-blue" type="button" onClick="return deleteReport()" role="button">삭제</a>
+			</div>
             <div class="float-right">
                 Total <b style="color:red">[[${reportList.getTotalPages()}]]</b> Pages / <b style="color:red">[[${reportList.getTotalElements()}]]</b> Elements
             </div>
@@ -124,7 +130,6 @@
         	var checkBox = $("#report"+id);
         	if(checkBox.is(":checked")) {
         		deleteList.push(id);
-        		alert("cc");
         	}
         	else {
         		deleteList.splice(deleteList.indexOf(id),1);
@@ -133,9 +138,43 @@
         
         function allReportCheck() {
         	var i;
-        	for(i = 0; i < [[${reportList.getTotalElements()}]]; i++) {
-        		$("input[name=report" + i+1 + "]").click();
+        	var checkBox = $("#allCheck");
+        	
+        	for(i = 0; i < [[${reportList.getSize()}]]; i++) {
+        		if($("input:checkbox[name='report" + (i+1) + "']") != null)
+        			$("input:checkbox[name='report" + (i+1) + "']").trigger("click");
+        		else
+        			break;
         	}
+        }
+        
+        function deleteReport() {
+        	if(deleteList.length == 0) {
+        		alert("선택된 신고 글이 없습니다");
+        		return false;
+        	}
+        	if(confirm("선택된 신고글을 삭제하시겠습니까?")) {
+        		$.ajax({
+        			type: "POST",
+        			url: "/yu/admin/deleteReport",
+        			traditional : true,
+        			data : {
+        				list: deleteList
+        			},
+                    success : function(data){
+                        if(data == "삭제 성공") {
+                            alert(data);
+                            location.href=location.href;
+                        }
+                        else
+                            alert(data);
+                    },error : function(){
+                        alert("Error");
+                        return false;
+                    }
+        		});
+        	}
+        	return true;
         }
     </script>
 </th:block>

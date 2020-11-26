@@ -16,8 +16,8 @@
                     <div class="row">
                         <div class="form-group">
                             <label for="nickname" class="col-form-label"><h5>현재 닉네임</h5></label>
-                            <input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임 입력" required="required"/>
-                            <button type="button" id="sendNickname" class="btn btn-primary" onclick="findNickname()">닉네임 확인</button>
+                            <input type="text" id="nickname" name="nickname" maxlength="12" class="form-control" onKeypress="if(event.keyCode == 13) {findNickname();}" placeholder="닉네임 입력" required="required"/>
+                            <button type="button" id="sendNickname" class="btn btn-blue" style="width:120px" onclick="findNickname()">닉네임 확인</button>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label for="changeNickname" class="col-form-label"><h5>변경 할 닉네임</h5></label>
                             <input type="text" id="changeNickname" class="form-control" placeholder="닉네임 입력" required="required"/>
-                            <button type="button" class="btn btn-primary" onclick="changeNickname()">변경</button>
+                            <button type="button" class="btn btn-blue" onclick="changeNickname()">변경</button>
                         </div>
                     </div>
                 </div>
@@ -39,25 +39,36 @@
     <script type="text/javascript">
         function findNickname(){
             var nickname = $('#nickname').val();
+            
+            if(nickname == "") {
+            	alert("찾을 닉네임을 입력하세요");
+            	return false;
+            }
+            else if(nickname.length > 12 || nickname.length < 2) {
+            	alert("닉네임은 2자 이상 12자 이하 입니다");
+            	return false;
+            }
+            
             $.ajax({
                 type: "GET",
                 url : "/yu/findNickname",
                 data : {
                     nickname : nickname
                 },
-                success : function(data){
+                success : function(data) {
                     if(data == true) {
                         alert("닉네임이 존재합니다.");
-                        $('#nickname').attr("readonly",true);
+                        $('#nickname').attr("readonly", true);
                     }
                     else
-                        alert("닉네임 조회 실패");
+                        alert("닉네임이 없습니다.");
                 },error : function(){
                     alert("Error");
                     return false;
                 }
             });
         }
+        
         function changeNickname(){
             var nickname = $('#nickname').val();
             var changeNickname = $('#changeNickname').val();

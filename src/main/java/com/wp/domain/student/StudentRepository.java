@@ -41,6 +41,7 @@ public interface StudentRepository extends JpaRepository<Student, StudentGetDTO>
 	@Modifying
 	@Query(value = "UPDATE student s SET s.email = :email WHERE s.sid = :sid", nativeQuery = true)
 	int updateEmail(@Param("sid") String sid, @Param("email") String email);
+	
 	@Query(value = "SELECT * FROM student s WHERE s.nickname = :nickname", nativeQuery = true)
     Student findByNickname(@Param("nickname") String nickname);
 }

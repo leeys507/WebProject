@@ -234,7 +234,7 @@
      };
     
     var myChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'horizontalBar',
       data: {
         labels: ['1위과목 이름', '2위과목 이름', '3위과목 이름', '4위과목 이름', '5위과목 이름'],
         datasets: [{
@@ -250,7 +250,7 @@
           display: false
         },
         scales: {
-          yAxes: [{
+          xAxes: [{
             ticks: {
               beginAtZero: true
             }
@@ -569,17 +569,20 @@
     var abcd1 = {
       labels: ["전체", "청소", "배달", "역할대행", "심부름"],
       datasets: [{
-        data: [0, 0, 0, 0,0],
+    	label: '평균 금액',
+        data: [0, 0, 0, 0, 0],
         backgroundColor: colors1[0],
         borderColor: colors1[0],
         borderWidth: 1
       }, {
-        data: [0, 0, 0, 0,0],
+    	label: '성사율',
+        data: [0, 0, 0, 0, 0],
         backgroundColor: colors1[1],
         borderColor: colors1[1],
         borderWidth: 1
       }, {
-        data: [0, 0, 0, 0,0],
+    	label: '최근 일주일 등록 매칭',
+        data: [0, 0, 0, 0, 0],
         backgroundColor: colors1[2],
         borderColor: colors1[2],
         borderWidth: 1
@@ -591,9 +594,6 @@
       type: 'bar',
       data: abcd1,
       options: {
-        legend: {
-          display: false
-        },
         scales: {
           yAxes: [{
             ticks: {
@@ -741,21 +741,25 @@
     var abcd = {
       labels: ["전체", "자유게시판", "중고게시판", "정보게시판", "질문게시판"],
       datasets: [{
+    	label: '게시글 수',
         data: [0, 0, 0, 0,0],
         backgroundColor: colors[0],
         borderColor: colors[0],
         borderWidth: 1
       }, {
+    	label: '작성자 수',
         data: [0, 0, 0, 0,0],
         backgroundColor: colors[1],
         borderColor: colors[1],
         borderWidth: 1
       }, {
+    	label: '좋아요 수',
         data: [0, 0, 0, 0,0],
         backgroundColor: colors[2],
         borderColor: colors[2],
         borderWidth: 1
       }, {
+    	label: '댓글 수',
         data: [0, 0, 0, 0,0],
         backgroundColor: colors[3],
         borderColor: colors[3],
@@ -768,9 +772,6 @@
       type: 'bar',
       data: abcd,
       options: {
-        legend: {
-          display: false
-        },
         scales: {
           yAxes: [{
             ticks: {

@@ -16,7 +16,7 @@ public class AdminReportViewController {
 
     @GetMapping("/yu/admin/reportList")
     public String openAdminReportView(Model model, Pageable pageable) {
-        Page<Report> page = reportService.findreport(pageable);
+        Page<Report> page = reportService.findReport(pageable);
         model.addAttribute("reportList", page);
         return "admin/adminReportList";
     }

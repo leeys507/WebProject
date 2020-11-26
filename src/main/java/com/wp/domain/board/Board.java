@@ -97,6 +97,7 @@ public class Board {
         this.check_delete = "T";
         this.delete_date = LocalDateTime.now();
     }
+    
     public void updatelike(int like_count){
         this.like_count=this.like_count + like_count;
     }

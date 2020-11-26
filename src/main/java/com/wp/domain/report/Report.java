@@ -38,6 +38,9 @@ public class Report  {
     @Column(name = "register_date")
     private LocalDateTime register_date;
     
+    @Column(name = "check_delete", nullable = false, length = 2)
+    private String check_delete;
+    
     public String getRegister_date() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
     	return formatter.format(this.register_date);

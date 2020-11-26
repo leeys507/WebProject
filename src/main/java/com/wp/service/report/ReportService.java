@@ -9,5 +9,6 @@ public interface ReportService {
 	boolean existMyReportThisType(String sid, String typename, long typenumber);
 	boolean insertReport(ReportInsertDTO data);
 
-	Page<Report> findreport(Pageable pageable);
+	Page<Report> findReport(Pageable pageable);
+	boolean deleteReport(String[] list);
 }

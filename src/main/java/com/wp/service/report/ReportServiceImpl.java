@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wp.domain.report.ReportRepository;
 import com.wp.domain.report.dto.ReportInsertDTO;
@@ -25,8 +26,13 @@ public class ReportServiceImpl implements ReportService {
 		return reportRepository.save(data.toEntity()) != null;
 	}
 
-	public Page<Report> findreport(Pageable pageable) {
-		return reportRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,
-				new Sort(Sort.Direction.DESC, "idx")));
+	public Page<Report> findReport(Pageable pageable) {
+		return reportRepository.getAllReport((PageRequest.of(pageable.getPageNumber(), 10, 
+				new Sort(Sort.Direction.DESC, "idx"))));
+	}
+	
+	@Transactional
+	public boolean deleteReport(String[] list) {
+		return reportRepository.deleteReport(list) > 0 ? true : false;
 	}
 }
